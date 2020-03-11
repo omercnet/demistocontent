@@ -1,0 +1,387 @@
+category: Data Enrichment & Threat Intelligence
+commonfields:
+  id: EDL
+  version: -1
+configuration:
+- additionalinfo: The query to run to update its EDL. To view expected results, you
+    can run the following command from the Demisto CLI `!findIndicators query=<your
+    query>`
+  defaultvalue: ""
+  display: Indicator Query
+  name: indicators_query
+  required: false
+  type: 0
+- additionalinfo: Maximum number of items in the EDL
+  defaultvalue: "2500"
+  display: EDL Size
+  name: edl_size
+  required: true
+  type: 0
+- additionalinfo: Enabling this will prevent automatic EDL refresh
+  defaultvalue: ""
+  display: Update EDL On Demand Only
+  name: on_demand
+  required: false
+  type: 8
+- additionalinfo: How often to refresh the EDL
+  defaultvalue: 5 minutes
+  display: Refresh Rate
+  name: cache_refresh_rate
+  required: false
+  type: 0
+- defaultvalue: "true"
+  display: Long Running Instance
+  name: longRunning
+  required: false
+  type: 8
+- additionalinfo: Will run the EDL service on this port from within Demisto
+  defaultvalue: "7000"
+  display: Listen Port
+  name: longRunningPort
+  required: true
+  type: 0
+- defaultvalue: ""
+  display: Certificate (Required for HTTPS)
+  name: certificate
+  required: false
+  type: 12
+- defaultvalue: ""
+  display: Private Key (Required for HTTPS)
+  name: key
+  required: false
+  type: 14
+- additionalinfo: Ignores certificate and private key, and will run the EDL service
+    in HTTP
+  defaultvalue: ""
+  display: HTTP Server
+  name: http_flag
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Incident type
+  name: incidentType
+  required: false
+  type: 13
+contentitemexportablefields:
+  contentitemfields:
+    propagationLabels:
+    - all
+description: This integration provides External Dynamic List (EDL) as a service for
+  the system indicators (Outbound feed).
+detaileddescription: "# How to Access the EDL Service\n\nThere are two ways that you
+  can access the EDL service:\n- **https://*demisto_address*/instance/execute/*instance_name***
+  \n- **http://*demisto_address*:*listen_port***\n\n# Access the EDL Service by Instance
+  Name\nTo access the EDL service by instance name, make sure ***Instance execute
+  external*** is enabled. \n\n1. In Demisto, go to **Settings > About > Troubleshooting**.\n2.
+  In the **Server Configuration** section, verify that the ***instance.execute.external***
+  key is set to *true*. If this key does not exist, click **+ Add Server Configuration**
+  and add the *instance.execute.external* and set the value to *true*.\n"
+display: Palo Alto Networks PAN-OS EDL Service
+image: data:image/png;base64,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
+name: EDL
+script:
+  commands:
+  - arguments:
+    - description: The query used to retrieve indicators from the system.
+      name: query
+      required: true
+    - description: The maximum number of entries in the EDL. If no value is provided,
+        will use the value specified in the EDL Size parameter configured in the instance
+        configuration.
+      name: edl_size
+    - defaultValue: "false"
+      description: Boolean
+      name: print_indicators
+      predefined:
+      - "true"
+      - "false"
+      required: true
+    description: Updates values stored in the EDL (only avaialable On-Demand).
+    name: edl-update
+  dockerimage: demisto/teams:1.0.0.4937
+  longRunning: true
+  longRunningPort: true
+  runonce: false
+  script: |2-
+
+
+
+    from flask import Flask, Response
+    from gevent.pywsgi import WSGIServer
+    from tempfile import NamedTemporaryFile
+    from typing import Callable, List, Any
+
+    ''' GLOBAL VARIABLES '''
+    INTEGRATION_NAME: str = 'EDL'
+    PAGE_SIZE: int = 200
+    APP: Flask = Flask('demisto-edl')
+    EDL_VALUES_KEY: str = 'dmst_edl_values'
+    EDL_LIMIT_ERR_MSG: str = 'Please provide a valid integer for EDL Size'
+    EDL_MISSING_REFRESH_ERR_MSG: str = 'Refresh Rate must be "number date_range_unit", examples: (2 hours, 4 minutes, ' \
+                                       '6 months, 1 day, etc.)'
+
+    ''' HELPER FUNCTIONS '''
+
+
+    def list_to_str(inp_list: list, delimiter: str = ',', map_func: Callable = str) -> str:
+        """
+        Transforms a list to an str, with a custom delimiter between each list item
+        """
+        str_res = ""
+        if inp_list:
+            if isinstance(inp_list, list):
+                str_res = delimiter.join(map(map_func, inp_list))
+            else:
+                raise AttributeError('Invalid inp_list provided to list_to_str')
+        return str_res
+
+
+    def get_params_port(params: dict = demisto.params()) -> int:
+        """
+        Gets port from the integration parameters
+        """
+        port_mapping: str = params.get('longRunningPort', '')
+        err_msg: str
+        port: int
+        if port_mapping:
+            err_msg = f'Listen Port must be an integer. {port_mapping} is not valid.'
+            if ':' in port_mapping:
+                port = try_parse_integer(port_mapping.split(':')[1], err_msg)
+            else:
+                port = try_parse_integer(port_mapping, err_msg)
+        else:
+            raise ValueError('Please provide a Listen Port.')
+        return port
+
+
+    def refresh_edl_context(indicator_query: str, limit: int = 0) -> str:
+        """
+        Refresh the cache values and format using an indicator_query to call demisto.searchIndicators
+        Returns: List(IoCs in output format)
+        """
+        now = datetime.now()
+        iocs = find_indicators_to_limit(indicator_query, limit)  # poll indicators into edl from demisto
+        out_dict = create_values_out_dict(iocs)
+        save_context(now, out_dict)
+        return out_dict[EDL_VALUES_KEY]
+
+
+    def save_context(now: datetime, out_dict: dict):
+        """Saves EDL state and refresh time to context"""
+        demisto.setLastRun({'last_run': date_to_timestamp(now)})
+        demisto.setIntegrationContext(out_dict)
+
+
+    def find_indicators_to_limit(indicator_query: str, limit: int) -> list:
+        """
+        Finds indicators using demisto.searchIndicators
+        """
+        iocs, _ = find_indicators_to_limit_loop(indicator_query, limit)
+        return iocs[:limit]
+
+
+    def find_indicators_to_limit_loop(indicator_query: str, limit: int, total_fetched: int = 0, next_page: int = 0,
+                                      last_found_len: int = PAGE_SIZE):
+        """
+        Finds indicators using while loop with demisto.searchIndicators, and returns result and last page
+        """
+        iocs: List[dict] = []
+        if not last_found_len:
+            last_found_len = total_fetched
+        while last_found_len == PAGE_SIZE and limit and total_fetched < limit:
+            fetched_iocs = demisto.searchIndicators(query=indicator_query, page=next_page, size=PAGE_SIZE).get('iocs')
+            iocs.extend(fetched_iocs)
+            last_found_len = len(fetched_iocs)
+            total_fetched += last_found_len
+            next_page += 1
+        return iocs, next_page
+
+
+    def create_values_out_dict(iocs: list) -> dict:
+        """
+        Create a dictionary for output values
+        """
+        formatted_indicators = []
+        for ioc in iocs:
+            value = ioc.get('value')
+            if value:
+                formatted_indicators.append(value)
+        return {EDL_VALUES_KEY: list_to_str(formatted_indicators, '\n')}
+
+
+    def get_edl_ioc_values(on_demand, limit, indicator_query='', last_run=None, cache_refresh_rate=None) -> str:
+        """
+        Get the ioc list to return in the edl
+        """
+        # on_demand ignores cache
+        if on_demand:
+            values_str = get_ioc_values_str_from_context()
+        else:
+            if last_run:
+                cache_time, _ = parse_date_range(cache_refresh_rate, to_timestamp=True)
+                if last_run <= cache_time:
+                    values_str = refresh_edl_context(indicator_query, limit=limit)
+                else:
+                    values_str = get_ioc_values_str_from_context()
+            else:
+                values_str = refresh_edl_context(indicator_query, limit=limit)
+        return values_str
+
+
+    def get_ioc_values_str_from_context() -> str:
+        """
+        Extracts output values from cache
+        """
+        cache_dict = demisto.getIntegrationContext()
+        return cache_dict.get(EDL_VALUES_KEY, '')
+
+
+    def try_parse_integer(int_to_parse: Any, err_msg: str) -> int:
+        """
+        Tries to parse an integer, and if fails will throw DemistoException with given err_msg
+        """
+        try:
+            res = int(int_to_parse)
+        except (TypeError, ValueError):
+            raise DemistoException(err_msg)
+        return res
+
+
+    ''' ROUTE FUNCTIONS '''
+
+
+    @APP.route('/', methods=['GET'])
+    def route_edl_values() -> Response:
+        """
+        Main handler for values saved in the integration context
+        """
+        params = demisto.params()
+        values = get_edl_ioc_values(
+            on_demand=params.get('on_demand'),
+            limit=try_parse_integer(params.get('edl_size'), EDL_LIMIT_ERR_MSG),
+            last_run=demisto.getLastRun().get('last_run'),
+            indicator_query=params.get('indicators_query'),
+            cache_refresh_rate=params.get('cache_refresh_rate')
+        )
+        return Response(values, status=200, mimetype='text/plain')
+
+
+    ''' COMMAND FUNCTIONS '''
+
+
+    def test_module(args, params):
+        """
+        Validates:
+            1. Valid port.
+            2. Valid cache_refresh_rate
+        """
+        get_params_port(params)
+        on_demand = params.get('on_demand', None)
+        if not on_demand:
+            try_parse_integer(params.get('edl_size'), EDL_LIMIT_ERR_MSG)  # validate EDL Size was set
+            query = params.get('indicators_query')  # validate indicators_query isn't empty
+            if not query:
+                raise ValueError('"Indicator Query" is required. Provide a valid query.')
+            cache_refresh_rate = params.get('cache_refresh_rate', '')
+            if not cache_refresh_rate:
+                raise ValueError(EDL_MISSING_REFRESH_ERR_MSG)
+            # validate cache_refresh_rate value
+            range_split = cache_refresh_rate.split(' ')
+            if len(range_split) != 2:
+                raise ValueError(EDL_MISSING_REFRESH_ERR_MSG)
+            try_parse_integer(range_split[0], 'Invalid time value for the Refresh Rate. Must be a valid integer.')
+            if not range_split[1] in ['minute', 'minutes', 'hour', 'hours', 'day', 'days', 'month', 'months', 'year',
+                                      'years']:
+                raise ValueError(
+                    'Invalid time unit for the Refresh Rate. Must be minutes, hours, days, months, or years.')
+            parse_date_range(cache_refresh_rate, to_timestamp=True)
+        return 'ok', {}, {}
+
+
+    def run_long_running(params):
+        """
+        Starts the long running thread.
+        """
+        certificate: str = params.get('certificate', '')
+        private_key: str = params.get('key', '')
+        http_server: bool = params.get('http_flag', True)
+
+        certificate_path = str()
+        private_key_path = str()
+
+        try:
+            port = get_params_port(params)
+            ssl_args = dict()
+
+            if certificate and private_key and not http_server:
+                certificate_file = NamedTemporaryFile(delete=False)
+                certificate_path = certificate_file.name
+                certificate_file.write(bytes(certificate, 'utf-8'))
+                certificate_file.close()
+                ssl_args['certfile'] = certificate_path
+
+                private_key_file = NamedTemporaryFile(delete=False)
+                private_key_path = private_key_file.name
+                private_key_file.write(bytes(private_key, 'utf-8'))
+                private_key_file.close()
+                ssl_args['keyfile'] = private_key_path
+                demisto.debug('Starting HTTPS Server')
+            else:
+                demisto.debug('Starting HTTP Server')
+
+            server = WSGIServer(('', port), APP, **ssl_args)
+            server.serve_forever()
+        except Exception as e:
+            if certificate_path:
+                os.unlink(certificate_path)
+            if private_key_path:
+                os.unlink(private_key_path)
+            demisto.error(f'An error occurred in long running loop: {str(e)}')
+            raise ValueError(str(e))
+
+
+    def update_edl_command(args, params):
+        """
+        Updates the EDL values and format on demand
+        """
+        on_demand = demisto.params().get('on_demand')
+        if not on_demand:
+            raise DemistoException(
+                '"Update EDL On Demand" is off. If you want to update the EDL manually please toggle it on.')
+        limit = try_parse_integer(args.get('edl_size', params.get('edl_size')), EDL_LIMIT_ERR_MSG)
+        print_indicators = args.get('print_indicators')
+        query = args.get('query')
+        indicators = refresh_edl_context(query, limit=limit)
+        hr = tableToMarkdown('EDL was updated successfully with the following values', indicators,
+                             ['Indicators']) if print_indicators == 'true' else 'EDL was updated successfully'
+        return hr, {}, indicators
+
+
+    def main():
+        """
+        Main
+        """
+        params = demisto.params()
+        command = demisto.command()
+        demisto.debug('Command being called is {}'.format(command))
+        commands = {
+            'test-module': test_module,
+            'edl-update': update_edl_command
+        }
+
+        try:
+            if command == 'long-running-execution':
+                run_long_running(params)
+            else:
+                readable_output, outputs, raw_response = commands[command](demisto.args(), params)
+                return_outputs(readable_output, outputs, raw_response)
+        except Exception as e:
+            err_msg = f'Error in {INTEGRATION_NAME} Integration [{e}]'
+            return_error(err_msg)
+
+
+    if __name__ in ['__main__', '__builtin__', 'builtins']:
+        main()
+  subtype: python3
+  type: python
+system: true
