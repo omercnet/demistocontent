@@ -1,0 +1,528 @@
+category: Data Enrichment & Threat Intelligence
+commonfields:
+  id: AzureFeed
+  version: -1
+configuration:
+- defaultvalue: ""
+  display: Fetch indicators
+  name: feed
+  required: false
+  type: 8
+- additionalinfo: Indicators from this integration instance will be marked with this
+    reputation
+  defaultvalue: Good
+  display: Indicator Reputation
+  name: feedReputation
+  options:
+  - None
+  - Good
+  - Suspicious
+  - Bad
+  required: false
+  type: 18
+- additionalinfo: Reliability of the source providing the intelligence data
+  defaultvalue: A - Completely reliable
+  display: Source Reliability
+  name: feedReliability
+  options:
+  - A - Completely reliable
+  - B - Usually reliable
+  - C - Fairly reliable
+  - D - Not usually reliable
+  - E - Unreliable
+  - F - Reliability cannot be judged
+  required: true
+  type: 15
+- defaultvalue: indicatorType
+  display: ""
+  name: feedExpirationPolicy
+  options:
+  - never
+  - interval
+  - indicatorType
+  - suddenDeath
+  required: false
+  type: 17
+- defaultvalue: "20160"
+  display: ""
+  name: feedExpirationInterval
+  required: false
+  type: 1
+- defaultvalue: "5"
+  display: Feed Fetch Interval
+  name: feedFetchInterval
+  required: false
+  type: 19
+- additionalinfo: When selected, the exclusion list is ignored for indicators from
+    this feed. This means that if an indicator from this feed is on the exclusion
+    list, the indicator might still be added to the system.
+  defaultvalue: ""
+  display: Bypass exclusion list
+  name: feedBypassExclusionList
+  required: false
+  type: 8
+- defaultvalue: All
+  display: Regions
+  name: regions
+  options:
+  - All
+  - australiacentral
+  - australiacentral2
+  - australiaeast
+  - australiasoutheast
+  - brazilse
+  - brazilsouth
+  - canadacentral
+  - canadaeast
+  - centralfrance
+  - centralindia
+  - centralus
+  - centraluseuap
+  - eastasia
+  - eastus
+  - eastus2
+  - eastus2euap
+  - germanyn
+  - germanywc
+  - japaneast
+  - japanwest
+  - koreacentral
+  - koreasouth
+  - northcentralus
+  - northeurope
+  - norwaye
+  - norwayw
+  - southafricanorth
+  - southafricawest
+  - southcentralus
+  - southeastasia
+  - southfrance
+  - southindia
+  - switzerlandn
+  - switzerlandw
+  - uaecentral
+  - uaenorth
+  - uknorth
+  - uksouth
+  - uksouth2
+  - ukwest
+  - westcentralus
+  - westeurope
+  - westindia
+  - westus
+  - westus2
+  required: true
+  type: 16
+- defaultvalue: All
+  display: Services
+  name: services
+  options:
+  - All
+  - AzureAD
+  - AzureApiManagement
+  - AzureAppService
+  - AzureAppServiceManagement
+  - AzureBackup
+  - AzureConnectors
+  - AzureContainerRegistry
+  - AzureCosmosDB
+  - AzureDataLake
+  - AzureEventHub
+  - AzureFrontDoor
+  - AzureIdentity
+  - AzureIoTHub
+  - AzureKeyVault
+  - AzureMachineLearning
+  - AzureMonitor
+  - AzureSQL
+  - AzureServiceBus
+  - AzureStorage
+  - AzureTrafficManager
+  - BatchNodeManagement
+  - CognitiveServicesManagement
+  - Dynamics365ForMarketingEmail
+  - HDInsight
+  - MicrosoftContainerRegistry
+  - ServiceFabric
+  - SqlManagement
+  required: true
+  type: 16
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
+  name: insecure
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Use system proxy settings
+  name: proxy
+  required: false
+  type: 8
+- defaultvalue: "20"
+  display: Request Timeout
+  name: polling_timeout
+  required: false
+  type: 0
+contentitemexportablefields:
+  contentitemfields:
+    propagationLabels:
+    - all
+description: Azure.CloudIPs Feed Integration.
+detaileddescription: |
+  ## Azure.CloudIPs Feed
+  List of Microsoft Azure public IP addresses.
+
+  #### Custom Feed info:
+  To connect a custom Azure.CloudIPs feed you need to provide which Regions and Services you would like to process indicators from.
+display: Azure Feed
+image: data:image/png;base64,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
+name: AzureFeed
+script:
+  commands:
+  - arguments:
+    - defaultValue: "10"
+      description: The maximum number of indicators to return. The default value is
+        10.
+      name: limit
+    description: Gets indicators from the feed.
+    name: azure-get-indicators
+  dockerimage: demisto/python3:3.8.1.5734
+  feed: true
+  runonce: false
+  script: |-
+    import re
+    import urllib3
+    from typing import Dict, List, Tuple
+
+
+
+    # disable insecure warnings
+    urllib3.disable_warnings()
+
+    INTEGRATION_NAME = 'Azure'
+    AZUREJSON_URL = 'https://www.microsoft.com/en-us/download/confirmation.aspx?id=56519'  # disable-secrets-detection
+
+    ERROR_TYPE_TO_MESSAGE = {
+        requests.ConnectionError: F'Connection error in the API call to {INTEGRATION_NAME}.\n',
+        requests.exceptions.SSLError: F'Connection error in the API call to {INTEGRATION_NAME}.\n'
+                                      F'Check your \'Trust any certificate\' parameter.\n\n',
+        requests.exceptions.HTTPError: F'Error issuing the request call to {INTEGRATION_NAME}.\n\n',
+    }
+
+
+    class Client(BaseClient):
+        """Client to use in the Azure Feed integration. Overrides BaseClient.
+
+        Args:
+            regions_list (list): List of regions to filter.
+            services_list (list): List of services to filter.
+            insecure (bool): False if feed HTTPS server certificate should be verified, True otherwise.
+            proxy (bool): False if feed HTTPS server certificate will not use proxies, True otherwise.
+        """
+
+        def __init__(self, regions_list: list, services_list: list, polling_timeout: int = 20, insecure: bool = False,
+                     proxy: bool = False):
+            super().__init__(base_url=AZUREJSON_URL, verify=insecure, proxy=proxy)
+            self.regions_list = regions_list
+            self.services_list = services_list
+            self._polling_timeout = polling_timeout
+
+        @staticmethod
+        def build_ip_indicator(azure_ip_address, **indicator_metadata) -> Dict:
+            """Creates an IP data dict.
+
+            Args:
+                azure_ip_address (str): IP extracted from Azure.
+                **indicator_metadata (dict): Additional information related to the IP.
+
+            Returns:
+                Dict. IP data object.
+            """
+            if re.match(ipv4cidrRegex, azure_ip_address):
+                type_ = FeedIndicatorType.CIDR
+
+            elif re.match(ipv4Regex, azure_ip_address):
+                type_ = FeedIndicatorType.IP
+
+            elif re.match(ipv6cidrRegex, azure_ip_address):
+                type_ = FeedIndicatorType.IPv6CIDR
+
+            elif re.match(ipv6Regex, azure_ip_address):
+                type_ = FeedIndicatorType.IPv6
+
+            else:
+                LOG(F'{INTEGRATION_NAME} - Unknown IP version: {azure_ip_address}')
+                return {}
+
+            ip_object = {
+                'value': azure_ip_address,
+                'type': type_,
+            }
+            ip_object.update(indicator_metadata)
+
+            return ip_object
+
+        def get_azure_download_link(self):
+            """Extracts the download link for the file from the Azure url.
+
+            Returns:
+                str. The download link.
+            """
+            azure_url_response = self._http_request(
+                method='GET',
+                full_url=self._base_url,
+                url_suffix='',
+                stream=False,
+                timeout=self._polling_timeout,
+                resp_type='text'
+            )
+
+            download_link_search_regex = re.search(r'downloadData={.+(https://(.)+\.json)\",', azure_url_response)
+            download_link = download_link_search_regex.group(1) if download_link_search_regex else None
+
+            if download_link is None:
+                raise RuntimeError(F'{INTEGRATION_NAME} - Download link not found')
+
+            demisto.debug(F'download link: {download_link}')
+
+            return download_link
+
+        def get_download_file_content_values(self, download_link: str) -> Dict:
+            """Create a request to receive file content from link.
+
+            Args:
+                download_link (str): Link to the desired Azure file.
+
+            Returns:
+                Dict. Content of values section in the Azure downloaded file.
+            """
+            file_download_response = self._http_request(
+                method='GET',
+                full_url=download_link,
+                url_suffix='',
+                stream=True,
+                timeout=self._polling_timeout
+            )
+
+            return file_download_response.get('values')
+
+        @staticmethod
+        def extract_metadata_of_indicators_group(indicators_group_data: Dict) -> Dict:
+            """Extracts metadata of an indicators group.
+
+            Args:
+                indicators_group_data (Dict): Indicator's group object from the Azure downloaded file.
+
+            Returns:
+                Dict. Indicators group metadata.
+            """
+            indicator_metadata = dict()
+
+            indicator_metadata['id'] = indicators_group_data.get('id')
+            indicator_metadata['name'] = indicators_group_data.get('name')
+            indicator_properties = indicators_group_data.get('properties')
+
+            if not indicator_properties:
+                LOG(F'{INTEGRATION_NAME} - no properties for indicators group {indicator_metadata["name"]}')
+                return {}
+
+            indicator_metadata['region'] = indicator_properties.get('region')
+            indicator_metadata['platform'] = indicator_properties.get('platform')
+            indicator_metadata['system_service'] = indicator_properties.get('systemService')
+            indicator_metadata['address_prefixes'] = indicator_properties.get('addressPrefixes', [])
+
+            return indicator_metadata
+
+        def extract_indicators_from_values_dict(self, values_from_file: Dict) -> List:
+            """Builds a list of all IP indicators in the input dict.
+
+            Args:
+                values_from_file (Dict): The values object from the Azure downloaded file.
+
+            Returns:
+                list. All indicators that match the filtering options.
+            """
+            results = []
+
+            if values_from_file is None:
+                LOG(F'{INTEGRATION_NAME} - No values in JSON response')
+                return []
+
+            for indicators_group in values_from_file:
+                demisto.debug(F'{INTEGRATION_NAME} - Extracting value: {indicators_group.get("id")}')
+
+                indicator_metadata = self.extract_metadata_of_indicators_group(indicators_group)
+                if not indicator_metadata:
+                    continue
+
+                is_region_not_in_filter = 'All' not in self.regions_list and \
+                                          indicator_metadata['region'] not in self.regions_list
+                is_service_not_in_filter = 'All' not in self.services_list and \
+                                           indicator_metadata['system_service'] not in self.services_list
+
+                if is_region_not_in_filter or is_service_not_in_filter:
+                    continue
+
+                for address in indicator_metadata['address_prefixes']:
+                    results.append(
+                        self.build_ip_indicator(address,
+                                                azure_name=indicator_metadata['name'],
+                                                azure_id=indicator_metadata['id'],
+                                                azure_region=indicator_metadata['region'],
+                                                azure_platform=indicator_metadata['platform'],
+                                                azure_system_service=indicator_metadata['system_service'])
+                    )
+
+            return results
+
+        def build_iterator(self) -> List:
+            """Retrieves all entries from the feed.
+            Returns:
+                A list of objects, containing the indicators.
+            """
+            try:
+                download_link = self.get_azure_download_link()
+                values_from_file = self.get_download_file_content_values(download_link)
+                results = self.extract_indicators_from_values_dict(values_from_file)
+
+                return results
+
+            except (requests.exceptions.SSLError, requests.ConnectionError, requests.exceptions.HTTPError) as err:
+                demisto.debug(str(err))
+                raise Exception(ERROR_TYPE_TO_MESSAGE[err.__class__] + str(err))
+
+            except RuntimeError as err:
+                demisto.debug(str(err))
+                raise RuntimeError(F'Could not fetch download link from Azure')
+
+            except ValueError as err:
+                demisto.debug(str(err))
+                raise ValueError(f'Could not parse returned data to Json. \n\nError massage: {err}')
+
+
+    def test_module(client: Client) -> Tuple[str, Dict, Dict]:
+        """Test the ability to fetch Azure file.
+        Args:
+            client: Client object.
+        Returns:
+            str. ok for success, relevant error string otherwise.
+        """
+        try:
+            if 'All' in client.regions_list and len(client.regions_list) >= 2:
+                err_msg = 'ConfigurationError: You may not select additional regions if you selected \'All\''
+                return_error(err_msg)
+
+            if 'All' in client.services_list and len(client.services_list) >= 2:
+                err_msg = 'ConfigurationError: You may not select additional services if you selected \'All\''
+                return_error(err_msg)
+
+            download_link = client.get_azure_download_link()
+            client.get_download_file_content_values(download_link)
+
+        except (requests.exceptions.SSLError, requests.ConnectionError, requests.exceptions.HTTPError) as err:
+            demisto.debug(str(err))
+            raise Exception(ERROR_TYPE_TO_MESSAGE[err.__class__] + str(err))
+
+        return 'ok', {}, {}
+
+
+    def get_indicators_command(client: Client) -> Tuple[str, Dict, Dict]:
+        """Retrieves indicators from the feed to the war-room.
+
+        Args:
+            client (Client): Client object configured according to instance arguments.
+
+        Returns:
+            Tuple of:
+                str. Information to be printed to war room.
+                Dict. The raw data of the indicators.
+        """
+        limit = int(demisto.args().get('limit')) if 'limit' in demisto.args() else 10
+
+        indicators, raw_response = fetch_indicators_command(client, limit)
+
+        human_readable = tableToMarkdown('Indicators from Azure Feed:', indicators,
+                                         headers=['value', 'type'], removeNull=True)
+
+        return human_readable, {}, {'raw_response': raw_response}
+
+
+    def fetch_indicators_command(client: Client, limit: int = -1) -> Tuple[List[Dict], List]:
+        """Fetches indicators from the feed to the indicators tab.
+        Args:
+            client (Client): Client object configured according to instance arguments.
+            limit (int): Maximum number of indicators to return.
+        Returns:
+            Tuple of:
+                str. Information to be printed to war room.
+                Dict. Data to be entered to context.
+                Dict. The raw data of the indicators.
+        """
+        iterator = client.build_iterator()
+        indicators = []
+        raw_response = []
+
+        if limit != -1:
+            iterator = iterator[:limit]
+
+        for indicator in iterator:
+            indicators.append({
+                'value': indicator['value'],
+                'type': indicator['type'],
+                'CustomFields': {'region': indicator.get('azure_region')},
+                'rawJSON': indicator
+            })
+
+            raw_response.append(indicator)
+
+        return indicators, raw_response
+
+
+    def main():
+        """
+        PARSE AND VALIDATE INTEGRATION PARAMS
+        """
+        regions_list = argToList(demisto.params().get('regions'))
+        if not regions_list:
+            regions_list = ['All']
+
+        services_list = argToList(demisto.params().get('services'))
+        if not services_list:
+            services_list = ['All']
+
+        polling_arg = demisto.params().get('polling_timeout', '')
+        polling_timeout = int(polling_arg) if polling_arg.isdigit() else 20
+        insecure = demisto.params().get('insecure', False)
+        proxy = demisto.params().get('proxy', False)
+
+        command = demisto.command()
+        demisto.info(f'Command being called is {command}')
+
+        try:
+            client = Client(regions_list, services_list, polling_timeout, insecure, proxy)
+
+            commands = {
+                'test-module': test_module,
+                'azure-get-indicators': get_indicators_command
+            }
+
+            if command in commands:
+                return_outputs(*commands[command](client))
+
+            elif command == 'fetch-indicators':
+                indicators, _ = fetch_indicators_command(client)
+
+                for single_batch in batch(indicators, batch_size=2000):
+                    demisto.createIndicators(single_batch)
+
+            else:
+                raise NotImplementedError(f'Command {command} is not implemented.')
+
+        except Exception:
+            raise
+
+
+    if __name__ in ['__main__', 'builtin', 'builtins']:
+        main()
+  subtype: python3
+  type: python
+system: true

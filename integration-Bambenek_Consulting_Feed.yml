@@ -1,0 +1,431 @@
+category: Data Enrichment & Threat Intelligence
+commonfields:
+  id: Bambenek Consulting Feed
+  version: -1
+configuration:
+- defaultvalue: ""
+  display: Sub-Feeds
+  name: url
+  options:
+  - http://osint.bambenekconsulting.com/feeds/c2-ipmasterlist.txt
+  - http://osint.bambenekconsulting.com/feeds/c2-ipmasterlist-high.txt
+  - http://osint.bambenekconsulting.com/feeds/c2-dommasterlist.txt
+  - http://osint.bambenekconsulting.com/feeds/c2-dommasterlist-high.txt
+  required: true
+  type: 16
+- defaultvalue: "true"
+  display: Fetch indicators
+  name: feed
+  required: false
+  type: 8
+- defaultvalue: "360"
+  display: Feed Fetch Interval
+  name: feedFetchInterval
+  required: false
+  type: 19
+- additionalinfo: Reliability of the source providing the intelligence data
+  defaultvalue: B - Usually reliable
+  display: Source Reliability
+  name: feedReliability
+  options:
+  - A - Completely reliable
+  - B - Usually reliable
+  - C - Fairly reliable
+  - D - Not usually reliable
+  - E - Unreliable
+  - F - Reliability cannot be judged
+  required: false
+  type: 15
+- additionalinfo: Indicators from this integration instance will be marked with this
+    reputation
+  defaultvalue: Bad
+  display: Indicator Reputation
+  name: feedReputation
+  options:
+  - None
+  - Good
+  - Suspicious
+  - Bad
+  required: false
+  type: 18
+- defaultvalue: indicatorType
+  display: ""
+  name: feedExpirationPolicy
+  options:
+  - never
+  - interval
+  - indicatorType
+  - suddenDeath
+  required: false
+  type: 17
+- defaultvalue: "20160"
+  display: ' '
+  name: feedExpirationInterval
+  required: false
+  type: 1
+- additionalinfo: When selected, the exclusion list is ignored for indicators from
+    this feed. This means that if an indicator from this feed is on the exclusion
+    list, the indicator might still be added to the system.
+  defaultvalue: ""
+  display: Bypass exclusion list
+  name: feedBypassExclusionList
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
+  name: insecure
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Use system proxy settings
+  name: proxy
+  required: false
+  type: 8
+- additionalinfo: Time in seconds before http requests timeout.
+  defaultvalue: "20"
+  display: Request Timeout
+  name: polling_timeout
+  required: true
+  type: 0
+contentitemexportablefields:
+  contentitemfields:
+    propagationLabels:
+    - all
+description: Use the Bambenek Consulting feed integration to fetch indicators from
+  the feed.
+display: Bambenek Consulting Feed
+image: data:image/png;base64,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
+name: Bambenek Consulting Feed
+script:
+  commands:
+  - arguments:
+    - defaultValue: "50"
+      description: The maximum number of results to return. The default value is 50.
+      name: limit
+    - description: The indicator type.
+      name: indicator_type
+    description: Gets the feed indicators.
+    name: bambenek-get-indicators
+  dockerimage: demisto/python3:3.8.1.5734
+  feed: true
+  runonce: false
+  script: |2-
+
+
+
+    def main():
+        feed_url_to_config = {
+            'http://osint.bambenekconsulting.com/feeds/c2-ipmasterlist.txt': {
+                'fieldnames': ['value', 'description',
+                               'date_created',
+                               'info'],
+                'indicator_type': FeedIndicatorType.IP,
+                'mapping': {
+                    'description': 'malwarefamily'
+                }
+            },
+
+            'http://osint.bambenekconsulting.com/feeds/c2-dommasterlist.txt': {
+                'fieldnames': ['value', 'description',
+                               'date_created',
+                               'info'],
+                'indicator_type': FeedIndicatorType.Domain,
+                'mapping': {
+                    'description': 'malwarefamily'
+                }
+            },
+            'http://osint.bambenekconsulting.com/feeds/c2-ipmasterlist-high.txt': {
+                'fieldnames': ['value', 'description',
+                               'date_created',
+                               'info'],
+                'indicator_type': FeedIndicatorType.IP,
+                'mapping': {
+                    'description': 'malwarefamily'
+                }
+            },
+            'http://osint.bambenekconsulting.com/feeds/c2-dommasterlist-high.txt': {
+                'fieldnames': ['value', 'description',
+                               'date_created',
+                               'info'],
+                'indicator_type': FeedIndicatorType.Domain,
+                'mapping': {
+                    'description': 'malwarefamily'
+                }
+            }
+        }
+
+        params = {k: v for k, v in demisto.params().items() if v is not None}
+        params['feed_url_to_config'] = feed_url_to_config
+        params['ignore_regex'] = r'^#'
+        params['delimiter'] = ','
+
+        # Main execution of the CSV API Module.
+        # This function allows to add to or override this execution.
+        feed_main('Bambenek Consulting Feed', params, 'bambenek')
+
+
+
+    ### GENERATED CODE ###
+    # This code was inserted in place of an API module.
+
+
+
+    ''' IMPORTS '''
+    import urllib3
+    import csv
+    from typing import Optional, Pattern, Dict, Any
+
+    # disable insecure warnings
+    urllib3.disable_warnings()
+
+
+    class Client(BaseClient):
+        def __init__(self, url: str, feed_url_to_config: Optional[Dict[str, dict]] = None, fieldnames: str = '',
+                     insecure: bool = False, credentials: dict = None, ignore_regex: str = None, encoding: str = 'latin-1',
+                     delimiter: str = ',', doublequote: bool = True, escapechar: str = '',
+                     quotechar: str = '"', skipinitialspace: bool = False, polling_timeout: int = 20, proxy: bool = False,
+                     **kwargs):
+            """
+            :param url: URL of the feed.
+            :param feed_url_to_config: for each URL, a configuration of the feed that contains
+             If *null* the values in the first row of the file are used as names. Default: *null*
+             Example:
+             feed_url_to_config = {
+                'https://ipstack.com':
+                {
+                    'fieldnames': ['value'],
+                    'indicator_type': 'IP',
+                    'mapping': {
+                        'date': 'Date'
+                    }
+                }
+             }
+            :param fieldnames: list of field names in the file. If *null* the values in the first row of the file are
+                used as names. Default: *null*
+            :param insecure: boolean, if *false* feed HTTPS server certificate is verified. Default: *false*
+            :param credentials: username and password used for basic authentication.
+            Can be also used as API key header and value by specifying _header in the username field.
+            :param ignore_regex: python regular expression for lines that should be ignored. Default: *null*
+            :param encoding: Encoding of the feed, latin-1 by default.
+            :param delimiter: see `csv Python module
+                <https://docs.python.org/2/library/csv.html#dialects-and-formatting-parameters>`. Default: ,
+            :param doublequote: see `csv Python module
+                <https://docs.python.org/2/library/csv.html#dialects-and-formatting-parameters>`. Default: true
+            :param escapechar: see `csv Python module
+                <https://docs.python.org/2/library/csv.html#dialects-and-formatting-parameters>`. Default null
+            :param quotechar: see `csv Python module
+                <https://docs.python.org/2/library/csv.html#dialects-and-formatting-parameters>`. Default "
+            :param skipinitialspace: see `csv Python module
+                <https://docs.python.org/2/library/csv.html#dialects-and-formatting-parameters>`. Default False
+            :param polling_timeout: timeout of the polling request in seconds. Default: 20
+            :param proxy: Sets whether use proxy when sending requests
+            """
+            if not credentials:
+                credentials = {}
+
+            auth: Optional[tuple] = None
+            self.headers = {}
+
+            username = credentials.get('identifier', '')
+            if username.startswith('_header:'):
+                header_name = username.split(':')[1]
+                header_value = credentials.get('password', '')
+                self.headers[header_name] = header_value
+            else:
+                password = credentials.get('password', '')
+                auth = None
+                if username is not None and password is not None:
+                    auth = (username, password)
+
+            super().__init__(base_url=url, proxy=proxy, verify=not insecure, auth=auth)
+
+            try:
+                self.polling_timeout = int(polling_timeout)
+            except (ValueError, TypeError):
+                return_error('Please provide an integer value for "Request Timeout"')
+            self.encoding = encoding
+            self.ignore_regex: Optional[Pattern] = None
+            if ignore_regex is not None:
+                self.ignore_regex = re.compile(ignore_regex)
+            self.feed_url_to_config: Optional[Dict[str, dict]] = feed_url_to_config
+            self.fieldnames = argToList(fieldnames)
+            self.dialect: Dict[str, Any] = {
+                'delimiter': delimiter,
+                'doublequote': doublequote,
+                'escapechar': escapechar,
+                'quotechar': quotechar,
+                'skipinitialspace': skipinitialspace
+            }
+
+        def _build_request(self, url):
+            r = requests.Request(
+                'GET',
+                url,
+                auth=self._auth
+            )
+
+            return r.prepare()
+
+        def build_iterator(self, **kwargs):
+            results = []
+            urls = self._base_url
+            if not isinstance(urls, list):
+                urls = [urls]
+            for url in urls:
+                _session = requests.Session()
+
+                prepreq = self._build_request(url)
+
+                # this is to honour the proxy environment variables
+                kwargs.update(_session.merge_environment_settings(
+                    prepreq.url,
+                    {}, None, None, None  # defaults
+                ))
+                kwargs['stream'] = True
+                kwargs['verify'] = self._verify
+                kwargs['timeout'] = self.polling_timeout
+
+                if self.headers:
+                    if 'headers' in kwargs:
+                        kwargs['headers'].update(self.headers)
+                    else:
+                        kwargs['headers'] = self.headers
+
+                try:
+                    r = _session.send(prepreq, **kwargs)
+                except requests.ConnectionError:
+                    raise requests.ConnectionError('Failed to establish a new connection.'
+                                                   ' Please make sure your URL is valid.')
+                try:
+                    r.raise_for_status()
+                except Exception:
+                    return_error('Exception in request: {} {}'.format(r.status_code, r.content))
+                    raise
+
+                response = r.content.decode(self.encoding).split('\n')
+                if self.feed_url_to_config:
+                    fieldnames = self.feed_url_to_config.get(url, {}).get('fieldnames', [])
+                else:
+                    fieldnames = self.fieldnames
+                if self.ignore_regex is not None:
+                    response = filter(
+                        lambda x: self.ignore_regex.match(x) is None,  # type: ignore[union-attr]
+                        response
+                    )
+
+                csvreader = csv.DictReader(
+                    response,
+                    fieldnames=fieldnames,
+                    **self.dialect
+                )
+
+                results.append({url: csvreader})
+
+            return results
+
+
+    def module_test_command(client: Client, args):
+        if not client.feed_url_to_config:
+            indicator_type = args.get('indicator_type', demisto.params().get('indicator_type'))
+            if not FeedIndicatorType.is_valid_type(indicator_type):
+                supported_values = ', '.join((
+                    FeedIndicatorType.Account,
+                    FeedIndicatorType.CVE,
+                    FeedIndicatorType.Domain,
+                    FeedIndicatorType.Email,
+                    FeedIndicatorType.File,
+                    FeedIndicatorType.MD5,
+                    FeedIndicatorType.SHA1,
+                    FeedIndicatorType.SHA256,
+                    FeedIndicatorType.Host,
+                    FeedIndicatorType.IP,
+                    FeedIndicatorType.CIDR,
+                    FeedIndicatorType.IPv6,
+                    FeedIndicatorType.IPv6CIDR,
+                    FeedIndicatorType.Registry,
+                    FeedIndicatorType.SSDeep,
+                    FeedIndicatorType.URL
+                ))
+                raise ValueError(f'Indicator type of {indicator_type} is not supported. Supported values are:'
+                                 f' {supported_values}')
+        client.build_iterator()
+        return 'ok', {}, {}
+
+
+    def fetch_indicators_command(client: Client, default_indicator_type: str, **kwargs):
+        iterator = client.build_iterator(**kwargs)
+        indicators = []
+        config = client.feed_url_to_config or {}
+        for url_to_reader in iterator:
+            for url, reader in url_to_reader.items():
+                mapping = config.get(url, {}).get('mapping', {})
+                for item in reader:
+                    raw_json = dict(item)
+                    value = item.get('value')
+                    if not value and len(item) > 1:
+                        value = next(iter(item.values()))
+                    if value:
+                        raw_json['value'] = value
+                        indicator_type = config.get(url, {}).get('indicator_type')
+                        if not indicator_type:
+                            indicator_type = default_indicator_type
+                        raw_json['type'] = indicator_type
+
+                        indicator = {
+                            'value': value,
+                            'type': indicator_type,
+                            'rawJSON': raw_json,
+                            'CustomFields': {field: raw_json[key] for key, field in mapping.items()}
+                        }
+                        indicators.append(indicator)
+
+        return indicators
+
+
+    def get_indicators_command(client, args):
+        itype = args.get('indicator_type', demisto.params().get('indicator_type'))
+        limit = int(args.get('limit'))
+        indicators_list = fetch_indicators_command(client, itype)
+        entry_result = indicators_list[:limit]
+        hr = tableToMarkdown('Indicators', entry_result, headers=['value', 'type'])
+        return hr, {}, indicators_list
+
+
+    def feed_main(feed_name, params=None, prefix=''):
+        if not params:
+            params = {k: v for k, v in demisto.params().items() if v is not None}
+        handle_proxy()
+        client = Client(**params)
+        command = demisto.command()
+        if command != 'fetch-indicators':
+            demisto.info('Command being called is {}'.format(command))
+        if prefix and not prefix.endswith('-'):
+            prefix += '-'
+        # Switch case
+        commands: dict = {
+            'test-module': module_test_command,
+            f'{prefix}get-indicators': get_indicators_command
+        }
+        try:
+            if command == 'fetch-indicators':
+                indicators = fetch_indicators_command(client, params.get('indicator_type'))
+                # we submit the indicators in batches
+                for b in batch(indicators, batch_size=2000):
+                    demisto.createIndicators(b)  # type: ignore
+            else:
+                args = demisto.args()
+                args['feed_name'] = feed_name
+                readable_output, outputs, raw_response = commands[command](client, args)
+                return_outputs(readable_output, outputs, raw_response)
+        except Exception as e:
+            err_msg = f'Error in {feed_name} Integration - Encountered an issue with createIndicators' if \
+                'failed to create' in str(e) else f'Error in {feed_name} Integration [{e}]'
+            return_error(err_msg)
+
+
+
+    if __name__ == '__builtin__' or __name__ == 'builtins':
+        main()
+  subtype: python3
+  type: python
+system: true

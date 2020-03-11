@@ -1,0 +1,457 @@
+category: Data Enrichment & Threat Intelligence
+commonfields:
+  id: CSVFeed
+  version: -1
+configuration:
+- defaultvalue: "true"
+  display: Fetch indicators
+  name: feed
+  required: false
+  type: 8
+- additionalinfo: Indicators from this integration instance will be marked with this
+    reputation
+  defaultvalue: feedInstanceReputationNotSet
+  display: Indicator Reputation
+  name: feedReputation
+  options:
+  - None
+  - Good
+  - Suspicious
+  - Bad
+  required: false
+  type: 18
+- additionalinfo: Reliability of the source providing the intelligence data
+  defaultvalue: F - Reliability cannot be judged
+  display: Source Reliability
+  name: feedReliability
+  options:
+  - A - Completely reliable
+  - B - Usually reliable
+  - C - Fairly reliable
+  - D - Not usually reliable
+  - E - Unreliable
+  - F - Reliability cannot be judged
+  required: true
+  type: 15
+- defaultvalue: indicatorType
+  display: ""
+  name: feedExpirationPolicy
+  options:
+  - never
+  - interval
+  - indicatorType
+  - suddenDeath
+  required: false
+  type: 17
+- defaultvalue: "20160"
+  display: ""
+  name: feedExpirationInterval
+  required: false
+  type: 1
+- defaultvalue: "240"
+  display: Feed Fetch Interval
+  name: feedFetchInterval
+  required: false
+  type: 19
+- additionalinfo: Type of the indicator in the feed.
+  defaultvalue: ""
+  display: Indicator Type
+  name: indicator_type
+  required: false
+  type: 0
+- additionalinfo: When selected, the exclusion list is ignored for indicators from
+    this feed. This means that if an indicator from this feed is on the exclusion
+    list, the indicator might still be added to the system.
+  defaultvalue: ""
+  display: Bypass exclusion list
+  name: feedBypassExclusionList
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: URL
+  name: url
+  required: true
+  type: 0
+- defaultvalue: ""
+  display: Username
+  name: credentials
+  required: false
+  type: 9
+- additionalinfo: Time in seconds before http requests timeout.
+  defaultvalue: "20"
+  display: Request Timeout
+  name: polling_timeout
+  required: true
+  type: 0
+- additionalinfo: Python regular expression for lines that should be ignored.
+  defaultvalue: ""
+  display: Ignore Regex
+  name: ignore_regex
+  required: false
+  type: 0
+- additionalinfo: Name of the field names in the CSV feed. If several are given, will
+    use "indicator" as the default indicator value field.
+  defaultvalue: value
+  display: Field Names
+  name: fieldnames
+  required: false
+  type: 0
+- additionalinfo: A one-character string used to separate fields. For example, a comma
+    ",".
+  defaultvalue: ','
+  display: Delimiter
+  name: delimiter
+  required: false
+  type: 0
+- additionalinfo: Controls how instances of quotechar in a field should themselves
+    be quoted. When True, the character is doubled.
+  defaultvalue: ""
+  display: Double quote
+  name: doublequote
+  required: false
+  type: 8
+- additionalinfo: A one-character string used by the writer to escape the delimiter.
+  defaultvalue: ""
+  display: Escape character
+  name: escapechar
+  required: false
+  type: 0
+- additionalinfo: A one-character string used to quote fields containing special characters.
+  defaultvalue: '"'
+  display: Quote Character
+  name: quotechar
+  required: false
+  type: 0
+- additionalinfo: When True, whitespace immediately following the delimiter is ignored.
+  defaultvalue: ""
+  display: Skip Initial Space
+  name: skipinitialspace
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
+  name: insecure
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Use system proxy settings
+  name: proxy
+  required: false
+  type: 8
+contentitemexportablefields:
+  contentitemfields:
+    propagationLabels:
+    - all
+description: Fetch indicators from a CSV feed.
+detaileddescription: |
+  Fetch indicators from a CSV feed. The integration allows a great amount of user configuration to support different types of CSV feeds.
+  * **Server URL** - URL where the feed is.
+  * **Username + Password** - Access feeds that require basic authentication.
+  * **Ignore Regex** - Python regular expression for lines that should be ignored.
+  * **Field Names** - Name of the field names in the CSV. If several are given, will use
+      "indicator" as the indicator value field.
+  * **Double Quote** - Controls how instances of quotechar appearing inside a field should themselves be quoted. When True, the character is doubled. When False, the escapechar is used as a prefix to the quotechar. It defaults to True.
+  * **Delimiter** -  A one-character string used to separate fields.
+  * **Doubequote** - Controls how instances of quotechar appearing inside a field should
+      themselves be quoted. When True, the character is doubled.
+  * **Delimiter** - A one-character string used to separate fields.
+  * **Quote Character** - A one-character string used to quote fields containing special characters.
+  * **Escape character** - A one-character string used by the writer to escape the delimiter.
+  * **Skip Initial Space** - When True, whitespace immediately following the delimiter is ignored.
+display: CSV Feed
+image: data:image/png;base64,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
+name: CSVFeed
+script:
+  commands:
+  - arguments:
+    - defaultValue: "50"
+      description: The maximum number of results to return to the output.
+      name: limit
+    - description: The indicator type.
+      name: indicator_type
+    description: Gets indicators from the feed.
+    name: csv-get-indicators
+    outputs:
+    - contextPath: CSV.Indicator.value
+      description: The indicator value.
+      type: String
+    - contextPath: CSV.Indicator.type
+      description: The indicator type.
+      type: String
+    - contextPath: CSV.Indicator.rawJSON
+      description: The indicator rawJSON value.
+      type: Unknown
+  dockerimage: demisto/python3:3.8.1.5734
+  feed: true
+  runonce: false
+  script: |-
+    def main():
+        feed_main('CSV', prefix='csv')
+
+
+
+    ### GENERATED CODE ###
+    # This code was inserted in place of an API module.
+
+
+
+    ''' IMPORTS '''
+    import urllib3
+    import csv
+    from typing import Optional, Pattern, Dict, Any
+
+    # disable insecure warnings
+    urllib3.disable_warnings()
+
+
+    class Client(BaseClient):
+        def __init__(self, url: str, feed_url_to_config: Optional[Dict[str, dict]] = None, fieldnames: str = '',
+                     insecure: bool = False, credentials: dict = None, ignore_regex: str = None, encoding: str = 'latin-1',
+                     delimiter: str = ',', doublequote: bool = True, escapechar: str = '',
+                     quotechar: str = '"', skipinitialspace: bool = False, polling_timeout: int = 20, proxy: bool = False,
+                     **kwargs):
+            """
+            :param url: URL of the feed.
+            :param feed_url_to_config: for each URL, a configuration of the feed that contains
+             If *null* the values in the first row of the file are used as names. Default: *null*
+             Example:
+             feed_url_to_config = {
+                'https://ipstack.com':
+                {
+                    'fieldnames': ['value'],
+                    'indicator_type': 'IP',
+                    'mapping': {
+                        'date': 'Date'
+                    }
+                }
+             }
+            :param fieldnames: list of field names in the file. If *null* the values in the first row of the file are
+                used as names. Default: *null*
+            :param insecure: boolean, if *false* feed HTTPS server certificate is verified. Default: *false*
+            :param credentials: username and password used for basic authentication.
+            Can be also used as API key header and value by specifying _header in the username field.
+            :param ignore_regex: python regular expression for lines that should be ignored. Default: *null*
+            :param encoding: Encoding of the feed, latin-1 by default.
+            :param delimiter: see `csv Python module
+                <https://docs.python.org/2/library/csv.html#dialects-and-formatting-parameters>`. Default: ,
+            :param doublequote: see `csv Python module
+                <https://docs.python.org/2/library/csv.html#dialects-and-formatting-parameters>`. Default: true
+            :param escapechar: see `csv Python module
+                <https://docs.python.org/2/library/csv.html#dialects-and-formatting-parameters>`. Default null
+            :param quotechar: see `csv Python module
+                <https://docs.python.org/2/library/csv.html#dialects-and-formatting-parameters>`. Default "
+            :param skipinitialspace: see `csv Python module
+                <https://docs.python.org/2/library/csv.html#dialects-and-formatting-parameters>`. Default False
+            :param polling_timeout: timeout of the polling request in seconds. Default: 20
+            :param proxy: Sets whether use proxy when sending requests
+            """
+            if not credentials:
+                credentials = {}
+
+            auth: Optional[tuple] = None
+            self.headers = {}
+
+            username = credentials.get('identifier', '')
+            if username.startswith('_header:'):
+                header_name = username.split(':')[1]
+                header_value = credentials.get('password', '')
+                self.headers[header_name] = header_value
+            else:
+                password = credentials.get('password', '')
+                auth = None
+                if username is not None and password is not None:
+                    auth = (username, password)
+
+            super().__init__(base_url=url, proxy=proxy, verify=not insecure, auth=auth)
+
+            try:
+                self.polling_timeout = int(polling_timeout)
+            except (ValueError, TypeError):
+                return_error('Please provide an integer value for "Request Timeout"')
+            self.encoding = encoding
+            self.ignore_regex: Optional[Pattern] = None
+            if ignore_regex is not None:
+                self.ignore_regex = re.compile(ignore_regex)
+            self.feed_url_to_config: Optional[Dict[str, dict]] = feed_url_to_config
+            self.fieldnames = argToList(fieldnames)
+            self.dialect: Dict[str, Any] = {
+                'delimiter': delimiter,
+                'doublequote': doublequote,
+                'escapechar': escapechar,
+                'quotechar': quotechar,
+                'skipinitialspace': skipinitialspace
+            }
+
+        def _build_request(self, url):
+            r = requests.Request(
+                'GET',
+                url,
+                auth=self._auth
+            )
+
+            return r.prepare()
+
+        def build_iterator(self, **kwargs):
+            results = []
+            urls = self._base_url
+            if not isinstance(urls, list):
+                urls = [urls]
+            for url in urls:
+                _session = requests.Session()
+
+                prepreq = self._build_request(url)
+
+                # this is to honour the proxy environment variables
+                kwargs.update(_session.merge_environment_settings(
+                    prepreq.url,
+                    {}, None, None, None  # defaults
+                ))
+                kwargs['stream'] = True
+                kwargs['verify'] = self._verify
+                kwargs['timeout'] = self.polling_timeout
+
+                if self.headers:
+                    if 'headers' in kwargs:
+                        kwargs['headers'].update(self.headers)
+                    else:
+                        kwargs['headers'] = self.headers
+
+                try:
+                    r = _session.send(prepreq, **kwargs)
+                except requests.ConnectionError:
+                    raise requests.ConnectionError('Failed to establish a new connection.'
+                                                   ' Please make sure your URL is valid.')
+                try:
+                    r.raise_for_status()
+                except Exception:
+                    return_error('Exception in request: {} {}'.format(r.status_code, r.content))
+                    raise
+
+                response = r.content.decode(self.encoding).split('\n')
+                if self.feed_url_to_config:
+                    fieldnames = self.feed_url_to_config.get(url, {}).get('fieldnames', [])
+                else:
+                    fieldnames = self.fieldnames
+                if self.ignore_regex is not None:
+                    response = filter(
+                        lambda x: self.ignore_regex.match(x) is None,  # type: ignore[union-attr]
+                        response
+                    )
+
+                csvreader = csv.DictReader(
+                    response,
+                    fieldnames=fieldnames,
+                    **self.dialect
+                )
+
+                results.append({url: csvreader})
+
+            return results
+
+
+    def module_test_command(client: Client, args):
+        if not client.feed_url_to_config:
+            indicator_type = args.get('indicator_type', demisto.params().get('indicator_type'))
+            if not FeedIndicatorType.is_valid_type(indicator_type):
+                supported_values = ', '.join((
+                    FeedIndicatorType.Account,
+                    FeedIndicatorType.CVE,
+                    FeedIndicatorType.Domain,
+                    FeedIndicatorType.Email,
+                    FeedIndicatorType.File,
+                    FeedIndicatorType.MD5,
+                    FeedIndicatorType.SHA1,
+                    FeedIndicatorType.SHA256,
+                    FeedIndicatorType.Host,
+                    FeedIndicatorType.IP,
+                    FeedIndicatorType.CIDR,
+                    FeedIndicatorType.IPv6,
+                    FeedIndicatorType.IPv6CIDR,
+                    FeedIndicatorType.Registry,
+                    FeedIndicatorType.SSDeep,
+                    FeedIndicatorType.URL
+                ))
+                raise ValueError(f'Indicator type of {indicator_type} is not supported. Supported values are:'
+                                 f' {supported_values}')
+        client.build_iterator()
+        return 'ok', {}, {}
+
+
+    def fetch_indicators_command(client: Client, default_indicator_type: str, **kwargs):
+        iterator = client.build_iterator(**kwargs)
+        indicators = []
+        config = client.feed_url_to_config or {}
+        for url_to_reader in iterator:
+            for url, reader in url_to_reader.items():
+                mapping = config.get(url, {}).get('mapping', {})
+                for item in reader:
+                    raw_json = dict(item)
+                    value = item.get('value')
+                    if not value and len(item) > 1:
+                        value = next(iter(item.values()))
+                    if value:
+                        raw_json['value'] = value
+                        indicator_type = config.get(url, {}).get('indicator_type')
+                        if not indicator_type:
+                            indicator_type = default_indicator_type
+                        raw_json['type'] = indicator_type
+
+                        indicator = {
+                            'value': value,
+                            'type': indicator_type,
+                            'rawJSON': raw_json,
+                            'CustomFields': {field: raw_json[key] for key, field in mapping.items()}
+                        }
+                        indicators.append(indicator)
+
+        return indicators
+
+
+    def get_indicators_command(client, args):
+        itype = args.get('indicator_type', demisto.params().get('indicator_type'))
+        limit = int(args.get('limit'))
+        indicators_list = fetch_indicators_command(client, itype)
+        entry_result = indicators_list[:limit]
+        hr = tableToMarkdown('Indicators', entry_result, headers=['value', 'type'])
+        return hr, {}, indicators_list
+
+
+    def feed_main(feed_name, params=None, prefix=''):
+        if not params:
+            params = {k: v for k, v in demisto.params().items() if v is not None}
+        handle_proxy()
+        client = Client(**params)
+        command = demisto.command()
+        if command != 'fetch-indicators':
+            demisto.info('Command being called is {}'.format(command))
+        if prefix and not prefix.endswith('-'):
+            prefix += '-'
+        # Switch case
+        commands: dict = {
+            'test-module': module_test_command,
+            f'{prefix}get-indicators': get_indicators_command
+        }
+        try:
+            if command == 'fetch-indicators':
+                indicators = fetch_indicators_command(client, params.get('indicator_type'))
+                # we submit the indicators in batches
+                for b in batch(indicators, batch_size=2000):
+                    demisto.createIndicators(b)  # type: ignore
+            else:
+                args = demisto.args()
+                args['feed_name'] = feed_name
+                readable_output, outputs, raw_response = commands[command](client, args)
+                return_outputs(readable_output, outputs, raw_response)
+        except Exception as e:
+            err_msg = f'Error in {feed_name} Integration - Encountered an issue with createIndicators' if \
+                'failed to create' in str(e) else f'Error in {feed_name} Integration [{e}]'
+            return_error(err_msg)
+
+
+
+
+    if __name__ == '__builtin__' or __name__ == 'builtins':
+        main()
+  subtype: python3
+  type: python
+system: true

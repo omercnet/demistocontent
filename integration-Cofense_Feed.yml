@@ -1,0 +1,437 @@
+category: Data Enrichment & Threat Intelligence
+commonfields:
+  id: Cofense Feed
+  version: -1
+configuration:
+- defaultvalue: ""
+  display: Username
+  name: credentials
+  required: false
+  type: 9
+- defaultvalue: "true"
+  display: Fetch indicators
+  name: feed
+  required: false
+  type: 8
+- additionalinfo: Reliability of the source providing the intelligence data
+  defaultvalue: A - Completely reliable
+  display: Source Reliability
+  name: feedReliability
+  options:
+  - A - Completely reliable
+  - B - Usually reliable
+  - C - Fairly reliable
+  - D - Not usually reliable
+  - E - Unreliable
+  - F - Reliability cannot be judged
+  required: true
+  type: 15
+- additionalinfo: To fetch malware and phishing indicators select "all".
+  defaultvalue: all
+  display: The threat type for which to fetch indicators
+  name: threat_type
+  options:
+  - all
+  - malware
+  - phish
+  required: false
+  type: 15
+- defaultvalue: indicatorType
+  display: ""
+  name: feedExpirationPolicy
+  options:
+  - never
+  - interval
+  - indicatorType
+  - suddenDeath
+  required: false
+  type: 17
+- defaultvalue: "20160"
+  display: ""
+  hidden: true
+  name: feedExpirationInterval
+  required: false
+  type: 1
+- additionalinfo: Indicators from this integration instance will be marked with this
+    reputation
+  defaultvalue: feedInstanceReputationNotSet
+  display: Indicator Reputation
+  name: feedReputation
+  options:
+  - None
+  - Good
+  - Suspicious
+  - Bad
+  required: false
+  type: 18
+- additionalinfo: This value also will be used as an expiration time - all indicators
+    before the given time will not be fetched.
+  defaultvalue: 3 days
+  display: First fetch time range (<number> <time unit>, e.g., 1 hour, 30 minutes)
+  name: fetch_time
+  required: false
+  type: 0
+- additionalinfo: The frequency for fetching indicators from this feed (in minutes).
+  defaultvalue: "60"
+  display: Feed Fetch Interval
+  name: feedFetchInterval
+  required: false
+  type: 19
+- additionalinfo: When selected, the exclusion list is ignored for indicators from
+    this feed. This means that if an indicator from this feed is on the exclusion
+    list, the indicator might still be added to the system.
+  defaultvalue: ""
+  display: Bypass exclusion list
+  name: feedBypassExclusionList
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
+  name: insecure
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Use system proxy settings
+  name: proxy
+  required: false
+  type: 8
+contentitemexportablefields:
+  contentitemfields:
+    propagationLabels:
+    - all
+description: Use the Cofense Feed Integration to fetch indicators from the feed.
+display: Cofense Feed
+image: data:image/png;base64,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
+name: Cofense Feed
+script:
+  commands:
+  - arguments:
+    - defaultValue: "10"
+      description: The maximum number of context indicators to return. The default
+        value is 10.
+      name: limit
+    - defaultValue: 3 days
+      description: The time period (previous) for which to fetch indicators. For example,
+        a value of 3 days will return indicators from the previous three days.
+      name: from_time
+    description: Gets indicators from the feed.
+    name: cofense-get-indicators
+  dockerimage: demisto/python3:3.8.1.5734
+  feed: true
+  runonce: false
+  script: |2-
+
+
+
+
+    """ IMPORTS """
+    import urllib3
+    import traceback
+    from typing import List, Dict, Optional, Tuple, Generator
+
+    # disable insecure warnings
+    urllib3.disable_warnings()
+
+    INTEGRATION_NAME = "Cofense Feed"
+    _RESULTS_PER_PAGE = 50  # Max for Cofense is 100
+
+
+    class Client(BaseClient):
+        """Implements class for miners of Cofense feed over http/https."""
+
+        available_fields = ["all", "malware", "phish"]
+
+        cofense_to_indicator = {
+            "IPv4 Address": FeedIndicatorType.IP,
+            "Domain Name": FeedIndicatorType.Domain,
+            "URL": FeedIndicatorType.URL,
+            "Email": FeedIndicatorType.Email,
+        }
+
+        def __init__(
+                self,
+                url: str,
+                auth: Tuple[str, str],
+                threat_type: Optional[str] = None,
+                verify: bool = False,
+                proxy: bool = False,
+                read_time_out: Optional[float] = 120.0,
+        ):
+            """Constructor of Client and BaseClient
+
+            Arguments:
+                url {str} -- url for Cofense feed
+                auth {Tuple[str, str]} -- (username, password)
+
+            Keyword Arguments:
+                threat_type {Optional[str]} -- One of available_fields (default: {None})
+                verify {bool} -- Should verify certificate. (default: {False})
+                proxy {bool} -- Should use proxy. (default: {False})
+                read_time_out {int} -- Read time out in seconds. (default: {30})
+            """
+            self.read_time_out = read_time_out
+            self.threat_type = (
+                threat_type if threat_type in self.available_fields else "all"
+            )
+
+            # Request related attributes
+            self.suffix = "/apiv1/threat/search/"
+
+            super().__init__(url, verify=verify, proxy=proxy, auth=auth)
+
+        def _http_request(self, *args, **kwargs) -> dict:
+            if "timeout" not in kwargs:
+                kwargs["timeout"] = (5.0, self.read_time_out)
+            return super()._http_request(*args, **kwargs)
+
+        def build_iterator(
+                self, begin_time: Optional[int] = None, end_time: Optional[int] = None
+        ) -> Generator:
+            """Builds an iterator from given data filtered by start and end times.
+
+            Keyword Arguments:
+                begin_time {Optional[str, int]} --
+                    Where to start fetching.
+                    Timestamp represented in unix format. (default: {None})
+                end_time {Optional[int]} --
+                    Time to stop fetching (if not supplied, will be time now).
+                    Timestamp represented in unix format. (default: {None}).
+            Yields:
+                Dict -- Threat from Cofense
+            """
+            # if not getting now
+            if not end_time:
+                end_time = get_now()
+
+            payload = {
+                "beginTimestamp": str(begin_time),
+                "endTimestamp": str(end_time),
+                "threatType": self.threat_type,
+                "resultsPerPage": _RESULTS_PER_PAGE,
+            }
+            # For first fetch, there is only start time.
+            if not begin_time:
+                payload["beginTimestamp"] = str(end_time)
+                del payload["endTimestamp"]
+
+            demisto.debug(f"{INTEGRATION_NAME} - pulling {begin_time}/{end_time}")
+            cur_page = 0
+            total_pages = 1
+            while cur_page < total_pages:
+                payload["page"] = cur_page
+                raw_response = self._http_request("post", self.suffix, params=payload)
+                data = raw_response.get("data", {})
+                if data:
+                    if total_pages <= 1:
+                        # Call to get all pages.
+                        total_pages = data.get("page", {}).get("totalPages")
+                        if total_pages is None:
+                            return_error(f'No "totalPages" in response')
+                        demisto.debug(f"total_pages set to {total_pages}")
+
+                    threats = data.get("threats", [])
+                    for t in threats:
+                        yield t
+                    demisto.debug(f"{INTEGRATION_NAME} - pulling {cur_page+1}/{total_pages}. page size: {_RESULTS_PER_PAGE}")
+                    cur_page += 1
+                else:
+                    return_error(f'{INTEGRATION_NAME} - no "data" in response')
+
+        @classmethod
+        def _convert_block(cls, block: dict) -> Tuple[str, str]:
+            """Gets a Cofense block from blockSet and enriches it.
+
+            Args:
+                block:
+
+            Returns:
+                indicator type, value
+            """
+            indicator_type = block.get("blockType", "")
+            indicator_type = str(cls.cofense_to_indicator.get(indicator_type))
+            # Only URL indicator has inside information in data_1
+            if indicator_type == FeedIndicatorType.URL:
+                value = block.get("data_1", {}).get("url")
+            else:
+                value = block.get("data_1")
+            return indicator_type, value
+
+        @classmethod
+        def process_item(cls, threat: dict) -> List[dict]:
+            """Gets a threat and processes them.
+
+            Arguments:
+                threat {dict} -- A threat from Cofense ("threats" key)
+
+            Returns:
+                list -- List of dicts representing indicators.
+
+            Examples:
+                >>> Client.process_item({"id": 123, "blockSet": [{"data_1": "ip", "blockType": "IPv4 Address"}]})
+                [{'value': 'ip', 'type': 'IP', 'rawJSON': \
+    {'data_1': 'ip', 'blockType': 'IPv4 Address', 'value': 'ip', 'type': 'IP', 'threat_id': 123}}]
+            """
+            results = list()
+            block_set: List[dict] = threat.get("blockSet", [])
+            threat_id = threat.get("id")
+            for block in block_set:
+                indicator, value = cls._convert_block(block)
+                block["value"] = value
+                block["type"] = indicator
+                block["threat_id"] = threat_id
+                if indicator:
+                    results.append({"value": value, "type": indicator, "rawJSON": block})
+
+            return results
+
+
+    def test_module(client: Client) -> Tuple[str, dict, dict]:
+        """A simple test module
+
+        Arguments:
+            client {Client} -- Client derives from BaseClient
+
+        Returns:
+            str -- "ok" if succeeded, else raises a error.
+        """
+        client.build_iterator()
+        return "ok", {}, {}
+
+
+    def fetch_indicators_command(
+            client: Client,
+            begin_time: Optional[int] = None,
+            end_time: Optional[int] = None,
+            limit: Optional[int] = None,
+    ) -> List[Dict]:
+        """Fetches the indicators from client.
+
+        Arguments:
+            client {Client} -- Client derives from BaseClient
+
+        Keyword Arguments:
+            begin_time {Optional[int]} -- Time to start fetch from (default: {None})
+            end_time {Optional[int]} -- Time to stop fetch to (default: {None})
+            limit {Optional[int]} -- Maximum amount of indicators to fetch. (default: {None})
+
+        Returns:
+            List[Dict] -- List of indicators from threat
+        """
+        indicators = list()
+        for threat in client.build_iterator(begin_time=begin_time, end_time=end_time):
+            # get maximum of limit
+            new_indicators = client.process_item(threat)
+            indicators.extend(new_indicators)
+            if limit and limit < len(indicators):
+                indicators = indicators[:limit]
+                break
+        return indicators
+
+
+    def build_fetch_times(fetch_time: str, last_fetch: Optional[dict] = None) -> Tuple[int, int]:
+        """Build the start and end time of the fetch session.
+
+        Args:
+            fetch_time: fetch time (for example: "3 days")
+            last_fetch: Last fetch object
+
+        Returns:
+            begin_time, end_time
+        """
+        if isinstance(last_fetch, dict) and last_fetch.get("timestamp"):
+            begin_time = last_fetch.get("timestamp", 0)  # type: int
+            end_time = get_now()
+        else:  # First fetch
+            begin_time, end_time = parse_date_range_no_milliseconds(fetch_time)
+        return begin_time, end_time
+
+
+    def parse_date_range_no_milliseconds(from_time: str) -> Tuple[int, int]:
+        """Gets a range back and return time before the string and to now.
+        Without milliseconds.
+
+        Args:
+            from_time:The date range to be parsed (required)
+
+        Returns:
+            start time, now
+
+        Examples:
+            >>> parse_date_range_no_milliseconds("3 days")
+            (1578729151, 1578988351)
+        """
+        begin_time, end_time = parse_date_range(from_time, to_timestamp=True)
+        return int(begin_time / 1000), int(end_time / 1000)
+
+
+    def get_indicators_command(client: Client, args: dict) -> Tuple[str, list]:
+        """Getting indicators into Demisto's incident.
+
+        Arguments:
+            client {Client} -- A client object
+            args {dict} -- Usually demisto.args()
+
+        Returns:
+            Tuple[str, list] -- human_readable, raw_response
+        """
+        limit = int(args.get("limit", 10))
+        from_time = args.get("from_time", "3 days")
+        begin_time, end_time = build_fetch_times(from_time)
+        indicators = fetch_indicators_command(
+            client, begin_time=begin_time, end_time=end_time, limit=limit)
+        human_readable = tableToMarkdown(
+            f"Results from {INTEGRATION_NAME}:",
+            [indicator.get("rawJSON") for indicator in indicators],
+            ["threat_id", "type", "value", "impact", "confidence", "roleDescription"],
+        )
+        return human_readable, indicators
+
+
+    def get_now() -> int:
+        """Returns time now without milliseconds
+
+        Returns:
+            int -- time now without milliseconds.
+        """
+        return int(datetime.now().timestamp() / 1000)
+
+
+    def main():
+        """Main function
+        """
+        params = demisto.params()
+        # handle params
+        url = "https://www.threathq.com"
+        credentials = params.get("credentials", {})
+        auth = (credentials.get("identifier"), credentials.get("password"))
+        verify = not params.get("insecure")
+        proxy = params.get("proxy")
+        threat_type = params.get("threat_type")
+        client = Client(url, auth=auth, verify=verify, proxy=proxy, threat_type=threat_type)
+
+        demisto.info(f"Command being called is {demisto.command()}")
+        try:
+            if demisto.command() == "test-module":
+                return_outputs(*test_module(client))
+
+            elif demisto.command() == "fetch-indicators":
+                begin_time, end_time = build_fetch_times(params.get("fetch_time", "3 days"))
+                indicators = fetch_indicators_command(client, begin_time, end_time)
+                # Send indicators to demisto
+                for b in batch(indicators, batch_size=2000):
+                    demisto.createIndicators(b)
+
+            elif demisto.command() == "cofense-get-indicators":
+                # dummy command for testing
+                readable_outputs, raw_response = get_indicators_command(client, demisto.args())
+                return_outputs(readable_outputs, {}, raw_response=raw_response)
+
+        except Exception as err:
+            return_error(f"Error in {INTEGRATION_NAME} integration:\n{str(err)}\n\nTrace:{traceback.format_exc()}")
+
+
+    if __name__ in ["__main__", "builtin", "builtins"]:
+        main()
+  subtype: python3
+  type: python
+system: true
