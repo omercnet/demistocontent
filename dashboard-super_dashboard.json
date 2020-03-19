@@ -1,0 +1,122 @@
+{
+	"fromDate": "0001-01-01T00:00:00Z",
+	"fromDateLicense": "0001-01-01T00:00:00Z",
+	"id": "59cd6087-8167-413b-81ff-c16573c9eb7b",
+	"isCommon": true,
+	"layout": [
+		{
+			"forceRange": false,
+			"h": 3,
+			"i": "6acee670-6a00-11ea-8428-19d47d5a445e",
+			"id": "6acee670-6a00-11ea-8428-19d47d5a445e",
+			"w": 4,
+			"widget": {
+				"category": "",
+				"commitMessage": "",
+				"dataType": "incidents",
+				"dateRange": {
+					"fromDate": "0001-01-01T00:00:00Z",
+					"fromDateLicense": "0001-01-01T00:00:00Z",
+					"period": {
+						"by": "",
+						"byFrom": "days",
+						"byTo": "",
+						"field": "",
+						"fromValue": 7,
+						"toValue": null
+					},
+					"toDate": "0001-01-01T00:00:00Z"
+				},
+				"id": "active-incidents-by-type",
+				"isPredefined": true,
+				"modified": "2020-03-19T16:29:36.441643382Z",
+				"name": "Active Incidents - Line chart",
+				"params": {
+					"groupBy": [
+						"occurred(d)",
+						"type"
+					]
+				},
+				"prevName": "Active Incidents - Line chart",
+				"propagationLabels": [
+					"all"
+				],
+				"query": "-category:job and -status:archived and -status:closed",
+				"shouldCommit": false,
+				"size": 0,
+				"sort": null,
+				"sortValues": null,
+				"vcShouldIgnore": false,
+				"version": 3,
+				"widgetType": "line"
+			},
+			"x": 0,
+			"y": 0
+		},
+		{
+			"forceRange": false,
+			"h": 2,
+			"i": "6b1676c0-6a00-11ea-8428-19d47d5a445e",
+			"id": "6b1676c0-6a00-11ea-8428-19d47d5a445e",
+			"w": 2,
+			"widget": {
+				"category": "",
+				"commitMessage": "",
+				"dataType": "incidents",
+				"dateRange": {
+					"fromDate": "0001-01-01T00:00:00Z",
+					"fromDateLicense": "0001-01-01T00:00:00Z",
+					"period": {
+						"by": "",
+						"byFrom": "days",
+						"byTo": "",
+						"field": "",
+						"fromValue": 7,
+						"toValue": null
+					},
+					"toDate": "0001-01-01T00:00:00Z"
+				},
+				"id": "active-incidents-by-severity",
+				"isPredefined": true,
+				"modified": "2020-03-19T16:29:36.448585303Z",
+				"name": "Active Incidents - Pie chart",
+				"params": {
+					"groupBy": [
+						"severity"
+					]
+				},
+				"prevName": "Active Incidents - Pie chart",
+				"propagationLabels": [
+					"all"
+				],
+				"query": "-category:job and -status:archived and -status:closed",
+				"shouldCommit": false,
+				"size": 0,
+				"sort": null,
+				"sortValues": null,
+				"vcShouldIgnore": false,
+				"version": 3,
+				"widgetType": "pie"
+			},
+			"x": 2,
+			"y": 3
+		}
+	],
+	"locked": false,
+	"name": "super dashboard",
+	"owner": "admin",
+	"period": {
+		"by": "",
+		"byFrom": "days",
+		"byTo": "",
+		"field": "",
+		"fromValue": 7,
+		"toValue": null
+	},
+	"propagationLabels": [],
+	"shared": false,
+	"sortValues": null,
+	"system": false,
+	"toDate": "0001-01-01T00:00:00Z",
+	"version": -1
+}
