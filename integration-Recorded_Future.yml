@@ -108,17 +108,17 @@ script:
     name: domain
     outputs:
     - contextPath: DBotScore.Indicator
-      description: The indicator that was tested
-      type: string
+      description: The indicator that was tested.
+      type: String
     - contextPath: DBotScore.Type
-      description: Indicator type
-      type: string
+      description: The indicator type.
+      type: String
     - contextPath: DBotScore.Vendor
-      description: Vendor used to calculate the score
-      type: string
+      description: The vendor used to calculate the score.
+      type: String
     - contextPath: DBotScore.Score
-      description: The actual score
-      type: number
+      description: The actual score.
+      type: Number
     - contextPath: Domain.Name
       description: Domain name
       type: string
@@ -149,17 +149,17 @@ script:
     name: ip
     outputs:
     - contextPath: DBotScore.Indicator
-      description: The indicator that was tested
-      type: string
+      description: The indicator that was tested.
+      type: String
     - contextPath: DBotScore.Type
-      description: Indicator type
-      type: string
+      description: The indicator type.
+      type: String
     - contextPath: DBotScore.Vendor
-      description: Vendor used to calculate the score
-      type: string
+      description: The vendor used to calculate the score.
+      type: String
     - contextPath: DBotScore.Score
-      description: The actual score
-      type: number
+      description: The actual score.
+      type: Number
     - contextPath: IP.Malicious.Vendor
       description: For malicious IP addresses, the vendor that made the decision
       type: string
@@ -221,17 +221,17 @@ script:
       description: For malicious files, the reason that the vendor made the decision
       type: string
     - contextPath: DBotScore.Indicator
-      description: The indicator that was tested
-      type: string
+      description: The indicator that was tested.
+      type: String
     - contextPath: DBotScore.Type
-      description: Indicator type
-      type: string
+      description: The indicator type.
+      type: String
     - contextPath: DBotScore.Vendor
-      description: Vendor used to calculate the score
-      type: string
+      description: The vendor used to calculate the score.
+      type: String
     - contextPath: DBotScore.Score
-      description: The actual score
-      type: number
+      description: The actual score.
+      type: Number
     - contextPath: File.Criticality
       description: Risk criticality label
       type: string
@@ -534,17 +534,17 @@ script:
     name: url
     outputs:
     - contextPath: DBotScore.Indicator
-      description: The indicator that was tested
-      type: string
+      description: The indicator that was tested.
+      type: String
     - contextPath: DBotScore.Type
-      description: Indicator type
-      type: string
+      description: The indicator type.
+      type: String
     - contextPath: DBotScore.Vendor
-      description: Vendor used to calculate the score
-      type: string
+      description: The vendor used to calculate the score.
+      type: String
     - contextPath: DBotScore.Score
-      description: The actual score
-      type: number
+      description: The actual score.
+      type: Number
     - contextPath: URL.Data
       description: URL name
       type: string
@@ -620,17 +620,17 @@ script:
       description: For malicious files, the reason that the vendor made the decision
       type: string
     - contextPath: DBotScore.Indicator
-      description: The indicator that was tested
-      type: string
+      description: The indicator that was tested.
+      type: String
     - contextPath: DBotScore.Type
-      description: Indicator type
-      type: string
+      description: The indicator type.
+      type: String
     - contextPath: DBotScore.Vendor
-      description: Vendor used to calculate the score
-      type: string
+      description: The vendor used to calculate the score.
+      type: String
     - contextPath: DBotScore.Score
-      description: The actual score
-      type: number
+      description: The actual score.
+      type: Number
     - contextPath: File.RecordedFuture.Criticality
       description: Risk criticality label
       type: string
@@ -683,17 +683,17 @@ script:
     name: recorded-future-get-threats-ip
     outputs:
     - contextPath: DBotScore.Indicator
-      description: The indicator that was tested
-      type: string
+      description: The indicator that was tested.
+      type: String
     - contextPath: DBotScore.Type
-      description: Indicator type
-      type: string
+      description: The indicator type.
+      type: String
     - contextPath: DBotScore.Vendor
-      description: Vendor used to calculate the score
-      type: string
+      description: The vendor used to calculate the score.
+      type: String
     - contextPath: DBotScore.Score
-      description: The actual score
-      type: number
+      description: The actual score.
+      type: Number
     - contextPath: IP.Malicious.Vendor
       description: For malicious IP addresses, the vendor that made the decision
       type: string
@@ -756,17 +756,17 @@ script:
     name: recorded-future-get-threats-url
     outputs:
     - contextPath: DBotScore.Indicator
-      description: The indicator that was tested
-      type: string
+      description: The indicator that was tested.
+      type: String
     - contextPath: DBotScore.Type
-      description: Indicator type
-      type: string
+      description: The indicator type.
+      type: String
     - contextPath: DBotScore.Vendor
-      description: Vendor used to calculate the score
-      type: string
+      description: The vendor used to calculate the score.
+      type: String
     - contextPath: DBotScore.Score
-      description: The actual score
-      type: number
+      description: The actual score.
+      type: Number
     - contextPath: URL.Data
       description: URL name
       type: string
@@ -822,17 +822,17 @@ script:
     name: recorded-future-get-threats-domain
     outputs:
     - contextPath: DBotScore.Indicator
-      description: The indicator that was tested
-      type: string
+      description: The indicator that was tested.
+      type: String
     - contextPath: DBotScore.Type
-      description: Indicator type
-      type: string
+      description: The indicator type.
+      type: String
     - contextPath: DBotScore.Vendor
-      description: Vendor used to calculate the score
-      type: string
+      description: The vendor used to calculate the score.
+      type: String
     - contextPath: DBotScore.Score
-      description: The actual score
-      type: number
+      description: The actual score.
+      type: Number
     - contextPath: Domain.Name
       description: Domain name
       type: string
@@ -1179,7 +1179,7 @@ script:
       type: string
   isfetch: true
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -1685,7 +1685,6 @@ script:
 
         ec = {}
         if response and ('error' not in response):
-            hr = []  # type: list
             entity_result_type = entity_result_type.split(',')
             entity_types = []  # type: list
             if 'All' in entity_result_type:
@@ -1763,7 +1762,7 @@ script:
                 related_entities_ec['URL'] = url_outputs
 
             if hr_md:
-                hr_md = '### Recorded Future related entities to ' + entity_value + '\n' + hr
+                hr_md = '### Recorded Future related entities to ' + entity_value + '\n' + hr_md
                 if entity_type == 'ip':
                     ec[outputPaths['ip']] = {
                         'Address': entity_value,

@@ -357,9 +357,20 @@ script:
       name: last_run
     description: Fetches incidents
     name: as-fetch-incidents
+  - arguments:
+    - description: Resource ID of the Active List
+      name: resourceId
+      required: true
+    - description: 'Entries are in JSON format. JSON must be an array of entries.
+        Each entry must contain the same columns as they appear in the Active List,
+        e.g., [{ "UserName": "john", "IP":"19.12.13.11"},{ "UserName": "bob", "IP":"22.22.22.22"}]'
+      name: entries
+      required: true
+    description: Delete entries from the Active List.
+    name: as-delete-entries
   isfetch: true
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -418,6 +429,10 @@ script:
     @logger
     def decode_ip(address_by_bytes):
         """ Decodes the enigmatic ways IPs are stored in ArcSight DB into IPv4/6 format """
+        str_address_by_bytes = str(address_by_bytes)
+        if is_ip_valid(str_address_by_bytes) or is_ipv6_valid(str_address_by_bytes):
+            return address_by_bytes
+
         if isinstance(address_by_bytes, int):
             return int_to_ip(address_by_bytes)
 
@@ -853,7 +868,7 @@ script:
 
             human_readable = tableToMarkdown('Security Event: {}'.format(','.join(map(str, ids))), events, removeNull=True)
             outputs = {'ArcSightESM.SecurityEvents(val.eventId===obj.eventId)': contents}
-            return_outputs(readable_output=human_readable, outputs=outputs, raw_response=contents)
+            return_outputs(human_readable, outputs, contents)
         else:
             demisto.results('No events were found')
 
@@ -1108,7 +1123,7 @@ script:
 
 
     @logger
-    def add_entries_command():
+    def entries_command(func):
         resource_id = demisto.args().get('resourceId')
         entries = demisto.args().get('entries')
         query_path = 'www/manager-service/services/ActiveListService/'
@@ -1123,7 +1138,7 @@ script:
 
         columns = ''.join(COLUMN(column) for column in entries[0])  # the fields in the entryList matrix are the columns
         entry_list = BODY(columns + ''.join(ENTRY_LIST(''.join(ENTRY(v) for v in en.values())) for en in entries))
-        body = REQ_SOAP_BODY(function='addEntries', auth_token=AUTH_TOKEN, resource_id=resource_id, entryList=entry_list)
+        body = REQ_SOAP_BODY(function=func, auth_token=AUTH_TOKEN, resource_id=resource_id, entryList=entry_list)
         res = send_request(query_path, body=body)
 
         if not res.ok:
@@ -1196,7 +1211,10 @@ script:
             get_entries_command()
 
         elif demisto.command() == 'as-add-entries':
-            add_entries_command()
+            entries_command(func='addEntries')
+
+        elif demisto.command() == 'as-delete-entries':
+            entries_command(func='deleteEntries')
 
         elif demisto.command() == 'as-clear-entries':
             clear_entries_command()
@@ -1209,7 +1227,7 @@ script:
 
 
     except Exception as e:
-        return_error(str(e))
+        return_error('Unexpected error:' + str(e), error=traceback.format_exc())
   subtype: python2
   type: python
 system: true

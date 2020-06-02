@@ -19,7 +19,7 @@ configuration:
   required: false
   type: 13
 - defaultvalue: ""
-  display: ""
+  display: Username
   name: credentials
   required: true
   type: 9
@@ -1214,5 +1214,6 @@ script:
             ### the download will return 404 if the file has been purged ###
             if response.status_code == 200:
                 demisto.results(fileResult(query,response.content))
+  subtype: python2
   type: python
 system: true

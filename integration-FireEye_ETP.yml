@@ -313,7 +313,7 @@ script:
       description: The alert unique ID
   isfetch: true
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -430,10 +430,12 @@ script:
                     raise ValueError('{} is not a valid value'.format(val))
 
         attribute = {
-            'value': values
+            'value': values,
+            'includes': ['SMTP', 'HEADER']
         }
         if filter:
             attribute['filter'] = filter
+
         return attribute
 
 

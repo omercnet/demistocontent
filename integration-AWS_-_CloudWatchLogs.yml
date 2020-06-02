@@ -500,7 +500,7 @@ script:
     - contextPath: AWS.CloudWatchLogs.MetricFilters.logGroupName
       description: The name of the log group.
       type: string
-  dockerimage: demisto/boto3
+  dockerimage: demisto/boto3:1.9.55
   runonce: false
   script: |-
     import boto3
@@ -983,5 +983,6 @@ script:
 
     demisto.results(result)
     sys.exit(0)
+  subtype: python2
   type: python
 system: true

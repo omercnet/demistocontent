@@ -475,7 +475,7 @@ script:
       description: Source of the ban.
       type: string
   runonce: false
-  script: |2-
+  script: |2
 
 
     ''' IMPORTS '''
@@ -1623,7 +1623,7 @@ script:
         elif demisto.command() == 'fortigate-get-banned-ips':
             get_banned_ips_command()
 
-    except Exception, e:
+    except Exception as e:
         LOG(e.message)
         LOG.print_log()
         raise

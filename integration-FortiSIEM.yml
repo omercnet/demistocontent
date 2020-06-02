@@ -24,7 +24,7 @@ configuration:
   required: true
   type: 9
 - defaultvalue: ""
-  display: Trust any certificate (unsecure)
+  display: Trust any certificate (not secure)
   name: unsecure
   required: false
   type: 8
@@ -383,7 +383,7 @@ script:
     name: fortisiem-get-resource-list
   isfetch: true
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -1095,5 +1095,6 @@ script:
     # python2 uses __builtin__ python3 uses builtins
     if __name__ == "__builtin__" or __name__ == "builtins":
         main()
+  subtype: python2
   type: python
 system: true

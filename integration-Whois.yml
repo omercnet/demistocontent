@@ -18,7 +18,7 @@ contentitemexportablefields:
     propagationLabels:
     - all
 description: Provides data enrichment for domains.
-detaileddescription: |
+detaileddescription: |+
   ## Whois
 
   Use the Whois integration to get enriched data for domains.
@@ -31,8 +31,9 @@ detaileddescription: |
     * **socks4a**: SOCKS version 4 with remote DNS resolving.
     * **socks4**: SOCKS version 4 with local DNS resolving.
     * **http**: HTTP proxy with support for CONNECT method on port 43 (default Whois port). Note that most HTTP proxies block the CONNECT method to non-HTTP/HTTPS standard ports (such as the default Whois port 43).
+
 display: Whois
-image: data:image/png;base64,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
+image: data:image/png;base64,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
 name: Whois
 script:
   commands:
@@ -43,47 +44,20 @@ script:
     description: Provides data enrichment for domains.
     name: whois
     outputs:
-    - contextPath: Domain.DomainStatus
-      description: The domain status.
+    - contextPath: DBotScore.Score
+      description: The actual score.
       type: string
-    - contextPath: Domain.WHOIS.DomainStatus
-      description: The domain status.
+    - contextPath: DBotScore.Indicator
+      description: The indicator that was tested.
       type: string
-    - contextPath: Domain.NameServers
-      description: The name servers.
+    - contextPath: DBotScore.Type
+      description: The indicator type.
       type: string
-    - contextPath: Domain.WHOIS.NameServers
-      description: The name servers.
+    - contextPath: DBotScore.Vendor
+      description: The vendor used to calculate the score.
       type: string
-    - contextPath: Domain.CreationDate
-      description: The date that the domain was created.
-      type: date
-    - contextPath: Domain.WHOIS.CreationDate
-      description: The date that the domain was created.
-      type: date
-    - contextPath: Domain.UpdatedDate
-      description: The date that the domain was last updated.
-      type: date
-    - contextPath: Domain.WHOIS.UpdatedDate
-      description: The date that the domain was last updated.
-      type: date
-    - contextPath: Domain.ExpirationDate
-      description: The date that the domain expires.
-      type: date
-    - contextPath: Domain.WHOIS.ExpirationDate
-      description: The date that the domain expires.
-      type: date
-    - contextPath: Domain.WHOIS.Registrar
-      description: The name of the registrar.
-      type: string
-    - contextPath: Domain.Registrant.name
-      description: The name of the registrant.
-      type: string
-    - contextPath: Domain.Admin.name
-      description: The name of domain administrator.
-      type: string
-    - contextPath: Domain.WHOIS.Admin.name
-      description: The name of domain administrator.
+    - contextPath: Domain.Name
+      description: The domain name.
       type: string
     - contextPath: Domain.Whois.Name
       description: The domain name.
@@ -205,9 +179,162 @@ script:
     - contextPath: Domain.Whois.QueryStatus
       description: The result of the command ("Success" or "Failed").
       type: string
-  dockerimage: demisto/ippysocks
+    - contextPath: Domain.Whois.QueryValue
+      description: The query requested by the user.
+      type: string
+    - contextPath: Domain.Whois.QueryResult
+      description: Whether the query found a matching result.
+      type: Boolean
+  - arguments:
+    - default: true
+      description: The domain to enrich.
+      isArray: true
+      name: domain
+      required: true
+    description: Provides data enrichment for domains.
+    name: domain
+    outputs:
+    - contextPath: DBotScore.Score
+      description: The actual score.
+      type: string
+    - contextPath: DBotScore.Indicator
+      description: The indicator that was tested.
+      type: string
+    - contextPath: DBotScore.Type
+      description: The indicator type.
+      type: string
+    - contextPath: DBotScore.Vendor
+      description: The vendor used to calculate the score.
+      type: string
+    - contextPath: Domain.Name
+      description: The domain name.
+      type: string
+    - contextPath: Domain.Whois.Name
+      description: The domain name.
+      type: string
+    - contextPath: Domain.Whois.DomainStatus
+      description: The domain status.
+      type: string
+    - contextPath: Domain.Whois.DNSSec
+      description: The domain name system security extension (DNSSEC).
+      type: string
+    - contextPath: Domain.Whois.NameServers
+      description: The name servers.
+      type: string
+    - contextPath: Domain.Whois.CreationDate
+      description: The date that the domain was created.
+      type: date
+    - contextPath: Domain.Whois.UpdatedDate
+      description: The date that the domain was last updated.
+      type: date
+    - contextPath: Domain.Whois.ExpirationDate
+      description: The date that the domain expires.
+      type: date
+    - contextPath: Domain.Whois.Registrar.Name
+      description: The name of the registrar.
+      type: string
+    - contextPath: Domain.Whois.Emails
+      description: The abuse emails.
+      type: string
+    - contextPath: Domain.Whois.Registrar.AbuseEmail
+      description: The email address of the contact for reporting abuse.
+      type: string
+    - contextPath: Domain.Whois.Registrant.name
+      description: The name of the registrant.
+      type: string
+    - contextPath: Domain.Whois.Registrant.email
+      description: The email address of the registrant.
+      type: string
+    - contextPath: Domain.Whois.Raw
+      description: The raw output.
+      type: string
+    - contextPath: Domain.Whois.Administrator.country
+      description: The country of the domain administrator.
+      type: string
+    - contextPath: Domain.Whois.Administrator.name
+      description: The name of domain administrator.
+      type: string
+    - contextPath: Domain.Whois.Administrator.state
+      description: The state of domain administrator.
+      type: string
+    - contextPath: Domain.Whois.Administrator.email
+      description: The email address of the domain administrator.
+      type: string
+    - contextPath: Domain.Whois.Administrator.organization
+      description: The organization of the domain administrator.
+      type: string
+    - contextPath: Domain.Whois.Administrator.postalcode
+      description: The postal code of the domain administrator
+      type: string
+    - contextPath: Domain.Whois.Administrator.street
+      description: The street of the domain admin
+      type: string
+    - contextPath: Domain.Whois.Administrator.phone
+      description: The phone number of the domain administrator.
+      type: string
+    - contextPath: Domain.Whois.Administrator.city
+      description: The city of the domain administrator.
+      type: string
+    - contextPath: Domain.Whois.TechAdmin.country
+      description: The country of tech administrator.
+      type: string
+    - contextPath: Domain.Whois.TechAdmin.name
+      description: The name of tech administrator.
+      type: string
+    - contextPath: Domain.Whois.TechAdmin.state
+      description: The state of tech administrator.
+      type: string
+    - contextPath: Domain.Whois.TechAdmin.email
+      description: The email address of the tech administrator.
+      type: string
+    - contextPath: Domain.Whois.TechAdmin.organization
+      description: The organization of the tech administrator.
+      type: string
+    - contextPath: Domain.Whois.TechAdmin.postalcode
+      description: The postal code of the tech administrator.
+      type: string
+    - contextPath: Domain.Whois.TechAdmin.street
+      description: The street of the tech administrator.
+      type: string
+    - contextPath: Domain.Whois.TechAdmin.phone
+      description: The phone number of the tech administrator.
+      type: string
+    - contextPath: Domain.Whois.TechAdmin.city
+      description: The city of the tech administrator.
+      type: string
+    - contextPath: Domain.Whois.Registrant.country
+      description: The country of the registrant.
+      type: string
+    - contextPath: Domain.Whois.Registrant.state
+      description: The state of the registrant.
+      type: string
+    - contextPath: Domain.Whois.Registrant.organization
+      description: The organization of the registrant.
+      type: string
+    - contextPath: Domain.Whois.Registrant.postalcode
+      description: The postal code of the registrant.
+      type: string
+    - contextPath: Domain.Whois.Registrant.street
+      description: The street of the registrant.
+      type: string
+    - contextPath: Domain.Whois.Registrant.phone
+      description: The phone number of the registrant.
+      type: string
+    - contextPath: Domain.Whois.Registrant.city
+      description: The city of the registrant.
+      type: string
+    - contextPath: Domain.Whois.ID
+      description: The ID of the domain.
+      type: string
+    - contextPath: Domain.Whois.QueryStatus
+      description: The result of the command ("Success" or "Failed").
+      type: string
+    - contextPath: Domain.Whois.QueryResult
+      description: Whether the query found a matching result.
+      type: Boolean
+  dockerimage: demisto/ippysocks:1.0.0.7353
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -216,6 +343,7 @@ script:
     import sys
     from codecs import encode, decode
     import socks
+    import errno
 
     ENTRY_TYPE = entryTypes['error'] if demisto.params().get('with_error', False) else entryTypes['warning']
 
@@ -225,7 +353,6 @@ script:
         This integration is built using the joepie91 "Whois" module. For more information regarding this package please see
         the following - https://github.com/joepie91/python-whois
     """
-
 
     ''' HELPER FUNCTIONS '''
     # About the drop some mean regex right now disable-secrets-detection-start
@@ -3094,6 +3221,9 @@ script:
             "host": "whois.ikano.tld-box.at"
         },
         "il": {
+            "host": "whois.isoc.org.il"
+        },
+        "co.il": {
             "host": "whois.isoc.org.il"
         },
         "im": {
@@ -7373,7 +7503,22 @@ script:
             request_domain = "=%s" % domain  # Avoid partial matches
         else:
             request_domain = domain
-        response = whois_request(request_domain, target_server)
+        # The following loop handles errno 104 - "connection reset by peer" by retry whois_request with the same arguments.
+        # If the request fails due to other cause - there will not be another try
+        for i in range(0, 3):
+            try:
+                response = whois_request(request_domain, target_server)
+            except socket.error as err:
+                if err.errno == errno.ECONNRESET:
+                    continue
+                else:
+                    raise
+            break
+        # Executed only if the for loop ran to the full
+        # (3 tries led to errno.ECONNRESET)
+        else:
+            raise WhoisException('(104) Connection Reset By Peer')
+
         if never_cut:
             # If the caller has requested to 'never cut' responses, he will get the original response from the server (
             # this is useful for callers that are only interested in the raw data). Otherwise, if the target is
@@ -7484,11 +7629,11 @@ script:
             sock.close()
 
 
-    airports = {} # type: dict
-    countries = {} # type: dict
-    states_au = {} # type: dict
-    states_us = {} # type: dict
-    states_ca = {} # type: dict
+    airports = {}  # type: dict
+    countries = {}  # type: dict
+    states_au = {}  # type: dict
+    states_us = {}  # type: dict
+    states_ca = {}  # type: dict
 
 
     class WhoisException(Exception):
@@ -7821,10 +7966,11 @@ script:
         r"\ss\.?a\.?r\.?l\.?($|\s)",
     )
 
-    grammar["_data"]["id"] = precompile_regexes(grammar["_data"]["id"], re.IGNORECASE)    # type: ignore
+    grammar["_data"]["id"] = precompile_regexes(grammar["_data"]["id"], re.IGNORECASE)  # type: ignore
     grammar["_data"]["status"] = precompile_regexes(grammar["_data"]["status"], re.IGNORECASE)  # type: ignore
     grammar["_data"]["creation_date"] = precompile_regexes(grammar["_data"]["creation_date"], re.IGNORECASE)  # type: ignore
-    grammar["_data"]["expiration_date"] = precompile_regexes(grammar["_data"]["expiration_date"], re.IGNORECASE)  # type: ignore
+    grammar["_data"]["expiration_date"] = precompile_regexes(grammar["_data"]["expiration_date"],  # type: ignore
+                                                             re.IGNORECASE)
     grammar["_data"]["updated_date"] = precompile_regexes(grammar["_data"]["updated_date"], re.IGNORECASE)  # type: ignore
     grammar["_data"]["registrar"] = precompile_regexes(grammar["_data"]["registrar"], re.IGNORECASE)  # type: ignore
     grammar["_data"]["whois_server"] = precompile_regexes(grammar["_data"]["whois_server"], re.IGNORECASE)  # type: ignore
@@ -8448,20 +8594,32 @@ script:
         return parse_raw_whois(raw_data, normalized=normalized, never_query_handles=False,
                                handle_server=server_list[-1])
 
+
     # Drops the mic disable-secrets-detection-end
 
+    def get_domain_from_query(query):
+        # checks for largest matching suffix inside tlds dictionary
+        suffix_len = max([len(suffix) for suffix in tlds if query.endswith('.{}'.format(suffix))] or [0])
+        # if suffix(TLD) was found increase the length by one in order to add the dot before it. --> .com instead of com
+        if suffix_len != 0:
+            suffix_len += 1
+        suffixless_query = query[:-suffix_len]
+        domain = query
+        # checks if query includes subdomain
+        if suffixless_query.count(".") > 0:
+            domain = query[suffixless_query.rindex(".") + 1:]
+        return domain
 
-    '''COMMANDS'''
+
+    def is_good_query_result(raw_result):
+        """ Good result is one where the raw_result does not contains `NOT FOUND` or `No match` """
+        return 'NOT FOUND' not in raw_result and 'No match' not in raw_result
 
 
-    def whois_command():
-
-        domain = demisto.args().get('query')
-
-        whois_result = get_whois(domain)
-
+    def create_outputs(whois_result, domain, query=None):
         md = {'Name': domain}
-        ec = {'Name': domain}
+        ec = {'Name': domain,
+              'QueryResult': is_good_query_result(str(whois_result.get('raw', 'NOT FOUND')))}
         standard_ec = {}  # type:dict
         standard_ec['WHOIS'] = {}
         if 'status' in whois_result:
@@ -8476,22 +8634,25 @@ script:
             standard_ec['NameServers'] = whois_result.get('nameservers')
             standard_ec['WHOIS']['NameServers'] = whois_result.get('nameservers')
             md['NameServers'] = whois_result.get('nameservers')
-
         try:
             if 'creation_date' in whois_result:
                 ec['CreationDate'] = whois_result.get('creation_date')[0].strftime('%d-%m-%Y')
                 standard_ec['CreationDate'] = whois_result.get('creation_date')[0].strftime('%d-%m-%Y')
-                standard_ec['WHOIS']['CreationDate'] = whois_result.get('creation_date')[0].strftime('%d-%m-%Y')
+                standard_ec['WHOIS']['CreationDate'] = whois_result.get('creation_date')[0].strftime(
+                    '%d-%m-%Y')
                 md['Creation Date'] = whois_result.get('creation_date')[0].strftime('%d-%m-%Y')
             if 'updated_date' in whois_result:
                 ec['UpdatedDate'] = whois_result.get('updated_date')[0].strftime('%d-%m-%Y')
                 standard_ec['UpdatedDate'] = whois_result.get('updated_date')[0].strftime('%d-%m-%Y')
-                standard_ec['WHOIS']['UpdatedDate'] = whois_result.get('updated_date')[0].strftime('%d-%m-%Y')
+                standard_ec['WHOIS']['UpdatedDate'] = whois_result.get('updated_date')[0].strftime(
+                    '%d-%m-%Y')
                 md['Updated Date'] = whois_result.get('updated_date')[0].strftime('%d-%m-%Y')
             if 'expiration_date' in whois_result:
                 ec['ExpirationDate'] = whois_result.get('expiration_date')[0].strftime('%d-%m-%Y')
-                standard_ec['ExpirationDate'] = whois_result.get('expiration_date')[0].strftime('%d-%m-%Y')
-                standard_ec['WHOIS']['ExpirationDate'] = whois_result.get('expiration_date')[0].strftime(
+                standard_ec['ExpirationDate'] = whois_result.get('expiration_date')[0].strftime(
+                    '%d-%m-%Y')
+                standard_ec['WHOIS']['ExpirationDate'] = whois_result.get('expiration_date')[
+                    0].strftime(
                     '%d-%m-%Y')
                 md['Expiration Date'] = whois_result.get('expiration_date')[0].strftime('%d-%m-%Y')
         except ValueError as e:
@@ -8529,26 +8690,64 @@ script:
 
         standard_ec['Name'] = domain
         standard_ec['Whois'] = ec
+        standard_ec['Whois']['QueryValue'] = query
 
-        context = ({
-            outputPaths['domain']: standard_ec
-        })
+        dbot_score = {
+            'Score': 0,
+            'Indicator': domain,
+            'Type': 'domain',
+            'Vendor': 'Whois'
+        }
+        return md, standard_ec, dbot_score
 
+
+    '''COMMANDS'''
+
+
+    def domain_command():
+        domain = demisto.args().get('domain')
+        whois_result = get_whois(domain)
+        md, standard_ec, dbot_score = create_outputs(whois_result, domain)
         demisto.results({
             'Type': entryTypes['note'],
             'ContentsFormat': formats['markdown'],
             'Contents': str(whois_result),
             'HumanReadable': tableToMarkdown('Whois results for {}'.format(domain), md),
-            'EntryContext': context
+            'EntryContext': {
+                'Domain(val.Name && val.Name == obj.Name)': standard_ec,
+                'DBotScore(val.Indicator && val.Indicator == obj.Indicator && val.Vendor && val.Vendor == obj.Vendor)':
+                    dbot_score
+            }
+        })
+
+
+    def whois_command():
+        query = demisto.args().get('query')
+        domain = get_domain_from_query(query)
+        whois_result = get_whois(domain)
+        md, standard_ec, dbot_score = create_outputs(whois_result, domain, query)
+        demisto.results({
+            'Type': entryTypes['note'],
+            'ContentsFormat': formats['markdown'],
+            'Contents': str(whois_result),
+            'HumanReadable': tableToMarkdown('Whois results for {}'.format(domain), md),
+            'EntryContext': {
+                'Domain(val.Name && val.Name == obj.Name)': standard_ec,
+                'DBotScore(val.Indicator && val.Indicator == obj.Indicator && val.Vendor && val.Vendor == obj.Vendor)':
+                    dbot_score
+            }
         })
 
 
     def test_command():
-        whois_result = get_whois('google.com')
+        whois_result = get_whois('google.co.uk')
 
-        domain_test = whois_result['id'][0]
+        try:
+            domain_test = whois_result['nameservers'][0]
+        except ValueError as e:
+            return_error('Whois did not return the correct result: {}'.format(str(e)))
 
-        if domain_test == '2138514_DOMAIN_COM-VRSN':
+        if domain_test == 'ns1.google.com':
             demisto.results('ok')
 
 
@@ -8570,7 +8769,7 @@ script:
         if not proxy_url:
             return
         scheme, host = (def_scheme, proxy_url) if '://' not in proxy_url else proxy_url.split('://')
-        host, port = (host, None) if ':'  not in host else host.split(':')
+        host, port = (host, None) if ':' not in host else host.split(':')
         if port:
             port = int(port)
         proxy_type = scheme_to_proxy_type.get(scheme)
@@ -8581,21 +8780,27 @@ script:
 
 
     ''' EXECUTION CODE '''
+
+
     def main():
         LOG('command is {}'.format(str(demisto.command())))
         org_socket = socket.socket
+        command = demisto.command()
         try:
             setup_proxy()
-            if demisto.command() == 'test-module':
+            if command == 'test-module':
                 test_command()
-            elif demisto.command() == 'whois':
+            elif command == 'whois':
                 whois_command()
+            elif command == 'domain':
+                domain_command()
         except Exception as e:
             LOG(e)
             return_error(str(e))
         finally:
             socks.set_default_proxy()  # clear proxy settings
             socket.socket = org_socket  # type: ignore
+
 
     # python2 uses __builtin__ python3 uses builtins
     if __name__ == "__builtin__" or __name__ == "builtins":

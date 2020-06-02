@@ -1,0 +1,707 @@
+category: Data Enrichment & Threat Intelligence
+commonfields:
+  id: Digital Guardian
+  version: -1
+configuration:
+- defaultvalue: ""
+  display: Auth Server URL
+  name: auth_url
+  required: true
+  type: 0
+- defaultvalue: ""
+  display: Gateway Base URL
+  name: arc_url
+  required: true
+  type: 0
+- defaultvalue: ""
+  display: API Client ID
+  name: client_id
+  required: true
+  type: 0
+- defaultvalue: ""
+  display: API Client Secret
+  name: client_secret
+  required: true
+  type: 4
+- defaultvalue: ""
+  display: Export Profile
+  name: export_profile
+  required: true
+  type: 0
+- defaultvalue: ""
+  display: Fetch incidents
+  name: isFetch
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Incident type
+  name: incidentType
+  required: false
+  type: 13
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
+  name: insecure
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Use system proxy settings
+  name: proxy
+  required: false
+  type: 8
+contentitemexportablefields:
+  contentitemfields:
+    propagationLabels:
+    - all
+description: Use Digital Guardian Integration to fetch incidents and to programmatically
+  add or remove entries from watchlists and component lists.
+detaileddescription: |+
+  To use Digital Guardian External API calls, you must first get a valid token to use for authentication.
+
+  ### Getting a new Token
+  You must obtain the following values by submitting a request to support@digitalguardian.com
+
+  | **Requested Information** | **Mapped to Integration Field Name** |
+  | --- | --- |
+  | API Client ID | client_id |
+  | API Client Secret | client_secret |
+  | Gateway Base URL | arc_url |
+  | Auth Server URL | auth_url |
+
+  Note:
+  The Export Profile for use with this integration has the ID of 'demisto'.  This Export Profile requires ARC 2.12.0 in order to function properly.
+
+display: Digital Guardian
+image: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFYAAAAsCAYAAAD/709QAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAAsTAAALEwEAmpwYAAARYWlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyIKICAgICAgICAgICAgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIgogICAgICAgICAgICB4bWxuczpleGlmPSJodHRwOi8vbnMuYWRvYmUuY29tL2V4aWYvMS4wLyIKICAgICAgICAgICAgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIgogICAgICAgICAgICB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIKICAgICAgICAgICAgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIKICAgICAgICAgICAgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiCiAgICAgICAgICAgIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyI+CiAgICAgICAgIDx0aWZmOlJlc29sdXRpb25Vbml0PjI8L3RpZmY6UmVzb2x1dGlvblVuaXQ+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgICAgIDxwaG90b3Nob3A6SUNDUHJvZmlsZT5zUkdCIElFQzYxOTY2LTIuMTwvcGhvdG9zaG9wOklDQ1Byb2ZpbGU+CiAgICAgICAgIDxwaG90b3Nob3A6Q29sb3JNb2RlPjM8L3Bob3Rvc2hvcDpDb2xvck1vZGU+CiAgICAgICAgIDxleGlmOlBpeGVsWERpbWVuc2lvbj4zMTMzPC9leGlmOlBpeGVsWERpbWVuc2lvbj4KICAgICAgICAgPGV4aWY6Q29sb3JTcGFjZT4xPC9leGlmOkNvbG9yU3BhY2U+CiAgICAgICAgIDxleGlmOlBpeGVsWURpbWVuc2lvbj4xNjAwPC9leGlmOlBpeGVsWURpbWVuc2lvbj4KICAgICAgICAgPGRjOmZvcm1hdD5pbWFnZS9qcGVnPC9kYzpmb3JtYXQ+CiAgICAgICAgIDx4bXBNTTpPcmlnaW5hbERvY3VtZW50SUQ+eG1wLmRpZDphODExMmUyNy0wNDQ4LWM4NDctODQ5Zi0zYWQ2NzQzZjlhZTY8L3htcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD4KICAgICAgICAgPHhtcE1NOkhpc3Rvcnk+CiAgICAgICAgICAgIDxyZGY6U2VxPgogICAgICAgICAgICAgICA8cmRmOmxpIHJkZjpwYXJzZVR5cGU9IlJlc291cmNlIj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OnNvZnR3YXJlQWdlbnQ+QWRvYmUgUGhvdG9zaG9wIENDIDIwMTQgKFdpbmRvd3MpPC9zdEV2dDpzb2Z0d2FyZUFnZW50PgogICAgICAgICAgICAgICAgICA8c3RFdnQ6d2hlbj4yMDE1LTAyLTA0VDE2OjAyOjMwLTA1OjAwPC9zdEV2dDp3aGVuPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6aW5zdGFuY2VJRD54bXAuaWlkOmE4MTEyZTI3LTA0NDgtYzg0Ny04NDlmLTNhZDY3NDNmOWFlNjwvc3RFdnQ6aW5zdGFuY2VJRD4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OmFjdGlvbj5jcmVhdGVkPC9zdEV2dDphY3Rpb24+CiAgICAgICAgICAgICAgIDwvcmRmOmxpPgogICAgICAgICAgICAgICA8cmRmOmxpIHJkZjpwYXJzZVR5cGU9IlJlc291cmNlIj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OnNvZnR3YXJlQWdlbnQ+QWRvYmUgUGhvdG9zaG9wIENDIDIwMTQgKFdpbmRvd3MpPC9zdEV2dDpzb2Z0d2FyZUFnZW50PgogICAgICAgICAgICAgICAgICA8c3RFdnQ6Y2hhbmdlZD4vPC9zdEV2dDpjaGFuZ2VkPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6d2hlbj4yMDE1LTAyLTA0VDE2OjAzOjIyLTA1OjAwPC9zdEV2dDp3aGVuPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6aW5zdGFuY2VJRD54bXAuaWlkOmE1NzAyN2FiLTg5MDctOTg0Ny1iNjE1LWIxM2FmY2QxOTg3OTwvc3RFdnQ6aW5zdGFuY2VJRD4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OmFjdGlvbj5zYXZlZDwvc3RFdnQ6YWN0aW9uPgogICAgICAgICAgICAgICA8L3JkZjpsaT4KICAgICAgICAgICAgICAgPHJkZjpsaSByZGY6cGFyc2VUeXBlPSJSZXNvdXJjZSI+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDpzb2Z0d2FyZUFnZW50PkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE1IChXaW5kb3dzKTwvc3RFdnQ6c29mdHdhcmVBZ2VudD4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OmNoYW5nZWQ+Lzwvc3RFdnQ6Y2hhbmdlZD4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OndoZW4+MjAxNS0wOC0yNlQxMDozNDo1OS0wNDowMDwvc3RFdnQ6d2hlbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0Omluc3RhbmNlSUQ+eG1wLmlpZDpjNjBjMDlkMi1iYmE1LTIxNDItOGU5OS0xZWE2MDdmYWY0ZTk8L3N0RXZ0Omluc3RhbmNlSUQ+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDphY3Rpb24+c2F2ZWQ8L3N0RXZ0OmFjdGlvbj4KICAgICAgICAgICAgICAgPC9yZGY6bGk+CiAgICAgICAgICAgICAgIDxyZGY6bGkgcmRmOnBhcnNlVHlwZT0iUmVzb3VyY2UiPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6YWN0aW9uPmNvbnZlcnRlZDwvc3RFdnQ6YWN0aW9uPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6cGFyYW1ldGVycz5mcm9tIGFwcGxpY2F0aW9uL3ZuZC5hZG9iZS5waG90b3Nob3AgdG8gaW1hZ2UvanBlZzwvc3RFdnQ6cGFyYW1ldGVycz4KICAgICAgICAgICAgICAgPC9yZGY6bGk+CiAgICAgICAgICAgICAgIDxyZGY6bGkgcmRmOnBhcnNlVHlwZT0iUmVzb3VyY2UiPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6YWN0aW9uPmRlcml2ZWQ8L3N0RXZ0OmFjdGlvbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OnBhcmFtZXRlcnM+Y29udmVydGVkIGZyb20gYXBwbGljYXRpb24vdm5kLmFkb2JlLnBob3Rvc2hvcCB0byBpbWFnZS9qcGVnPC9zdEV2dDpwYXJhbWV0ZXJzPgogICAgICAgICAgICAgICA8L3JkZjpsaT4KICAgICAgICAgICAgICAgPHJkZjpsaSByZGY6cGFyc2VUeXBlPSJSZXNvdXJjZSI+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDpzb2Z0d2FyZUFnZW50PkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE1IChXaW5kb3dzKTwvc3RFdnQ6c29mdHdhcmVBZ2VudD4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OmNoYW5nZWQ+Lzwvc3RFdnQ6Y2hhbmdlZD4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OndoZW4+MjAxNS0wOC0yNlQxMDozNDo1OS0wNDowMDwvc3RFdnQ6d2hlbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0Omluc3RhbmNlSUQ+eG1wLmlpZDpkNTllYTIzZC02NjlmLTI2NGItYWYzYS1lZWM1N2JlMWZiNTg8L3N0RXZ0Omluc3RhbmNlSUQ+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDphY3Rpb24+c2F2ZWQ8L3N0RXZ0OmFjdGlvbj4KICAgICAgICAgICAgICAgPC9yZGY6bGk+CiAgICAgICAgICAgIDwvcmRmOlNlcT4KICAgICAgICAgPC94bXBNTTpIaXN0b3J5PgogICAgICAgICA8eG1wTU06SW5zdGFuY2VJRD54bXAuaWlkOmQ1OWVhMjNkLTY2OWYtMjY0Yi1hZjNhLWVlYzU3YmUxZmI1ODwveG1wTU06SW5zdGFuY2VJRD4KICAgICAgICAgPHhtcE1NOkRvY3VtZW50SUQ+YWRvYmU6ZG9jaWQ6cGhvdG9zaG9wOjljYjYxM2IwLTRiZmYtMTFlNS1hZWYzLTg5Mjc2NzczMjBlMzwveG1wTU06RG9jdW1lbnRJRD4KICAgICAgICAgPHhtcE1NOkRlcml2ZWRGcm9tIHJkZjpwYXJzZVR5cGU9IlJlc291cmNlIj4KICAgICAgICAgICAgPHN0UmVmOmRvY3VtZW50SUQ+YWRvYmU6ZG9jaWQ6cGhvdG9zaG9wOjZmYjM5MGNjLWFjYjEtMTFlNC1iNDhiLWVhOWZjNzhmYWZhNDwvc3RSZWY6ZG9jdW1lbnRJRD4KICAgICAgICAgICAgPHN0UmVmOm9yaWdpbmFsRG9jdW1lbnRJRD54bXAuZGlkOmE4MTEyZTI3LTA0NDgtYzg0Ny04NDlmLTNhZDY3NDNmOWFlNjwvc3RSZWY6b3JpZ2luYWxEb2N1bWVudElEPgogICAgICAgICAgICA8c3RSZWY6aW5zdGFuY2VJRD54bXAuaWlkOmM2MGMwOWQyLWJiYTUtMjE0Mi04ZTk5LTFlYTYwN2ZhZjRlOTwvc3RSZWY6aW5zdGFuY2VJRD4KICAgICAgICAgPC94bXBNTTpEZXJpdmVkRnJvbT4KICAgICAgICAgPHhtcDpDcmVhdGVEYXRlPjIwMTUtMDItMDRUMTY6MDI6MzAtMDU6MDA8L3htcDpDcmVhdGVEYXRlPgogICAgICAgICA8eG1wOk1ldGFkYXRhRGF0ZT4yMDE1LTA4LTI2VDEwOjM0OjU5LTA0OjAwPC94bXA6TWV0YWRhdGFEYXRlPgogICAgICAgICA8eG1wOkNyZWF0b3JUb29sPkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE1IChXaW5kb3dzKTwveG1wOkNyZWF0b3JUb29sPgogICAgICAgICA8eG1wOk1vZGlmeURhdGU+MjAxNS0wOC0yNlQxMDozNDo1OS0wNDow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
+name: Digital Guardian
+script:
+  commands:
+  - arguments:
+    - description: Watchlist Name
+      name: watchlist_name
+      required: true
+    - description: Watchlist Entry
+      name: watchlist_entry
+      required: true
+    description: Add Watchlist Entry
+    name: digitalguardian-add-watchlist-entry
+  - arguments:
+    - description: Watchlist Name
+      name: watchlist_name
+      required: true
+    - description: Watchlist Entry
+      name: watchlist_entry
+      required: true
+    description: Check Watchlist Entry
+    name: digitalguardian-check-watchlist-entry
+    outputs:
+    - contextPath: DigitalGuardian.Watchlist.Found
+      description: Watchlist Found
+      type: boolean
+  - arguments:
+    - description: Watchlist Name
+      name: watchlist_name
+      required: true
+    - description: Watchlist Entry
+      name: watchlist_entry
+    description: Remove Watchlist Entry
+    name: digitalguardian-remove-watchlist-entry
+  - arguments:
+    - description: Componentlist Name
+      name: componentlist_name
+      required: true
+    - description: Componentlist Entry
+      name: componentlist_entry
+      required: true
+    description: Add Componentlist Entry
+    name: digitalguardian-add-componentlist-entry
+  - arguments:
+    - description: Componentlist Name
+      name: componentlist_name
+      required: true
+    - description: Componentlist Entry
+      name: componentlist_entry
+      required: true
+    description: Check Componentlist Entry
+    name: digitalguardian-check-componentlist-entry
+    outputs:
+    - contextPath: DigitalGuardian.Componentlist.Found
+      description: Componentlist Found
+      type: boolean
+  - arguments:
+    - description: Componentlist Name
+      name: componentlist_name
+      required: true
+    - description: Componentlist Entry
+      name: componentlist_entry
+      required: true
+    description: Remove Componentlist Entry
+    name: digitalguardian-remove-componentlist-entry
+  dockerimage: demisto/python3:3.8.2.6981
+  isfetch: true
+  runonce: false
+  script: |2
+
+    import json
+    import requests
+    from typing import List, Dict, Any, Union
+
+    # Disable insecure warnings
+    requests.packages.urllib3.disable_warnings()
+
+    '''Constants'''
+    CATEGORY = 'alarm'  # only focus on alarms
+
+    '''Globals'''
+    AUTH_SERVER: str
+    AUTH_URL: str
+    ARC_URL: str
+    CLIENT_ID: str
+    CLIENT_SECRET: str
+    AUTH_HEADERS: dict
+    CLIENT_HEADERS: dict
+    VERIFY_CERT: bool
+    PROXY: bool
+
+
+    def init_globals():
+        """
+
+        :return: void
+        """
+
+        global AUTH_SERVER, AUTH_URL, ARC_URL, CLIENT_ID, CLIENT_SECRET, AUTH_HEADERS, CLIENT_HEADERS, VERIFY_CERT, PROXY
+
+        AUTH_SERVER = demisto.getParam('auth_url')
+        AUTH_URL = AUTH_SERVER + '/as/token.oauth2'
+        ARC_URL = demisto.getParam('arc_url')
+        ARC_URL += '/rest/1.0'
+
+        CLIENT_ID = demisto.getParam('client_id')
+        CLIENT_SECRET = demisto.getParam('client_secret')
+        VERIFY_CERT = not demisto.params().get('insecure', False)
+        AUTH_HEADERS = {'Content-Type': 'application/x-www-form-urlencoded'}
+        CLIENT_HEADERS = {'Authorization': ''}
+        PROXY = demisto.getParam('proxy')
+
+        handle_proxy()
+
+
+    def request_api_token():
+        """
+        Request an API token from the authentication server.
+        Token is injected into global CLIENT_HEADERS.
+        """
+        payload = {
+            'client_id': CLIENT_ID,
+            'client_secret': CLIENT_SECRET,
+            'grant_type': 'client_credentials',
+            'scope': 'client'
+        }
+
+        r = requests.post(url=AUTH_URL, headers=AUTH_HEADERS, data=payload, verify=VERIFY_CERT)
+        response_json = r.json()
+        if 200 <= r.status_code <= 299:
+            api_key = response_json['access_token']
+            CLIENT_HEADERS['Authorization'] = 'Bearer ' + api_key
+        else:
+            return_error(f'Error in request_api_token [{r.status_code}] - {r.reason}')
+
+
+    def test_module():
+        """
+        Performs basic get request to get item samples
+        """
+        r = requests.get(url=ARC_URL + '/watchlists', headers=CLIENT_HEADERS, verify=VERIFY_CERT)
+        try:
+            _ = r.json() if r.text else {}
+            if not r.ok:
+                return_error(f'Cannot connect to ARC, Response {r.status_code}: {r.text}')
+            demisto.results('ok')
+        except TypeError as ex:
+            return_error(str(ex))
+
+
+    def get_watchlist_id(watchlist_name: str) -> str:
+        """
+        Get the watchlist id by watchlist name.
+        :param watchlist_name:
+        :return: watchlist id
+        """
+        full_url = ARC_URL + '/watchlists/'
+        r = requests.get(url=full_url, headers=CLIENT_HEADERS, verify=VERIFY_CERT)
+        json_text = json.loads(r.text)
+        list_id = None
+        if 200 <= r.status_code <= 299:
+            for item in json_text:
+                if item.get('display_name').lower() == watchlist_name.lower():
+                    list_id = item.get('name')
+        else:
+            return_error(f'Error retrieving watchlist_id for {watchlist_name}, {r.status_code}: {r.text}')
+
+        if not list_id:
+            return_error(f'Unable to find watchlist_id for {watchlist_name}')
+
+        return str(list_id)
+
+
+    def get_list_id(list_name: str, list_type: str) -> str:
+        """
+        Get List ID by name and type
+        """
+        full_url = ARC_URL + '/lists/' + list_type
+        r = requests.get(url=full_url, headers=CLIENT_HEADERS, verify=VERIFY_CERT)
+        json_text = json.loads(r.text)
+        list_id = None
+        if 200 <= r.status_code <= 299:
+            for jText in json_text:
+                if str(jText['name']).lower() == list_name.lower():
+                    list_id = jText['id']
+        else:
+            return_error(f'Error retrieving list_id for {list_name}, {r.status_code}: {r.text}')
+
+        if not list_id:
+            return_error(f'List id not found for name {list_name} and type {list_type}')
+
+        return str(list_id)
+
+
+    def get_watchlist_entry_id(watchlist_name: str, watchlist_entry: str) -> str:
+        """
+        Get watchlist entry id by list name and entry
+
+        :param watchlist_name:
+        :param watchlist_entry:
+
+        :return: ID of watchlist entry
+        """
+        if watchlist_name is None or watchlist_entry is None:
+            return_error('Please provide both watchlist_name and watchlist_entry')
+
+        watchlist_entry_id = None
+        watchlist_id = get_watchlist_id(watchlist_name)
+
+        if watchlist_id:
+            full_url = ARC_URL + '/watchlists/'
+            r = requests.get(url=full_url + watchlist_id + '/values?limit=100000', headers=CLIENT_HEADERS,
+                             verify=VERIFY_CERT)
+            json_text = json.loads(r.text)
+            if r.status_code != requests.codes.ok:
+                return_error('Unable to retrieve watchlist entries')
+            for jText in json_text:
+                if str(jText['value_name']).lower() == watchlist_entry.lower():
+                    watchlist_entry_id = jText['value_id']
+
+        return str(watchlist_entry_id)
+
+
+    def add_entry_to_componentlist():
+        """
+        Add componentlist_entry to component list identified by componentlist_name
+        """
+        componentlist_name = demisto.args().get('componentlist_name', None)
+        componentlist_entry = demisto.args().get('componentlist_entry', None)
+
+        if componentlist_name is None or componentlist_entry is None:
+            return_error('Please provide both componentlist_name and componentlist_entry')
+        else:
+            list_id = get_list_id(componentlist_name, 'component_list')
+            CLIENT_HEADERS['Content-Type'] = 'application/json'
+            if list_id:
+                full_url = ARC_URL + '/remediation/lists/'
+                list_entry_json = '{"items":["' + componentlist_entry + '"]}'
+                r = requests.put(url=full_url + list_id + '/append', headers=CLIENT_HEADERS, data=list_entry_json,
+                                 verify=VERIFY_CERT)
+                if 200 <= r.status_code <= 299:
+                    demisto.results('added componentlist entry ({}) to componentlist name ({})'.format(componentlist_entry,
+                                                                                                       componentlist_name))
+                else:
+                    return_error(
+                        'Failed to add componentlist entry({}) to componentlist name ({}). The response failed with status '
+                        'code {}. The '
+                        'response was: {}'.format(componentlist_entry, componentlist_name, r.status_code, r.text))
+            else:
+                return_error('Failed to find componentlist name ({})').format(componentlist_name)
+
+
+    def check_componentlist_entry():
+        """
+        Does the componentlist_entry exist in the component list identified by componentlist_name
+
+        Sets DigitalGuardian.Componentlist.Found flag.
+        """
+        componentlist_name = demisto.args().get('componentlist_name', None)
+        componentlist_entry = demisto.args().get('componentlist_entry', None)
+        if componentlist_name is None or componentlist_entry is None:
+            return_error('Please provide both componentlist_name and componentlist_entry')
+
+        componentlist = None
+        list_id = get_list_id(componentlist_name, 'component_list')
+        if list_id:
+            full_url = ARC_URL + '/lists/'
+            r = requests.get(url=full_url + list_id + '/values?limit=100000', headers=CLIENT_HEADERS, verify=VERIFY_CERT)
+            json_text = json.loads(r.text)
+
+            if 200 <= r.status_code <= 299:
+                for jText in json_text:
+                    if str(jText['content_value']).lower() == componentlist_entry.lower():
+                        componentlist = jText['content_value']
+            else:
+                return_error(f'Unable to find componentlist named {componentlist_name}, {r.status_code}')
+
+        if componentlist:
+            return_outputs(readable_output='Componentlist found', outputs={
+                'DigitalGuardian.Componentlist.Found': True}, raw_response='Componentlist entry not found')
+        else:
+            return_outputs(readable_output='Componentlist not found', outputs={
+                'DigitalGuardian.Componentlist.Found': False}, raw_response='Componentlist entry not found')
+
+
+    def rm_entry_from_componentlist():
+        """
+        Remove entry from component list
+        """
+        componentlist_name = demisto.args().get('componentlist_name', None)
+        componentlist_entry = demisto.args().get('componentlist_entry', None)
+        if componentlist_name is None or componentlist_entry is None:
+            return_error('Please provide either componentlist_name and componentlist_entry')
+
+        list_id = get_list_id(componentlist_name, 'component_list')
+        full_url = ARC_URL + '/remediation/lists/'
+        CLIENT_HEADERS['Content-Type'] = 'application/json'
+        list_entry_json = '{"items":["' + componentlist_entry + '"]}'
+        r = requests.post(url=full_url + list_id + '/delete', headers=CLIENT_HEADERS, data=list_entry_json,
+                          verify=VERIFY_CERT)
+        if 200 <= r.status_code <= 299:
+            demisto.results('removed componentlist entry ({}) from componentlist name ({})'.format(componentlist_entry,
+                                                                                                   componentlist_name))
+        else:
+            return_error(
+                'Failed to remove componentlist entry({}) from componentlist name ({}). The response failed with '
+                'status code {}. The response was: {}'.format(componentlist_entry, componentlist_name, r.status_code,
+                                                              r.text))
+
+
+    def add_entry_to_watchlist():
+        """
+        Add watchlist_entry to watchlist_name
+        """
+        watchlist_name = demisto.args().get('watchlist_name', None)
+        watchlist_entry = demisto.args().get('watchlist_entry', None)
+        if watchlist_name is None or watchlist_entry is None:
+            return_error('Please provide both watchlist_name and watchlist_entry')
+
+        watchlist_id = get_watchlist_id(watchlist_name)
+        watchlist_entry_json = '[{"value_name":"' + watchlist_entry + '"}]'
+        full_url = ARC_URL + '/watchlists/'
+        r = requests.post(url=full_url + watchlist_id + '/values/', data=watchlist_entry_json,
+                          headers=CLIENT_HEADERS, verify=VERIFY_CERT)
+        if 200 <= r.status_code <= 299:
+            demisto.results('added watchlist entry ({}) to watchlist name ({})'.format(watchlist_entry, watchlist_name))
+        else:
+            return_error(
+                'Failed to add watchlist entry({}) to watchlist name ({}). The response failed with status code {}. '
+                'The response was: {}'.format(watchlist_entry, watchlist_name, r.status_code, r.text))
+
+
+    def check_watchlist_entry():
+        """
+        Does the watchlist_entry exist in the watchlist identified by watchlist_name?
+
+        Sets DigitalGuardian.Watchlist.Found flag
+        """
+        watchlist_name = demisto.args().get('watchlist_name', None)
+        watchlist_entry = demisto.args().get('watchlist_entry', None)
+        if watchlist_name is None or watchlist_entry is None:
+            return_error('Please provide both watchlist_name and watchlist_entry')
+
+        watchlist_entry_id = get_watchlist_entry_id(watchlist_name, watchlist_entry)
+
+        if watchlist_entry_id:
+            return_outputs(readable_output='Watchlist found', outputs={'DigitalGuardian.Watchlist.Found': True},
+                           raw_response='Watchlist found')
+        else:
+            return_outputs(readable_output='Watchlist not found', outputs={
+                'DigitalGuardian.Watchlist.Found': False}, raw_response='Watchlist not found')
+
+
+    def rm_entry_from_watchlist():
+        """
+        Remove watchlist_entry from watchlist identified by watchlist_name
+        """
+        watchlist_name = demisto.args().get('watchlist_name', None)
+        watchlist_entry = demisto.args().get('watchlist_entry', None)
+        if watchlist_name is None or watchlist_entry is None:
+            return_error('Please provide both watchlist_name and watchlist_entry')
+        watchlist_id = get_watchlist_id(watchlist_name)
+        watchlist_entry_id = get_watchlist_entry_id(watchlist_name, watchlist_entry)
+        demisto.debug('wli= ' + str(watchlist_entry_id) + ' wld=' + str(watchlist_id))
+        full_url = ARC_URL + '/watchlists/'
+        r = requests.delete(url=full_url + watchlist_id + '/values/' + watchlist_entry_id,
+                            headers=CLIENT_HEADERS, verify=VERIFY_CERT)
+        if 200 <= r.status_code <= 299:
+            demisto.results(
+                'removed watchlist entry ({}) from watchlist name ({})'.format(watchlist_entry, watchlist_name))
+        else:
+            return_error(
+                'Failed to remove watchlist entry({}) from watchlist name ({}). The response failed with status code {}. '
+                'The response was: {}'.format(watchlist_entry, watchlist_name, r.status_code, r.text))
+
+
+    def get_items_request():
+        """
+        Request data from export profile.
+        """
+        incident_list = []
+        oldname = ''
+
+        export_profile = demisto.params().get('export_profile', None)
+
+        if export_profile is None:
+            return_error('Export Profile parameter is required')
+
+        full_url = ARC_URL + '/export_profiles/' + export_profile + '/export_and_ack'
+        r = requests.post(url=full_url, headers=CLIENT_HEADERS, verify=VERIFY_CERT)
+        json_text = json.loads(r.text)
+
+        if r.status_code == 200:
+            header_field = []
+
+            for field in json_text['fields']:
+                header_field.append(field['name'])
+            exportdata = []
+            if json_text['total_hits'] == 0:
+                DEBUG('found no data')
+            else:
+                DEBUG('found data')
+
+                for data in json_text['data']:
+                    entry_line = {}
+                    header_position = 0
+
+                    for dataValue in data:
+                        entry_line[header_field[header_position]] = dataValue
+                        header_position += 1
+                    exportdata.append(entry_line)
+
+                for items in exportdata:
+                    if not (items['dg_alert.dg_detection_source']) == 'alert' and items['dg_tags']:
+                        comm = items['dg_alarm_name'].find(',')
+                        if comm == -1:
+                            comm = 100
+                        name = '{alarm_name}-{id}'.format(alarm_name=items['dg_alarm_name'][0:comm], id=items['dg_guid'])
+                        DEBUG(name + " != " + oldname)
+                        if name != oldname:
+                            DEBUG("create_artifacts...")
+                            artifacts_creation_msg = create_artifacts(alert=items)
+                            if artifacts_creation_msg:
+                                incident_list.append(artifacts_creation_msg)
+                            oldname = name
+                return incident_list
+        else:
+            return_error('DigitalGuardian ARC Export Failed '
+                         'Please check authentication related parameters. ' + json.dumps(r.json(), indent=4,
+                                                                                         sort_keys=True))
+
+
+    def convert_to_demisto_severity(dg_severity: str) -> int:
+        """
+        Convert dg_severity to demisto severity
+
+        :param dg_severity:
+        :return: int demisto severity
+        """
+
+        severity_map = {
+            'Critical': 4,
+            'High': 3,
+            'Medium': 2,
+        }
+
+        return severity_map.get(dg_severity, 1)
+
+
+    def convert_to_demisto_class(was_classified: str) -> int:
+        """
+        Convert was_classified to demisto classification
+        :param was_classified:
+        :return:
+        """
+        if was_classified == 'Yes':
+            demisto_class = 1
+        else:
+            demisto_class = 0
+        return demisto_class
+
+
+    def convert_to_demisto_sensitivity(dg_classification: str) -> str:
+        """
+        Convert dg_classification to demisto sensitivity
+        :param dg_classification:
+        :return:
+        """
+        demisto_sensitivity = 'none'
+
+        if dg_classification:
+            if dg_classification[-3:] == 'ext':
+                demisto_sensitivity = 'Critical'
+            elif dg_classification[-3:] == 'IGH':
+                demisto_sensitivity = 'High'
+            elif dg_classification[-3:] == 'MED':
+                demisto_sensitivity = 'Medium'
+            elif dg_classification[-3:] == 'LOW':
+                demisto_sensitivity = 'Low'
+
+        return demisto_sensitivity
+
+
+    def DEBUG(msg: str):
+        demisto.debug("-----=====***** " + msg + " *****=====-----")
+
+
+    def create_artifacts(alert):
+        """
+        Create artifacts
+        :param alert:
+        :return:
+        """
+        artifacts_list = {}
+        specific_alert_mapping = {
+            'alarm': {
+                'Alarm_Name': ('dg_alarm_name', []),
+                'Alarm_Severity': ('dg_alarm_sev', []),
+                'Threat_Type': ('dg_tags', []),
+                'Detection_Name': ('dg_det_name', []),
+                'Alert_Category': ('dg_alert.dg_category_name', []),
+                'Policy_Name': ('dg_alert.dg_alert.dg_alert.dg_policy.dg_name', []),
+                'Action_Was_Blocked': ('dg_alert.dg_hc', []),
+                'File_Name': ('dg_src_file_name', ['fileName']),
+                'File_Size': ('dg_alert.dg_total_size', ['fileSize']),
+                'File_Was_Classified': ('dg_hc', []),
+                'Classification': ('dg_class.dg_name', []),
+                'File_Type': ('dg_src_file_ext', []),
+                'File_Path': ('dg_alert.uad_sp', []),
+                'Destination_File_Path': ('dg_alert.uad_dp', []),
+                'Process_Name': ('dg_proc_file_name', []),
+                'Parent_Process_Name': ('dg_parent_name', []),
+                'Process_Path': ('pi_fp', []),
+                'Command_Line': ('pi_cmdln', []),
+                'MD5': ('dg_md5', ['filehash']),
+                'SHA1': ('dg_sha1', ['filehash']),
+                'SHA256': ('dg_sha256', ['filehash']),
+                'VirusTotal_Status': ('dg_vt_status', []),
+                'Attachment_File_Name': ('dg_attachments.dg_src_file_name', []),
+                'Attachment_Was_Classified': ('dg_attachments.uad_sfc', []),
+                'Email_Subject': ('ua_msb', []),
+                'Email_Sender': ('ua_ms', []),
+                'Email_Recipient': ('dg_recipients.uad_mr', []),
+                'Email_Recipient_Domain': ('dg_recipients.dg_rec_email_domain', []),
+                'Destination_Address': ('ua_ra', []),
+                'Request_URL': ('ua_up', []),
+                'Destination_DNS_Domain': ('ua_hn', []),
+                'Remote_Port': ('ua_rp', []),
+                'Computer_Name': ('dg_machine_name', []),
+                'Computer_Type': ('dg_machine_type', []),
+                'Source_Host_Name': ('dg_shn', []),
+                'Source_IP': ('ua_sa', []),
+                'Source_Address': ('ua_sa', []),
+                'User_Name': ('dg_user', []),
+                'NTDomain': ('ua_dn', []),
+                'dgarcUID': ('dg_guid', []),
+                'dg_process_time': ('dg_process_time', []),
+                'Activity': ('dg_utype', []),
+                'os_version': ('os_version', []),
+                'Policy': ('dg_alert.dg_policy.dg_name', []),
+                'Printer_Name': ('uad_pn', []),
+                'os': ('os', []),
+                'browser': ('browser', []),
+                'App_Category': ('appcategory', []),
+            }
+        }
+
+        DEBUG("before alert")
+        DEBUG(json.dumps(alert))
+        if CATEGORY in specific_alert_mapping:
+            temp_dict: Dict[Union[str, Any], Union[Union[str, int], Any]] = {}
+            cef: Dict[Union[str, Any], Union[Union[str, int], Any]] = {}
+            cef_types = {}
+            cef['Vendor ID'] = 'DG'
+            cef['Vendor Product'] = 'Digital Guardian'
+            cef['severity'] = convert_to_demisto_severity(alert['dg_alarm_sev'])
+            cef['sensitivity'] = convert_to_demisto_sensitivity(alert['dg_class.dg_name'])
+
+            DEBUG("cef: " + json.dumps(cef))
+            for artifact_key, artifact_tuple in specific_alert_mapping.get(CATEGORY).items():  # type: ignore
+                if alert.get(artifact_tuple[0]):
+                    cef[artifact_key] = alert[artifact_tuple[0]]
+                    cef_types[artifact_key] = artifact_tuple[1]
+            if cef:
+                comm = alert['dg_alarm_name'].find(',')
+                if comm == -1:
+                    comm = 100
+                name = '{alarm_name}-{id}'.format(alarm_name=alert['dg_alarm_name'][0:comm], id=alert['dg_guid'])
+                temp_dict['name'] = name
+                temp_dict['severity'] = convert_to_demisto_severity(alert['dg_alarm_sev'])
+                temp_dict['type'] = alert['dg_tags']
+                temp_dict['occurred'] = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+                temp_dict['rawJSON'] = json.dumps(cef)
+                artifacts_list.update(temp_dict)
+        return artifacts_list
+
+
+    def fetch_incidents():
+        """
+        Fetch incidents from the ARC
+        :return:
+        """
+        incidents = []  # type: List
+        demisto.debug(incidents)
+        incidents = get_items_request()
+        DEBUG('fetching incidents')
+        demisto.debug(incidents)
+        demisto.incidents(incidents)
+
+
+    def main():
+        """
+        Main
+        """
+
+        commands = {
+            'test-module': test_module,
+
+            'fetch-incidents': fetch_incidents,
+
+            'digitalguardian-add-watchlist-entry': add_entry_to_watchlist,
+            'digitalguardian-check-watchlist-entry': check_watchlist_entry,
+            'digitalguardian-remove-watchlist-entry': rm_entry_from_watchlist,
+
+            'digitalguardian-add-componentlist-entry': add_entry_to_componentlist,
+            'digitalguardian-check-componentlist-entry': check_componentlist_entry,
+            'digitalguardian-remove-componentlist-entry': rm_entry_from_componentlist,
+        }
+
+        try:
+            init_globals()
+
+            command = demisto.command()
+
+            LOG(f'Command being called is {command}')
+
+            if command not in commands:
+                return_error(f'Command "{command}" not implemented')
+
+            command_fn = commands[command]
+
+            request_api_token()
+
+            command_fn()
+
+        except Exception as e:
+            return_error(e)
+
+
+    if __name__ in ('__main__', '__builtin__', 'builtins'):
+        main()
+  subtype: python3
+  type: python
+system: true

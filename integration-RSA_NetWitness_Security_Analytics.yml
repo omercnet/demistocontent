@@ -28,7 +28,7 @@ configuration:
   name: incidentType
   required: false
   type: 13
-- defaultvalue: "false"
+- defaultvalue: ""
   display: Use system proxy settings
   name: proxy
   required: false

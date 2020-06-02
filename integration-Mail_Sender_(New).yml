@@ -28,11 +28,18 @@ configuration:
   name: fqdn
   required: false
   type: 0
-- defaultvalue: "false"
-  display: Use TLS for connection
+- additionalinfo: The connection security. The `SSL/TLS` first establishes a secure
+    `SSL/TLS` connection and conducts SMTP over that connection, and STARTTLS starts
+    with unencrypted SMTP and then switches to SSL/TLS to ensure security.
+  defaultvalue: None
+  display: Connection Security
   name: tls
+  options:
+  - None
+  - STARTTLS
+  - SSL/TLS
   required: false
-  type: 8
+  type: 15
 - defaultvalue: "false"
   display: Trust any certificate (not secure)
   name: insecure
@@ -53,7 +60,7 @@ detaileddescription: |
 
     Implemented in Python to support extensions.
 display: Mail Sender (New)
-image: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAAAnCAYAAAClpK6yAAADnklEQVR4Ae2aA5DsSBzG/2fbtgvnK5+tyWzNlc62bY3ORnfWZ9sons1nO521lZcvj52XxXTyppOq+VV9O0q6v/mNgqWlOM4q1FKzK9nseGqqPjGWQTd0RFetWNUHk+D/kcWcRARdRe0hpIVWc3e3RCeKJCydXveyI/g7KJDIoHvZsfjc5Up8QoLvg1culmlje5Lgby/ti+7lRn7F2J0UdwS/WuqsVZjFX0yAsGyMhLFfEyDsi/gIQ2y2H8UVdBNsMF7CLP4KxRFsrFrsoxX6qpJ5dn2MGV4YYldXUdwQZiGwqwqp7P1uOsnI/U9VxYPDCkPayeJHUFywzEvQKxJhRu56V5azXJohLawwpIus6tNIN4IZJPhAhML+gSh1aVIBPte3JT1Etnm3lp1dzGnze9AhsKO6sDwkqUuTvrvMa8hmLwT8EHxITW9sRGUCc2HOgF2h59ExlLCLX1yDUrl31aVJhdhVi++7z/fKIhPKssmBOTCX/52OTgAd1YTJ0ozse2rSgoSBJnYKCd4sS+MdZLMzaGWBsTGHLKvZ6wIiECZLy70/irQShIGWut3c+/8I2Lh9mJw3VqOowFgY0z8P5kYHUKqwzGObkpE/gVKFE4eNUTidjOy00qQFCpOezDokeH3A98nX1PbK5hQSjIGxAsav9+YGpQozivtgO0sWoBBZ2ujCJAS/zE2vb/npOFob6kgvxpBF9XpzSZQqLH9LGFFS8A6811m1dGFA1BxGgs/2fa91k83Po1LBOlhXljXbmwOEEZbK3xONMCQ3ROnHt1ETBjobtyHBvw/4CD01lu81LINlA9b/3hsbhBVmFM6OUNjLKh9JGeeTtUjwmoAn/QW1vLwJDQMewzIB69V4Y4IohJ318Hpk5BilchNHjZFrGUHYB5R5Y82wwqTybvp9T34GCfNo8oP78Jg8X780p5owddL5QyBsNFnRCQNW9ZEkuAjYO/iYbPN8BNcDNhksb12gQZiCrIiEgebanaXttdHzh7cO0CBMQVbEwoDz4bok+IM4yjHiERAsg2WBDmFV+QMUZEUqTMau2cHbahfsJzf9CK7jPu8xCQ3CjNwX6rKiFybjNKznRSZmwmRZCsI0oO0jObqsijCQKe7linqW0tmrJFkVYWGpCKsI01CA2/IxqG9Xp5iCbtKxOXTX9b8KSQy6axBmHiqd90tK0BndtSB42o1IkCzhddYKzgXa1ceR4FfgizWWQTebHe911cRCh1Cc6uYeYY0AAAAASUVORK5CYII=
+image: data:image/png;base64,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
 name: Mail Sender (New)
 script:
   commands:
@@ -119,7 +126,7 @@ script:
     description: Send an email
     name: send-mail
   runonce: false
-  script: |2-
+  script: |2
 
 
     from email.mime.audio import MIMEAudio
@@ -129,7 +136,7 @@ script:
     from email.mime.text import MIMEText
     from email.message import Message
     from email.header import Header
-    from smtplib import SMTP
+    from smtplib import SMTP, SMTP_SSL
     from smtplib import SMTPRecipientsRefused
     import base64
     import json
@@ -215,7 +222,8 @@ script:
         attachments = []
         cleanBody = ''
         lastIndex = 0
-        for i, m in enumerate(re.finditer(r'<img.+?src=\"(data:(image\/.+?);base64,([a-zA-Z0-9+/=\r\n]+?))\"', htmlBody, re.I)):
+        for i, m in enumerate(
+                re.finditer(r'<img.+?src=\"(data:(image\/.+?);base64,([a-zA-Z0-9+/=\r\n]+?))\"', htmlBody, re.I)):
             maintype, subtype = m.group(2).split('/', 1)
             att = {
                 'maintype': maintype,
@@ -455,22 +463,31 @@ script:
         FROM = demisto.getParam('from')
         FQDN = demisto.params().get('fqdn')
         FQDN = (FQDN and FQDN.strip()) or None
+        TLS = demisto.getParam('tls')
         stderr_org = None
         try:
             if demisto.command() == 'test-module':
                 stderr_org = swap_stderr(LOG)
                 smtplib.SMTP.debuglevel = 1
-            SERVER = SMTP(demisto.getParam('host'), int(demisto.params().get('port', 0)), local_hostname=FQDN)
-            SERVER.ehlo()
+
             # TODO - support for non-valid certs
-            if demisto.getParam('tls'):
-                SERVER.starttls()
+            if TLS == 'SSL/TLS':
+                SERVER = SMTP_SSL(demisto.getParam('host'), int(demisto.params().get('port', 0)), local_hostname=FQDN)
+            else:
+                SERVER = SMTP(demisto.getParam('host'),     # type: ignore[assignment]
+                              int(demisto.params().get('port', 0)), local_hostname=FQDN)
+
+            SERVER.ehlo()  # type: ignore
+            # For BC purposes where TLS was a checkbox (no value only true or false) if TLS=True or TLS='STARTTLS' we enter
+            # this condition, otherwise it means TLS is not configured (TLS=False) or is set to 'SSL/TLS' or 'None'.
+            if TLS is True or TLS == 'STARTTLS' or str(TLS).lower() == 'true':
+                SERVER.starttls()  # type: ignore
             user, password = get_user_pass()
             if user:
-                SERVER.login(user, password)
+                SERVER.login(user, password)  # type: ignore[union-attr]
         except Exception as e:
             # also reset at the bottom finally
-            swap_stderr(stderr_org)  # type: ignore
+            swap_stderr(stderr_org)  # type: ignore[union-attr]
             smtplib.SMTP.debuglevel = 0
             demisto.error('Failed test: {}\nStack trace: {}'.format(e, traceback.format_exc()))
             return_error_mail_sender(e)
@@ -482,8 +499,8 @@ script:
                 msg['Subject'] = 'Test mail from Demisto'
                 msg['From'] = FROM
                 msg['To'] = FROM
-                SERVER.sendmail(FROM, [FROM], msg.as_string())
-                SERVER.quit()
+                SERVER.sendmail(FROM, [FROM], msg.as_string())  # type: ignore[union-attr]
+                SERVER.quit()  # type: ignore[union-attr]
                 demisto.results('ok')
             elif demisto.command() == 'send-mail':
                 raw_message = demisto.getArg('raw_message')
@@ -495,8 +512,8 @@ script:
                 else:
                     (str_msg, to, cc, bcc) = create_msg()
 
-                SERVER.sendmail(FROM, to + cc + bcc, str_msg)  # type: ignore
-                SERVER.quit()  # type: ignore
+                SERVER.sendmail(FROM, to + cc + bcc, str_msg)  # type: ignore[union-attr]
+                SERVER.quit()  # type: ignore[union-attr]
                 demisto.results('Mail sent successfully')
             else:
                 return_error_mail_sender('Command not recognized')
@@ -506,7 +523,7 @@ script:
         except Exception as e:
             return_error_mail_sender(e)
         finally:
-            swap_stderr(stderr_org)  # type: ignore
+            swap_stderr(stderr_org)  # type: ignore[union-attr]
             smtplib.SMTP.debuglevel = 0
 
 

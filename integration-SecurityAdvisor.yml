@@ -3,7 +3,7 @@ commonfields:
   id: SecurityAdvisor
   version: -1
 configuration:
-- defaultvalue: "false"
+- defaultvalue: ""
   display: Use system proxy settings
   name: proxy
   required: false
@@ -62,7 +62,7 @@ script:
       description: Response for single user coaching
       type: string
   runonce: false
-  script: |2-
+  script: |2
 
 
     ''' IMPORTS '''

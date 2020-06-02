@@ -234,7 +234,7 @@ script:
       name: roleSessionDuration
     description: Deletes the messages in a queue specified by the QueueURL parameter.
     name: aws-sqs-purge-queue
-  dockerimage: demisto/boto3
+  dockerimage: demisto/boto3:1.9.55
   isfetch: true
   runonce: false
   script: |+
@@ -543,5 +543,6 @@ script:
     demisto.results(result)
     sys.exit(0)
 
+  subtype: python2
   type: python
 system: true

@@ -363,5 +363,6 @@ script:
             'ContentsFormat': formats['text'],
             'Contents': 'error has occured: %s' % (e.message,),
         })
+  subtype: python2
   type: python
 system: true

@@ -1,0 +1,1613 @@
+beta: true
+category: Analytics & SIEM
+commonfields:
+  id: Azure Sentinel
+  version: -1
+configuration:
+- defaultvalue: ""
+  display: ID (received from the authorization step - see Detailed Instructions (?)
+    section)
+  name: auth_id
+  required: true
+  type: 4
+- defaultvalue: ""
+  display: Token (received from the authorization step - see Detailed Instructions
+    (?) section)
+  name: refresh_token
+  required: true
+  type: 4
+- defaultvalue: ""
+  display: Key (received from the authorization step - see Detailed Instructions (?)
+    section)
+  name: enc_key
+  required: true
+  type: 4
+- defaultvalue: ""
+  display: Use a self-deployed Azure application
+  name: self_deployed
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Application redirect URI (for self-deployed mode)
+  name: redirect_uri
+  required: false
+  type: 0
+- defaultvalue: ""
+  display: Authorization code (received from the authorization step - see Detailed
+    Instructions (?) section)
+  name: auth_code
+  required: false
+  type: 4
+- defaultvalue: ""
+  display: Fetch incidents
+  name: isFetch
+  required: false
+  type: 8
+- defaultvalue: 3 days
+  display: First fetch timestamp (<number> <time unit>, e.g., 12 hours, 7 days)
+  name: fetch_time
+  required: false
+  type: 0
+- defaultvalue: Informational
+  display: The minimum severity of incidents to fetch
+  name: min_severity
+  options:
+  - Informational
+  - Low
+  - Medium
+  - High
+  required: false
+  type: 15
+- defaultvalue: ""
+  display: Incident type
+  name: incidentType
+  required: false
+  type: 13
+- defaultvalue: ""
+  display: Subscription ID
+  name: subscriptionID
+  required: true
+  type: 0
+- defaultvalue: ""
+  display: Resource Group Name
+  name: resourceGroupName
+  required: true
+  type: 0
+- defaultvalue: ""
+  display: Workspace Name
+  name: workspaceName
+  required: true
+  type: 0
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
+  name: insecure
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Use system proxy settings
+  name: proxy
+  required: false
+  type: 8
+contentitemexportablefields:
+  contentitemfields:
+    propagationLabels:
+    - all
+description: Use the Azure Sentinel integration to get and manage incidents and get
+  related entity information for incidents.
+detaileddescription: "Full documentation for this integration is available at our
+  [reference docs](https://xsoar.pan.dev/docs/reference/integrations/azure-sentinel).\n\n\n##
+  Authorize Cortex XSOAR for Azure Sentinel\n\nYou need to grant Cortex XSOAR authorization
+  to access Azure Sentinel.\n\n1. Access the [authorization flow](https://oproxy.demisto.ninja/ms-azure-sentinel).
+  \n2. Click the **Start Authorization Process** button and you will be prompted to
+  grant Cortex XSOAR permissions for your Azure Service Management. \n3. Click the
+  **Accept** button and you will receive your ID, token, and key. You will need to
+  enter these when you configure the Azure Sentinel integration instance in Cortex
+  XSOAR.\n\n## Authorize Cortex XSOAR for Azure Sentinel (self-deployed configuration)\n\nFollow
+  these steps for a self-deployed configuration.\n\n1. To use a self-configured Azure
+  application, you need to add a new Azure App Registration in the Azure Portal. To
+  add the registration, refer to the following [Microsoft article](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app).\n2.
+  Make sure the following permissions are granted for the app registration:\n   -
+  \ API/Permission name `user_impersonation` of type `Delegated`\n3. Copy the following
+  URL and replace the ***CLIENT_ID*** and ***REDIRECT_URI*** with your own client
+  ID and redirect URI, accordingly.\n```https://login.microsoftonline.com/common/oauth2/authorize?response_type=code&resource=https://management.core.windows.net&client_id=CLIENT_ID&redirect_uri=REDIRECT_URI```\n4.
+  Enter the link and you will be prompted to grant Cortex XSOAR permissions for your
+  Azure Service Management. You will be automatically redirected to a link with the
+  following structure:\n```REDIRECT_URI?code=AUTH_CODE&session_state=SESSION_STATE```\n5.
+  Copy the ***AUTH_CODE*** (without the “code=” prefix) and paste it in your instance
+  configuration under the **Authorization code** parameter. \n6. Enter your client
+  ID in the ***ID*** parameter. \n7. Enter your client secret in the ***Key*** parameter.\n8.
+  Enter your tenant ID in the ***Token*** parameter.\n9. Enter your redirect URI in
+  the ***Redirect URI*** parameter.\n\n## Get the additional instance parameters\n\nTo
+  get the ***Subscription ID***, ***Workspace Name*** and ***Resource Group*** parameters,
+  navigate in the Azure Portal to ***Azure Sentinel > YOUR-WORKSPACE > Settings***
+  and click on ***Workspace Settings*** tab.\n"
+display: Azure Sentinel
+image: data:image/png;base64,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
+name: Azure Sentinel
+script:
+  commands:
+  - arguments:
+    - description: The incident ID.
+      name: incident_id
+      required: true
+    description: Gets a single incident from Azure Sentinel.
+    name: azure-sentinel-get-incident-by-id
+    outputs:
+    - contextPath: AzureSentinel.Incident.ID
+      description: The incident ID.
+      type: String
+    - contextPath: AzureSentinel.Incident.Title
+      description: The incident title.
+      type: String
+    - contextPath: AzureSentinel.Incident.Description
+      description: Description of the incident.
+      type: String
+    - contextPath: AzureSentinel.Incident.Severity
+      description: The incident severity.
+      type: String
+    - contextPath: AzureSentinel.Incident.Status
+      description: The incident status.
+      type: String
+    - contextPath: AzureSentinel.Incident.AssigneeName
+      description: The name of the incident assignee.
+      type: String
+    - contextPath: AzureSentinel.Incident.AssigneeEmail
+      description: The email address of the incident assignee.
+      type: String
+    - contextPath: AzureSentinel.Incident.Label.Name
+      description: The name of the incident label.
+      type: String
+    - contextPath: AzureSentinel.Incident.Label.Type
+      description: The incident label type.
+      type: String
+    - contextPath: AzureSentinel.Incident.FirstActivityTimeUTC
+      description: The date and time of the incident's first activity.
+      type: Date
+    - contextPath: AzureSentinel.Incident.LastActivityTimeUTC
+      description: The date and time of the incident's last activity.
+      type: Date
+    - contextPath: AzureSentinel.Incident.LastModifiedTimeUTC
+      description: The date and time the incident was last modified.
+      type: Date
+    - contextPath: AzureSentinel.Incident.CreatedTimeUTC
+      description: The date and time the incident was created.
+      type: Date
+    - contextPath: AzureSentinel.Incident.IncidentNumber
+      description: The incident number.
+      type: Number
+    - contextPath: AzureSentinel.Incident.AlertsCount
+      description: The number of the alerts in the incident.
+      type: Number
+    - contextPath: AzureSentinel.Incident.BookmarkCount
+      description: The number of bookmarks in the incident.
+      type: Number
+    - contextPath: AzureSentinel.Incident.CommentCount
+      description: The number of comments in the incident.
+      type: Number
+    - contextPath: AzureSentinel.Incident.AlertProductNames
+      description: The alert product names of the incident.
+      type: String
+    - contextPath: AzureSentinel.Incident.Tactics
+      description: The incident's tactics.
+      type: String
+    - contextPath: AzureSentinel.Incident.FirstActivityTimeGenerated
+      description: The incident's generated first activity time.
+      type: Date
+    - contextPath: AzureSentinel.Incident.LastActivityTimeGenerated
+      description: The incident's generated last activity time.
+      type: Date
+    - contextPath: AzureSentinel.Incident.Etag
+      description: The Etag of the incident.
+      type: String
+  - arguments:
+    - defaultValue: "50"
+      description: The maximum number of incidents to return. The default and maximum
+        value is 50.
+      name: limit
+    - description: 'Filter results using OData syntax. For example: properties/createdTimeUtc
+        gt 2020-02-02T14:00:00Z`). For more information see the Azure documentation:
+        https://docs.microsoft.com/bs-latn-ba/azure/search/search-query-odata-filter.'
+      name: filter
+    - description: A link that specifies a starting point to use for subsequent calls.
+        This argument overrides all of the other command arguments.
+      name: next_link
+    description: Gets a list of incidents from Azure Sentinel.
+    name: azure-sentinel-list-incidents
+    outputs:
+    - contextPath: AzureSentinel.Incident.ID
+      description: The incident ID.
+      type: String
+    - contextPath: AzureSentinel.Incident.Title
+      description: The incident title.
+      type: String
+    - contextPath: AzureSentinel.Incident.Description
+      description: Description of the incident.
+      type: String
+    - contextPath: AzureSentinel.Incident.Severity
+      description: The incident severity.
+      type: String
+    - contextPath: AzureSentinel.Incident.Status
+      description: The incident status.
+      type: String
+    - contextPath: AzureSentinel.Incident.AssigneeName
+      description: The name of the incident assignee.
+      type: String
+    - contextPath: AzureSentinel.Incident.AssigneeEmail
+      description: The email address of the incident assignee.
+      type: String
+    - contextPath: AzureSentinel.Incident.Label.Name
+      description: The name of the incident label.
+      type: String
+    - contextPath: AzureSentinel.Incident.Label.Type
+      description: The incident label type.
+      type: String
+    - contextPath: AzureSentinel.Incident.FirstActivityTimeUTC
+      description: The date and time of the incident's first activity.
+      type: Date
+    - contextPath: AzureSentinel.Incident.LastActivityTimeUTC
+      description: The date and time of the incident's last activity.
+      type: Date
+    - contextPath: AzureSentinel.Incident.LastModifiedTimeUTC
+      description: The date and time the incident was last modified.
+      type: Date
+    - contextPath: AzureSentinel.Incident.CreatedTimeUTC
+      description: The date and time the incident was created.
+      type: Date
+    - contextPath: AzureSentinel.Incident.IncidentNumber
+      description: The incident number.
+      type: Number
+    - contextPath: AzureSentinel.Incident.AlertsCount
+      description: The number of the alerts in the incident.
+      type: Number
+    - contextPath: AzureSentinel.Incident.BookmarkCount
+      description: The number of bookmarks in the incident.
+      type: Number
+    - contextPath: AzureSentinel.Incident.CommentCount
+      description: The number of comments in the incident.
+      type: Number
+    - contextPath: AzureSentinel.Incident.AlertProductNames
+      description: The alert product names of the incident.
+      type: String
+    - contextPath: AzureSentinel.Incident.Tactics
+      description: The incident's tactics.
+      type: String
+    - contextPath: AzureSentinel.Incident.FirstActivityTimeGenerated
+      description: The incident's generated first activity time.
+      type: Date
+    - contextPath: AzureSentinel.Incident.LastActivityTimeGenerated
+      description: The incident's generated last activity time.
+      type: Date
+    - contextPath: AzureSentinel.NextLink.Description
+      description: Description of NextLink.
+      type: String
+    - contextPath: AzureSentinel.NextLink.URL
+      description: Used if an operation returns partial results. If a response contains
+        a NextLink element, its value specifies a starting point to use for subsequent
+        calls.
+      type: String
+    - contextPath: AzureSentinel.Incident.Etag
+      description: The Etag of the incident.
+      type: String
+  - arguments:
+    - description: The incident ID.
+      name: incident_id
+      required: true
+    - description: The incident's title.
+      name: title
+    - description: Description of the incident.
+      name: description
+    - auto: PREDEFINED
+      description: The incident severity.
+      name: severity
+      predefined:
+      - High
+      - Medium
+      - Low
+      - Informal
+    - auto: PREDEFINED
+      description: The incident status.
+      name: status
+      predefined:
+      - New
+      - Active
+      - Closed
+    description: Updates a single incident in Azure Sentinel.
+    name: azure-sentinel-update-incident
+    outputs:
+    - contextPath: AzureSentinel.Incident.ID
+      description: The incident ID.
+      type: String
+    - contextPath: AzureSentinel.Incident.Title
+      description: The incident's title.
+      type: String
+    - contextPath: AzureSentinel.Incident.Description
+      description: Description of the incident.
+      type: String
+    - contextPath: AzureSentinel.Incident.Severity
+      description: The incident severity.
+      type: String
+    - contextPath: AzureSentinel.Incident.Status
+      description: The incident status.
+      type: String
+    - contextPath: AzureSentinel.Incident.AssigneeName
+      description: The name of the incident assignee.
+      type: String
+    - contextPath: AzureSentinel.Incident.AssigneeEmail
+      description: The email address of the incident assignee.
+      type: String
+    - contextPath: AzureSentinel.Incident.Label.Name
+      description: The name of the incident label.
+      type: String
+    - contextPath: AzureSentinel.Incident.Label.Type
+      description: The incident label type.
+      type: String
+    - contextPath: AzureSentinel.Incident.FirstActivityTimeUTC
+      description: The date and time of the incident's first activity.
+      type: Date
+    - contextPath: AzureSentinel.Incident.LastActivityTimeUTC
+      description: The date and time of the incident's last activity.
+      type: Date
+    - contextPath: AzureSentinel.Incident.LastModifiedTimeUTC
+      description: The date and time the incident was last modified.
+      type: Date
+    - contextPath: AzureSentinel.Incident.CreatedTimeUTC
+      description: The date and time the incident was created.
+      type: Date
+    - contextPath: AzureSentinel.Incident.IncidentNumber
+      description: The incident number.
+      type: Number
+    - contextPath: AzureSentinel.Incident.AlertsCount
+      description: The number of the alerts in the incident.
+      type: Number
+    - contextPath: AzureSentinel.Incident.BookmarkCount
+      description: The number of bookmarks in the incident.
+      type: Number
+    - contextPath: AzureSentinel.Incident.CommentCount
+      description: The number of comments in the incident.
+      type: Number
+    - contextPath: AzureSentinel.Incident.AlertProductNames
+      description: The alert product names of the incident.
+      type: String
+    - contextPath: AzureSentinel.Incident.Tactics
+      description: The incident's tactics.
+      type: String
+    - contextPath: AzureSentinel.Incident.FirstActivityTimeGenerated
+      description: The incident's generated first activity time.
+      type: Date
+    - contextPath: AzureSentinel.Incident.LastActivityTimeGenerated
+      description: The incident's generated last activity time.
+      type: Date
+    - contextPath: AzureSentinel.Incident.Etag
+      description: The Etag of the incident.
+      type: String
+  - arguments:
+    - description: The incident ID.
+      name: incident_id
+      required: true
+    description: Deletes a single incident in Azure Sentinel.
+    name: azure-sentinel-delete-incident
+  - arguments:
+    - description: The incident ID.
+      name: incident_id
+      required: true
+    - defaultValue: "50"
+      description: The maximum number of incident comments to return. The default
+        and maximum value is 50.
+      name: limit
+    - description: A link that specifies a starting point to use for subsequent calls.
+        Using this argument overrides all of the other command arguments.
+      name: next_link
+    description: Gets the comments of an incident from Azure Sentinel.
+    name: azure-sentinel-list-incident-comments
+    outputs:
+    - contextPath: AzureSentinel.IncidentComment.ID
+      description: The ID of the incident comment.
+      type: String
+    - contextPath: AzureSentinel.IncidentComment.IncidentID
+      description: The incident ID.
+      type: String
+    - contextPath: AzureSentinel.IncidentComment.Message
+      description: The incident comment.
+      type: String
+    - contextPath: AzureSentinel.IncidentComment.AuthorName
+      description: The name of the author of the incident comment.
+      type: String
+    - contextPath: AzureSentinel.IncidentComment.AuthorEmail
+      description: The email address of the author of the incident comment.
+      type: String
+    - contextPath: AzureSentinel.IncidentComment.CreatedTimeUTC
+      description: The date and time that the incident comment was created.
+      type: Date
+    - contextPath: AzureSentinel.NextLink.Description
+      description: Description of NextLink.
+      type: String
+    - contextPath: AzureSentinel.NextLink.URL
+      description: Used if an operation returns a partial result. If a response contains
+        a NextLink element, its value specifies a starting point to use for subsequent
+        calls.
+      type: String
+  - arguments:
+    - description: The incident ID.
+      name: incident_id
+      required: true
+    - description: The comment message.
+      name: message
+      required: true
+    description: Adds a comment to an incident in Azure Sentinel.
+    name: azure-sentinel-incident-add-comment
+    outputs:
+    - contextPath: AzureSentinel.IncidentComment.ID
+      description: The ID of the incident comment.
+      type: String
+    - contextPath: AzureSentinel.IncidentComment.IncidentID
+      description: The incident ID.
+      type: String
+    - contextPath: AzureSentinel.IncidentComment.Message
+      description: The incident comment.
+      type: String
+    - contextPath: AzureSentinel.IncidentComment.AuthorName
+      description: The name of the author of the incident comment.
+      type: String
+    - contextPath: AzureSentinel.IncidentComment.AuthorEmail
+      description: The email address of the author of the incident comment.
+      type: String
+    - contextPath: AzureSentinel.IncidentComment.CreatedTimeUTC
+      description: The date and time that the incident comment was created.
+      type: Date
+  - arguments:
+    - description: The incident ID.
+      name: incident_id
+      required: true
+    - defaultValue: "50"
+      description: The maximum number of related entities to return.
+      name: limit
+    - description: A link that specifies a starting point to use for subsequent calls.
+        Using this argument overrides all of the other command arguments.
+      name: next_link
+    - description: |-
+        A comma-separated list of entity kinds to filter by. By default, the results won't be filtered by kind.
+        The optional kinds are: Account, Host, File, AzureResource, CloudApplication, DnsResolution, FileHash, Ip, Malware, Process, RegistryKey, RegistryValue, SecurityGroup, Url, IoTDevice, SecurityAlert, Bookmark.
+      isArray: true
+      name: entity_kinds
+      predefined:
+      - ""
+    - description: 'Filter results using OData syntax. For example: properties/createdTimeUtc
+        gt 2020-02-02T14:00:00Z`). For more information see the Azure documentation:
+        https://docs.microsoft.com/bs-latn-ba/azure/search/search-query-odata-filter.'
+      name: filter
+    description: Gets a list of an incident's related entities from Azure Sentinel.
+    name: azure-sentinel-list-incident-relations
+    outputs:
+    - contextPath: AzureSentinel.IncidentRelatedResource.ID
+      description: The ID of the incident's related resource.
+      type: String
+    - contextPath: AzureSentinel.IncidentRelatedResource.Kind
+      description: The kind of the incident's related resource.
+      type: String
+    - contextPath: AzureSentinel.NextLink.Description
+      description: The description about NextLink.
+      type: String
+    - contextPath: AzureSentinel.NextLink.URL
+      description: Used if an operation returns a partial result. If a response contains
+        a NextLink element, its value specifies a starting point to use for subsequent
+        calls.
+      type: String
+    - contextPath: AzureSentinel.IncidentRelatedResource.IncidentID
+      description: The incident ID.
+      type: String
+  - arguments:
+    - description: The entity ID.
+      name: entity_id
+      required: true
+    description: Gets a single entity from Azure Sentinel. Use the azure-sentinel-list-incident-relations
+      command, and get an entity ID to apply this command on. In the current Azure
+      Sentinel API version the retention period for GetEntityByID is 30 days.
+    name: azure-sentinel-get-entity-by-id
+  - arguments:
+    - description: The entity ID.
+      name: entity_id
+      required: true
+    - defaultValue: "50"
+      description: The maximum number of relations to return. The default value is
+        50.
+      name: limit
+    - description: A link that specifies a starting point to use for subsequent calls.
+        Using this argument overrides all of the other command arguments.
+      name: next_link
+    - description: |-
+        A comma-separated list of entity kinds to filter by. By default, the result won't be filtered by kind.
+        The optional kinds are: Account, Host, File, AzureResource, CloudApplication, DnsResolution, FileHash, Ip, Malware, Process, RegistryKey, RegistryValue, SecurityGroup, Url, IoTDevice, SecurityAlert, Bookmark.
+      isArray: true
+      name: entity_kinds
+      predefined:
+      - ""
+    - description: 'Filter results using OData syntax. For example: properties/createdTimeUtc
+        gt 2020-02-02T14:00:00Z`). For more information see the Azure documentation:
+        https://docs.microsoft.com/bs-latn-ba/azure/search/search-query-odata-filter.'
+      name: filter
+    description: Gets a list of an entity's relations from Azure Sentinel.
+    name: azure-sentinel-list-entity-relations
+    outputs:
+    - contextPath: AzureSentinel.EntityRelatedResource.ID
+      description: The ID of the entity's related resource.
+      type: String
+    - contextPath: AzureSentinel.EntityRelatedResource.Kind
+      description: The kind of the entity's related resource.
+      type: String
+    - contextPath: AzureSentinel.NextLink.Description
+      description: Description about NextLink.
+      type: String
+    - contextPath: AzureSentinel.NextLink.URL
+      description: Used if an operation returns a partial result. If a response contains
+        a NextLink element, its value specifies a starting point to use for subsequent
+        calls.
+      type: String
+    - contextPath: AzureSentinel.EntityRelatedResource.EntityID
+      description: The entity ID.
+      type: String
+  - arguments: []
+    description: Tests connectivity to Azure Sentinel.
+    name: azure-sentinel-test
+  dockerimage: demisto/crypto:1.0.0.303
+  isfetch: true
+  runonce: false
+  script: |2
+
+
+
+    # IMPORTS
+
+    import json
+    import requests
+    import dateparser
+
+    # Disable insecure warnings
+    requests.packages.urllib3.disable_warnings()
+
+    ''' CONSTANTS '''
+
+    APP_NAME = 'ms-azure-sentinel'
+
+    DATE_FORMAT = '%Y-%m-%dT%H:%M:%SZ'
+
+    API_VERSION = '2019-01-01-preview'
+
+    NEXTLINK_DESCRIPTION = 'NextLink for listing commands'
+
+    AUTHORIZATION_ERROR_MSG = 'There was a problem in retrieving an updated access token.\n'\
+                              'The response from the server did not contain the expected content.'
+
+    INCIDENT_HEADERS = ['ID', 'IncidentNumber', 'Title', 'Description', 'Severity', 'Status', 'AssigneeName',
+                        'AssigneeEmail', 'Labels', 'FirstActivityTimeUTC', 'LastActivityTimeUTC', 'LastModifiedTimeUTC',
+                        'CreatedTimeUTC', 'AlertsCount', 'BookmarksCount', 'CommentsCount', 'AlertProductNames',
+                        'Tactics', 'FirstActivityTimeGenerated', 'LastActivityTimeGenerated', 'Etag']
+
+    COMMENT_HEADERS = ['ID', 'IncidentID', 'Message', 'AuthorName', 'AuthorEmail', 'CreatedTimeUTC']
+
+    ENTITIES_RETENTION_PERIOD_MESSAGE = '\nNotice that in the current Azure Sentinel API version, the retention period ' \
+                                        'for GetEntityByID is 30 days.'
+
+
+    class Client:
+        def __init__(self, self_deployed, refresh_token, auth_and_token_url, enc_key, redirect_uri, auth_code,
+                     subscription_id, resource_group_name, workspace_name, verify, proxy):
+
+            tenant_id = refresh_token if self_deployed else ''
+            refresh_token = (demisto.getIntegrationContext().get('current_refresh_token') or refresh_token)
+            base_url = f'https://management.azure.com/subscriptions/{subscription_id}/' \
+                f'resourceGroups/{resource_group_name}/providers/Microsoft.OperationalInsights/workspaces/' \
+                f'{workspace_name}/providers/Microsoft.SecurityInsights'
+            self.ms_client = MicrosoftClient(
+                self_deployed=self_deployed,
+                auth_id=auth_and_token_url,
+                refresh_token=refresh_token,
+                enc_key=enc_key,
+                redirect_uri=redirect_uri,
+                token_retrieval_url='https://login.microsoftonline.com/{tenant_id}/oauth2/token',
+                grant_type=AUTHORIZATION_CODE,  # disable-secrets-detection
+                app_name=APP_NAME,
+                base_url=base_url,
+                verify=verify,
+                proxy=proxy,
+                resource='https://management.core.windows.net',
+                scope='',
+                tenant_id=tenant_id,
+                auth_code=auth_code,
+                ok_codes=(200, 201, 202, 204, 400, 401, 403, 404)
+            )
+
+        def http_request(self, method, url_suffix=None, full_url=None, params=None, data=None, is_get_entity_cmd=False):
+            if not params:
+                params = {}
+            if not full_url:
+                params['api-version'] = API_VERSION
+
+            res = self.ms_client.http_request(method=method,  # disable-secrets-detection
+                                              url_suffix=url_suffix,
+                                              full_url=full_url,
+                                              json_data=data,
+                                              params=params,
+                                              resp_type='response')
+            res_json = res.json()
+
+            if res.status_code in (400, 401, 403, 404):
+                code = res_json.get('error', {}).get('code', 'Error')
+                error_msg = res_json.get('error', {}).get('message', res_json)
+                if res.status_code == 404 and is_get_entity_cmd:
+                    error_msg += ENTITIES_RETENTION_PERIOD_MESSAGE
+                raise ValueError(
+                    f'[{code} {res.status_code}] {error_msg}'
+                )
+
+            return res_json
+
+
+    ''' INTEGRATION HELPER METHODS '''
+
+
+    def format_date(date):
+        if not date:
+            return None
+        return dateparser.parse(date).strftime(DATE_FORMAT)
+
+
+    def incident_data_to_demisto_format(inc_data):
+        properties = inc_data.get('properties', {})
+
+        formatted_data = {
+            'ID': inc_data.get('name'),
+            'IncidentNumber': properties.get('incidentNumber'),
+            'Title': properties.get('title'),
+            'Description': properties.get('description'),
+            'Severity': properties.get('severity'),
+            'Status': properties.get('status'),
+            'AssigneeName': properties.get('owner', {}).get('assignedTo'),
+            'AssigneeEmail': properties.get('owner', {}).get('email'),
+            'Label': [{
+                'Name': label.get('name'),
+                'Type': label.get('type')
+            } for label in properties.get('labels', [])],
+            'FirstActivityTimeUTC': format_date(properties.get('firstActivityTimeUtc')),
+            'LastActivityTimeUTC': format_date(properties.get('lastActivityTimeUtc')),
+            'LastModifiedTimeUTC': format_date(properties.get('lastModifiedTimeUtc')),
+            'CreatedTimeUTC': format_date(properties.get('createdTimeUtc')),
+            'AlertsCount': properties.get('additionalData', {}).get('alertsCount'),
+            'BookmarksCount': properties.get('additionalData', {}).get('bookmarksCount'),
+            'CommentsCount': properties.get('additionalData', {}).get('commentsCount'),
+            'AlertProductNames': properties.get('additionalData', {}).get('alertProductNames'),
+            'Tactics': properties.get('tactics'),
+            'FirstActivityTimeGenerated': format_date(properties.get('firstActivityTimeGenerated')),
+            'LastActivityTimeGenerated': format_date(properties.get('lastActivityTimeGenerated')),
+            'Etag': inc_data.get('etag'),
+            'Deleted': False
+        }
+        return formatted_data
+
+
+    def get_update_incident_request_data(client, args):
+        # Get Etag and other mandatory properties (title, severity, status) for update_incident command
+        _, _, result = get_incident_by_id_command(client, args)
+
+        title = args.get('title')
+        description = args.get('description')
+        severity = args.get('severity')
+        status = args.get('status')
+
+        if not title:
+            title = result.get('properties', {}).get('title')
+        if not description:
+            description = result.get('properties', {}).get('description')
+        if not severity:
+            severity = result.get('properties', {}).get('severity')
+        if not status:
+            status = result.get('properties', {}).get('status')
+
+        inc_data = {
+            'etag': result.get('etag'),
+            'properties': {
+                'title': title,
+                'description': description,
+                'severity': severity,
+                'status': status
+            }
+        }
+        remove_nulls_from_dictionary(inc_data['properties'])
+
+        return inc_data
+
+
+    def comment_data_to_demisto_format(comment_data, inc_id):
+        properties = comment_data.get('properties', {})
+
+        formatted_data = {
+            'ID': comment_data.get('name'),
+            'IncidentID': inc_id,
+            'Message': properties.get('message'),
+            'AuthorName': properties.get('author', {}).get('assignedTo'),
+            'AuthorEmail': properties.get('author', {}).get('email'),
+            'CreatedTimeUTC': format_date(properties.get('createdTimeUtc'))
+        }
+        return formatted_data
+
+
+    def incident_related_resource_data_to_demisto_format(resource_data, incident_id):
+        properties = resource_data.get('properties', {})
+
+        formatted_data = {
+            'ID': properties.get('relatedResourceName'),
+            'Kind': properties.get('relatedResourceKind'),
+            'IncidentID': incident_id
+        }
+        return formatted_data
+
+
+    def entity_related_resource_data_to_demisto_format(resource_data, entity_id):
+        properties = resource_data.get('properties', {})
+
+        formatted_data = {
+            'ID': properties.get('relatedResourceName'),
+            'Kind': properties.get('relatedResourceKind'),
+            'EntityID': entity_id
+        }
+        return formatted_data
+
+
+    def flatten_entity_attributes(attributes):
+        # This method flattens a GET entity response json.
+        flattened_results = attributes.get('properties', {})
+        flattened_results['ID'] = attributes.get('name')
+        flattened_results['Kind'] = attributes.get('kind')
+        return flattened_results
+
+
+    def severity_to_level(severity):
+        if severity == 'Informational':
+            return 0.5
+        elif severity == 'Low':
+            return 1
+        elif severity == 'Medium':
+            return 2
+        elif severity == 'High':
+            return 3
+        return 0
+
+
+    ''' INTEGRATION COMMANDS '''
+
+
+    def test_connection(client, params):
+        if params.get('self_deployed', False) and not params.get('auth_code'):
+            return_error('You must enter an authorization code in a self-deployed configuration.')
+        client.ms_client.get_access_token()  # If fails, MicrosoftApiModule returns an error
+        return_outputs('```✅ Success!```')
+
+
+    def get_incident_by_id_command(client, args):
+        inc_id = args.get('incident_id')
+        url_suffix = f'incidents/{inc_id}'
+
+        result = client.http_request('GET', url_suffix)
+        incident = incident_data_to_demisto_format(result)
+
+        outputs = {'AzureSentinel.Incident(val.ID === obj.ID)': incident}
+
+        readable_output = tableToMarkdown(f'Incident {inc_id} details', incident,
+                                          headers=INCIDENT_HEADERS,
+                                          headerTransform=pascalToSpace,
+                                          removeNull=True)
+
+        return (
+            readable_output,
+            outputs,
+            result
+        )
+
+
+    def list_incidents_command(client, args, is_fetch_incidents=False):
+        filter_expression = args.get('filter')
+        limit = None if is_fetch_incidents else min(50, int(args.get('limit')))
+        next_link = args.get('next_link', '')
+
+        if next_link:
+            next_link = next_link.replace('%20', ' ')  # OData syntax can't handle '%' character
+            result = client.http_request('GET', full_url=next_link)
+        else:
+            url_suffix = 'incidents'
+            params = {
+                '$top': limit,
+                '$filter': filter_expression,
+                '$orderby': 'properties/createdTimeUtc asc'
+            }
+            remove_nulls_from_dictionary(params)
+
+            result = client.http_request('GET', url_suffix, params=params)
+
+        incidents = [incident_data_to_demisto_format(inc) for inc in result.get('value')]
+
+        if is_fetch_incidents:
+            return None, incidents, {}
+
+        outputs = {'AzureSentinel.Incident(val.ID === obj.ID)': incidents}
+
+        # we don't want whitespaces in this value, so it won't be considered as two arguments in the CLI by mistake
+        next_link = result.get('nextLink', '').replace(' ', '%20')
+        if next_link:
+            next_link_item = {
+                'Description': NEXTLINK_DESCRIPTION,
+                'URL': next_link
+            }
+            outputs[f'AzureSentinel.NextLink(val.Description == "{NEXTLINK_DESCRIPTION}")'] = next_link_item  # type: ignore
+
+        readable_output = tableToMarkdown(f'Incidents List ({len(incidents)} results)', incidents,
+                                          headers=INCIDENT_HEADERS,
+                                          headerTransform=pascalToSpace,
+                                          removeNull=True)
+
+        return (
+            readable_output,
+            outputs,
+            result
+        )
+
+
+    def update_incident_command(client, args):
+        inc_id = args.get('incident_id')
+
+        inc_data = get_update_incident_request_data(client, args)
+
+        url_suffix = f'incidents/{inc_id}'
+        result = client.http_request('PUT', url_suffix, data=inc_data)
+        incident = incident_data_to_demisto_format(result)
+
+        outputs = {'AzureSentinel.Incident(val.ID === obj.ID)': incident}
+
+        readable_output = tableToMarkdown(f'Updated incidents {inc_id} details', incident,
+                                          headers=INCIDENT_HEADERS,
+                                          headerTransform=pascalToSpace,
+                                          removeNull=True)
+
+        return (
+            readable_output,
+            outputs,
+            result
+        )
+
+
+    def delete_incident_command(client, args):
+        inc_id = args.get('incident_id')
+        url_suffix = f'incidents/{inc_id}'
+
+        client.http_request('DELETE', url_suffix)
+
+        context = {
+            'ID': inc_id,
+            'Deleted': True
+        }
+        outputs = {'AzureSentinel.Incident(val.ID === obj.ID)': context}
+        return f'Incident {inc_id} was deleted successfully.', outputs, {}
+
+
+    def list_incident_comments_command(client, args):
+        inc_id = args.get('incident_id')
+        limit = min(50, int(args.get('limit')))
+        next_link = args.get('next_link', '')
+
+        if next_link:
+            next_link = next_link.replace('%20', ' ')  # OData syntax can't handle '%' character
+            result = client.http_request('GET', full_url=next_link)
+        else:
+            url_suffix = f'incidents/{inc_id}/comments'
+            params = {'$top': limit}
+            remove_nulls_from_dictionary(params)
+
+            result = client.http_request('GET', url_suffix, params=params)
+
+        comments = [comment_data_to_demisto_format(inc, inc_id) for inc in result.get('value')]
+
+        outputs = {f'AzureSentinel.IncidentComment(val.ID === obj.ID && val.IncidentID === {inc_id})': comments}
+
+        # we don't want whitespaces in this value, so it won't be considered as two arguments in the CLI by mistake
+        next_link = result.get('nextLink', '').replace(' ', '%20')
+        if next_link:
+            next_link_item = {
+                'Description': NEXTLINK_DESCRIPTION,
+                'URL': next_link
+            }
+            outputs[f'AzureSentinel.NextLink(val.Description == "{NEXTLINK_DESCRIPTION}")'] = next_link_item  # type: ignore
+
+        readable_output = tableToMarkdown(f'Incident {inc_id} Comments ({len(comments)} results)', comments,
+                                          headers=COMMENT_HEADERS,  # disable-secrets-detection
+                                          headerTransform=pascalToSpace,
+                                          removeNull=True)
+
+        return (
+            readable_output,
+            outputs,
+            result
+        )
+
+
+    def incident_add_comment_command(client, args):
+        import random
+
+        inc_id = args.get('incident_id')
+        url_suffix = f'incidents/{inc_id}/comments/{str(random.getrandbits(128))}'
+        comment_data = {
+            'properties': {
+                'message': args.get('message')
+            }
+        }
+
+        result = client.http_request('PUT', url_suffix, data=comment_data)
+        comment = comment_data_to_demisto_format(result, inc_id)
+
+        outputs = {
+            f'AzureSentinel.IncidentComment(val.ID === obj.ID && val.IncidentID === {inc_id})': comment
+        }
+
+        readable_output = tableToMarkdown(f'Incident {inc_id} new comment details', comment,
+                                          headers=COMMENT_HEADERS,  # disable-secrets-detection
+                                          headerTransform=pascalToSpace,
+                                          removeNull=True)
+
+        return (
+            readable_output,
+            outputs,
+            result
+        )
+
+
+    def get_entity_by_id_command(client, args):
+        entity_id = args.get('entity_id')
+        url_suffix = f'entities/{entity_id}'
+
+        result = client.http_request('GET', url_suffix, is_get_entity_cmd=True)
+
+        flattened_result = flatten_entity_attributes(result)
+
+        readable_output = tableToMarkdown(f'Entity {entity_id} details',
+                                          flattened_result,
+                                          removeNull=True,
+                                          headerTransform=pascalToSpace)
+
+        outputs = {
+            'AzureSentinel.Entity(val.ID === obj.ID)': flattened_result
+        }
+
+        return (
+            readable_output,
+            outputs,
+            result
+        )
+
+
+    def list_entity_relations_command(client, args):
+        entity_id = args.get('entity_id')
+        limit = min(50, int(args.get('limit')))
+        next_link = args.get('next_link', '')
+        entity_kinds = args.get('entity_kinds')
+        filter_expression = args.get('filter', '')
+
+        if next_link:
+            next_link = next_link.replace('%20', ' ')  # OData syntax can't handle '%' character
+            result = client.http_request('GET', full_url=next_link)
+        else:
+            # Handle entity kinds to filter by
+            if entity_kinds:
+                if filter_expression:
+                    filter_expression += ' and '
+                filter_expression += f"search.in(properties/relatedResourceKind, '{entity_kinds}', ',')"
+
+            url_suffix = f'entities/{entity_id}/relations'
+            params = {
+                '$top': limit,
+                '$filter': filter_expression
+            }
+            remove_nulls_from_dictionary(params)
+
+            result = client.http_request('GET', url_suffix, params=params)
+
+        relations = [
+            entity_related_resource_data_to_demisto_format(resource, entity_id) for resource in result.get('value')
+        ]
+
+        outputs = {f'AzureSentinel.EntityRelatedResource(val.ID === obj.ID && val.EntityID == {entity_id})': relations}
+
+        # we don't want whitespaces in this value, so it won't be considered as two arguments in the CLI by mistake
+        next_link = result.get('nextLink', '').replace(' ', '%20')
+        if next_link:
+            next_link_item = {
+                'Description': NEXTLINK_DESCRIPTION,
+                'URL': next_link
+            }
+            outputs[f'AzureSentinel.NextLink(val.Description == "{NEXTLINK_DESCRIPTION}")'] = next_link_item  # type: ignore
+
+        readable_output = tableToMarkdown(f'Entity {entity_id} Relations ({len(relations)} results)', relations,
+                                          headerTransform=pascalToSpace,
+                                          removeNull=True)
+
+        return (
+            readable_output,
+            outputs,
+            result
+        )
+
+
+    def list_incident_relations_command(client, args):
+        inc_id = args.get('incident_id')
+        limit = min(50, int(args.get('limit')))
+        next_link = args.get('next_link', '')
+        entity_kinds = args.get('entity_kinds')
+        filter_expression = args.get('filter', '')
+
+        if next_link:
+            next_link = next_link.replace('%20', ' ')  # OData syntax can't handle '%' character
+            result = client.http_request('GET', full_url=next_link)
+        else:
+            # Handle entity kinds to filter by
+            if entity_kinds:
+                if filter_expression:
+                    filter_expression += ' and '
+                filter_expression += f"search.in(properties/relatedResourceKind, '{entity_kinds}', ',')"
+
+            url_suffix = f'incidents/{inc_id}/relations'
+            params = {
+                '$top': limit,
+                '$filter': filter_expression
+            }
+            remove_nulls_from_dictionary(params)
+
+            result = client.http_request('GET', url_suffix, params=params)
+
+        relations = [
+            incident_related_resource_data_to_demisto_format(resource, inc_id) for resource in result.get('value')
+        ]
+
+        outputs = {f'AzureSentinel.IncidentRelatedResource(val.ID === obj.ID && val.IncidentID == {inc_id})': relations}
+
+        # we don't want whitespaces in this value, so it won't be considered as two arguments in the CLI by mistake
+        next_link = result.get('nextLink', '').replace(' ', '%20')
+        if next_link:
+            next_link_item = {
+                'Description': NEXTLINK_DESCRIPTION,
+                'URL': next_link
+            }
+            outputs[f'AzureSentinel.NextLink(val.Description == "{NEXTLINK_DESCRIPTION}")'] = next_link_item  # type: ignore
+
+        readable_output = tableToMarkdown(f'Incident {inc_id} Relations ({len(relations)} results)', relations,
+                                          headerTransform=pascalToSpace,
+                                          removeNull=True)
+
+        return (
+            readable_output,
+            outputs,
+            result
+        )
+
+
+    def fetch_incidents(client, last_run, first_fetch_time, min_severity):
+        # Get the last fetch details, if exist
+        last_fetch_time = last_run.get('last_fetch_time')
+        last_fetch_ids = last_run.get('last_fetch_ids', [])
+
+        # Handle first time fetch
+        if last_fetch_time is None:
+            last_fetch_time_str, _ = parse_date_range(first_fetch_time, DATE_FORMAT)
+            last_fetch_time = dateparser.parse(last_fetch_time_str)
+        else:
+            last_fetch_time = dateparser.parse(last_fetch_time)
+
+        latest_created_time = last_fetch_time
+        latest_created_time_str = latest_created_time.strftime(DATE_FORMAT)
+        command_args = {'filter': f'properties/createdTimeUtc ge {latest_created_time_str}'}
+        _, items, _ = list_incidents_command(client, command_args, is_fetch_incidents=True)
+        incidents = []
+        current_fetch_ids = []
+
+        for incident in items:
+            incident_severity = severity_to_level(incident.get('Severity'))
+
+            # fetch only incidents that weren't fetched in the last run and their severity is at least min_severity
+            if incident.get('ID') not in last_fetch_ids and incident_severity >= min_severity:
+                incident_created_time = dateparser.parse(incident.get('CreatedTimeUTC'))
+                incident = {
+                    'name': '[Azure Sentinel] ' + incident.get('Title'),
+                    'occurred': incident.get('CreatedTimeUTC'),
+                    'severity': incident_severity,
+                    'rawJSON': json.dumps(incident)
+                }
+
+                incidents.append(incident)
+                current_fetch_ids.append(incident.get('ID'))
+
+                # Update last run to the latest fetch time
+                if incident_created_time > latest_created_time:
+                    latest_created_time = incident_created_time
+
+        next_run = {
+            'last_fetch_time': latest_created_time.strftime(DATE_FORMAT),
+            'last_fetch_ids': current_fetch_ids
+        }
+        return next_run, incidents
+
+
+    def main():
+        """
+            PARSE AND VALIDATE INTEGRATION PARAMS
+        """
+        params = demisto.params()
+
+        LOG(f'Command being called is {demisto.command()}')
+        try:
+            client = Client(
+                self_deployed=params.get('self_deployed', False),
+                auth_and_token_url=params.get('auth_id', ''),
+                refresh_token=params.get('refresh_token', ''),
+                enc_key=params.get('enc_key', ''),
+                redirect_uri=params.get('redirect_uri', ''),
+                auth_code=params.get('auth_code', ''),
+                subscription_id=params.get('subscriptionID', ''),
+                resource_group_name=params.get('resourceGroupName', ''),
+                workspace_name=params.get('workspaceName', ''),
+                verify=not params.get('insecure', False),
+                proxy=params.get('proxy', False)
+            )
+
+            commands = {
+                'azure-sentinel-get-incident-by-id': get_incident_by_id_command,
+                'azure-sentinel-list-incidents': list_incidents_command,
+                'azure-sentinel-update-incident': update_incident_command,
+                'azure-sentinel-delete-incident': delete_incident_command,
+                'azure-sentinel-list-incident-comments': list_incident_comments_command,
+                'azure-sentinel-incident-add-comment': incident_add_comment_command,
+                'azure-sentinel-list-incident-relations': list_incident_relations_command,
+                'azure-sentinel-get-entity-by-id': get_entity_by_id_command,
+                'azure-sentinel-list-entity-relations': list_entity_relations_command
+            }
+
+            if demisto.command() == 'test-module':
+                # cannot use test module due to the lack of ability to set refresh token to integration context
+                raise Exception("Please use !azure-sentinel-test instead")
+
+            elif demisto.command() == 'azure-sentinel-test':
+                test_connection(client, params)
+
+            elif demisto.command() == 'fetch-incidents':
+                # How much time before the first fetch to retrieve incidents
+                first_fetch_time = params.get('fetch_time', '3 days').strip()
+
+                min_severity = severity_to_level(params.get('min_severity', 'Informational'))
+
+                # Set and define the fetch incidents command to run after activated via integration settings.
+                next_run, incidents = fetch_incidents(
+                    client=client,
+                    last_run=demisto.getLastRun(),
+                    first_fetch_time=first_fetch_time,
+                    min_severity=min_severity
+                )
+
+                demisto.setLastRun(next_run)
+                demisto.incidents(incidents)
+
+            elif demisto.command() in commands:
+                return_outputs(*commands[demisto.command()](client, demisto.args()))  # type: ignore
+
+        except Exception as e:
+            return_error(f'Failed to execute {demisto.command()} command. Error: {str(e)}')
+
+
+
+    ### GENERATED CODE ###
+    # This code was inserted in place of an API module.import traceback
+
+
+
+
+    import requests
+    import base64
+    from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+    from typing import Dict, Tuple
+
+    # authorization types
+    OPROXY_AUTH_TYPE = 'oproxy'
+    SELF_DEPLOYED_AUTH_TYPE = 'self_deployed'
+
+    # grant types in self-deployed authorization
+    CLIENT_CREDENTIALS = 'client_credentials'
+    AUTHORIZATION_CODE = 'authorization_code'
+    REFRESH_TOKEN = 'refresh_token'  # guardrails-disable-line
+
+
+    class MicrosoftClient(BaseClient):
+
+        def __init__(self, tenant_id: str = '',
+                     auth_id: str = '',
+                     enc_key: str = '',
+                     token_retrieval_url: str = 'https://login.microsoftonline.com/{tenant_id}/oauth2/v2.0/token',
+                     app_name: str = '',
+                     refresh_token: str = '',
+                     auth_code: str = '',
+                     scope: str = 'https://graph.microsoft.com/.default',
+                     grant_type: str = CLIENT_CREDENTIALS,
+                     redirect_uri: str = 'https://localhost/myapp',
+                     resource: str = '',
+                     verify: bool = True,
+                     self_deployed: bool = False,
+                     *args, **kwargs):
+            """
+            Microsoft Client class that implements logic to authenticate with oproxy or self deployed applications.
+            It also provides common logic to handle responses from Microsoft.
+            Args:
+                tenant_id: If self deployed it's the tenant for the app url, otherwise (oproxy) it's the token
+                auth_id: If self deployed it's the client id, otherwise (oproxy) it's the auth id and may also
+                contain the token url
+                enc_key: If self deployed it's the client secret, otherwise (oproxy) it's the encryption key
+                scope: The scope of the application (only if self deployed)
+                resource: The resource of the application (only if self deployed)
+                verify: Demisto insecure parameter
+                self_deployed: Indicates whether the integration mode is self deployed or oproxy
+            """
+            super().__init__(verify=verify, *args, **kwargs)  # type: ignore[misc]
+
+            if not self_deployed:
+                auth_id_and_token_retrieval_url = auth_id.split('@')
+                auth_id = auth_id_and_token_retrieval_url[0]
+                if len(auth_id_and_token_retrieval_url) != 2:
+                    self.token_retrieval_url = 'https://oproxy.demisto.ninja/obtain-token'  # guardrails-disable-line
+                else:
+                    self.token_retrieval_url = auth_id_and_token_retrieval_url[1]
+
+                self.app_name = app_name
+                self.auth_id = auth_id
+                self.enc_key = enc_key
+                self.tenant_id = tenant_id
+                self.refresh_token = refresh_token
+
+            else:
+                self.token_retrieval_url = token_retrieval_url.format(tenant_id=tenant_id)
+                self.client_id = auth_id
+                self.client_secret = enc_key
+                self.tenant_id = tenant_id
+                self.auth_code = auth_code
+                self.grant_type = grant_type
+                self.resource = resource
+                self.scope = scope
+                self.redirect_uri = redirect_uri
+
+            self.auth_type = SELF_DEPLOYED_AUTH_TYPE if self_deployed else OPROXY_AUTH_TYPE
+            self.verify = verify
+
+        def http_request(self, *args, resp_type='json', headers=None, return_empty_response=False, **kwargs):
+            """
+            Overrides Base client request function, retrieves and adds to headers access token before sending the request.
+
+            Returns:
+                requests.Response: The http response
+            """
+            token = self.get_access_token()
+            default_headers = {
+                'Authorization': f'Bearer {token}',
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+            if headers:
+                default_headers.update(headers)
+
+            response = super()._http_request(   # type: ignore[misc]
+                *args, resp_type="response", headers=default_headers, **kwargs)
+
+            # 206 indicates Partial Content, reason will be in the warning header.
+            # In that case, logs with the warning header will be written.
+            if response.status_code == 206:
+                demisto.debug(str(response.headers))
+
+            is_response_empty_and_successful = (response.status_code == 204)
+            if is_response_empty_and_successful and return_empty_response:
+                return response
+
+            try:
+                if resp_type == 'json':
+                    return response.json()
+                if resp_type == 'text':
+                    return response.text
+                if resp_type == 'content':
+                    return response.content
+                if resp_type == 'xml':
+                    ET.parse(response.text)
+                return response
+            except ValueError as exception:
+                raise DemistoException('Failed to parse json object from response: {}'.format(response.content), exception)
+
+        def get_access_token(self):
+            """
+            Obtains access and refresh token from oproxy server or just a token from a self deployed app.
+            Access token is used and stored in the integration context
+            until expiration time. After expiration, new refresh token and access token are obtained and stored in the
+            integration context.
+
+            Returns:
+                str: Access token that will be added to authorization header.
+            """
+            integration_context = demisto.getIntegrationContext()
+            access_token = integration_context.get('access_token')
+            refresh_token = integration_context.get('current_refresh_token', '')
+            valid_until = integration_context.get('valid_until')
+            if access_token and valid_until:
+                if self.epoch_seconds() < valid_until:
+                    return access_token
+
+            auth_type = self.auth_type
+            if auth_type == OPROXY_AUTH_TYPE:
+                access_token, expires_in, refresh_token = self._oproxy_authorize()
+            else:
+                access_token, expires_in, refresh_token = self._get_self_deployed_token(refresh_token)
+            time_now = self.epoch_seconds()
+            time_buffer = 5  # seconds by which to shorten the validity period
+            if expires_in - time_buffer > 0:
+                # err on the side of caution with a slightly shorter access token validity period
+                expires_in = expires_in - time_buffer
+
+            integration_context = {
+                'access_token': access_token,
+                'current_refresh_token': refresh_token,
+                'valid_until': time_now + expires_in,
+            }
+
+            demisto.setIntegrationContext(integration_context)
+            return access_token
+
+        def _oproxy_authorize(self) -> Tuple[str, int, str]:
+            """
+            Gets a token by authorizing with oproxy.
+
+            Returns:
+                tuple: An access token, its expiry and refresh token.
+            """
+            content = self.refresh_token or self.tenant_id
+            headers = self._add_info_headers()
+            oproxy_response = requests.post(
+                self.token_retrieval_url,
+                headers=headers,
+                json={
+                    'app_name': self.app_name,
+                    'registration_id': self.auth_id,
+                    'encrypted_token': self.get_encrypted(content, self.enc_key)
+                },
+                verify=self.verify
+            )
+
+            if not oproxy_response.ok:
+                msg = 'Error in authentication. Try checking the credentials you entered.'
+                try:
+                    demisto.info('Authentication failure from server: {} {} {}'.format(
+                        oproxy_response.status_code, oproxy_response.reason, oproxy_response.text))
+                    err_response = oproxy_response.json()
+                    server_msg = err_response.get('message')
+                    if not server_msg:
+                        title = err_response.get('title')
+                        detail = err_response.get('detail')
+                        if title:
+                            server_msg = f'{title}. {detail}'
+                        elif detail:
+                            server_msg = detail
+                    if server_msg:
+                        msg += ' Server message: {}'.format(server_msg)
+                except Exception as ex:
+                    demisto.error('Failed parsing error response - Exception: {}'.format(ex))
+                raise Exception(msg)
+            try:
+                gcloud_function_exec_id = oproxy_response.headers.get('Function-Execution-Id')
+                demisto.info(f'Google Cloud Function Execution ID: {gcloud_function_exec_id}')
+                parsed_response = oproxy_response.json()
+            except ValueError:
+                raise Exception(
+                    'There was a problem in retrieving an updated access token.\n'
+                    'The response from the Oproxy server did not contain the expected content.'
+                )
+
+            return (parsed_response.get('access_token', ''), parsed_response.get('expires_in', 3595),
+                    parsed_response.get('refresh_token', ''))
+
+        def _get_self_deployed_token(self, refresh_token: str = ''):
+            if self.grant_type == AUTHORIZATION_CODE:
+                return self._get_self_deployed_token_auth_code(refresh_token)
+            else:
+                # by default, grant_type is CLIENT_CREDENTIALS
+                return self._get_self_deployed_token_client_credentials()
+
+        def _get_self_deployed_token_client_credentials(self) -> Tuple[str, int, str]:
+            """
+            Gets a token by authorizing a self deployed Azure application in client credentials grant type.
+
+            Returns:
+                tuple: An access token and its expiry.
+            """
+            data = {
+                'client_id': self.client_id,
+                'client_secret': self.client_secret,
+                'grant_type': CLIENT_CREDENTIALS
+            }
+
+            if self.scope:
+                data['scope'] = self.scope
+            if self.resource:
+                data['resource'] = self.resource
+
+            response_json: dict = {}
+            try:
+                response = requests.post(self.token_retrieval_url, data, verify=self.verify)
+                if response.status_code not in {200, 201}:
+                    return_error(f'Error in Microsoft authorization. Status: {response.status_code},'
+                                 f' body: {self.error_parser(response)}')
+                response_json = response.json()
+            except Exception as e:
+                return_error(f'Error in Microsoft authorization: {str(e)}')
+
+            access_token = response_json.get('access_token', '')
+            expires_in = int(response_json.get('expires_in', 3595))
+
+            return access_token, expires_in, ''
+
+        def _get_self_deployed_token_auth_code(self, refresh_token: str = '') -> Tuple[str, int, str]:
+            """
+            Gets a token by authorizing a self deployed Azure application.
+
+            Returns:
+                tuple: An access token, its expiry and refresh token.
+            """
+            data = {
+                'client_id': self.client_id,
+                'client_secret': self.client_secret,
+                'resource': self.resource,
+                'redirect_uri': self.redirect_uri
+            }
+            refresh_token = refresh_token or self._get_refresh_token_from_auth_code_param()
+            if refresh_token:
+                data['grant_type'] = REFRESH_TOKEN
+                data['refresh_token'] = refresh_token
+            else:
+                data['grant_type'] = AUTHORIZATION_CODE
+                data['code'] = self.auth_code
+
+            response_json: dict = {}
+            try:
+                response = requests.post(self.token_retrieval_url, data, verify=self.verify)
+                if response.status_code not in {200, 201}:
+                    return_error(f'Error in Microsoft authorization. Status: {response.status_code},'
+                                 f' body: {self.error_parser(response)}')
+                response_json = response.json()
+            except Exception as e:
+                return_error(f'Error in Microsoft authorization: {str(e)}')
+
+            access_token = response_json.get('access_token', '')
+            # refresh_token = response_json.get('refresh_token', '')
+            expires_in = int(response_json.get('expires_in', 3595))
+
+            return access_token, expires_in, refresh_token
+
+        def _get_refresh_token_from_auth_code_param(self) -> str:
+            refresh_prefix = "refresh_token:"
+            if self.auth_code.startswith(refresh_prefix):  # for testing we allow setting the refresh token directly
+                demisto.debug("Using refresh token set as auth_code")
+                return self.auth_code[len(refresh_prefix):]
+            return ''
+
+        @staticmethod
+        def error_parser(error: requests.Response) -> str:
+            """
+
+            Args:
+                error (requests.Response): response with error
+
+            Returns:
+                str: string of error
+
+            """
+            try:
+                response = error.json()
+                inner_error = response.get('error', {})
+                if isinstance(inner_error, dict):
+                    err_str = f"{inner_error.get('code')}: {inner_error.get('message')}"
+                else:
+                    err_str = inner_error
+                if err_str:
+                    return err_str
+                # If no error message
+                raise ValueError
+            except ValueError:
+                return error.text
+
+        @staticmethod
+        def epoch_seconds(d: datetime = None) -> int:
+            """
+            Return the number of seconds for given date. If no date, return current.
+
+            Args:
+                d (datetime): timestamp
+            Returns:
+                 int: timestamp in epoch
+            """
+            if not d:
+                d = MicrosoftClient._get_utcnow()
+            return int((d - MicrosoftClient._get_utcfromtimestamp(0)).total_seconds())
+
+        @staticmethod
+        def _get_utcnow() -> datetime:
+            return datetime.utcnow()
+
+        @staticmethod
+        def _get_utcfromtimestamp(_time) -> datetime:
+            return datetime.utcfromtimestamp(_time)
+
+        @staticmethod
+        def get_encrypted(content: str, key: str) -> str:
+            """
+            Encrypts content with encryption key.
+            Args:
+                content: Content to encrypt
+                key: encryption key from oproxy
+
+            Returns:
+                timestamp: Encrypted content
+            """
+
+            def create_nonce():
+                return os.urandom(12)
+
+            def encrypt(string, enc_key):
+                """
+                Encrypts string input with encryption key.
+                Args:
+                    string: String to encrypt
+                    enc_key: Encryption key
+
+                Returns:
+                    bytes: Encrypted value
+                """
+                # String to bytes
+                try:
+                    enc_key = base64.b64decode(enc_key)
+                except Exception as err:
+                    return_error(f"Error in Microsoft authorization: {str(err)}"
+                                 f" Please check authentication related parameters.", error=traceback.format_exc())
+
+                # Create key
+                aes_gcm = AESGCM(enc_key)
+                # Create nonce
+                nonce = create_nonce()
+                # Create ciphered data
+                data = string.encode()
+                ct = aes_gcm.encrypt(nonce, data, None)
+                return base64.b64encode(nonce + ct)
+
+            now = MicrosoftClient.epoch_seconds()
+            encrypted = encrypt(f'{now}:{content}', key).decode('utf-8')
+            return encrypted
+
+        @staticmethod
+        def _add_info_headers() -> Dict[str, str]:
+            # pylint: disable=no-member
+            headers = {}
+            try:
+                calling_context = demisto.callingContext.get('context', {})  # type: ignore[attr-defined]
+                brand_name = calling_context.get('IntegrationBrand', '')
+                instance_name = calling_context.get('IntegrationInstance', '')
+                headers['X-Content-Version'] = CONTENT_RELEASE_VERSION
+                headers['X-Content-Name'] = brand_name or instance_name or 'Name not found'
+                if hasattr(demisto, 'demistoVersion'):
+                    demisto_version = demisto.demistoVersion()
+                    headers['X-Content-Server-Version'] = '{}-{}'.format(demisto_version.get('version'),
+                                                                         demisto_version.get("buildNumber"))
+            except Exception as e:
+                demisto.error('Failed getting integration info: {}'.format(str(e)))
+
+            return headers
+
+
+
+
+    if __name__ in ('__main__', '__builtin__', 'builtins'):
+        main()
+  subtype: python3
+  type: python
+system: true

@@ -66,7 +66,7 @@ configuration:
   required: false
   type: 17
 - defaultvalue: "20160"
-  display: feedExpirationInterval
+  display: ""
   name: feedExpirationInterval
   required: false
   type: 1
@@ -78,7 +78,7 @@ configuration:
 - additionalinfo: When selected, the exclusion list is ignored for indicators from
     this feed. This means that if an indicator from this feed is on the exclusion
     list, the indicator might still be added to the system.
-  defaultvalue: ""
+  defaultvalue: "true"
   display: Bypass exclusion list
   name: feedBypassExclusionList
   required: false
@@ -98,7 +98,7 @@ contentitemexportablefields:
     propagationLabels:
     - all
 description: Use the Office 365 feed integration to get indicators from the feed.
-detaileddescription: |
+detaileddescription: |-
   ## Office 365 IP Address and URL web service:
   https://docs.microsoft.com/en-us/office365/enterprise/office-365-ip-web-service
   #### Prototypes to choose from:
@@ -147,10 +147,10 @@ script:
       - Both
     description: Gets indicators from the feed.
     name: office365-get-indicators
-  dockerimage: demisto/python3:3.8.1.5734
+  dockerimage: demisto/python3:3.8.2.6981
   feed: true
   runonce: false
-  script: |-
+  script: |
     from typing import Dict, List, Tuple, Any, Callable
 
     import uuid
@@ -164,7 +164,7 @@ script:
 
 
     def build_urls_dict(regions_list: list, services_list: list, unique_id) -> List[Dict[str, Any]]:
-        """Builds a URL dictionary with the relevant data for each Sub feed
+        """Builds a URL dictionary with the relevant data for each service
 
         Args:
             regions_list: list of regions
@@ -172,7 +172,7 @@ script:
             unique_id: unique uuid
 
         Returns:
-            URLs sub feeds list
+            URLs services list
         """
         urls_list = []
         for region in regions_list:
@@ -201,7 +201,7 @@ script:
         def __init__(self, urls_list: list, insecure: bool = False, proxy: bool = False):
             """
             Implements class for Office 365 feeds.
-            :param urls_list: List of url, regions and service of each sub feed.
+            :param urls_list: List of url, regions and service of each service.
             :param insecure: boolean, if *false* feed HTTPS server certificate is verified. Default: *false*
             :param proxy: boolean, if *false* feed HTTPS server certificate will not use proxies. Default: *false*
             """
@@ -226,7 +226,7 @@ script:
                     response.raise_for_status()
                     data = response.json()
                     indicators = [i for i in data if 'ips' in i or 'urls' in i]  # filter empty entries and add metadata]
-                    for i in indicators:  # add relevant fields of sub feeds
+                    for i in indicators:  # add relevant fields of services
                         i.update({
                             "Region": region,
                             "Service": service,
@@ -249,8 +249,10 @@ script:
                     raise ValueError(f'Could not parse returned data to Json. \n\nError massage: {err}')
             return result
 
-        def check_indicator_type(self, indicator):
-            """Checks the indicator type
+        @staticmethod
+        def check_indicator_type(indicator):
+            """Checks the indicator type.
+               The indicator type can be classified as one of the following values: CIDR, IPv6CIDR, IP, IPv6 or Domain.
 
             Args:
                 indicator: indicator value
@@ -258,17 +260,14 @@ script:
             Returns:
                 The type of the indicator
             """
-            if re.match(ipv4cidrRegex, indicator):
-                return FeedIndicatorType.CIDR
-            if re.match(ipv6cidrRegex, indicator):
-                return FeedIndicatorType.IPv6CIDR
-            if re.match(ipv4Regex, indicator):
-                return FeedIndicatorType.IP
-            if re.match(ipv6Regex, indicator):
-                return FeedIndicatorType.IPv6
-            if re.match(urlRegex, indicator):
-                return FeedIndicatorType.URL
-            return FeedIndicatorType.Domain
+            is_ip_indicator = FeedIndicatorType.ip_to_indicator_type(indicator)
+            if is_ip_indicator:
+                return is_ip_indicator
+            elif '*' in indicator:
+                return FeedIndicatorType.DomainGlob
+            # domain
+            else:
+                return FeedIndicatorType.Domain
 
 
     def test_module(client: Client, *_) -> Tuple[str, Dict[Any, Any], Dict[Any, Any]]:
@@ -309,7 +308,7 @@ script:
                 values = item.get(indicator_type_lower)
             if values:
                 for value in values:
-                    type_ = client.check_indicator_type(value)
+                    type_ = Client.check_indicator_type(value)
                     raw_data = {
                         'value': value,
                         'type': type_,
@@ -317,10 +316,26 @@ script:
                     for key, val in item.items():
                         if key not in ['ips', 'urls']:
                             raw_data.update({key: val})
+
+                    indicator_mapping_fields = {
+                        "port": argToList(item.get('tcpPorts', '')),
+                        "service": item.get('serviceArea', '')
+                    }
+
+                    if item.get('expressRoute'):
+                        indicator_mapping_fields["office365expressroute"] = item.get('expressRoute')
+                    if item.get('category'):
+                        indicator_mapping_fields["office365category"] = item.get('category')
+                    if item.get('required'):
+                        indicator_mapping_fields["office365required"] = item.get('required')
+                    if item.get('notes'):
+                        indicator_mapping_fields["description"] = item.get('notes')
+
                     indicators.append({
                         "value": value,
                         "type": type_,
                         "rawJSON": raw_data,
+                        "fields": indicator_mapping_fields
                     })
 
         return indicators

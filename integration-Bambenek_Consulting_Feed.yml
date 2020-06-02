@@ -3,39 +3,11 @@ commonfields:
   id: Bambenek Consulting Feed
   version: -1
 configuration:
-- defaultvalue: ""
-  display: Sub-Feeds
-  name: url
-  options:
-  - http://osint.bambenekconsulting.com/feeds/c2-ipmasterlist.txt
-  - http://osint.bambenekconsulting.com/feeds/c2-ipmasterlist-high.txt
-  - http://osint.bambenekconsulting.com/feeds/c2-dommasterlist.txt
-  - http://osint.bambenekconsulting.com/feeds/c2-dommasterlist-high.txt
-  required: true
-  type: 16
 - defaultvalue: "true"
   display: Fetch indicators
   name: feed
   required: false
   type: 8
-- defaultvalue: "360"
-  display: Feed Fetch Interval
-  name: feedFetchInterval
-  required: false
-  type: 19
-- additionalinfo: Reliability of the source providing the intelligence data
-  defaultvalue: B - Usually reliable
-  display: Source Reliability
-  name: feedReliability
-  options:
-  - A - Completely reliable
-  - B - Usually reliable
-  - C - Fairly reliable
-  - D - Not usually reliable
-  - E - Unreliable
-  - F - Reliability cannot be judged
-  required: false
-  type: 15
 - additionalinfo: Indicators from this integration instance will be marked with this
     reputation
   defaultvalue: Bad
@@ -48,6 +20,19 @@ configuration:
   - Bad
   required: false
   type: 18
+- additionalinfo: Reliability of the source providing the intelligence data
+  defaultvalue: B - Usually reliable
+  display: Source Reliability
+  name: feedReliability
+  options:
+  - A - Completely reliable
+  - B - Usually reliable
+  - C - Fairly reliable
+  - D - Not usually reliable
+  - E - Unreliable
+  - F - Reliability cannot be judged
+  required: true
+  type: 15
 - defaultvalue: indicatorType
   display: ""
   name: feedExpirationPolicy
@@ -59,10 +44,15 @@ configuration:
   required: false
   type: 17
 - defaultvalue: "20160"
-  display: ' '
+  display: ""
   name: feedExpirationInterval
   required: false
   type: 1
+- defaultvalue: "360"
+  display: Feed Fetch Interval
+  name: feedFetchInterval
+  required: false
+  type: 19
 - additionalinfo: When selected, the exclusion list is ignored for indicators from
     this feed. This means that if an indicator from this feed is on the exclusion
     list, the indicator might still be added to the system.
@@ -81,6 +71,26 @@ configuration:
   name: proxy
   required: false
   type: 8
+- defaultvalue: ""
+  display: Services
+  name: url
+  options:
+  - C2 IP Feed
+  - High-Confidence C2 IP Feed
+  - C2 Domain Feed
+  - High-Confidence C2 Domain Feed
+  - C2 All Indicator Feed
+  - High-Confidence C2 All Indicator Feed
+  - DGA Domain Feed
+  - High-Confidence DGA Domain Feed
+  - Sinkhole Feed
+  required: true
+  type: 16
+- defaultvalue: ""
+  display: Username
+  name: credentials
+  required: false
+  type: 9
 - additionalinfo: Time in seconds before http requests timeout.
   defaultvalue: "20"
   display: Request Timeout
@@ -106,11 +116,23 @@ script:
       name: indicator_type
     description: Gets the feed indicators.
     name: bambenek-get-indicators
-  dockerimage: demisto/python3:3.8.1.5734
+  dockerimage: demisto/python3:3.8.2.6981
   feed: true
   runonce: false
-  script: |2-
+  script: |2
 
+
+    name_to_url = {
+        'C2 IP Feed': 'http://osint.bambenekconsulting.com/feeds/c2-ipmasterlist.txt',
+        'High-Confidence C2 IP Feed': 'http://osint.bambenekconsulting.com/feeds/c2-ipmasterlist-high.txt',
+        'C2 Domain Feed': 'http://osint.bambenekconsulting.com/feeds/c2-dommasterlist.txt',
+        'High-Confidence C2 Domain Feed': 'http://osint.bambenekconsulting.com/feeds/c2-dommasterlist-high.txt',
+        'DGA Domain Feed': 'https://faf.bambenekconsulting.com/feeds/dga-feed.gz',
+        'High-Confidence DGA Domain Feed': 'https://faf.bambenekconsulting.com/feeds/dga-feed-high.gz',
+        'C2 All Indicator Feed': 'https://faf.bambenekconsulting.com/feeds/dga/c2-masterlist.txt',
+        'High-Confidence C2 All Indicator Feed': 'https://faf.bambenekconsulting.com/feeds/dga/c2-masterlist-high.txt',
+        'Sinkhole Feed': 'https://faf.bambenekconsulting.com/feeds/sinkhole/latest.csv'
+    }
 
 
     def main():
@@ -121,7 +143,8 @@ script:
                                'info'],
                 'indicator_type': FeedIndicatorType.IP,
                 'mapping': {
-                    'description': 'malwarefamily'
+                    'description': 'description',
+                    'malwarefamily': ('description', r'.*used\s+by\s(.*?)\s', None)
                 }
             },
 
@@ -131,7 +154,8 @@ script:
                                'info'],
                 'indicator_type': FeedIndicatorType.Domain,
                 'mapping': {
-                    'description': 'malwarefamily'
+                    'description': 'description',
+                    'malwarefamily': ('description', r'.*used\s+by\s(.*?)\s', None)
                 }
             },
             'http://osint.bambenekconsulting.com/feeds/c2-ipmasterlist-high.txt': {
@@ -140,7 +164,8 @@ script:
                                'info'],
                 'indicator_type': FeedIndicatorType.IP,
                 'mapping': {
-                    'description': 'malwarefamily'
+                    'description': 'description',
+                    'malwarefamily': ('description', r'.*used\s+by\s(.*?)\s', None)
                 }
             },
             'http://osint.bambenekconsulting.com/feeds/c2-dommasterlist-high.txt': {
@@ -149,12 +174,67 @@ script:
                                'info'],
                 'indicator_type': FeedIndicatorType.Domain,
                 'mapping': {
-                    'description': 'malwarefamily'
+                    'description': 'description',
+                    'malwarefamily': ('description', r'.*used\s+by\s(.*?)\s', None)
+                }
+            },
+            'https://faf.bambenekconsulting.com/feeds/dga-feed.gz': {
+                'fieldnames': ['value', 'description',
+                               'date_created',
+                               'info'],
+                'indicator_type': FeedIndicatorType.Domain,
+                'mapping': {
+                    'description': 'description',
+                    'malwarefamily': ('description', r'.*used\s+by\s(.*?)\s', None)
+                },
+                'is_zipped_file': True
+            },
+            'https://faf.bambenekconsulting.com/feeds/dga-feed-high.gz': {
+                'fieldnames': ['value', 'description',
+                               'date_created',
+                               'info'],
+                'indicator_type': FeedIndicatorType.Domain,
+                'mapping': {
+                    'description': 'description',
+                    'malwarefamily': ('description', r'.*used\s+by\s(.*?)\s', None)
+                },
+                'is_zipped_file': True
+            },
+            'https://faf.bambenekconsulting.com/feeds/dga/c2-masterlist.txt': {
+                'fieldnames': ['value',
+                               'ip',
+                               'nsname',
+                               'nsip',
+                               'description',
+                               'info'],
+                'indicator_type': FeedIndicatorType.Domain,
+                'mapping': {
+                    'ipaddress': 'ip'
+                }
+            },
+            'https://faf.bambenekconsulting.com/feeds/dga/c2-masterlist-high.txt': {
+                'fieldnames': ['value',
+                               'ip',
+                               'nsname',
+                               'nsip',
+                               'description',
+                               'info'],
+                'indicator_type': FeedIndicatorType.Domain,
+                'mapping': {
+                    'ipaddress': 'ip'
+                }
+            },
+            'https://faf.bambenekconsulting.com/feeds/sinkhole/latest.csv': {
+                'fieldnames': ['value',
+                               'owner'],
+                'indicator_type': FeedIndicatorType.IP,
+                'mapping': {
+                    'description': ('owner', None, 'Sinkholed by {}')
                 }
             }
         }
-
         params = {k: v for k, v in demisto.params().items() if v is not None}
+        params['url'] = [name_to_url.get(url) for url in argToList(params.get('url'))]
         params['feed_url_to_config'] = feed_url_to_config
         params['ignore_regex'] = r'^#'
         params['delimiter'] = ','
@@ -171,9 +251,11 @@ script:
 
 
     ''' IMPORTS '''
-    import urllib3
     import csv
-    from typing import Optional, Pattern, Dict, Any
+    import gzip
+    import urllib3
+    from dateutil.parser import parse
+    from typing import Optional, Pattern, Dict, Any, Tuple, Union
 
     # disable insecure warnings
     urllib3.disable_warnings()
@@ -196,10 +278,16 @@ script:
                     'fieldnames': ['value'],
                     'indicator_type': 'IP',
                     'mapping': {
-                        'date': 'Date'
+                        'Date': 'date' / 'Date': ('date', r'(regex_string)', 'The date is {}')
                     }
                 }
              }
+             For the mapping you can use either:
+                1. 'indicator_field': 'value_from_feed'
+                2. 'indicator_field': ('value_from_feed', regex_string_extractor, string_formatter)
+                    * regex_string_extractor will extract the first match from the value_from_feed,
+                    Use None to get the full value of the field.
+                    * string_formatter will format the data in your preferred way, Use None to get the extracted field.
             :param fieldnames: list of field names in the file. If *null* the values in the first row of the file are
                 used as names. Default: *null*
             :param insecure: boolean, if *false* feed HTTPS server certificate is verified. Default: *false*
@@ -302,14 +390,14 @@ script:
                     return_error('Exception in request: {} {}'.format(r.status_code, r.content))
                     raise
 
-                response = r.content.decode(self.encoding).split('\n')
+                response = self.get_feed_content_divided_to_lines(url, r)
                 if self.feed_url_to_config:
                     fieldnames = self.feed_url_to_config.get(url, {}).get('fieldnames', [])
                 else:
                     fieldnames = self.fieldnames
                 if self.ignore_regex is not None:
-                    response = filter(
-                        lambda x: self.ignore_regex.match(x) is None,  # type: ignore[union-attr]
+                    response = filter(  # type: ignore
+                        lambda x: self.ignore_regex.match(x) is None,  # type: ignore
                         response
                     )
 
@@ -323,33 +411,81 @@ script:
 
             return results
 
+        def get_feed_content_divided_to_lines(self, url, raw_response):
+            """Fetch feed data and divides its content to lines
+
+            Args:
+                url: Current feed's url.
+                raw_response: The raw response from the feed's url.
+
+            Returns:
+                List. List of lines from the feed content.
+            """
+            if self.feed_url_to_config and self.feed_url_to_config.get(url).get('is_zipped_file'):  # type: ignore
+                response_content = gzip.decompress(raw_response.content)
+            else:
+                response_content = raw_response.content
+
+            return response_content.decode(self.encoding).split('\n')
+
+
+    def determine_indicator_type(indicator_type, default_indicator_type, value):
+        if not indicator_type:
+            indicator_type = default_indicator_type
+        if indicator_type == FeedIndicatorType.Domain and '*' in value:
+            indicator_type = FeedIndicatorType.DomainGlob
+        return indicator_type
+
 
     def module_test_command(client: Client, args):
         if not client.feed_url_to_config:
             indicator_type = args.get('indicator_type', demisto.params().get('indicator_type'))
             if not FeedIndicatorType.is_valid_type(indicator_type):
-                supported_values = ', '.join((
-                    FeedIndicatorType.Account,
-                    FeedIndicatorType.CVE,
-                    FeedIndicatorType.Domain,
-                    FeedIndicatorType.Email,
-                    FeedIndicatorType.File,
-                    FeedIndicatorType.MD5,
-                    FeedIndicatorType.SHA1,
-                    FeedIndicatorType.SHA256,
-                    FeedIndicatorType.Host,
-                    FeedIndicatorType.IP,
-                    FeedIndicatorType.CIDR,
-                    FeedIndicatorType.IPv6,
-                    FeedIndicatorType.IPv6CIDR,
-                    FeedIndicatorType.Registry,
-                    FeedIndicatorType.SSDeep,
-                    FeedIndicatorType.URL
-                ))
+                supported_values = FeedIndicatorType.list_all_supported_indicators()
                 raise ValueError(f'Indicator type of {indicator_type} is not supported. Supported values are:'
                                  f' {supported_values}')
         client.build_iterator()
         return 'ok', {}, {}
+
+
+    def date_format_parsing(date_string):
+        formatted_date = parse(date_string).isoformat()
+        if "+" in formatted_date:
+            formatted_date = formatted_date.split('+')[0]
+
+        if "." in formatted_date:
+            formatted_date = formatted_date.split('.')[0]
+
+        if not formatted_date.endswith('Z'):
+            formatted_date = formatted_date + 'Z'
+
+        return formatted_date
+
+
+    def create_fields_mapping(raw_json: Dict[str, Any], mapping: Dict[str, Union[Tuple, str]]):
+        fields_mapping = {}  # type: dict
+
+        for key, field in mapping.items():
+            regex_extractor = None
+            formatter_string = None
+
+            if isinstance(field, tuple):
+                field, regex_extractor, formatter_string = field
+
+            if not raw_json.get(field):  # type: ignore
+                continue
+
+            try:
+                field_value = re.match(regex_extractor, raw_json[field]).group(1)  # type: ignore
+            except Exception:
+                field_value = raw_json[field]  # type: ignore
+
+            fields_mapping[key] = formatter_string.format(field_value) if formatter_string else field_value
+
+            if key in ['firstseenbysource', 'lastseenbysource']:
+                fields_mapping[key] = date_format_parsing(fields_mapping[key])
+
+        return fields_mapping
 
 
     def fetch_indicators_command(client: Client, default_indicator_type: str, **kwargs):
@@ -366,16 +502,14 @@ script:
                         value = next(iter(item.values()))
                     if value:
                         raw_json['value'] = value
-                        indicator_type = config.get(url, {}).get('indicator_type')
-                        if not indicator_type:
-                            indicator_type = default_indicator_type
+                        conf_indicator_type = config.get(url, {}).get('indicator_type')
+                        indicator_type = determine_indicator_type(conf_indicator_type, default_indicator_type, value)
                         raw_json['type'] = indicator_type
-
                         indicator = {
                             'value': value,
                             'type': indicator_type,
                             'rawJSON': raw_json,
-                            'CustomFields': {field: raw_json[key] for key, field in mapping.items()}
+                            'fields': create_fields_mapping(raw_json, mapping) if mapping else {}
                         }
                         indicators.append(indicator)
 
@@ -387,7 +521,7 @@ script:
         limit = int(args.get('limit'))
         indicators_list = fetch_indicators_command(client, itype)
         entry_result = indicators_list[:limit]
-        hr = tableToMarkdown('Indicators', entry_result, headers=['value', 'type'])
+        hr = tableToMarkdown('Indicators', entry_result, headers=['value', 'type', 'fields'])
         return hr, {}, indicators_list
 
 

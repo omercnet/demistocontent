@@ -14,7 +14,7 @@ configuration:
   required: false
   type: 8
 - defaultvalue: "false"
-  display: Trust any certificate (unsecure)
+  display: Trust any certificate (not secure)
   name: insecure
   required: false
   type: 8
@@ -67,12 +67,12 @@ contentitemexportablefields:
     propagationLabels:
     - all
 description: Analyze suspicious hashes, URLs, domains and IP addresses
-detaileddescription: |
-  Indicators thresholds:
-  Configure the default threshold for each indicator type in the instance settings.
-  Note that it is also possible to specify the threshold when runing the command.
-  Indicators with positive results equal or bigger than the threshold will be considered malicious.
-  Indicators with positive results equal or bigger than half of the threshold value, and lower than the threshold, will be considered suspicious.
+detaileddescription: "  Indicators thresholds:\n  \n  Configure the default threshold
+  for each indicator type in the instance settings.\n  \n  Note that it is also possible
+  to specify the threshold when runing the command.\n  \n  Indicators with positive
+  results equal or bigger than the threshold will be considered malicious.\n  \n  Indicators
+  with positive results equal or bigger than half of the threshold value, and lower
+  than the threshold, will be considered suspicious.\n"
 display: VirusTotal - Private API
 image: data:image/png;base64,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
 name: VirusTotal - Private API
@@ -277,6 +277,12 @@ script:
     - contextPath: File.VirusTotal.ImpHash
       description: ImpHash of the File
       type: string
+    - contextPath: VirusTotal.ID
+      description: The ID of the file uploaded to VirusTotal. (The file hash)
+      type: String
+    - contextPath: VirusTotal.Status
+      description: The status of the queried file. Could be "Queued" or "Ready".
+      type: String
   - arguments:
     - description: A CSV list of one or more URLs to retrieve the most recent report
         for. You can also specify a scan_id (sha-256 timestamp returned by the URL
@@ -510,7 +516,7 @@ script:
       download samples that match a given set of criteria.
     name: vt-private-download-file
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -530,7 +536,7 @@ script:
 
     ''' GLOBAL VARS '''
     SERVER_URL = 'https://www.virustotal.com/vtapi/v2/'
-    API_KEY = demisto.params()['APIKey']
+    API_KEY = demisto.params().get('APIKey', '')
 
     USE_SSL = False if demisto.params().get('insecure') else True
     PREFERRED_VENDORS = demisto.params().get("preferredVendors", None)
@@ -673,9 +679,12 @@ script:
             dbotScore = 2
         else:
             dbotScore = 1
+        if is_demisto_version_ge('5.5.0'):
+            ec['DBotScore(val.Indicator && val.Indicator == obj.Indicator && val.Vendor == obj.Vendor && val.Type'
+               ' == obj.Type)'] = get_dbot_file_context(file_hash, dbotScore)
+        else:
+            ec['DBotScore'] = get_dbot_file_context(file_hash, dbotScore)
 
-        ec['DBotScore'].append(  # type:ignore
-            {'Indicator': file_hash, 'Type': 'hash', 'Vendor': 'VirusTotal - Private API', 'Score': dbotScore})
         md += 'MD5: **' + vt_response.get('md5') + '**\n'
         md += 'SHA1: **' + vt_response.get('sha1') + '**\n'
         md += 'SHA256: **' + vt_response.get('sha256') + '**\n'
@@ -717,6 +726,8 @@ script:
                 {'Authentihash': vt_response.get('authentihash')})
         if vt_response.get('imphash', False):
             ec[outputPaths['file']]['VirusTotal'].update({'ImpHash': vt_response.get('imphash')})
+        ec['VirusTotal(val.ID == obj.ID)'] = {'ID': file_hash,
+                                              'Status': 'Ready'}
 
         entry = {
             'Type': entryTypes['note'],
@@ -727,6 +738,11 @@ script:
             'EntryContext': ec
         }
         return entry
+
+
+    def get_dbot_file_context(file_hash, dbotscore):
+
+        return {'Indicator': file_hash, 'Type': 'file', 'Vendor': 'VirusTotal - Private API', 'Score': dbotscore}
 
 
     ''' COMMANDS FUNCTIONS '''
@@ -761,22 +777,24 @@ script:
         # VT response
         response = check_file_behaviour(file_hash)
 
+        ec = {}
         if (response.get('response_code', None) == 0):
+
+            if is_demisto_version_ge('5.5.0'):
+                ec['DBotScore(val.Indicator && val.Indicator == obj.Indicator && val.Vendor == obj.Vendor && val.Type'
+                   ' == obj.Type)'] = get_dbot_file_context(file_hash, 0)
+
+            else:
+                ec['DBotScore'] = get_dbot_file_context(file_hash, 0)
             return {
                 'Type': entryTypes['note'],
                 'Contents': response,
                 'ContentsFormat': formats['json'],
-                'EntryContext': {
-                    "DBotScore": {
-                        'Indicator': file_hash,
-                        'Type': 'hash',
-                        'Vendor': 'VirusTotal - Private API',
-                        'Score': 0
-                    }
-                },
-                'HumanReadable': "A report wasn't found for file "
-                                 + file_hash + ". Virus Total returned the following response: " + json.dumps(
-                    response.get('verbose_msg'))
+                'EntryContext': ec,
+
+                'HumanReadable': "A report wasn't found for file " + file_hash + ". Virus Total returned the following "
+                                                                                 "response: " + json.dumps
+                                 (response.get('verbose_msg'))
             }
 
         # data processing
@@ -1026,6 +1044,12 @@ script:
     def get_file_report_command():
         """
         corresponds to 'vt-get-file-report' command. Retrieves a report about the execution of a file
+        If a file was recently uploaded it might not be ready yet. In this case it is "Queued" and the response code
+        we get is -2.
+        In general from the documentation:
+        response_code: if the item you searched for was not present in VirusTotal's dataset this result will be 0.
+        If the requested item is still queued for analysis it will be -2.
+        If the item was indeed present and it could be retrieved it will be 1.
         """
 
         args = demisto.args()
@@ -1037,7 +1061,20 @@ script:
 
         response = get_file_report(file_hash, all_info)
 
-        if (response.get('response_code', None) == 0):
+        if response.get('response_code', None) == -2:
+            hr = "The file is queued for analysis. Try again in a short while."
+            ec = {'VirusTotal(val.ID == obj.ID)': {'ID': file_hash,
+                                                   'Status': 'Queued'}}
+            return {
+                'Type': entryTypes['note'],
+                'Contents': response,
+                'ContentsFormat': formats['json'],
+                'ReadableContentsFormat': formats['markdown'],
+                'HumanReadable': hr,
+                'EntryContext': ec
+            }
+
+        if response.get('response_code', None) == 0:
             return "A report wasn't found. Virus Total returned the following response: " + json.dumps(
                 response.get('verbose_msg'))
 
@@ -1499,16 +1536,12 @@ script:
                 'Contents': response,
                 'ContentsFormat': formats['json'],
                 'EntryContext': {
-                    "DBotScore": {
-                        'Indicator': file_hash,
-                        'Type': 'hash',
-                        'Vendor': 'VirusTotal - Private API',
-                        'Score': 0
-                    }
+                    'DBotScore': get_dbot_file_context(file_hash, 0)
                 },
-                'HumanReadable': "A report wasn't found for file " + file_hash + ". Virus Total returned the following "
-                                                                                 "response: " + json.dumps(
-                    response.get('verbose_msg'))
+
+                'HumanReadable': "A report wasn't found for file " + file_hash + ". Virus Total returned the following"
+                                                                                 " response: " + json.dumps
+                                 (response.get('verbose_msg'))
             }
 
         # network data contains all the communication data
@@ -1628,38 +1661,44 @@ script:
 
 
     ''' EXECUTION CODE '''
-    LOG('command is %s' % (demisto.command(),))
-    try:
-        handle_proxy(proxy_param_name='useProxy')
-        if demisto.command() == 'test-module':
-            # This is the call made when pressing the integration test button.
-            if check_file_behaviour(
-                    '10676cf66244cfa91567fbc1a937f4cb19438338b35b69d4bcc2cf0d3a44af5e'):  # guardrails-disable-line
-                demisto.results('ok')
-            else:
-                demisto.results('test failed')
-            pass
-        elif demisto.command() == 'vt-private-check-file-behaviour':
-            demisto.results(check_file_behaviour_command())
-        elif demisto.command() == 'vt-private-get-domain-report':
-            demisto.results(get_domain_report_command())
-        elif demisto.command() == 'vt-private-get-file-report':
-            demisto.results(get_file_report_command())
-        elif demisto.command() == 'vt-private-get-url-report':
-            demisto.results(get_url_report_command())
-        elif demisto.command() == 'vt-private-get-ip-report':
-            demisto.results(get_ip_report_command())
-        elif demisto.command() == 'vt-private-search-file':
-            demisto.results(search_file_command())
-        elif demisto.command() == 'vt-private-hash-communication':
-            demisto.results(hash_communication_command())
-        elif demisto.command() == 'vt-private-download-file':
-            demisto.results(download_file_command())
 
-    except Exception as e:
-        LOG(e.message)
-        LOG.print_log()
-        raise
+
+    def main():
+        LOG('command is %s' % (demisto.command(),))
+        try:
+            handle_proxy(proxy_param_name='useProxy')
+            if demisto.command() == 'test-module':
+                # This is the call made when pressing the integration test button.
+                # disable-secrets-detection-start
+                if check_file_behaviour(
+                        '10676cf66244cfa91567fbc1a937f4cb19438338b35b69d4bcc2cf0d3a44af5e'):  # guardrails-disable-line
+                    # disable-secrets-detection-end
+                    demisto.results('ok')
+                else:
+                    demisto.results('test failed')
+            elif demisto.command() == 'vt-private-check-file-behaviour':
+                demisto.results(check_file_behaviour_command())
+            elif demisto.command() == 'vt-private-get-domain-report':
+                demisto.results(get_domain_report_command())
+            elif demisto.command() == 'vt-private-get-file-report':
+                demisto.results(get_file_report_command())
+            elif demisto.command() == 'vt-private-get-url-report':
+                demisto.results(get_url_report_command())
+            elif demisto.command() == 'vt-private-get-ip-report':
+                demisto.results(get_ip_report_command())
+            elif demisto.command() == 'vt-private-search-file':
+                demisto.results(search_file_command())
+            elif demisto.command() == 'vt-private-hash-communication':
+                demisto.results(hash_communication_command())
+            elif demisto.command() == 'vt-private-download-file':
+                demisto.results(download_file_command())
+
+        except Exception as e:
+            return_error(str(e))
+
+
+    if __name__ in ['__main__', '__builtin__', 'builtins']:
+        main()
   subtype: python2
   type: python
 system: true

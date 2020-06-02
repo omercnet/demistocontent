@@ -14,7 +14,7 @@ configuration:
   required: true
   type: 4
 - defaultvalue: ""
-  display: Trust any certificate (unsecure)
+  display: Trust any certificate (not secure)
   name: insecure
   required: false
   type: 8
@@ -1129,15 +1129,13 @@ script:
     - contextPath: Demisto.File
       description: File containing result
   runonce: false
-  script: |-
+  script: |
     import requests
-    import json
-    import urllib
-    import time
-    from datetime import datetime
 
-    from requests.packages.urllib3.exceptions import InsecureRequestWarning
-    requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
+
+
+    requests.packages.urllib3.disable_warnings()
 
     if not demisto.getParam('proxy'):
         del os.environ['HTTP_PROXY']
@@ -1215,18 +1213,6 @@ script:
     }
 
 
-    def return_error(data):
-        """
-        Return error as result and exit
-        """
-        demisto.results({
-            'Type': entryTypes['error'],
-            'ContentsFormat': formats['text'],
-            'Contents': data
-        })
-        sys.exit(0)
-
-
     def req(method, path, params={'api_key': API_KEY}):
         """
         Send the request to ThreatGrid and return the JSON response
@@ -1301,7 +1287,8 @@ script:
             {
                 'Type': entryTypes['note'],
                 'EntryContext': ec,
-                'HumanReadable': '### ThreatGrid Sample Download - \n' + 'Your download request has been completed successfully for ' + sample_id,
+                'HumanReadable': '### ThreatGrid Sample Download - \n'
+                                 + 'Your download request has been completed successfully for ' + sample_id,
                 'Contents': ec,
                 'ContentsFormat': formats['json']
             },
@@ -1318,7 +1305,7 @@ script:
         for k in demisto.get(r.json(), 'data.items'):
             samples.append(sample_to_readable(k))
         md = tableToMarkdown('ThreatGrid - List of Samples', samples, [
-                'ID', 'Filename', 'State', 'Status', 'MD5', 'SHA1', 'SHA256', 'OS', 'SubmittedAt', 'StartedAt', 'CompletedAt'
+            'ID', 'Filename', 'State', 'Status', 'MD5', 'SHA1', 'SHA256', 'OS', 'SubmittedAt', 'StartedAt', 'CompletedAt'
         ])
         demisto.results({
             'Type': entryTypes['note'],
@@ -1337,7 +1324,7 @@ script:
         r = req('GET', SUB_API + 'samples/' + sample_id)
         sample = sample_to_readable(r.json().get('data'))
         md = tableToMarkdown('ThreatGrid - Sample', [sample], [
-                'ID', 'Filename', 'State', 'Status', 'MD5', 'SHA1', 'SHA256', 'OS', 'SubmittedAt', 'StartedAt', 'CompletedAt'
+            'ID', 'Filename', 'State', 'Status', 'MD5', 'SHA1', 'SHA256', 'OS', 'SubmittedAt', 'StartedAt', 'CompletedAt'
         ])
         demisto.results({
             'Type': entryTypes['note'],
@@ -1363,11 +1350,12 @@ script:
             requests.append(r.json())
         return {'samples': samples, 'requests': requests}
 
+
     def get_sample_state_by_id():
         """
         Get the state of a sample given its id
         """
-        ids = []
+        ids = []  # type: list
         if demisto.getArg('ids'):
             ids += argToList(demisto.getArg('ids'))
         if demisto.getArg('id'):
@@ -1394,7 +1382,9 @@ script:
         args['api_key'] = API_KEY
         fileData = demisto.getFilePath(demisto.getArg('file-id'))
         with open(fileData['path'], 'rb') as f:
-            r = requests.request('POST', URL + SUB_API + 'samples', files={'sample': (encode_sample_file_name(demisto.getArg('filename')), f)}, data=args)
+            r = requests.request('POST', URL + SUB_API + 'samples',
+                                 files={'sample': (encode_sample_file_name(demisto.getArg('filename')), f)},
+                                 data=args, verify=VALIDATE_CERT)
             if r.status_code != requests.codes.ok:
                 if r.status_code == 503:
                     return_error('Sample upload failed. File was already uploaded.')
@@ -1431,7 +1421,9 @@ script:
             {
                 'Type': entryTypes['note'],
                 'EntryContext': ec,
-                'HumanReadable': '### ThreatGrid Sample Run HTML Report -\n' + 'Your sample run HTML report download request has been completed successfully for ' + sample_id,
+                'HumanReadable': '### ThreatGrid Sample Run HTML Report -\n'
+                                 + 'Your sample run HTML report download request has been completed successfully for '
+                                 + sample_id,
                 'Contents': r.content,
                 'ContentsFormat': formats['html']
             },
@@ -1450,7 +1442,9 @@ script:
             {
                 'Type': entryTypes['note'],
                 'EntryContext': ec,
-                'HumanReadable': '### ThreatGrid Sample Run PCAP File -\n' + 'Your sample run PCAP file download request has been completed successfully for ' + sample_id,
+                'HumanReadable': '### ThreatGrid Sample Run PCAP File -\n'
+                                 + 'Your sample run PCAP file download request has been completed successfully for '
+                                 + sample_id,
                 'Contents': ec,
                 'ContentsFormat': formats['json']
             },
@@ -1463,13 +1457,15 @@ script:
         Download processes file for a sample given the id
         """
         sample_id = demisto.getArg('id')
-        r = req('GET', SUB_API + 'samples/' + sample_id +'/processes.json')
+        r = req('GET', SUB_API + 'samples/' + sample_id + '/processes.json')
         ec = {'ThreatGrid.Sample.Id': sample_id}
         demisto.results([
             {
                 'Type': entryTypes['note'],
                 'EntryContext': ec,
-                'HumanReadable': '### ThreatGrid Sample Run Processes File -\n' + 'Your sample run processes file download request has been completed successfully for ' + sample_id,
+                'HumanReadable': '### ThreatGrid Sample Run Processes File -\n'
+                                 + 'Your sample run processes file download request has been completed successfully for '
+                                 + sample_id,
                 'Contents': r.json(),
                 'ContentsFormat': formats['json']
             },
@@ -1487,7 +1483,8 @@ script:
         sample = {'ID': sample_id, 'AnalysisSummary': [], 'ArtifactsCount': []}
 
         # Search submissions request for extra information
-        sub_request = req('GET', SUB_API + 'search/submissions', params={'api_key': API_KEY, 'q': demisto.get(r, 'data.sha256')})
+        sub_request = req('GET', SUB_API + 'search/submissions',
+                          params={'api_key': API_KEY, 'q': demisto.get(r, 'data.sha256')})
         sub_r = sub_request.json()
         sub_r_first_item = demisto.get(sub_r, 'data.items')[0]
 
@@ -1505,8 +1502,11 @@ script:
             'Memory': demisto.get(r, 'data.artifacts.memory'),
             'Extracted': demisto.get(r, 'data.artifacts.extracted')
         }
-        md = tableToMarkdown('ThreatGrid - Sample Summary for ' + sample_id, [sample['AnalysisSummary']], ['RegistryCount', 'FileName', 'SHA256', 'SampleType', 'FirstSeen', 'LastSeen'])
-        md += tableToMarkdown('ThreatGrid - Sample Artifacts', [sample['ArtifactsCount']], ['Network', 'Disk', 'Memory', 'Extracted'])
+        md = tableToMarkdown('ThreatGrid - Sample Summary for ' + sample_id,
+                             [sample['AnalysisSummary']], ['RegistryCount', 'FileName',
+                                                           'SHA256', 'SampleType', 'FirstSeen', 'LastSeen'])
+        md += tableToMarkdown('ThreatGrid - Sample Artifacts', [sample['ArtifactsCount']],
+                              ['Network', 'Disk', 'Memory', 'Extracted'])
         demisto.results({
             'Type': entryTypes['note'],
             'EntryContext': {'ThreatGrid.Sample(val.ID == obj.ID)': sample},
@@ -1549,7 +1549,8 @@ script:
             'Indicator': sample['ID'],
             'Score': calc_score(sample['Score'])
         }
-        md = tableToMarkdown('ThreatGrid - Threat Summary', [sample], ['ID', 'MaxSeverity', 'Score', 'Count', 'MaxConfidence'])
+        md = tableToMarkdown('ThreatGrid - Threat Summary', [sample],
+                             ['ID', 'MaxSeverity', 'Score', 'Count', 'MaxConfidence'])
         mdTableList = []
         for threatfeed in sample['ThreatFeeds']:
             mdTableList.append({'Threat Feed': threatfeed})
@@ -1575,7 +1576,9 @@ script:
             {
                 'Type': entryTypes['note'],
                 'EntryContext': ec,
-                'HumanReadable': '### ThreatGrid Sample Run Video File -\n' + 'Your sample run video file download request has been completed successfully for ' + sample_id,
+                'HumanReadable': '### ThreatGrid Sample Run Video File -\n'
+                                 + 'Your sample run video file download request has been completed successfully for '
+                                 + sample_id,
                 'Contents': r.json(),
                 'ContentsFormat': formats['json']
             },
@@ -1594,7 +1597,9 @@ script:
             {
                 'Type': entryTypes['note'],
                 'EntryContext': ec,
-                'HumanReadable': '### ThreatGrid Sample Run Warnings -\n' + 'Your sample run warnings file download request has been completed successfully for ' + sample_id,
+                'HumanReadable': '### ThreatGrid Sample Run Warnings -\n'
+                                 + 'Your sample run warnings file download request has been completed successfully for '
+                                 + sample_id,
                 'Contents': ec,
                 'ContentsFormat': formats['json']
             },
@@ -1684,8 +1689,8 @@ script:
 
         annotations = []
         context_path = 'ThreatGrid.AnalysisResults.Sample.Id.Annotations'
-        ec = {context_path: []}
-        ips = demisto.get(r.json(), 'data.items.network')
+        ec = {context_path: []}    # type: ignore
+        ips = demisto.get(r.json(), 'data.items.network')  # type: ignore
         if ips:
             for k in ips:
                 annotation = {
@@ -1716,7 +1721,7 @@ script:
         Download the analysis for a given sample
         """
         sample_id = demisto.getArg('id')
-        r = req('GET', SUB_API + 'samples/' + sample_id +'/analysis.json')
+        r = req('GET', SUB_API + 'samples/' + sample_id + '/analysis.json')
         ec, hr = extract_data_from_analysis_json(json.loads(r.content), sample_id, demisto.getArg('limit'))
         demisto.results([
             {
@@ -1737,13 +1742,15 @@ script:
         ec = {}
         hr = {}
         sample_key = 'ThreatGrid.Sample(val.ID === obj.ID)'
-        sample_process = extract_sample_process_from_analysis_processes(demisto.get(analysis_json, 'dynamic.processes')) or {}
+        sample_process = extract_sample_process_from_analysis_processes(demisto.get(analysis_json,
+                                                                                    'dynamic.processes')) or {}
         ec[sample_key] = create_sample_ec_from_analysis_json(analysis_json, sample_id, sample_process, limit)
         hr['Sample'] = create_sample_hr_from_analysis_json(ec[sample_key], analysis_json, sample_process, limit)
         hr['File'] = ec[sample_key]["File"] = create_file_ec_from_analysis_json(analysis_json)
         handle_artifact_from_analysis_json(ec, hr, analysis_json, limit)
         hr_str = create_analysis_json_human_readable(hr)
         return ec, hr_str
+
 
     def handle_artifact_from_analysis_json(ec, hr, analysis_json, limit):
         '''
@@ -1774,14 +1781,19 @@ script:
                         'ThreatName': demisto.get(artifact, 'antivirus.reversing_labs.threat_name')
                     }
 
+
     def create_analysis_json_human_readable(hr):
         hr_str = tableToMarkdown('Files scanned:', hr['File'], SAMPLE_ANALYSIS_HEADERS_MAP['File'])
         tmp_hr_str = ''
         for k in hr['Sample'].keys():
-            if isinstance(hr['Sample'][k], dict) or (isinstance(hr['Sample'][k], list) and len(hr['Sample'][k]) > 0 and k in SAMPLE_ANALYSIS_HEADERS_MAP):
-                tmp_hr_str = tmp_hr_str + tableToMarkdown('{0}:'.format(str(k)), hr['Sample'][k], SAMPLE_ANALYSIS_HEADERS_MAP[k])
+            if isinstance(hr['Sample'][k], dict) or (isinstance(hr['Sample'][k], list) and len(hr['Sample'][k]) > 0
+                                                     and k in SAMPLE_ANALYSIS_HEADERS_MAP):
+                tmp_hr_str = tmp_hr_str + tableToMarkdown('{0}:'.format(str(k)), hr['Sample'][k],
+                                                          SAMPLE_ANALYSIS_HEADERS_MAP[k])
                 del hr['Sample'][k]
-        return hr_str + tableToMarkdown('Sample analysis:', hr['Sample'], SAMPLE_ANALYSIS_HEADERS_MAP['Sample']) + tmp_hr_str + tableToMarkdown('Artifact analysis:', hr['Artifact'])
+        return_sting = hr_str + tableToMarkdown('Sample analysis:', hr['Sample'], SAMPLE_ANALYSIS_HEADERS_MAP['Sample'])
+        return_sting = return_sting + tmp_hr_str + tableToMarkdown('Artifact analysis:', hr['Artifact'])
+        return return_sting
 
 
     def extract_sample_process_from_analysis_processes(processes):
@@ -1805,7 +1817,8 @@ script:
             directory = directory[:len(directory) - 1]
         return {
             'ID': sample_id,
-            'VM': {'ID': demisto.get(analysis_json, 'metadata.sandcastle_env.vm_id'), 'Name': demisto.get(analysis_json, 'metadata.sandcastle_env.display_name')},
+            'VM': {'ID': demisto.get(analysis_json, 'metadata.sandcastle_env.vm_id'),
+                   'Name': demisto.get(analysis_json, 'metadata.sandcastle_env.display_name')},
             'StartedAt': demisto.get(analysis_json, 'metadata.sandcastle_env.analysis_start'),
             'EndedAt': demisto.get(analysis_json, 'metadata.sandcastle_env.analysis_end'),
             'Runtime': demisto.get(analysis_json, 'metadata.sandcastle_env.run_time'),
@@ -1817,9 +1830,11 @@ script:
             'Directory': directory,
             'CMD': demisto.get(sample_process, 'startup_info.command_line'),
             'ProcessName': demisto.get(sample_process, 'process_name'),
-            'Stream': extract_network_from_analysis_networks(get_with_limit(analysis_json, 'network', limit), full_extraction=False),
+            'Stream': extract_network_from_analysis_networks(get_with_limit(analysis_json, 'network', limit),
+                                                             full_extraction=False),
             'VT': extract_vt_from_analysis_artifact(demisto.get(analysis_json, 'artifacts')),
-            'Domain': map(lambda (k,v): {'Name': str(k), 'Status': str(demisto.get(v, 'status'))}, get_with_limit(analysis_json, 'domains', limit).iteritems() or [])
+            'Domain': map(lambda k, v: {'Name': str(k), 'Status': str(demisto.get(v, 'status'))},  # type: ignore
+                          get_with_limit(analysis_json, 'domains', limit).iteritems() or [])
         }
 
 
@@ -1837,7 +1852,8 @@ script:
                 'Threads': get_with_limit(sample_process, 'threads', limit),
                 'Children': len(get_with_limit(sample_process, 'children', limit)),
                 'Memory': len(demisto.get(sample_process, 'memory')) if demisto.get(sample_process, 'new') == 'true' else 0,
-                'Network': extract_network_from_analysis_networks(get_with_limit(analysis_json, 'network', limit), full_extraction=True),
+                'Network': extract_network_from_analysis_networks(get_with_limit(analysis_json, 'network', limit),
+                                                                  full_extraction=True),
                 'Enviornment Details': {
                     'VM ID': sample_ec['VM']['ID'],
                     'VM Name': sample_ec['VM']['Name'],
@@ -1854,6 +1870,7 @@ script:
         del res['EndedAt']
         del res['Runtime']
         return res
+
 
     def extract_network_from_analysis_networks(networks, full_extraction=False):
         """
@@ -1897,15 +1914,15 @@ script:
         res = []
         for desc in malware_descs:
             res.append(
-            {
-                'FileName': demisto.get(desc, 'filename'),
-                'Size': demisto.get(desc, 'size'),
-                'MD5': demisto.get(desc, 'md5'),
-                'SHA1': demisto.get(desc, 'sha1'),
-                'SHA256': demisto.get(desc, 'sha256'),
-                'MagicType': demisto.get(desc, 'magic'),
-                'Type': demisto.get(desc, 'type'),
-            })
+                {
+                    'FileName': demisto.get(desc, 'filename'),
+                    'Size': demisto.get(desc, 'size'),
+                    'MD5': demisto.get(desc, 'md5'),
+                    'SHA1': demisto.get(desc, 'sha1'),
+                    'SHA256': demisto.get(desc, 'sha256'),
+                    'MagicType': demisto.get(desc, 'magic'),
+                    'Type': demisto.get(desc, 'type'),
+                })
         return res
 
 
@@ -1926,7 +1943,7 @@ script:
         }
         res = {}
         # add ioc_key_to_path_dict values to result
-        for k,v in ioc_key_to_path_dict.iteritems():
+        for k, v in ioc_key_to_path_dict.iteritems():
             val = demisto.get(ioc, v)
             if val:
                 res[k] = val
@@ -1940,6 +1957,7 @@ script:
                     if demisto.get(item, key):
                         res['Data'][key].append(demisto.get(item, key))
         return res
+
 
     def get_analysis_iocs():
         """
@@ -1955,15 +1973,16 @@ script:
             params['limit'] = demisto.getArg('limit')
 
         r = req('GET', url, params=params)
-        iocs = []
-        dbots = []
-        items = demisto.get(r.json(), 'data.items')
+        iocs = []    # type: ignore
+        dbots = []    # type: ignore
+        items = demisto.get(r.json(), 'data.items')    # type: ignore
         if not items:
             append_to_analysis_iocs_arrays(iocs, dbots, demisto.get(r.json(), 'data'))
         else:
             for k in items:
                 append_to_analysis_iocs_arrays(iocs, dbots, k)
-        md = tableToMarkdown('ThreatGrid Behavioral Indicators for sample: ' + demisto.getArg('id'), iocs, ['Title', 'Confidence', 'Severity', 'IOC', 'Tags', 'IOCCategory', 'Data'])
+        md = tableToMarkdown('ThreatGrid Behavioral Indicators for sample: ' + demisto.getArg('id'), iocs,
+                             ['Title', 'Confidence', 'Severity', 'IOC', 'Tags', 'IOCCategory', 'Data'])
         md += tableToMarkdown('DBot', dbots, ['Indicator', 'Score', 'Type', 'Vendor'])
         demisto.results({
             'Type': entryTypes['note'],
@@ -2074,7 +2093,9 @@ script:
         demisto.results({
             'Type': entryTypes['note'],
             'EntryContext': {'ThreatGrid.Sample(val.ID == obj.ID)': submissions},
-            'HumanReadable': tableToMarkdown('ThreatGrid - Submission Search', submissions, ['ID', 'Filename', 'State', 'Status', 'MD5', 'SHA1', 'SHA256', 'SubmittedAt', 'ThreatScore']),
+            'HumanReadable': tableToMarkdown('ThreatGrid - Submission Search', submissions,
+                                             ['ID', 'Filename', 'State', 'Status', 'MD5', 'SHA1',
+                                              'SHA256', 'SubmittedAt', 'ThreatScore']),
             'ContentsFormat': formats['json'],
             'Contents': r.json()
         })
@@ -2104,12 +2125,15 @@ script:
             {
                 'Type': entryTypes['note'],
                 'EntryContext': {},
-                'HumanReadable': '### ThreatGrid Specific Feed File -\n' + 'Your specific feed file download request has been completed successfully for ' + feed_name,
+                'HumanReadable': '### ThreatGrid Specific Feed File -\n'
+                                 + 'Your specific feed file download request has been completed successfully for '
+                                 + feed_name,
                 'Contents': {},
                 'ContentsFormat': formats['json']
             },
             fileResult(feed_name + output_type, r.content)
         ])
+
 
     def feeds_helper(name):
         name_conversion = {
@@ -2138,11 +2162,11 @@ script:
     def get_analysis_artifact():
         aid = demisto.getArg('aid')
         sample_id = demisto.getArg('id')
-        url = SUB_API + 'samples/' + sample_id +'/analysis/artifacts'
+        url = SUB_API + 'samples/' + sample_id + '/analysis/artifacts'
         if aid:
             url += '/' + aid
         r = req('GET', url)
-        ec = {'ThreatGrid.Sample(val.ID === {0})'.format(sample_id) : r.json()}
+        ec = {'ThreatGrid.Sample(val.ID === {0})'.format(sample_id): r.json()}
         demisto.results([
             {
                 'Type': entryTypes['note'],
@@ -2171,7 +2195,7 @@ script:
     def get_analysis_network_stream():
         sample_id = demisto.getArg('id')
         nsid = demisto.getArg('nsid')
-        url = SUB_API + 'samples/' + sample_id +'/analysis/artifacts'
+        url = SUB_API + 'samples/' + sample_id + '/analysis/artifacts'
         if nsid:
             url += '/' + nsid
         r = req('GET', url)
@@ -2203,6 +2227,7 @@ script:
             },
             fileResult(sample_id + '-sample.zip', r.content)
         ])
+
 
     if demisto.command() == 'test-module':
         request = req('GET', USER_API + 'session/whoami')
@@ -2255,19 +2280,25 @@ script:
         search_submissions()
     elif demisto.command() == 'threat-grid-get-specific-feed':
         get_specific_feed()
-    elif demisto.command() in ['threat-grid-feeds-artifacts', 'threat-grid-feeds-domain', 'threat-grid-feeds-ip', 'threat-grid-feeds-network-stream' ,'threat-grid-feeds-registry-key', 'threat-grid-feeds-url', 'threat-grid-feeds-path']:
+    elif demisto.command() in ['threat-grid-feeds-artifacts', 'threat-grid-feeds-domain',
+                               'threat-grid-feeds-ip', 'threat-grid-feeds-network-stream',
+                               'threat-grid-feeds-registry-key', 'threat-grid-feeds-url', 'threat-grid-feeds-path']:
         feeds_helper(demisto.command()[18:])
-    elif demisto.command() == 'threat-grid-get-analysis-artifact' or demisto.command() == 'threat-grid-get-analysis-artifacts':
+    elif demisto.command() == 'threat-grid-get-analysis-artifact' or \
+            demisto.command() == 'threat-grid-get-analysis-artifacts':
         get_analysis_artifact()
     elif demisto.command() == 'threat-grid-get-analysis-metadata':
         get_analysis_metadata()
-    elif demisto.command() == 'threat-grid-get-analysis-network-stream' or demisto.command() == 'threat-grid-get-analysis-network-streams':
+    elif demisto.command() == 'threat-grid-get-analysis-network-stream' or \
+            demisto.command() == 'threat-grid-get-analysis-network-streams':
         get_analysis_network_stream()
-    elif demisto.command() == 'threat-grid-get-analysis-process' or demisto.command() == 'threat-grid-get-analysis-processes':
+    elif demisto.command() == 'threat-grid-get-analysis-process' or \
+            demisto.command() == 'threat-grid-get-analysis-processes':
         get_analysis_process()
     elif demisto.command() in ['threat-grid-download-artifact', 'threat-grid-detonate-file']:
         return_error('Error: The API for this command is no longer supported')
     else:
         return_error('Unrecognized command: ' + demisto.command())
+  subtype: python2
   type: python
 system: true

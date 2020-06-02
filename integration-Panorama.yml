@@ -49,7 +49,7 @@ contentitemexportablefields:
     - all
 description: Manage Palo Alto Networks Firewall and Panorama. For more information
   see Panorama documentation.
-detaileddescription: |
+detaileddescription: |-
   The integration uses the Panorama XML API
   To obtain an API Key, run the following REST command and copy the key:
   https://[PanoramaIP]/api/?type=keygen&user=[user]&password=[password]
@@ -68,7 +68,7 @@ detaileddescription: |
   - Go to Panorama --> Device Groups.
   - Choose a device group name.
 display: Palo Alto Networks PAN-OS
-image: data:image/png;base64,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
+image: data:image/png;base64,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
 name: Panorama
 script:
   commands:
@@ -1497,8 +1497,15 @@ script:
     - contextPath: Panorama.SecurityRule.DeviceGroup
       description: Device group for the rule (Panorama instances).
       type: string
-  - arguments: []
-    description: Returns a list of predefined applications.
+  - arguments:
+    - auto: PREDEFINED
+      defaultValue: "false"
+      description: Whether to list predefined applications or not.
+      name: predefined
+      predefined:
+      - "true"
+      - "false"
+    description: Returns a list of applications.
     name: panorama-list-applications
     outputs:
     - contextPath: Panorama.Applications.Name
@@ -1538,6 +1545,9 @@ script:
     - contextPath: Panorama.Commit.Details
       description: Job ID details.
       type: string
+    - contextPath: Panorama.Commit.Warnings
+      description: Job ID warnings
+      type: String
   - arguments:
     - description: Job ID to check.
       name: job_id
@@ -1557,6 +1567,9 @@ script:
     - contextPath: Panorama.Push.Details
       description: Job ID details.
       type: string
+    - contextPath: Panorama.Push.Warnings
+      description: Job ID warnings
+      type: String
   - arguments:
     - auto: PREDEFINED
       description: Type of Packet Capture.
@@ -1666,6 +1679,33 @@ script:
       required: true
     description: Unregisters IP addresses from a tag.
     name: panorama-unregister-ip-tag
+  - arguments:
+    - description: Tag for which to register Users.
+      name: tag
+      required: true
+    - description: Users to register.
+      isArray: true
+      name: Users
+      required: true
+    description: Registers Users to a tag.
+    name: panorama-register-user-tag
+    outputs:
+    - contextPath: Panorama.DynamicTags.Tag
+      description: Name of the tag.
+      type: string
+    - contextPath: Panorama.DynamicTags.Users
+      description: Registered Users.
+      type: string
+  - arguments:
+    - description: Tag for which to unregister Users.
+      name: tag
+      required: true
+    - description: Users to unregister.
+      isArray: true
+      name: Users
+      required: true
+    description: Unregisters Users from a tag.
+    name: panorama-unregister-user-tag
   - arguments:
     - description: Specifies the match criteria for the logs. This is similar to the
         query provided in the web interface under the Monitor tab, when viewing the
@@ -2360,28 +2400,28 @@ script:
       description: Version of the PAN-OS.
       type: String
   - arguments:
-    - description: Target device.
+    - description: The device to which to download the content update.
       name: target
-    description: Download the latest content update.
+    description: Downloads the latest content update.
     name: panorama-download-latest-content-update
     outputs:
     - contextPath: Panorama.Content.Download.JobID
       description: JobID of the content download.
       type: String
     - contextPath: Panorama.Content.Download.Status
-      description: Content download Status.
+      description: Content download status.
       type: String
   - arguments:
-    - description: Target device.
+    - description: The device to which the content update is downloading.
       name: target
     - description: JobID to check.
       name: job_id
       required: true
-    description: Check content update download status.
+    description: Checks the download status of a content update.
     name: panorama-content-update-download-status
     outputs:
     - contextPath: Panorama.Content.Download.JobID
-      description: JobID to be monitored.
+      description: JobID to monitor.
       type: String
     - contextPath: Panorama.Content.Download.Status
       description: Download status.
@@ -2390,9 +2430,9 @@ script:
       description: JobID details.
       type: String
   - arguments:
-    - description: Target device.
+    - description: The device on which to install the content update.
       name: target
-    description: Install the latest content update.
+    description: Installs the latest content update.
     name: panorama-install-latest-content-update
     outputs:
     - contextPath: Panorama.Content.Install.JobID
@@ -2402,16 +2442,17 @@ script:
       description: Installation status.
       type: String
   - arguments:
-    - description: Target device
+    - description: The device for which to check the installation status of the content
+        update.
       name: target
-    - description: JobID for content installation.
+    - description: JobID of the content installation.
       name: job_id
       required: true
-    description: Content update install status.
+    description: Gets the installation status of the content update.
     name: panorama-content-update-install-status
     outputs:
     - contextPath: Panorama.Content.Install.JobID
-      description: JobID of content installation.
+      description: JobID of the content installation.
       type: String
     - contextPath: Panorama.Content.Install.Status
       description: Content installation status.
@@ -2420,17 +2461,18 @@ script:
       description: Content installation status details.
       type: String
   - arguments:
-    - description: Target device.
+    - description: The target device for which to get the PAN-OS software version.
       name: target
-    description: Check PAN-OS software version from repository.
+    description: Checks the PAN-OS software version from the repository.
     name: panorama-check-latest-panos-software
   - arguments:
-    - description: Target device.
+    - description: The target device on which to download the PAN-OS software version.
       name: target
     - description: The target version number to install.
       name: target_version
       required: true
-    description: Download target PAN-OS version to be installed.
+    description: Downloads the target PAN-OS software version to install on the target
+      device.
     name: panorama-download-panos-version
     outputs:
     - contextPath: Panorama.PANOS.Download.JobID
@@ -2440,12 +2482,12 @@ script:
       description: Status of the PAN-OS download.
       type: String
   - arguments:
-    - description: Target device.
+    - description: The target device for which to get the download status.
       name: target
     - description: JobID to check.
       name: job_id
       required: true
-    description: PAN-OS download status
+    description: Gets the download status of the target PAN-OS software.
     name: panorama-download-panos-status
     outputs:
     - contextPath: Panorama.PANOS.Download.JobID
@@ -2458,46 +2500,47 @@ script:
       description: PAN-OS download details.
       type: String
   - arguments:
-    - description: Target device.
+    - description: The target device on which to install the target PAN-OS software
+        version.
       name: target
     - description: Target PAN-OS version to install.
       name: target_version
       required: true
-    description: Install target PAN-OS version
+    description: Installs the target PAN-OS version on the specified target device.
     name: panorama-install-panos-version
     outputs:
     - contextPath: Panorama.PANOS.Install.JobID
-      description: JobID from PAN-OS install
+      description: JobID from the PAN-OS installation.
       type: string
     - contextPath: Panorama.PANOS.Install.Status
-      description: Status of PAN-OS installation.
+      description: Status of the PAN-OS installation.
       type: String
   - arguments:
-    - description: Target device.
+    - description: The target device for which to get the installation status.
       name: target
     - description: JobID to check.
       name: job_id
       required: true
-    description: PAN-OS installation status.
+    description: Gets the installation status of the PAN-OS software.
     name: panorama-install-panos-status
     outputs:
     - contextPath: Panorama.PANOS.Install.JobID
       description: JobID of the PAN-OS installation.
       type: number
     - contextPath: Panorama.PANOS.Install.Status
-      description: PAN-OS installation status.
+      description: Status of the PAN-OS installation.
       type: String
     - contextPath: Panorama.PANOS.Install.Details
       description: PAN-OS installation details.
       type: String
   - arguments:
-    - description: Target device.
+    - description: The target device for which to reboot the Firewall.
       name: target
-    description: Reboot Firewall device
+    description: Reboots the Firewall device.
     name: panorama-device-reboot
-  dockerimage: demisto/python3:3.7.3.221
+  dockerimage: demisto/python3:3.8.2.6981
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -2605,7 +2648,7 @@ script:
 
     class PAN_OS_Not_Found(Exception):
         """ PAN-OS Error. """
-        def __init__(self, *args, **kwargs):  # real signature unknown
+        def __init__(self, *args):  # real signature unknown
             pass
 
 
@@ -2692,7 +2735,8 @@ script:
                         error_message += (f'\nDevice Group: {DEVICE_GROUP} does not exist.'
                                           f' The available Device Groups for this instance:'
                                           f' {", ".join(device_group_names)}.')
-                raise PAN_OS_Not_Found(error_message)
+                        raise PAN_OS_Not_Found(error_message)
+                return_warning('List not found and might be empty', True)
             if json_result['response']['@code'] not in ['19', '20']:
                 # error code non exist in dict and not of success
                 if 'msg' in json_result['response']:
@@ -3072,12 +3116,19 @@ script:
             if result['response']['result']['job']['result'] == 'PEND':
                 commit_status_output['Status'] = 'Pending'
 
+        # WARNINGS - Job warnings
+        status_warnings = []
+        if result.get("response", {}).get('result', {}).get('job', {}).get('warnings', {}):
+            status_warnings = result.get("response", {}).get('result', {}).get('job', {}).get('warnings', {}).get('line', [])
+        ignored_error = 'configured with no certificate profile'
+        commit_status_output["Warnings"] = [item for item in status_warnings if item not in ignored_error]
+
         demisto.results({
             'Type': entryTypes['note'],
             'ContentsFormat': formats['json'],
             'Contents': result,
             'ReadableContentsFormat': formats['markdown'],
-            'HumanReadable': tableToMarkdown('Commit status:', commit_status_output, ['JobID', 'Status', 'Details'],
+            'HumanReadable': tableToMarkdown('Commit status:', commit_status_output, ['JobID', 'Status', 'Details', 'Warnings'],
                                              removeNull=True),
             'EntryContext': {"Panorama.Commit(val.JobID == obj.JobID)": commit_status_output}
         })
@@ -3148,31 +3199,54 @@ script:
         return result
 
 
+    def safeget(dct, keys):
+        # Safe get from dictionary
+        for key in keys:
+            try:
+                if isinstance(dct, dict):
+                    dct = dct[key]
+                else:
+                    return None
+            except KeyError:
+                return None
+        return dct
+
+
     def panorama_push_status_command():
         """
         Check jobID of push status
         """
         result = panorama_push_status()
-        if result['response']['result']['job']['type'] != 'CommitAll':
+        job = result.get('response', {}).get('result', {}).get('job', {})
+        if job.get('type', '') != 'CommitAll':
             raise Exception('JobID given is not of a Push.')
 
-        push_status_output = {'JobID': result['response']['result']['job']['id']}
-        if result['response']['result']['job']['status'] == 'FIN':
-            if result['response']['result']['job']['result'] == 'OK':
+        push_status_output = {'JobID': job.get('id')}
+        if job.get('status', '') == 'FIN':
+            if job.get('result', '') == 'OK':
                 push_status_output['Status'] = 'Completed'
             else:
-                # result['response']['job']['result'] == 'FAIL'
                 push_status_output['Status'] = 'Failed'
 
-            devices = result['response']['result']['job']['devices']['entry']
+            devices = job.get('devices')
+            devices = devices.get('entry') if devices else devices
             if isinstance(devices, list):
-                devices_details = [device.get('status') for device in devices]
+                devices_details = [device.get('status') for device in devices if device]
                 push_status_output['Details'] = devices_details
             elif isinstance(devices, dict):
                 push_status_output['Details'] = devices.get('status')
 
-        if result['response']['result']['job']['status'] == 'PEND':
+        if job.get('status') == 'PEND':
             push_status_output['Status'] = 'Pending'
+
+        # WARNINGS - Job warnings
+        status_warnings = []  # type: ignore
+        devices = safeget(result, ["response", "result", "job", "devices", "entry"])
+        if devices:
+            for device in devices:
+                device_warnings = safeget(device, ["details", "msg", "warnings", "line"])
+                status_warnings.extend([] if not device_warnings else device_warnings)
+        push_status_output["Warnings"] = status_warnings
 
         demisto.results({
             'Type': entryTypes['note'],
@@ -3180,7 +3254,7 @@ script:
             'Contents': result,
             'ReadableContentsFormat': formats['markdown'],
             'HumanReadable': tableToMarkdown('Push to Device Group status:', push_status_output,
-                                             ['JobID', 'Status', 'Details'], removeNull=True),
+                                             ['JobID', 'Status', 'Details', 'Warnings'], removeNull=True),
             'EntryContext': {"Panorama.Push(val.JobID == obj.JobID)": push_status_output}
         })
 
@@ -4697,14 +4771,24 @@ script:
         urls = argToList(demisto.args()['url'])
 
         categories_dict: Dict[str, list] = {}
+        categories_dict_hr: Dict[str, list] = {}
         for url in urls:
             category = panorama_get_url_category(url_cmd, url)
             if category in categories_dict:
                 categories_dict[category].append(url)
+                categories_dict_hr[category].append(url)
             else:
                 categories_dict[category] = [url]
+                categories_dict_hr[category] = [url]
             context_urls = populate_url_filter_category_from_context(category)
             categories_dict[category] = list((set(categories_dict[category])).union(set(context_urls)))
+
+        url_category_output_hr = []
+        for key, value in categories_dict_hr.items():
+            url_category_output_hr.append({
+                'Category': key,
+                'URL': value
+            })
 
         url_category_output = []
         for key, value in categories_dict.items():
@@ -4712,12 +4796,13 @@ script:
                 'Category': key,
                 'URL': value
             })
+
         title = 'URL Filtering'
         if url_cmd == 'url-info-cloud':
             title += f' from cloud'
         elif url_cmd == 'url-info-host':
             title += f' from host'
-        human_readable = tableToMarkdown(f'{title}:', url_category_output, ['URL', 'Category'], removeNull=True)
+        human_readable = tableToMarkdown(f'{title}:', url_category_output_hr, ['URL', 'Category'], removeNull=True)
 
         demisto.results({
             'Type': entryTypes['note'],
@@ -5600,52 +5685,71 @@ script:
 
     def prettify_applications_arr(applications_arr):
         pretty_application_arr = []
+        if not isinstance(applications_arr, list):
+            applications_arr = [applications_arr]
         for i in range(len(applications_arr)):
             application = applications_arr[i]
             pretty_application_arr.append({
-                'SubCategory': application['subcategory'],
-                'Risk': application['risk'],
-                'Technology': application['technology'],
-                'Name': application['@name'],
-                'Description': application['description'],
-                'Id': application['@id']
+                'SubCategory': application.get('subcategory'),
+                'Risk': application.get('risk'),
+                'Technology': application.get('technology'),
+                'Name': application.get('@name'),
+                'Description': application.get('description'),
+                'Id': application.get('@id'),
             })
         return pretty_application_arr
 
 
     @logger
-    def panorama_list_applications():
+    def panorama_list_applications(predefined: bool):
+        major_version = get_pan_os_major_version()
         params = {
-            'type': 'op',
-            'command': '<show><objects></objects></show>',
+            'type': 'config',
+            'action': 'get',
             'key': API_KEY
         }
+        if predefined:
+            if major_version < 9:
+                raise Exception('Listing predefined applications is only available for PAN-OS 9.X and above versions.')
+            else:
+                params['xpath'] = '/config/predefined/application'
+        else:
+            params['xpath'] = XPATH_OBJECTS + "application/entry"
+
         result = http_request(
             URL,
             'POST',
             params=params
         )
-        return result['response']['result']['config']['shared']['content-preview']['application']['entry']
+        applications = result['response']['result']
+        if predefined:
+            application_arr = applications.get('application', {}).get('entry')
+        else:
+            if major_version < 9:
+                application_arr = applications.get('entry')
+            else:
+                application_arr = applications.get('application')
+
+        return application_arr
 
 
     def panorama_list_applications_command():
         """
         List all applications
         """
-        applications_arr = panorama_list_applications()
-
+        predefined = str(demisto.args().get('predefined', '')) == 'true'
+        applications_arr = panorama_list_applications(predefined)
         applications_arr_output = prettify_applications_arr(applications_arr)
+        headers = ['Id', 'Name', 'Risk', 'Category', 'SubCategory', 'Technology', 'Description']
 
         demisto.results({
             'Type': entryTypes['note'],
             'ContentsFormat': formats['json'],
             'Contents': applications_arr,
             'ReadableContentsFormat': formats['markdown'],
-            'HumanReadable': tableToMarkdown('Applications', applications_arr_output,
-                                             ['Name', 'Id', 'Risk', 'Category', 'SubCategory', 'Technology',
-                                              'Description']),
+            'HumanReadable': tableToMarkdown('Applications', t=applications_arr_output, headers=headers),
             'EntryContext': {
-                "Panorama.Applications(val.Id == obj.Id)": applications_arr_output
+                "Panorama.Applications(val.Name == obj.Name)": applications_arr_output
             }
         })
 
@@ -5807,7 +5911,7 @@ script:
         Create an edl object
         """
         edl_name = demisto.args().get('name')
-        url = demisto.args().get('url')
+        url = demisto.args().get('url').replace(' ', '%20')
         type_ = demisto.args().get('type')
         recurring = demisto.args().get('recurring')
         certificate_profile = demisto.args().get('certificate_profile')
@@ -6084,6 +6188,110 @@ script:
             'Contents': result,
             'ReadableContentsFormat': formats['text'],
             'HumanReadable': 'Unregistered ip-tag successfully'
+        })
+
+
+    ''' User Tags '''
+
+
+    @logger
+    def panorama_register_user_tag(tag: str, users: List):
+        entry: str = ''
+        for user in users:
+            entry += f'<entry user=\"{user}\"><tag><member>{tag}</member></tag></entry>'
+
+        params = {
+            'type': 'user-id',
+            'cmd': f'<uid-message><version>2.0</version><type>update</type><payload><register-user>{entry}'
+                   f'</register-user></payload></uid-message>',
+            'key': API_KEY
+        }
+
+        result = http_request(
+            URL,
+            'POST',
+            params=params,
+        )
+
+        return result
+
+
+    def panorama_register_user_tag_command():
+        """
+        Register Users to a Tag
+        """
+        major_version = get_pan_os_major_version()
+        if major_version <= 8:
+            raise Exception('The panorama-register-user-tag command is only available for PAN-OS 9.X and above versions.')
+        tag = demisto.args()['tag']
+        users = argToList(demisto.args()['Users'])
+
+        result = panorama_register_user_tag(tag, users)
+
+        # get existing Users for this tag
+        context_users = demisto.dt(demisto.context(), 'Panorama.DynamicTags(val.Tag ==\"' + tag + '\").Users')
+
+        if context_users:
+            all_users = users + context_users
+        else:
+            all_users = users
+
+        registered_user = {
+            'Tag': tag,
+            'Users': all_users
+        }
+
+        demisto.results({
+            'Type': entryTypes['note'],
+            'ContentsFormat': formats['json'],
+            'Contents': result,
+            'ReadableContentsFormat': formats['text'],
+            'HumanReadable': 'Registered user-tag successfully',
+            'EntryContext': {
+                "Panorama.DynamicTags(val.Tag == obj.Tag)": registered_user
+            }
+        })
+
+
+    @logger
+    def panorama_unregister_user_tag(tag: str, users: list):
+        entry = ''
+        for user in users:
+            entry += f'<entry user=\"{user}\"><tag><member>{tag}</member></tag></entry>'
+
+        params = {
+            'type': 'user-id',
+            'cmd': f'<uid-message><version>2.0</version><type>update</type><payload><unregister-user>{entry}'
+                   f'</unregister-user></payload></uid-message>',
+            'key': API_KEY
+        }
+        result = http_request(
+            URL,
+            'POST',
+            params=params,
+        )
+
+        return result
+
+
+    def panorama_unregister_user_tag_command():
+        """
+        Unregister Users from a Tag
+        """
+        major_version = get_pan_os_major_version()
+        if major_version <= 8:
+            raise Exception('The panorama-unregister-user-tag command is only available for PAN-OS 9.X and above versions.')
+        tag = demisto.args()['tag']
+        users = argToList(demisto.args()['Users'])
+
+        result = panorama_unregister_user_tag(tag, users)
+
+        demisto.results({
+            'Type': entryTypes['note'],
+            'ContentsFormat': formats['json'],
+            'Contents': result,
+            'ReadableContentsFormat': formats['text'],
+            'HumanReadable': 'Unregistered user-tag successfully'
         })
 
 
@@ -7409,7 +7617,7 @@ script:
         if DEVICE_GROUP:
             raise Exception('PAN-OS version download status is only supported on Firewall (not Panorama).')
         target = str(demisto.args()['target']) if 'target' in demisto.args() else None
-        job_id = demisto.args()['JobID']
+        job_id = demisto.args()['job_id']
         result = panorama_download_panos_status(target, job_id)
         panos_download_status = {
             'JobID': result['response']['result']['job']['id']
@@ -7702,6 +7910,13 @@ script:
 
             elif demisto.command() == 'panorama-unregister-ip-tag':
                 panorama_unregister_ip_tag_command()
+
+            # Registered Users
+            elif demisto.command() == 'panorama-register-user-tag':
+                panorama_register_user_tag_command()
+
+            elif demisto.command() == 'panorama-unregister-user-tag':
+                panorama_unregister_user_tag_command()
 
             # Security Rules Managing
             elif demisto.command() == 'panorama-list-rules':

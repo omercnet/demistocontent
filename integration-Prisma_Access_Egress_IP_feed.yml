@@ -1,0 +1,384 @@
+category: Data Enrichment & Threat Intelligence
+commonfields:
+  id: Prisma Access Egress IP feed
+  version: -1
+configuration:
+- defaultvalue: "true"
+  display: Fetch indicators
+  name: feed
+  required: false
+  type: 8
+- defaultvalue: https://api.gpcloudservice.com
+  display: URL
+  name: URL
+  required: true
+  type: 0
+- additionalinfo: The Prisma Access API Key to use (retrieve via Panorama->Service
+    Setup->Egress IP API)
+  defaultvalue: ""
+  display: Prisma Access API Key
+  name: api_key
+  required: true
+  type: 4
+- additionalinfo: https://docs.paloaltonetworks.com/prisma/prisma-access/prisma-access-panorama-admin/prisma-access-overview/retrieve-ip-addresses-for-prisma-access
+  defaultvalue: all
+  display: Service Type
+  name: serviceType
+  options:
+  - all
+  - remote_network
+  - gp_gateway
+  - gp_portal
+  - clean_pipe
+  required: true
+  type: 15
+- additionalinfo: https://docs.paloaltonetworks.com/prisma/prisma-access/prisma-access-panorama-admin/prisma-access-overview/retrieve-ip-addresses-for-prisma-access
+  defaultvalue: all
+  display: Address Type
+  name: addrType
+  options:
+  - all
+  - active
+  - reserved
+  required: true
+  type: 15
+- additionalinfo: https://docs.paloaltonetworks.com/prisma/prisma-access/prisma-access-panorama-admin/prisma-access-overview/retrieve-ip-addresses-for-prisma-access
+  defaultvalue: all
+  display: Location
+  name: location
+  options:
+  - all
+  - deployed
+  required: false
+  type: 15
+- additionalinfo: Indicators from this integration instance will be marked with this
+    reputation
+  defaultvalue: Good
+  display: Indicator Reputation
+  name: feedReputation
+  options:
+  - None
+  - Good
+  - Suspicious
+  - Bad
+  required: false
+  type: 18
+- additionalinfo: Reliability of the source providing the intelligence data
+  defaultvalue: A - Completely reliable
+  display: Source Reliability
+  name: feedReliability
+  options:
+  - A - Completely reliable
+  - B - Usually reliable
+  - C - Fairly reliable
+  - D - Not usually reliable
+  - E - Unreliable
+  - F - Reliability cannot be judged
+  required: true
+  type: 15
+- defaultvalue: suddenDeath
+  display: ""
+  name: feedExpirationPolicy
+  options:
+  - never
+  - interval
+  - indicatorType
+  - suddenDeath
+  required: false
+  type: 17
+- defaultvalue: "20160"
+  display: ""
+  name: feedExpirationInterval
+  required: false
+  type: 1
+- defaultvalue: "30"
+  display: Feed Fetch Interval
+  name: feedFetchInterval
+  required: false
+  type: 19
+- additionalinfo: When selected, the exclusion list is ignored for indicators from
+    this feed. This means that if an indicator from this feed is on the exclusion
+    list, the indicator might still be added to the system.
+  defaultvalue: "true"
+  display: Bypass exclusion list
+  name: feedBypassExclusionList
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
+  name: insecure
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Use system proxy settings
+  name: proxy
+  required: false
+  type: 8
+contentitemexportablefields:
+  contentitemfields:
+    propagationLabels:
+    - all
+description: Dynamically retrieve and whitelist IPs Prisma Access uses to egress traffic
+  to the internet and SaaS apps.
+detaileddescription: |-
+  ### Prisma Access Egress IP feed
+  To retrieve the Egress API key from Panorama - Click "Generate API Key" under **Panorama->Cloud Services->Configuration->Service Setup.**
+
+  ## Prisma Access Egress API
+  [https://docs.paloaltonetworks.com/prisma/prisma-access/prisma-access-panorama-admin/prisma-access-overview/retrieve-ip-addresses-for-prisma-access](https://docs.paloaltonetworks.com/prisma/prisma-access/prisma-access-panorama-admin/prisma-access-overview/retrieve-ip-addresses-for-prisma-access)
+display: Prisma Access Egress IP feed
+image: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAAyCAYAAACXpx/YAAAAAXNSR0IArs4c6QAABX5JREFUeAHtmG3I31MYx2fNzWw2JKO0O1mmbSxjzYSVoiiUCC/whluRV/cYGfIUM5uklIcU8cJTiiGGFx62olFGI0u38liYzT3MGJ+vzrWunZ3z//3++vff/eK66tu5fte5rnPO//v9nfM79z1uXFgwEAwEA8FAMBAMBAPBQDAQDAQDwUAwEAwEA8FAMBAMBAPBQDAQDAQDwUAw0GsGhhlwcq8HjfHGBgMS9x8QAo8NPXq6ChM3BO4prWNjMC9uCDw2NOnZKnJxRxh5ds9Gj4H2KAO5uNq9l4Ln9+iq+jP5QUwzExzQn+kaZ5lAhu4+wkBjdouExeRIUI/1PI8Ho+A00NaU/1cBPxBbA4bA3qBkpxAs1Sr2O/gCPAXmgJodRYeNcVctifgM8BDYDPzv1vrfA1eCqaBk2wjaHH/i1065Y+nb7nK34rex50iyNX2QFYiju8GSLF59LO1cDX52qviV9v1q9e4dEsIWV2uf2L3sv4gWX6vxca1pVmUMCWy5yyo5ekF+dHm/4W9yz1a/kljJJK7lqJUgJXuBoM/7o5SUxebyvCOrO8flaHPsB/Zxsapb2rla0LuuQmQqdr6LdXJN4NdJOiThMNqTwFpgP/ho/NxOJWD91+Pr6DQM4t/g+h/AL1kbgR+h0ObR6bRXGmgK7fHgDrARTAclM4G30KlxJMhxWeK81Kd+y2sjsL0UP1OnU0/1HwFbI247GybNfmTenuyGMIE/J6ZvQ5OZwKsKiRcRs7n8W2mpXuBrLOjaAfy/gcZ40cW920ZgnSC2jgfxTwfT/CANvgl8H3kmXv579aw5PgG6x8hvElgvia3rZvzr3PN5+K2tk7gvZaOYwJp4KOsrPZrAr9CpY0SYBPSdegPYDzgSPzd/RN9PpwQXFoFzwbPA6m/CL1kbgRdS6H+Xjakd8ypYDHT61MwEXkrCbcDqT0wFC1xMwti6mwTWS6uxfgG68E0G9in5GL/1Lr6XZFuUb7U75gBvnohv6JjoOwu+CezHzf1HC3UKeYHzGv+so14/vmRtBFadLlnLwQag3+3Hlz8KFoGSeYGnkqDjVDWrU/Jr6XkdrURpI/AJqUbj3A7MbsRRTLjAgm3aksiPFwq9wJpkSSHHh2oCbyJJl7XLQe2o9wJ/Rp4IE74H9iP1HdZFo2ZtBfb1urTMB5eBJ8EOoPneBiXzAqtfa7L1eUHOSsVtBH7ZjXEPvngW7nTxT/HHg9bmRd5G1WChMhdYQh1YyLOQCawjeiChkyBWp9YL7L/Bs+nbDESifqR2Tc3aCLyC4ofBQpAfezoZ7HLzIX7JcoEnkWQ1JvQaV9gk8AJyra6pvdiNu9Ot7Rh9a2TDQG/rjASanfYOnoTydgYPT/tAwdcu0N+IvTCJeiFYBWYBXVrOBNtBt6Zv61VgX3AF0HdxJEH3BV107B8ej+G3sa0k6W/TlS55qfOb3FtTgsa5Fog7b3oJl4Ep4BbwDNBnpbX5nZy/QXqjuzHbwRKjW6vtYBvnahxbX438ph08kTEuAW8CEWnj+XaE+BCoWb6DlacX5mugcd4C3jrtYJ0iNvdyX5T5/jKn9e9i+TG0S2d6kMjaybntT2A0D3Z41oL1ndDFY0OHvFKX3tBjUseXtN8VkuYTsxNlHX5+M5WA81KdCP8q+aVGn5ojwHQwDfwERoDGFek109/04lRjaw4zvVyHgo3gWwvSzgQHA71Qa4G3QR4OT4H1tFt8p/O10eamZ61Td5SubQUV9jZZ2+0O7nrSKOgvA7nIIXB/+e/LbF7kELgvlPd/EhM5BO4/913POKHrivKF638MEyXBQDAQDAQDwUAwEAwEA8FAMBAMBAPBQDAQDAQDwUAwEAwEA8FAMBAMBAPBQDCwZxn4F+pR9SxBFrRlAAAAAElFTkSuQmCC
+name: Prisma Access Egress IP feed
+script:
+  commands:
+  - arguments:
+    - description: The maximum number of results to return.  By default all IPs are
+        returned.
+      name: limit
+    description: Gets indicators from the feed.
+    name: prisma-access-get-indicators
+    outputs:
+    - contextPath: PrismaAccess.Egress.IP.Address
+      description: Prisma Access Egress IP address
+      type: string
+    - contextPath: PrismaAccess.Egress.IP.Zone
+      description: Prisma Access Egress IP zone
+      type: string
+  dockerimage: demisto/python3:3.8.2.6981
+  feed: true
+  runonce: false
+  script: |
+    from typing import Any, Callable, Dict, List, Tuple
+
+    import urllib3
+
+
+
+
+    # disable insecure warnings
+    urllib3.disable_warnings()
+    INTEGRATION_NAME = 'Prisma Access'
+
+
+    class Client(BaseClient):
+        """
+        Client to use in the Prisma Access Feed integration. Overrides BaseClient.
+        Prisma Access V2 API: https://api.gpcloudservice.com/getPrismaAccessIP/v2
+        https://docs.paloaltonetworks.com/prisma/prisma-access/prisma-access-panorama-admin/prisma-access-overview/retrieve-ip-addresses-for-prisma-access
+        """
+
+        def __init__(self, clientConfigs: list, api_key: str, insecure: bool = False, proxy: bool = False):
+            """
+            Implements class for Prisma Access feed.
+            :param clientConfigs: config data
+            :param insecure: boolean, if *false* feed HTTPS server certificate is verified. Default: *false*
+            :param proxy: boolean, if *false* feed HTTPS server certificate will not use proxies. Default: *false*
+            """
+            self._apiKey = api_key
+            super().__init__(base_url=clientConfigs, verify=not insecure, proxy=proxy)
+
+        def build_iterator(self) -> List:
+            """Retrieves all entries from the feed.
+
+            Returns:
+                A list of objects, containing the indicators.
+            """
+            result = []
+            for feed_obj in self._base_url:
+                feed_url = feed_obj.get('FeedURL')
+                postData = feed_obj.get('feedParams',
+                                        {"serviceType": 'all',
+                                         "addrType": 'all',
+                                         "location": 'all'})
+
+                try:
+                    response = requests.post(
+                        url=feed_url,
+                        verify=self._verify,
+                        headers={
+                            'header-api-key': self._apiKey
+                        },
+                        data=json.dumps(postData)
+                    )
+                    response.raise_for_status()
+                    responseData = response.json()
+                    prismaStatus = responseData.get('status', '')
+                    if 'success' == prismaStatus:
+                        zones = responseData.get('result', [])
+                        for z in zones:
+                            zoneName = z.get('zone', '')
+                            addresses = z.get('addresses', [])
+                            for addr in addresses:
+                                indicator = {
+                                    "zone": zoneName,
+                                    "value": addr,
+                                    "FeedURL": feed_url
+                                }
+                                if postData['serviceType'] != 'all':
+                                    indicator['serviceType'] = postData['serviceType']
+                                if postData['addrType'] != 'all':
+                                    indicator['addrType'] = postData['addrType']
+                                result.append(indicator)
+                    else:
+                        demisto.debug(str(prismaStatus))
+                        raise Exception(f'Non-success status returned from call to {INTEGRATION_NAME}.\n'
+                                        f'Raw response: ' + json.dumps(responseData, indent=2))
+                except requests.exceptions.SSLError as err:
+                    demisto.debug(str(err))
+                    raise Exception(f'SSL error in the API call to {INTEGRATION_NAME}.\n'
+                                    f'Check your not secure parameter.\n\n{err}')
+                except requests.ConnectionError as err:
+                    demisto.debug(str(err))
+                    raise Exception(f'Connection error in the API call to {INTEGRATION_NAME}.\n'
+                                    f'Check your Server URL parameter.\n\n{err}')
+                except requests.exceptions.HTTPError as err:
+                    demisto.debug(str(err))
+                    raise Exception(f'HTTP error in the API call to {INTEGRATION_NAME}:\n\n' + str(err))
+                except ValueError as err:
+                    demisto.debug(str(err))
+                    raise ValueError(f'Could not parse returned data to Json. \n\nError message: {err}')
+            return result
+
+
+    def test_module(client: Client, *_) -> Tuple[str, Dict[Any, Any], Dict[Any, Any]]:
+        """Builds the iterator to check that the feed is accessible.
+        Args:
+            client: Client object.
+
+        Returns:
+            Outputs.
+        """
+        client.build_iterator()
+        return 'ok', {}, {}
+
+
+    def fetch_indicators(client: Client, limit: int = -1) -> List[Dict]:
+        """Retrieves indicators from the feed
+
+        Args:
+            client: Client object with request
+            limit: limit the results
+
+        Returns:
+            Indicators.
+        """
+        iterator = client.build_iterator()
+        indicators = []
+        if limit > 0:
+            iterator = iterator[:limit]
+
+        for item in iterator:
+            value = item.get('value')
+            raw_data = {
+                "value": value,
+                "serviceType": item.get('serviceType', ''),
+                "addrType": item.get('addrType', ''),
+                "zone": item.get('zone', '')
+            }
+            indicator_mapping_fields = {}
+            indicator_mapping_fields['geocountry'] = item.get('zone', '')
+            indicator_mapping_fields["description"] = 'IP from Prisma Access Egress API'
+            indicators.append({
+                "value": value,
+                "type": FeedIndicatorType.IP,
+                "rawJSON": raw_data,
+                "fields": indicator_mapping_fields,
+                "zone": item.get('zone', '')
+            })
+
+        return indicators
+
+
+    def get_indicators_command(client: Client, args: Dict[str, str]) -> Tuple[str, Dict[Any, Any], Dict[Any, Any]]:
+        """Wrapper for retrieving indicators from the feed to the war-room.
+
+        Args:
+            client: Client object with request
+            args: demisto.args()
+
+        Returns:
+            Outputs.
+        """
+        limit = int(demisto.args().get('limit')) if 'limit' in demisto.args() else 0
+        indicators = fetch_indicators(client, limit)
+        human_readable = tableToMarkdown('Prisma Access Egress IPs:', indicators,
+                                         headers=['zone', 'value'], removeNull=True)
+
+        outputs = {
+            'PrismaAccess.Egress.IP':
+                [
+                    {
+                        'Address': ip.get('value', ''),
+                        'Zone': ip.get('zone', '')
+                    } for ip in indicators
+                ]
+        }
+
+        retIndicators = {'raw_response': indicators}
+
+        return human_readable, outputs, retIndicators
+
+
+    def fetch_indicators_command(client: Client) -> List[Dict]:
+        """Wrapper for fetching indicators from the feed to the Indicators tab.
+
+        Args:
+            client: Client object with request
+
+        Returns:
+            Indicators.
+        """
+        indicators = fetch_indicators(client)
+        return indicators
+
+
+    def main():
+        PRISMA_ACCESS_EGRESS_V2_URI = 'getPrismaAccessIP/v2'
+        """
+        PARSE AND VALIDATE INTEGRATION PARAMS
+        """
+        param_api_key = demisto.params().get('api_key')
+        insecure = demisto.params().get('insecure', False)
+        proxy = demisto.params().get('proxy')
+        baseURL = demisto.params().get('URL')
+        if baseURL[-1] != '/':
+            baseURL += '/'
+        feedURL = baseURL + PRISMA_ACCESS_EGRESS_V2_URI
+
+        feedParams = {
+            "serviceType": demisto.params().get('serviceType', 'all'),
+            "addrType": demisto.params().get('addrType', 'all'),
+            "location": demisto.params().get('Location', 'all')
+        }
+        clientConfigs = [{'FeedURL': feedURL,
+                          'feedParams': feedParams}]
+        command = demisto.command()
+        demisto.info(f'Command being called is {command}')
+
+        try:
+            client = Client(clientConfigs, param_api_key, insecure, proxy)
+            commands: Dict[str, Callable[[Client, Dict[str, str]], Tuple[str, Dict[Any, Any], Dict[Any, Any]]]] = {
+                'test-module': test_module,
+                'prisma-access-get-indicators': get_indicators_command
+            }
+            if command in commands:
+                return_outputs(*commands[command](client, demisto.args()))
+
+            elif command == 'fetch-indicators':
+                indicators = fetch_indicators_command(client)
+                for iter_ in batch(indicators, batch_size=2000):
+                    demisto.createIndicators(iter_)
+
+            else:
+                raise NotImplementedError(f'Command {command} is not implemented.')
+
+        except Exception as err:
+            err_msg = f'Error in {INTEGRATION_NAME} Integration. [{err}]'
+            return_error(err_msg)
+
+
+    if __name__ in ['__main__', 'builtin', 'builtins']:
+        main()
+  subtype: python3
+  type: python
+system: true

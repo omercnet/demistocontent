@@ -928,5 +928,6 @@ script:
     demisto.results(result)
     sys.exit(0)
 
+  subtype: python2
   type: python
 system: true

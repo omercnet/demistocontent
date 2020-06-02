@@ -34,7 +34,7 @@ contentitemexportablefields:
     - all
 description: MineMeld streamlines the aggregation, enforcement and sharing of threat
   intelligence.
-detaileddescription: |
+detaileddescription: |-
   There are 2 list types, each list type holds the names of the miners(lists) that are accounted as threat intel lists (blacklist, whitelist)
   Each list type represents different DbotScore on Demisto.
   Blacklist - if indicator is found in one of the blacklists then the indicator will get DbotScore  3, which is considered malicious in Demisto.
@@ -149,7 +149,7 @@ script:
       description: The indicator type.
       type: string
     - contextPath: DBotScore.Vendor
-      description: Vendor used to calculate the score.
+      description: The vendor used to calculate the score.
       type: string
     - contextPath: DBotScore.Score
       description: The actual score.
@@ -220,7 +220,7 @@ script:
       description: The indicator type.
       type: string
     - contextPath: DBotScore.Vendor
-      description: Vendor used to calculate the score.
+      description: The vendor used to calculate the score.
       type: string
     - contextPath: DBotScore.Score
       description: The actual score.
@@ -297,7 +297,7 @@ script:
       description: The indicator type.
       type: string
     - contextPath: DBotScore.Vendor
-      description: Vendor used to calculate the score.
+      description: The vendor used to calculate the score.
       type: string
     - contextPath: DBotScore.Score
       description: The actual score.
@@ -368,7 +368,7 @@ script:
       description: The indicator type.
       type: string
     - contextPath: DBotScore.Vendor
-      description: Vendor used to calculate the score.
+      description: The vendor used to calculate the score.
       type: string
     - contextPath: DBotScore.Score
       description: The actual score.
@@ -442,7 +442,7 @@ script:
       description: Amount of miner's indicators.
       type: string
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -529,7 +529,7 @@ script:
                 content = result.read()
                 result.close()
 
-            except urllib2.HTTPError, e:
+            except urllib2.HTTPError as e:
                 demisto.debug(e.reason)
                 if e.code != 400:
                     return_error('{0}: {1} \nCheck you Minmeld instance.'.format(e.reason, e.code))
@@ -889,12 +889,19 @@ script:
                     break
 
         # start building output and context
-        dbotscore_list = {
+        dbotscore_list = [{
             'Indicator': file,
             'Type': 'hash',
             'Vendor': 'Palo Alto MineMeld',
             'Score': dbotscore
+        },
+            {
+            'Indicator': file,
+            'Type': 'file',
+            'Vendor': 'Palo Alto MineMeld',
+            'Score': dbotscore
         }
+        ]
 
         if result_indicator:
             miner_name = result_indicator[0]['miner']

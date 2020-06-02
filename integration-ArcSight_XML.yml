@@ -210,5 +210,6 @@ script:
     elif demisto.command() == 'arcsight-update-case':
         update_case()
 
+  subtype: python2
   type: python
 system: true

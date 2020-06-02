@@ -188,7 +188,7 @@ script:
     execution: true
     name: threatx-add-entity-note
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -781,5 +781,6 @@ script:
 
     except Exception as e:
         return_error(str(e))
+  subtype: python2
   type: python
 system: true

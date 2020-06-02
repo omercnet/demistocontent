@@ -44,7 +44,7 @@ configuration:
   required: false
   type: 17
 - defaultvalue: "20160"
-  display: ' '
+  display: ""
   name: feedExpirationInterval
   required: false
   type: 1
@@ -61,14 +61,23 @@ configuration:
   name: feedBypassExclusionList
   required: false
   type: 8
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
+  name: insecure
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Use system proxy settings
+  name: proxy
+  required: false
+  type: 8
 contentitemexportablefields:
   contentitemfields:
     propagationLabels:
     - all
 description: Use the AlienVault Reputation feed integration to fetch indicators from
   the feed.
-detaileddescription: |
-  The AlienVault Reputation Data feed (open-source).
+detaileddescription: The AlienVault Reputation Data feed (open-source).
 display: AlienVault Reputation Feed
 image: data:image/png;base64,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
 name: AlienVault Reputation Feed
@@ -82,10 +91,10 @@ script:
       name: indicator_type
     description: Gets the feed indicators.
     name: alienvault-get-indicators
-  dockerimage: demisto/python3:3.8.1.5734
+  dockerimage: demisto/python3:3.8.1.6120
   feed: true
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -120,9 +129,11 @@ script:
 
 
     ''' IMPORTS '''
-    import urllib3
     import csv
-    from typing import Optional, Pattern, Dict, Any
+    import gzip
+    import urllib3
+    from dateutil.parser import parse
+    from typing import Optional, Pattern, Dict, Any, Tuple, Union
 
     # disable insecure warnings
     urllib3.disable_warnings()
@@ -145,10 +156,16 @@ script:
                     'fieldnames': ['value'],
                     'indicator_type': 'IP',
                     'mapping': {
-                        'date': 'Date'
+                        'Date': 'date' / 'Date': ('date', r'(regex_string)', 'The date is {}')
                     }
                 }
              }
+             For the mapping you can use either:
+                1. 'indicator_field': 'value_from_feed'
+                2. 'indicator_field': ('value_from_feed', regex_string_extractor, string_formatter)
+                    * regex_string_extractor will extract the first match from the value_from_feed,
+                    Use None to get the full value of the field.
+                    * string_formatter will format the data in your preferred way, Use None to get the extracted field.
             :param fieldnames: list of field names in the file. If *null* the values in the first row of the file are
                 used as names. Default: *null*
             :param insecure: boolean, if *false* feed HTTPS server certificate is verified. Default: *false*
@@ -251,14 +268,14 @@ script:
                     return_error('Exception in request: {} {}'.format(r.status_code, r.content))
                     raise
 
-                response = r.content.decode(self.encoding).split('\n')
+                response = self.get_feed_content_divided_to_lines(url, r)
                 if self.feed_url_to_config:
                     fieldnames = self.feed_url_to_config.get(url, {}).get('fieldnames', [])
                 else:
                     fieldnames = self.fieldnames
                 if self.ignore_regex is not None:
-                    response = filter(
-                        lambda x: self.ignore_regex.match(x) is None,  # type: ignore[union-attr]
+                    response = filter(  # type: ignore
+                        lambda x: self.ignore_regex.match(x) is None,  # type: ignore
                         response
                     )
 
@@ -272,33 +289,81 @@ script:
 
             return results
 
+        def get_feed_content_divided_to_lines(self, url, raw_response):
+            """Fetch feed data and divides its content to lines
+
+            Args:
+                url: Current feed's url.
+                raw_response: The raw response from the feed's url.
+
+            Returns:
+                List. List of lines from the feed content.
+            """
+            if self.feed_url_to_config and self.feed_url_to_config.get(url).get('is_zipped_file'):  # type: ignore
+                response_content = gzip.decompress(raw_response.content)
+            else:
+                response_content = raw_response.content
+
+            return response_content.decode(self.encoding).split('\n')
+
+
+    def determine_indicator_type(indicator_type, default_indicator_type, value):
+        if not indicator_type:
+            indicator_type = default_indicator_type
+        if indicator_type == FeedIndicatorType.Domain and '*' in value:
+            indicator_type = FeedIndicatorType.DomainGlob
+        return indicator_type
+
 
     def module_test_command(client: Client, args):
         if not client.feed_url_to_config:
             indicator_type = args.get('indicator_type', demisto.params().get('indicator_type'))
             if not FeedIndicatorType.is_valid_type(indicator_type):
-                supported_values = ', '.join((
-                    FeedIndicatorType.Account,
-                    FeedIndicatorType.CVE,
-                    FeedIndicatorType.Domain,
-                    FeedIndicatorType.Email,
-                    FeedIndicatorType.File,
-                    FeedIndicatorType.MD5,
-                    FeedIndicatorType.SHA1,
-                    FeedIndicatorType.SHA256,
-                    FeedIndicatorType.Host,
-                    FeedIndicatorType.IP,
-                    FeedIndicatorType.CIDR,
-                    FeedIndicatorType.IPv6,
-                    FeedIndicatorType.IPv6CIDR,
-                    FeedIndicatorType.Registry,
-                    FeedIndicatorType.SSDeep,
-                    FeedIndicatorType.URL
-                ))
+                supported_values = FeedIndicatorType.list_all_supported_indicators()
                 raise ValueError(f'Indicator type of {indicator_type} is not supported. Supported values are:'
                                  f' {supported_values}')
         client.build_iterator()
         return 'ok', {}, {}
+
+
+    def date_format_parsing(date_string):
+        formatted_date = parse(date_string).isoformat()
+        if "+" in formatted_date:
+            formatted_date = formatted_date.split('+')[0]
+
+        if "." in formatted_date:
+            formatted_date = formatted_date.split('.')[0]
+
+        if not formatted_date.endswith('Z'):
+            formatted_date = formatted_date + 'Z'
+
+        return formatted_date
+
+
+    def create_fields_mapping(raw_json: Dict[str, Any], mapping: Dict[str, Union[Tuple, str]]):
+        fields_mapping = {}  # type: dict
+
+        for key, field in mapping.items():
+            regex_extractor = None
+            formatter_string = None
+
+            if isinstance(field, tuple):
+                field, regex_extractor, formatter_string = field
+
+            if not raw_json.get(field):  # type: ignore
+                continue
+
+            try:
+                field_value = re.match(regex_extractor, raw_json[field]).group(1)  # type: ignore
+            except Exception:
+                field_value = raw_json[field]  # type: ignore
+
+            fields_mapping[key] = formatter_string.format(field_value) if formatter_string else field_value
+
+            if key in ['firstseenbysource', 'lastseenbysource']:
+                fields_mapping[key] = date_format_parsing(fields_mapping[key])
+
+        return fields_mapping
 
 
     def fetch_indicators_command(client: Client, default_indicator_type: str, **kwargs):
@@ -315,16 +380,14 @@ script:
                         value = next(iter(item.values()))
                     if value:
                         raw_json['value'] = value
-                        indicator_type = config.get(url, {}).get('indicator_type')
-                        if not indicator_type:
-                            indicator_type = default_indicator_type
+                        conf_indicator_type = config.get(url, {}).get('indicator_type')
+                        indicator_type = determine_indicator_type(conf_indicator_type, default_indicator_type, value)
                         raw_json['type'] = indicator_type
-
                         indicator = {
                             'value': value,
                             'type': indicator_type,
                             'rawJSON': raw_json,
-                            'CustomFields': {field: raw_json[key] for key, field in mapping.items()}
+                            'fields': create_fields_mapping(raw_json, mapping) if mapping else {}
                         }
                         indicators.append(indicator)
 
@@ -336,7 +399,7 @@ script:
         limit = int(args.get('limit'))
         indicators_list = fetch_indicators_command(client, itype)
         entry_result = indicators_list[:limit]
-        hr = tableToMarkdown('Indicators', entry_result, headers=['value', 'type'])
+        hr = tableToMarkdown('Indicators', entry_result, headers=['value', 'type', 'fields'])
         return hr, {}, indicators_list
 
 

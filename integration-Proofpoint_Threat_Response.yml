@@ -25,136 +25,729 @@ configuration:
   required: false
   type: 8
 - defaultvalue: ""
-  display: ID of IPs blacklist
-  name: blacklist_ip
+  display: Fetch incidents
+  name: isFetch
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Incident type
+  name: incidentType
+  required: false
+  type: 13
+- defaultvalue: ""
+  display: 'First fetch timestamp (YYYY-MM-DDTHH:MM:SSZ). For example: 2020-02-02T19:00:00Z'
+  name: fetch_time
   required: false
   type: 0
 - defaultvalue: ""
-  display: ID of Domains blacklist
-  name: blacklist_domain
+  display: Fetch incidents with specific event sources. Can be a list of comma separated
+    values.
+  name: event_sources
   required: false
   type: 0
 - defaultvalue: ""
-  display: ID of URLs blacklist
-  name: blacklist_url
+  display: Fetch incidents with specific 'Abuse Disposition' values. Can be a list
+    of comma separated values.
+  name: abuse_disposition
   required: false
   type: 0
 - defaultvalue: ""
-  display: ID of hashes blacklist
-  name: blacklist_hash
+  display: Fetch incident with specific states.
+  name: states
+  options:
+  - new
+  - open
+  - assigned
+  - closed
+  - ignored
+  required: false
+  type: 16
+- additionalinfo: You can find this value by navigating to Sources -> JSON event source
+    -> POST URL.
+  defaultvalue: ""
+  display: POST URL of the JSON alert source.
+  name: post_url_id
   required: false
   type: 0
 contentitemexportablefields:
   contentitemfields:
     propagationLabels:
     - all
-description: Threat management platform to orchestrate and automate incident response.
-detaileddescription: |
-  In order to create API Key
-    Settings -> API Key -> Add api key
-    Note: This is a beta Integration, which lets you implement and test pre-release software. Since the integration is beta, it might contain bugs. Updates to the integration during the beta phase might include non-backward compatible features. We appreciate your feedback on the quality and usability of the integration to help us identify issues, fix them, and continually improve.
+description: Use the Proofpoint Threat Response integration to orchestrate and automate
+  incident response.
+detaileddescription: "In order to create the API Key go to:\n\n  Settings -> API Key
+  -> Add api key\n  \n  Note: This is a beta Integration, which lets you implement
+  and test pre-release software. Since the integration is beta, it might contain bugs.
+  Updates to the integration during the beta phase might include non-backward compatible
+  features. We appreciate your feedback on the quality and usability of the integration
+  to help us identify issues, fix them, and continually improve.\n  \n- The ***proofpoint-tr-ingest-alert***
+  command requires some JSON format arguments. Please make sure the inputed JSONs
+  have uniqe characters (such as `\"`) escaped before entering them (e.g. `\\\"`).\n-
+  For more information regarding the JSON objects, please see Proofpoint TRAP documentation
+  under \"JSON Alert Source 2.0\".\n"
 display: Proofpoint Threat Response (Beta)
 image: data:image/png;base64,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
 name: Proofpoint Threat Response
 script:
   commands:
   - arguments:
-    - description: ID of the list
+    - description: ID of the list.
       name: list-id
       required: true
-    description: Get list items
+    description: Gets items for the specified list.
     name: proofpoint-tr-get-list
   - arguments:
-    - name: list-id
+    - description: The list to add a member to.
+      name: list-id
       required: true
-    - description: 'Could be ip,url,domain,hash. For example: "192.168.1.1,192.168.1.2"'
+    - description: 'A comma-separated list of indicator values. Can be IP addresses,
+        URLs, domains, or file hashes. For example: "192.168.1.1,192.168.1.2".'
       isArray: true
       name: indicator
       required: true
-    - description: Comment regarding the member
+    - description: A comment about the member.
       name: comment
-    - description: Expiration of the  member
+    - description: Expiration of the  member.
       name: expiration
-    description: Add member to list
+    description: Adds a member to the specified list.
     execution: true
     name: proofpoint-tr-add-to-list
   - arguments:
-    - description: List of IPs
+    - description: A comma-separated list of IP addresses to blacklist.
       isArray: true
       name: ip
       required: true
-    - description: Expiration of the IP
+    - description: 'Date and time when the supplied IP addresses should be removed
+        from the blacklist, in the format YYYY-MM-DDTHH:MM:SSZ. For example: 2020-02-02T19:00:00Z'
       name: expiration
-    description: 'Block IP '
+    - description: The ID of the IP blacklist.
+      name: blacklist_ip
+      required: true
+    description: Adds the supplied IP addresses to the specified IP blacklist.
     execution: true
     name: proofpoint-tr-block-ip
   - arguments:
-    - description: List of domains
+    - description: A comma-separated list of domains to add to the blacklist.
       isArray: true
       name: domain
       required: true
-    - description: Expiration of the Domain
+    - description: 'Date and time when the supplied IP addresses should be removed
+        from the blacklist, in the format YYYY-MM-DDTHH:MM:SSZ. For example: 2020-02-02T19:00:00Z'
       name: expiration
-    description: Block Domain
+    - description: The ID of the domain blacklist.
+      name: blacklist_domain
+      required: true
+    description: Adds the supplied domains to the specified blacklist.
     name: proofpoint-tr-block-domain
   - arguments:
-    - description: ID of the list
+    - description: The ID of the list in which to search.
       name: list-id
       required: true
-    - description: Filter for the search. For example, "1.1" will return [1.1.1.1,
-        22.22.1.1,1.1.22.22]
+    - description: The filter for the indicator search. For example, "1.1" will return
+        [1.1.1.1, 22.22.1.1, 1.1.22.22]
       name: filter
       required: true
-    description: 'Return a list of indicators '
+    description: Returns indicators from the specified list, according to the defined
+      filter.
     name: proofpoint-tr-search-indicator
   - arguments:
-    - description: ID of the list
+    - description: ID of the list from which to delete indicators.
       name: list-id
       required: true
-    - description: 'Could be ip,url,domain,hash. For example: "demisto.com"'
+    - description: 'The indicator value to delete from the list. Can be an IP address,
+        URL, domain, or file hash. For example: "demisto.com".'
       name: indicator
       required: true
-    description: Delete an indicator from a list
+    description: Deletes an indicator from the specified list.
     name: proofpoint-tr-delete-indicator
   - arguments:
-    - description: List of URLs
+    - description: A comma-separated list of URLs to add to the URL blacklist.
       isArray: true
       name: url
       required: true
-    - description: Expiration of the URLs
+    - description: 'Date and time when the supplied URLs should be removed from the
+        blacklist, in the format YYYY-MM-DDTHH:MM:SSZ. For example: 2020-02-02T19:00:00Z'
       name: expiration
-    description: Block URL
+    - description: The ID of the URL blacklist.
+      name: blacklist_url
+      required: true
+    description: Adds the supplied URLs to the specified URL blacklist.
     name: proofpoint-tr-block-url
   - arguments:
-    - description: List of hashes
+    - description: A comma-separated list of file hashes to add to the file hash blacklist.
       isArray: true
       name: hash
       required: true
-    - description: Expiration of the hash
+    - description: 'Date and time when the supplied file hashes should be removed
+        from the blacklist, in the format YYYY-MM-DDTHH:MM:SSZ. For example: 2020-02-02T19:00:00Z'
       name: expiration
-    description: Block hash
+    - description: The ID of the hash blacklist
+      name: blacklist_hash
+      required: true
+    description: Adds the supplied file hashes to the specified file hash blacklist.
     name: proofpoint-tr-block-hash
+  - arguments:
+    - auto: PREDEFINED
+      description: State of the incidents to retrieve.
+      name: state
+      predefined:
+      - new
+      - open
+      - assigned
+      - closed
+      - ignored
+    - description: 'Retrieve incidents that were created after this date, in ISO 8601
+        format (UTC). Example: 2020-02-22 or 2020-02-22T00:00:00Z'
+      name: created_after
+      predefined:
+      - ""
+    - description: 'Retrieve incidents that were created before this date, in ISO
+        8601 format (UTC). Example: 2020-02-22 or 2020-02-22T00:00:00Z'
+      name: created_before
+    - description: 'Retrieve incidents that were closed after this date, in ISO 8601
+        format (UTC). Example: 2020-02-22 or 2020-02-22T00:00:00Z'
+      name: closed_after
+    - description: 'Retrieve incidents that were closed before this date, in ISO 8601
+        format (UTC). Example: 2020-02-22 or 2020-02-22T00:00:00Z.'
+      name: closed_before
+    - auto: PREDEFINED
+      description: ' If false, will return an array of event IDs instead of full event
+        objects. This will significantly speed up the response time of the API for
+        incidents with large numbers of alerts.'
+      name: expand_events
+      predefined:
+      - "true"
+      - "false"
+    - defaultValue: "50"
+      description: The maximum number of incidents to return. The default value is
+        50.
+      name: limit
+      required: true
+    description: Retrieves all incident metadata from Threat Response by specifying
+      filter criteria such as the state of the incident or time of closure.
+    name: proofpoint-tr-list-incidents
+    outputs:
+    - contextPath: ProofPointTRAP.Incident.id
+      description: The incident ID.
+      type: Number
+    - contextPath: ProofPointTRAP.Incident.summary
+      description: The summary of the incident.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.score
+      description: The score of the incident from ProofPoint.
+      type: Number
+    - contextPath: ProofPointTRAP.Incident.state
+      description: The state of the incident. Can be - Open, Closed, New, Assigned,
+        Ignored.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.created_at
+      description: The date that the incident was created.
+      type: Date
+    - contextPath: ProofPointTRAP.Incident.updated_at
+      description: The date that the incident was last updated.
+      type: Date
+    - contextPath: ProofPointTRAP.Incident.event_count
+      description: The number of events attached to the incident.
+      type: Number
+    - contextPath: ProofPointTRAP.Incident.false_positive_count
+      description: The number of false positive events in the incident.
+      type: Number
+    - contextPath: ProofPointTRAP.Incident.event_sources
+      description: The sources of the events.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.assignee
+      description: The user assigned to the incident.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.team
+      description: The team assigned to the incident.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.hosts.attacker
+      description: The host attacker.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.hosts.forensics
+      description: The host forensics.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.incident_field_values.Severity
+      description: The severity of the incident.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.incident_field_values.Abuse_disposition
+      description: The abuse disposition of the incident.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.incident_field_values.Attack_vector
+      description: The attack vector of the incident.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.incident_field_values.Classification
+      description: The classification of the incident.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.id
+      description: The event ID.
+      type: Number
+    - contextPath: ProofPointTRAP.Incident.events.category
+      description: The event category.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.alertType
+      description: The alert type of the event.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.severity
+      description: The severity of the event.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.source
+      description: The source of the event.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.state
+      description: The state of the event.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.attackDirection
+      description: The attack direction of the event.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.received
+      description: The time the incident was received.
+      type: Date
+    - contextPath: ProofPointTRAP.Incident.events.emails.sender
+      description: The sender of the email.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.emails.recipient
+      description: The recipient of the email.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.emails.message_Id
+      description: The message ID of the email.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.emails.message_delivery_time
+      description: The delivery time of the message.
+      type: Number
+    - contextPath: ProofPointTRAP.Incident.events.attackers.location
+      description: The location of the attacker.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.falsePositive
+      description: Whether this incident is a false positive.
+      type: Boolean
+    - contextPath: ProofPointTRAP.Incident.events.threatname
+      description: The threat name.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.description
+      description: The description of the event.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.malwareName
+      description: The malware name.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.quarantine_results.alertSource
+      description: The alert source.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.quarantine_results.startTime
+      description: The start time of the result.
+      type: Date
+    - contextPath: ProofPointTRAP.Incident.quarantine_results.endTime
+      description: The end time of the result.
+      type: Date
+    - contextPath: ProofPointTRAP.Incident.quarantine_results.status
+      description: The status of the result.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.quarantine_results.recipientType
+      description: The recipient type.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.quarantine_results.recipient
+      description: The recipient email address.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.quarantine_results.messageId
+      description: The message ID
+      type: String
+    - contextPath: ProofPointTRAP.Incident.quarantine_results.isRead
+      description: Whether the message has been read.
+      type: Boolean
+    - contextPath: ProofPointTRAP.Incident.quarantine_results.wasUndone
+      description: Whether the message was undone.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.quarantine_results.details
+      description: The details about the result.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.successful_quarantines
+      description: The number of successful quarantines.
+      type: Number
+    - contextPath: ProofPointTRAP.Incident.failed_quarantines
+      description: The number of failed quarantines.
+      type: Number
+    - contextPath: ProofPointTRAP.Incident.pending_quarantines
+      description: The number of pending quarantines.
+      type: Number
+    - contextPath: ProofPointTRAP.Incident.events.emails.body
+      description: The body of the email.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.emails.body_type
+      description: The format of the body.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.emails.headers
+      description: The email headers.
+      type: Unknown
+    - contextPath: ProofPointTRAP.Incident.events.emails.urls
+      description: The list of URLs from the email.
+      type: Unknown
+    - contextPath: ProofPoint.Incident.event_ids
+      description: The list of IDs attached to the incident.
+      type: Unknown
+  - arguments:
+    - default: true
+      description: The ID value of the incident to retrieve.
+      name: incident_id
+      required: true
+    - auto: PREDEFINED
+      description: If false, will return an array of event IDs instead of full event
+        objects. This will significantly speed up the response time of the API for
+        incidents with large numbers of alerts.
+      name: expand_events
+      predefined:
+      - "true"
+      - "false"
+    description: Retrieves incident metadata from Threat Response.
+    name: proofpoint-tr-get-incident
+    outputs:
+    - contextPath: ProofPointTRAP.Incident.id
+      description: The incident ID.
+      type: Number
+    - contextPath: ProofPointTRAP.Incident.summary
+      description: The summary of the incident.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.score
+      description: The score of the incident from ProofPoint.
+      type: Number
+    - contextPath: ProofPointTRAP.Incident.state
+      description: The state of the incident. Can be - Open, Closed, New, Assigned,
+        Ignored.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.created_at
+      description: The date that the incident was created.
+      type: Date
+    - contextPath: ProofPointTRAP.Incident.updated_at
+      description: The date that the incident was last updated.
+      type: Date
+    - contextPath: ProofPointTRAP.Incident.event_count
+      description: The number of events attached to the incident.
+      type: Number
+    - contextPath: ProofPointTRAP.Incident.false_positive_count
+      description: The number of false positive events in the incident.
+      type: Number
+    - contextPath: ProofPointTRAP.Incident.event_sources
+      description: The sources of the events.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.assignee
+      description: The user assigned to the incident.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.team
+      description: The team assigned to the incident.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.hosts.attacker
+      description: The host attacker.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.hosts.forensics
+      description: The host forensics.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.incident_field_values.Severity
+      description: The severity of the incident.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.incident_field_values.Abuse_disposition
+      description: The abuse disposition of the incident.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.incident_field_values.Attack_vector
+      description: The attack vector of the incident.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.incident_field_values.Classification
+      description: The classification of the incident.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.id
+      description: The event ID.
+      type: Number
+    - contextPath: ProofPointTRAP.Incident.events.category
+      description: The event category.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.alertType
+      description: The alert type of the event.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.severity
+      description: The severity of the event.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.source
+      description: The source of the event.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.state
+      description: The state of the event.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.attackDirection
+      description: The attack direction of the event
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.received
+      description: The date that the incident was received.
+      type: Date
+    - contextPath: ProofPointTRAP.Incident.events.emails.sender
+      description: The sender of the email.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.emails.recipient
+      description: The recipient of the email.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.emails.message_Id
+      description: The message ID of the email.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.emails.message_delivery_time
+      description: The time that the message was delivered.
+      type: Number
+    - contextPath: ProofPointTRAP.Incident.events.attackers.location
+      description: The location of the attacker.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.falsePositive
+      description: Whether this incident is a false positive.
+      type: Boolean
+    - contextPath: ProofPointTRAP.Incident.events.threatname
+      description: The threat name.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.description
+      description: The description of the event.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.malwareName
+      description: The malware name.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.quarantine_results.alertSource
+      description: The alert source.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.quarantine_results.startTime
+      description: The start time of the result.
+      type: Date
+    - contextPath: ProofPointTRAP.Incident.quarantine_results.endTime
+      description: The end time of the result.
+      type: Date
+    - contextPath: ProofPointTRAP.Incident.quarantine_results.status
+      description: The status of the result.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.quarantine_results.recipientType
+      description: The recipient type.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.quarantine_results.recipient
+      description: The recipient email address.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.quarantine_results.messageId
+      description: The message ID.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.quarantine_results.isRead
+      description: Whether the message has been read.
+      type: Boolean
+    - contextPath: ProofPointTRAP.Incident.quarantine_results.wasUndone
+      description: Whether the message was undone.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.quarantine_results.details
+      description: The details about the result.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.successful_quarantines
+      description: The number of successful quarantines.
+      type: Number
+    - contextPath: ProofPointTRAP.Incident.failed_quarantines
+      description: The number of failed quarantines.
+      type: Number
+    - contextPath: ProofPointTRAP.Incident.pending_quarantines
+      description: The number of pending quarantines.
+      type: Number
+    - contextPath: ProofPointTRAP.Incident.events.emails.body
+      description: The body of the email.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.emails.body_type
+      description: The format of the body.
+      type: String
+    - contextPath: ProofPointTRAP.Incident.events.emails.headers
+      description: The email headers.
+      type: Unknown
+    - contextPath: ProofPointTRAP.Incident.events.emails.urls
+      description: The list of URLs from the email.
+      type: Unknown
+    - contextPath: ProofPoint.Incident.event_ids
+      description: The list of IDs attached to the incident.
+      type: Unknown
+  - arguments:
+    - description: The ID value of the incident to add the comment to.
+      name: incident_id
+      required: true
+    - description: 'The details of the comments. '
+      name: details
+      required: true
+    - description: The summary of the comments.
+      name: comments
+      required: true
+    description: Adds comments to an existing Threat Response incident, by incident
+      ID.
+    name: proofpoint-tr-update-incident-comment
+    outputs:
+    - contextPath: ProofPointTRAP.IncidentComment.id
+      description: The ID of the comment.
+      type: Number
+    - contextPath: ProofPointTRAP.IncidentComment.incident_id
+      description: The ID of the incident.
+      type: Number
+    - contextPath: ProofPointTRAP.IncidentComment.response_id
+      description: The ID of the response.
+      type: Number
+    - contextPath: ProofPointTRAP.IncidentComment.user_id
+      description: The ID of the user.
+      type: String
+    - contextPath: ProofPointTRAP.IncidentComment.history_type
+      description: The history type.
+      type: String
+    - contextPath: ProofPointTRAP.IncidentComment.state_from
+      description: The state from of the incident.
+      type: String
+    - contextPath: ProofPointTRAP.IncidentComment.state_to
+      description: The state to of the incident.
+      type: String
+    - contextPath: ProofPointTRAP.IncidentComment.summary
+      description: The summary of the comments.
+      type: String
+    - contextPath: ProofPointTRAP.IncidentComment.detail
+      description: The details of the comment.
+      type: String
+    - contextPath: ProofPointTRAP.IncidentComment.created_at
+      description: The date that the incident was created.
+      type: Date
+    - contextPath: ProofPointTRAP.IncidentComment.updated_at
+      description: The date that the incident was last udpated.
+      type: Date
+  - arguments:
+    - description: The ID value of the incident to add the user to.
+      name: incident_id
+      required: true
+    - description: The list of targets to add to the incident.
+      isArray: true
+      name: targets
+      required: true
+    - description: The list of attackers to add to the incident.
+      isArray: true
+      name: attackers
+      required: true
+    description: Assigns a user to an incident as a target or attacker.
+    name: proofpoint-tr-add-user-to-incident
+  - arguments:
+    - description: POST URL of the JSON alert source. You can find it by navigating
+        to Sources -> JSON event source -> POST URL.
+      name: post_url_id
+    - auto: PREDEFINED
+      defaultValue: "2.0"
+      description: The Threat Response JSON version. Default is :"2.0".
+      name: json_version
+      predefined:
+      - "2.0"
+      - "1.0"
+      required: true
+    - description: 'An attacker object in a json format : "{"attacker" : {...}}".
+        The attacker object must contain one of ["ip_address", mac_address", "host_name",
+        "url", "user"] keys. You can also add the "port" key to the object. For more
+        information, please see Proofpoint TRAP documentation under "JSON Alert Source
+        2.0".'
+      name: attacker
+    - auto: PREDEFINED
+      description: The alert classification shown as "Alert Type" in the TRAP UI.
+      name: classification
+      predefined:
+      - malware
+      - policy-violation
+      - vulnerability
+      - network
+      - spam
+      - phish
+      - command-and-control
+      - data-match
+      - authentication
+      - system-behavior
+      - impostor
+      - reported-abuse
+      - unknown
+    - description: 'The Command and Control host information in a JSON format : "{"cnc_hosts":
+        [{"host" : "-", "port": "-"}, ...]}". Note: Every item of the "cnc_hosts"
+        list is in JSON format. For more information, please see Proofpoint TRAP documentation
+        under "JSON Alert Source 2.0".'
+      name: cnc_hosts
+    - description: 'The threat detection tool such as Firewall and IPS/IDS systems
+        (in the format: "{"detector" : {...}}"), which generated the original alert.
+        To see all relevant JSON fields and for more information, please see Proofpoint
+        TRAP documentation under "JSON Alert Source 2.0".'
+      name: detector
+    - description: 'The email metadata related to the alert, in a JSON format: "{"email":
+        {...}}". To see all relevant JSON fields and for more information, please
+        see Proofpoint TRAP documentation under "JSON Alert Source 2.0".'
+      name: email
+    - description: 'The forensics host information in a JSON format : "{"forensics_hosts":
+        [{"host" : "-", "port": "-"}...]}". Note: Every item of the "forensics_hosts"
+        list is in JSON format. For more information, please see Proofpoint TRAP documentation
+        under "JSON Alert Source 2.0".'
+      name: forensics_hosts
+    - auto: PREDEFINED
+      description: The attribute to link alerts to.
+      name: link_attribute
+      predefined:
+      - target_ip_address
+      - target_hostname
+      - target_machine_name
+      - target_user
+      - target_mac_address
+      - attacker_ip_address
+      - attacker_hostname
+      - attacker_machine_name
+      - attacker_user
+      - attacker_mac_address
+      - email_recipient
+      - email_sender
+      - email_subject
+      - message_id
+      - threat_filename
+      - threat_filehash
+    - auto: PREDEFINED
+      description: The severity of the alert.
+      name: severity
+      predefined:
+      - info
+      - minor
+      - moderate
+      - major
+      - critical
+      - Informational
+      - Low
+      - Medium
+      - High
+      - Critical
+    - description: The alert summary. This argument will populate the Alert Details
+        field.
+      name: summary
+    - description: 'The target host information in the JSON format : "{"target": {...}}".
+        To see all relevant JSON fields and for more information, please see Proofpoint
+        TRAP documentation under "JSON Alert Source 2.0".'
+      name: target
+    - description: 'The threat information in a JSON format: "{"threat_info": {...}}".
+        To see all relevant JSON fields and for more information, please see Proofpoint
+        TRAP documentation under "JSON Alert Source 2.0".'
+      name: threat_info
+    - description: 'A JSON object for collecting custom name-value pairs as part of
+        the JSON alert sent to Threat Response, in the format: "{"custom_fields":
+        {..}}". Although there is no limit to the number of custom fields, Proofpoint
+        recommends keeping it to 10 or fewer fields. To see all relevant JSON fields
+        and for more information, please see Proofpoint TRAP documentation under "JSON
+        Alert Source 2.0".'
+      name: custom_fields
+    description: Ingest an alert into Threat Response.
+    name: proofpoint-tr-ingest-alert
+  isfetch: true
   runonce: false
-  script: |2-
+  script: |2
+
+
 
 
     ''' IMPORTS '''
-    import requests
     import json
+    import requests
+    from datetime import date
+
     requests.packages.urllib3.disable_warnings()
 
-    if not demisto.getParam('proxy'):
-        del os.environ['HTTP_PROXY']
-        del os.environ['HTTPS_PROXY']
-        del os.environ['http_proxy']
-        del os.environ['https_proxy']
-
     ''' GLOBAL VARS '''
+    TIME_FORMAT = '%Y-%m-%dT%H:%M:%SZ'
     BASE_URL = demisto.params().get('url')
-    if BASE_URL[-1] != '/':
+    if BASE_URL and BASE_URL[-1] != '/':
         BASE_URL += '/'
     API_KEY = demisto.params().get('apikey')
-    VERIFY_CERTIFICATE = False
+    VERIFY_CERTIFICATE = not demisto.params().get('insecure')
+    FETCH_TIME = demisto.params().get('fetch_time', '')
 
     ''' COMMAND FUNCTIONS '''
 
@@ -171,7 +764,7 @@ script:
         )
 
         if res.status_code < 200 or res.status_code >= 300:
-            return_error('Get list failed. URL: {}, StatusCode: {}, Response: {}'.format(fullurl, res.status_code, res.text))
+            return_error('Get list failed. URL: {}, StatusCode: {}'.format(fullurl, res.status_code))
 
         return res.json()
 
@@ -206,8 +799,7 @@ script:
         )
 
         if res.status_code < 200 or res.status_code >= 300:
-            return_error('Add to list failed. URL: {}, Request Body: {}, StatusCode: {}, Response: {}'.format(
-                fullurl, json.dumps(indicator), res.status_code, res.content))
+            return_error('Add to list failed. URL: {}, Request Body: {}'.format(fullurl, json.dumps(indicator)))
 
         return res.json()
 
@@ -229,7 +821,7 @@ script:
 
     def block_ip_command():
         ''' Adds given IPs to the relevant blacklist in Threat Response '''
-        list_id = demisto.params().get('blacklist_ip')
+        list_id = demisto.params().get('blacklist_ip', demisto.args().get('blacklist_ip'))
         ips = argToList(demisto.args().get('ip'))
         expiration = demisto.args().get('expiration')
 
@@ -243,7 +835,7 @@ script:
 
     def block_domain_command():
         ''' Adds given domains to the relevant blacklist in Threat Response '''
-        list_id = demisto.params().get('blacklist_domain')
+        list_id = demisto.params().get('blacklist_domain', demisto.args().get('blacklist_domain'))
         domains = argToList(demisto.args().get('domain'))
         expiration = demisto.args().get('expiration')
 
@@ -257,7 +849,7 @@ script:
 
     def block_url_command():
         ''' Adds given URLs to the relevant blacklist in Threat Response '''
-        list_id = demisto.params().get('blacklist_url')
+        list_id = demisto.params().get('blacklist_url', demisto.args().get('blacklist_url'))
         urls = argToList(demisto.args().get('url'))
         expiration = demisto.args().get('expiration')
 
@@ -271,7 +863,7 @@ script:
 
     def block_hash_command():
         ''' Adds given hashes to the relevant blacklist in Threat Response '''
-        list_id = demisto.params().get('blacklist_hash')
+        list_id = demisto.params().get('blacklist_hash', demisto.args().get('blacklist_hash'))
         hashes = argToList(demisto.args().get('hash'))
         expiration = demisto.args().get('expiration')
 
@@ -318,7 +910,7 @@ script:
             verify=VERIFY_CERTIFICATE
         )
         if res.status_code < 200 or res.status_code >= 300:
-            return_error('Delete indicator failed. URL: {}, StatusCode: {}, Response: {}'.format(fullurl, res.status_code, res.text))
+            return_error('Delete indicator failed. URL: {}, StatusCode: {}'.format(fullurl, res.status_code))
 
 
     def delete_indicator_command():
@@ -331,38 +923,547 @@ script:
 
 
     def test():
-        get_list(demisto.params().get('blacklist_ip'))
+        """Perform API call to check that the API is accessible.
+
+        Returns:
+            'ok' if test passed, anything else will fail the test.
+        """
+
+        global FETCH_TIME
+
+        if FETCH_TIME:
+            try:
+                datetime.strptime(FETCH_TIME, TIME_FORMAT)
+            except ValueError as error:
+                return_error('There is something wrong with the fetch date. Error: {}'.format(error))
+
+            if FETCH_TIME[-1] != 'Z':
+                FETCH_TIME = FETCH_TIME + 'Z'
+
+        get_incidents_request(
+            {
+                'created_after': date.today(),
+                'state': 'open'
+            }
+        )
+        demisto.results('ok')
+
+
+    # TRAP API
+    def create_incident_field_context(incident):
+        """Parses the 'incident_fields' entry of the incident and returns it
+
+        Args:
+            incident (dict): The incident to parse
+
+        Returns:
+            list. The parsed incident fields list
+        """
+        incident_field_values = dict()
+        for incident_field in incident.get('incident_field_values', []):
+            incident_field_values[incident_field['name'].replace(" ", "_")] = incident_field['value']
+
+        return incident_field_values
+
+
+    def get_emails_context(event):
+        """Returns the context of the emails in the event
+
+        Args:
+            event (dict): The event to parse the emails from
+
+        Returns:
+            list. The parsed emails list from the event
+        """
+        emails_context = []
+        for email in event.get('emails', []):
+            emails_context.append(
+                assign_params(**{
+                    'sender': email.get('sender', {}).get('email'),
+                    'recipient': email.get('recipient', {}).get('email'),
+                    'subject': email.get('subject'),
+                    'message_id': email.get('messageId'),
+                    'message_delivery_time': email.get('messageDeliveryTime', {}).get('millis'),
+                    'body': email.get('body'),
+                    'body_type': email.get('bodyType'),
+                    'headers': email.get('headers'),
+                    'urls': email.get('urls')
+                }))
+
+        return emails_context
+
+
+    def create_incidents_context(incidents_list):
+        """Parses the incidents list and returns the incidents context
+
+        Args:
+            incidents_list (list): The incidents list to parse
+
+        Returns:
+            list. The context created from the incidents list
+        """
+        context = list(incidents_list)
+        for incident in context:
+            incident['incident_field_values'] = create_incident_field_context(incident)
+
+            if incident.get('events'):
+                for event in incident['events']:
+                    event['emails'] = get_emails_context(event)
+
+        return context
+
+
+    def create_incidents_human_readable(human_readable_message, incidents_list):
+        """Creates the human readable entry for incidents
+
+        Args:
+            human_readable_message (str): The title of the human readable table
+            incidents_list (list): The incidents list to insert to the table
+
+        Returns:
+            str. The incidents human readable in markdown format
+        """
+        human_readable = []
+        human_readable_headers = ['ID', 'Created At', 'Type', 'Summary', 'Score', 'Event Count', 'Assignee',
+                                  'Successful Quarantines', 'Failed Quarantines', 'Pending Quarantines']
+        for incident in incidents_list:
+            human_readable.append({
+                'Created At': incident.get('created_at'),
+                'ID': incident.get('id'),
+                'Type': incident.get('type'),
+                'Summary': incident.get('summary'),
+                'Score': incident.get('score'),
+                'Event Count': incident.get('event_count'),
+                'Assignee': incident.get('assignee'),
+                'Successful Quarantines': incident.get('successful_quarantine'),
+                'Failed Quarantines': incident.get('failed_quarantines'),
+                'Pending Quarantines': incident.get('pending_quarantines')
+            })
+
+        return tableToMarkdown(human_readable_message, human_readable, human_readable_headers, removeNull=True)
+
+
+    def list_incidents_command():
+        """ Retrieves incidents from ProofPoint API """
+        args = demisto.args()
+        limit = int(args.pop('limit'))
+
+        incidents_list = get_incidents_request(args)
+
+        incidents_list = incidents_list[:limit]
+        human_readable = create_incidents_human_readable('List Incidents Results:', incidents_list)
+        context = create_incidents_context(incidents_list)
+
+        return_outputs(human_readable, {'ProofPointTRAP.Incident(val.id === obj.id)': context}, incidents_list)
+
+
+    def get_incident_command():
+        """
+            Retrieves a single incident from ProofPoint API
+        """
+        args = demisto.args()
+        incident_id = args.pop('incident_id')
+        fullurl = BASE_URL + 'api/incidents/{}.json'.format(incident_id)
+        incident_data = requests.get(
+            fullurl,
+            headers={
+                'Content-Type': 'application/json',
+                'Authorization': API_KEY
+            },
+            verify=VERIFY_CERTIFICATE
+        )
+
+        if incident_data.status_code < 200 or incident_data.status_code >= 300:
+            return_error('Get incident failed. URL: {}, StatusCode: {}'.format(fullurl, incident_data.status_code))
+
+        incident_data = incident_data.json()
+        human_readable = create_incidents_human_readable('Incident Results:', [incident_data])
+        context = create_incidents_context([incident_data])
+
+        return_outputs(human_readable, {'ProofPointTRAP.Incident(val.id === obj.id)': context}, incident_data)
+
+
+    def pass_sources_list_filter(incident, sources_list):
+        """Checks whether the event sources of the incident contains at least one of the sources in the sources list.
+
+        Args:
+            incident (dict): The incident to check
+            sources_list (list): The list of sources from the customer
+
+        Returns:
+            bool. Whether the incident has passed the filter or not
+        """
+        if len(sources_list) == 0:
+            return True
+
+        for source in sources_list:
+            if source in incident.get("event_sources"):
+                return True
+
+        return False
+
+
+    def pass_abuse_disposition_filter(incident, abuse_disposition_values):
+        """Checks whether the incident's 'Abuse Disposition' value is in the abuse_disposition_values list.
+
+        Args:
+            incident (dict): The incident to check
+            abuse_disposition_values (list): The list of relevant values from the customer
+
+        Returns:
+            bool. Whether the incident has passed the filter or not
+        """
+        if len(abuse_disposition_values) == 0:
+            return True
+
+        for incident_field in incident.get('incident_field_values', []):
+            if incident_field['name'] == 'Abuse Disposition':
+                if incident_field['value'] in abuse_disposition_values:
+                    return True
+
+        return False
+
+
+    def filter_incidents(incidents_list):
+        """Filters the incidents list by 'abuse disposition' and 'source list' values
+
+        Args:
+            incidents_list (list): The incidents list to filter
+
+        Returns:
+            list. The filtered incidents list
+        """
+        filtered_incidents_list = []
+        params = demisto.params()
+        sources_list = argToList(params.get('event_sources'))
+        abuse_disposition_values = argToList(params.get('abuse_disposition'))
+
+        if not sources_list and not abuse_disposition_values:
+            return incidents_list
+
+        for incident in incidents_list:
+            if pass_sources_list_filter(incident, sources_list) and pass_abuse_disposition_filter(incident,
+                                                                                                  abuse_disposition_values):
+                filtered_incidents_list.append(incident)
+
+        return filtered_incidents_list
+
+
+    def get_incidents_request(params):
+        """Perform an API request to get incidents from ProofPoint.
+
+        Args:
+            params(dict): The params of the request
+
+        Returns:
+            list. The incidents returned from the API call
+        """
+        fullurl = BASE_URL + 'api/incidents'
+        incidents_list = requests.get(
+            fullurl,
+            headers={
+                'Content-Type': 'application/json',
+                'Authorization': API_KEY
+            },
+            params=params,
+            verify=VERIFY_CERTIFICATE
+        )
+
+        if incidents_list.status_code < 200 or incidents_list.status_code >= 300:
+            if incidents_list.status_code == 502 or incidents_list.status_code == 504:
+                return_error('The operation failed. There is a possibility you are trying to get too many incidents.\n'
+                             'You may consider adding a filter argument to the command.\n'
+                             'URL: {}, StatusCode: {}'.format(fullurl, incidents_list.status_code))
+            else:
+                return_error('The operation failed. URL: {}, StatusCode: {}'.format(fullurl, incidents_list.status_code))
+
+        return incidents_list.json()
+
+
+    def get_incidents_batch_by_time_request(params):
+        """Perform an API request to get incidents from ProofPoint in batches to prevent a timeout.
+
+        Args:
+            params(dict): The params of the request
+
+        Returns:
+            list. The incidents returned from the API call
+        """
+        incidents_list = []  # type:list
+        time_delta = timedelta(hours=6)  # batch by days
+
+        current_time = datetime.now()
+        created_after = datetime.strptime(params.get('created_after'), TIME_FORMAT)
+        created_before = created_after + time_delta
+        request_params = {
+            'state': params.get('state'),
+            'created_after': created_after.isoformat().split('.')[0] + 'Z',
+            'created_before': created_before.isoformat().split('.')[0] + 'Z'
+        }
+
+        while created_before < current_time:
+            incidents_list.extend(get_incidents_request(request_params))
+
+            # advancing fetch time one day forward
+            created_after = created_before
+            created_before = created_before + time_delta
+
+            # updating params according to the new times
+            request_params['created_after'] = created_after.isoformat().split('.')[0] + 'Z'
+            request_params['created_before'] = created_before.isoformat().split('.')[0] + 'Z'
+
+        # fetching the last batch
+        request_params['created_before'] = current_time.isoformat().split('.')[0] + 'Z'
+        incidents_list.extend(get_incidents_request(request_params))
+
+        return incidents_list
+
+
+    def fetch_incidents_command():
+        """
+            Fetches incidents from the ProofPoint API.
+        """
+        integration_params = demisto.params()
+        last_fetch = demisto.getLastRun().get('last_fetch', {})
+        incidents_states = integration_params.get('states')
+        for state in incidents_states:
+            if not last_fetch.get(state):
+                last_fetch[state] = FETCH_TIME
+
+        incidents = []
+
+        for state in incidents_states:
+            request_params = {
+                'created_after': last_fetch[state],
+                'state': state
+            }
+
+            state_parsed_fetch = datetime.strptime(last_fetch[state], TIME_FORMAT)
+            incidents_list = get_incidents_batch_by_time_request(request_params)
+            filtered_incidents_list = filter_incidents(incidents_list)
+            for incident in filtered_incidents_list:
+                incident_creation_time = datetime.strptime(incident['created_at'], TIME_FORMAT)
+                if incident_creation_time > state_parsed_fetch:
+                    id = incident.get('id')
+                    inc = {
+                        'name': 'ProofPoint_TRAP - ID {}'.format(id),
+                        'rawJSON': json.dumps(incident),
+                        'occurred': incident['created_at']
+                    }
+                    incidents.append(inc)
+
+            if incidents:
+                last_fetch_time = incidents[-1]['occurred']
+                last_fetch[state] = last_fetch_time
+
+        demisto.setLastRun({'last_fetch': last_fetch})
+        demisto.info('extracted {} incidents'.format(len(incidents)))
+
+        demisto.incidents(incidents)
+
+
+    def create_add_comment_human_readable(incident):
+        """Creates the human readable entry for the 'add_comment_to_incident' command
+
+        Args:
+            incident (dict): The incident to parse
+
+        Returns:
+            str. The command human readable in markdown format
+        """
+        human_readable = []
+        human_readable_headers = ['Incident ID', 'Created At', 'Details', 'Comments Summary', 'Action ID']
+        incident_id = incident.get('incident_id')
+        human_readable.append({
+            'Created At': incident.get('created_at'),
+            'Incident ID': incident_id,
+            'Details': incident.get('detail'),
+            'Comments Summary': incident.get('summary'),
+            'Action ID': incident.get('id')
+        })
+
+        return tableToMarkdown('Comments added successfully to incident:{}'.format(incident_id), human_readable,
+                               human_readable_headers, removeNull=True)
+
+
+    def add_comment_to_incident_command():
+        """
+            Adds comments to an incident by incident ID
+        """
+        args = demisto.args()
+        incident_id = args.get('incident_id')
+        comments_to_add = args.get('comments')
+        details = args.get('details')
+        request_body = {
+            "summary": comments_to_add,
+            "detail": details
+        }
+
+        fullurl = BASE_URL + 'api/incidents/{}/comments.json'.format(incident_id)
+        incident_data = requests.post(
+            fullurl,
+            headers={
+                'Content-Type': 'application/json',
+                'Authorization': API_KEY
+            },
+            json=request_body,
+            verify=VERIFY_CERTIFICATE
+        )
+
+        if incident_data.status_code < 200 or incident_data.status_code >= 300:
+            return_error('Add comment to incident command failed. URL: {}, '
+                         'StatusCode: {}'.format(fullurl, incident_data.status_code))
+
+        incident_data = incident_data.json()
+        human_readable = create_add_comment_human_readable(incident_data)
+
+        return_outputs(human_readable,
+                       {'ProofPointTRAP.IncidentComment(val.incident_id === obj.incident_id)': incident_data},
+                       incident_data)
+
+
+    def add_user_to_incident_command():
+        """
+            Adds user to an incident by incident ID
+        """
+        args = demisto.args()
+        incident_id = args.get('incident_id')
+        attackers = argToList(args.get('attackers'))
+        targets = argToList(args.get('targets'))
+        request_body = {
+            "targets": targets,
+            "attackers": attackers
+        }
+
+        fullurl = BASE_URL + 'api/incidents/{incident_id}/users.json'
+        incident_data = requests.post(
+            fullurl,
+            headers={
+                'Content-Type': 'application/json',
+                'Authorization': API_KEY
+            },
+            json=request_body,
+            verify=VERIFY_CERTIFICATE
+        )
+
+        if incident_data.status_code < 200 or incident_data.status_code >= 300:
+            return_error('Add comment to incident command failed. URL: {}, '
+                         'StatusCode: {}'.format(fullurl, incident_data.status_code))
+
+        return_outputs('The user was added successfully to incident {}'.format(incident_id), {}, {})
+
+
+    def parse_json_argument(argument_string_value, argument_name):
+        parsed_arg = {}
+        try:
+            parsed_arg = json.loads(argument_string_value)
+        except ValueError as error:
+            return_error("The '{}' argument is not a valid json. Error: {}".format(argument_name, error))
+        if not parsed_arg.get(argument_name):
+            return_error("The '{}' json argument should start with a key named '{}'".format(argument_name, argument_name))
+
+        return parsed_arg
+
+
+    def prepare_ingest_alert_request_body(args):
+        json_arguments = ['attacker', 'cnc_host', 'detector', 'email', 'forensics_hosts', 'target', 'threat_info',
+                          'custom_fields']
+        request_body = dict()  # type: dict
+        for argument_name, argument_value in args.items():
+            if argument_name in json_arguments:
+                parsed_argument = parse_json_argument(argument_value, argument_name)
+                request_body.update(parsed_argument)
+
+            else:
+                request_body[argument_name] = argument_value
+        return request_body
+
+
+    def ingest_alert_command():
+        """
+            Ingest an alert into Threat Response.
+        """
+        args = demisto.args()
+        json_source_id = args.pop('post_url_id', demisto.params().get('post_url_id'))
+
+        if not json_source_id:
+            return_error("To ingest alert into TRAP, you mast specify a post_url_id,"
+                         "either as an argument or as an integration parameter.")
+
+        request_body = prepare_ingest_alert_request_body(assign_params(**args))
+        fullurl = BASE_URL + 'threat/json_event/events/{}'.format(json_source_id)
+        alert_data = requests.post(
+            fullurl,
+            headers={
+                'Content-Type': 'application/json'
+            },
+            json=request_body,
+            verify=VERIFY_CERTIFICATE
+        )
+
+        if alert_data.status_code < 200 or alert_data.status_code >= 300:
+            return_error('Failed to ingest the alert into TRAP. URL: {}, '
+                         'StatusCode: {}'.format(fullurl, alert_data.status_code))
+
+        return_outputs('The alert was successfully ingested to TRAP', {}, {})
 
 
     ''' EXECUTION CODE '''
-    LOG('command is %s' % (demisto.command(), ))
-    if demisto.command() == 'test-module':
-        test()
-        demisto.results('ok')
 
-    elif demisto.command() == 'proofpoint-tr-get-list':
-        get_list_command()
 
-    elif demisto.command() == 'proofpoint-tr-add-to-list':
-        add_to_list_command()
+    def main():
+        handle_proxy(demisto.params().get('proxy'))
+        command = demisto.command()
+        demisto.info('Command being called is {}'.format(command))
 
-    elif demisto.command() == 'proofpoint-tr-block-ip':
-        block_ip_command()
+        if command == 'test-module':
+            test()
 
-    elif demisto.command() == 'proofpoint-tr-block-domain':
-        block_domain_command()
+        elif command == 'fetch-incidents':
+            fetch_incidents_command()
 
-    elif demisto.command() == 'proofpoint-tr-block-url':
-        block_url_command()
+        elif command == 'proofpoint-tr-get-list':
+            get_list_command()
 
-    elif demisto.command() == 'proofpoint-tr-block-hash':
-        block_hash_command()
+        elif command == 'proofpoint-tr-add-to-list':
+            add_to_list_command()
 
-    elif demisto.command() == 'proofpoint-tr-delete-indicator':
-        delete_indicator_command()
+        elif command == 'proofpoint-tr-block-ip':
+            block_ip_command()
 
-    elif demisto.command() == 'proofpoint-tr-search-indicator':
-        search_indicator_command()
+        elif command == 'proofpoint-tr-block-domain':
+            block_domain_command()
+
+        elif command == 'proofpoint-tr-block-url':
+            block_url_command()
+
+        elif command == 'proofpoint-tr-block-hash':
+            block_hash_command()
+
+        elif command == 'proofpoint-tr-delete-indicator':
+            delete_indicator_command()
+
+        elif command == 'proofpoint-tr-search-indicator':
+            search_indicator_command()
+
+        elif command == 'proofpoint-tr-list-incidents':
+            list_incidents_command()
+
+        elif command == 'proofpoint-tr-get-incident':
+            get_incident_command()
+
+        elif command == 'proofpoint-tr-add-comment-to-incident':
+            add_comment_to_incident_command()
+
+        elif command == 'proofpoint-tr-add-user-to-incident':
+            add_user_to_incident_command()
+
+        elif command == 'proofpoint-tr-ingest-alert':
+            ingest_alert_command()
+
+
+    if __name__ == '__builtin__' or __name__ == 'builtins':
+        main()
   subtype: python3
   type: python
 system: true

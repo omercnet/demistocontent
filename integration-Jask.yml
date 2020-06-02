@@ -33,7 +33,7 @@ configuration:
   name: insecure
   required: false
   type: 8
-- defaultvalue: "true"
+- defaultvalue: ""
   display: Use system proxy settings
   name: proxy
   required: false
@@ -53,7 +53,7 @@ contentitemexportablefields:
     propagationLabels:
     - all
 description: Freeing the analyst with autonomous decisions
-detaileddescription: |
+detaileddescription: |-
   You can retrieve your personal API key from the following URL under the "Profile" tab:
   https://[CUSTOMER].portal.jask.ai/config
 display: Jask
@@ -534,7 +534,7 @@ script:
       type: string
   isfetch: true
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -675,11 +675,12 @@ script:
         patterns = 0
         for signal_item in signal_list_json:
             result_signal = signal_to_readable(signal_item)
-            if result_signal['SourceType'] == 'threatintel':
+            source_type = result_signal.get('SourceType', '')
+            if source_type == 'threatintel':
                 threat_intel += 1
-            elif result_signal['SourceType'] == 'rule':
+            elif source_type == 'rule':
                 patterns += 1
-            elif result_signal['SourceType'] == 'anomaly':
+            elif source_type == 'anomaly':
                 anomalies += 1
             signal_list.append(result_signal)
         ec['SignalList'] = signal_list
@@ -1082,5 +1083,6 @@ script:
     # python2 uses __builtin__ python3 uses builtins
     if __name__ == "__builtin__" or __name__ == "builtins":
         main()
+  subtype: python2
   type: python
 system: true

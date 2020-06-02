@@ -988,7 +988,7 @@ script:
       description: An array of relevant tags.
   isfetch: true
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -2410,5 +2410,6 @@ script:
 
     except Exception as e:
         return_error(e.message)
+  subtype: python2
   type: python
 system: true

@@ -49,7 +49,7 @@ contentitemexportablefields:
     propagationLabels:
     - all
 description: Exchange Web Services and Office 365 Email sender
-detaileddescription: |
+detaileddescription: |-
   For Office 365, use https://outlook.office365.com/EWS/Exchange.asmx (default) as the Server  URL.
   Default version is used when accessing the EWS API to determine the API version.
 
@@ -90,9 +90,9 @@ script:
       name: attachCIDs
     description: Sends an email using EWS.
     name: send-mail
-  dockerimage: demisto/py-ews
+  dockerimage: demisto/py-ews:latest
   runonce: false
-  script: |2-
+  script: |2
 
 
 

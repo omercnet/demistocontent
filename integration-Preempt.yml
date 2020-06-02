@@ -28,12 +28,12 @@ configuration:
   name: lookback
   required: true
   type: 0
-- defaultvalue: "true"
-  display: Trust any certificate (unsecure)
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
   name: insecure
   required: false
   type: 8
-- defaultvalue: "false"
+- defaultvalue: ""
   display: Use system proxy settings
   name: proxy
   required: false
@@ -151,7 +151,6 @@ script:
       type: string
     - contextPath: Preempt.Alerts.Cursor
       description: Cursor of last retrieved activity for pagination
-  dockerimage: demisto/python
   isfetch: true
   runonce: false
   script: |
@@ -503,5 +502,6 @@ script:
             }
         })
         sys.exit(0)
+  subtype: python2
   type: python
 system: true

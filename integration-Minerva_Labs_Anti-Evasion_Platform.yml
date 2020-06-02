@@ -725,5 +725,6 @@ script:
         return_error(e.message)
     finally:
         logout()
+  subtype: python2
   type: python
 system: true

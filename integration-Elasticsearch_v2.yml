@@ -8,7 +8,8 @@ configuration:
   name: url
   required: true
   type: 0
-- defaultvalue: ""
+- additionalinfo: Provide Username + Passoword instead of API key + API ID
+  defaultvalue: ""
   display: Username for server login
   name: credentials
   required: false
@@ -34,7 +35,7 @@ configuration:
   required: false
   type: 0
 - defaultvalue: ""
-  display: Index time field (for sorting and limiting data)
+  display: Index time field (for sorting sort and limiting data)
   name: fetch_time_field
   required: false
   type: 0
@@ -53,68 +54,15 @@ configuration:
   required: false
   type: 0
 - defaultvalue: "50"
-  display: The maximum number of results to return per fetch
+  display: The maximum number of results to return per fetch. The default is 50.
   name: fetch_size
   required: false
   type: 0
 - defaultvalue: ""
-  display: Fetch indicators
-  name: feed
+  display: Incident type
+  name: incidentType
   required: false
-  type: 8
-- additionalinfo: Indicators from this integration instance will be marked with this
-    reputation
-  defaultvalue: feedInstanceReputationNotSet
-  display: Indicator Reputation
-  name: feedReputation
-  options:
-  - None
-  - Good
-  - Suspicious
-  - Bad
-  required: false
-  type: 18
-- additionalinfo: Reliability of the source providing the intelligence data
-  defaultvalue: F - Reliability cannot be judged
-  display: Source Reliability
-  name: feedReliability
-  options:
-  - A - Completely reliable
-  - B - Usually reliable
-  - C - Fairly reliable
-  - D - Not usually reliable
-  - E - Unreliable
-  - F - Reliability cannot be judged
-  required: true
-  type: 15
-- defaultvalue: indicatorType
-  display: ""
-  name: feedExpirationPolicy
-  options:
-  - never
-  - interval
-  - indicatorType
-  - suddenDeath
-  required: false
-  type: 17
-- defaultvalue: "20160"
-  display: feedExpirationInterval
-  name: feedExpirationInterval
-  required: false
-  type: 1
-- defaultvalue: "240"
-  display: Feed Fetch Interval
-  name: feedFetchInterval
-  required: false
-  type: 19
-- additionalinfo: When selected, the exclusion list is ignored for indicators from
-    this feed. This means that if an indicator from this feed is on the exclusion
-    list, the indicator might still be added to the system.
-  defaultvalue: ""
-  display: Bypass exclusion list
-  name: feedBypassExclusionList
-  required: false
-  type: 8
+  type: 13
 - defaultvalue: ""
   display: Fetch incidents
   name: isFetch
@@ -124,11 +72,17 @@ contentitemexportablefields:
   contentitemfields:
     propagationLabels:
     - all
-description: "Searches for and analyzes data in real time. \n Supports version 6 and
-  up."
+description: "Search for and analyze data in real time. \n Supports version 6 and
+  later."
 detaileddescription: "The Elasticsearch v2 integration supports Elasticsearch 6.0.0
-  and later.\n\nStrings are queried using the Lucene syntax. For more information
-  about the Lucene syntax, see: https://www.elastic.co/guide/en/elasticsearch/reference/7.3/query-dsl-query-string-query.html#query-string-syntax\n\nFor
+  and later.\n\nIf you wish to use API Key authorization, please enter into the **Password**
+  field your API key, and into the **Username** parameter **_api_key_id:** followed
+  by your API key ID.\nFor example, for API Key with ID: _VuaCfGcBCdbkQm-e5aOx_ and
+  key value: _ui2lp2axTNmsyakw9tvNnw_ you'll need to enter into username **_api_key_id:VuaCfGcBCdbkQm-e5aOx**
+  and into password you'll need to enter the value: **ui2lp2axTNmsyakw9tvNnw**. For
+  more info about API Key management see: https://www.elastic.co/guide/en/elasticsearch/reference/7.6/security-api-create-api-key.html
+  \n\nStrings are queried using the Lucene syntax. For more information about the
+  Lucene syntax, see: https://www.elastic.co/guide/en/elasticsearch/reference/7.3/query-dsl-query-string-query.html#query-string-syntax\n\nFor
   further information about request response fields, see: https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-body.html#request-body-search-explain\n\nFor
   further information about type mapping, see: https://www.elastic.co/guide/en/elasticsearch/reference/7.x/mapping.html#mapping-type\n\nThe
   types of time-fields supported are:\n    \n   - **Simple-Date** - A simple date
@@ -148,30 +102,29 @@ script:
     - description: The index in which to perform a search.
       name: index
       required: true
-    - description: The string to query. Strings are queried using Lucene syntax.
+    - description: The string to query (in Lucene syntax).
       name: query
       predefined:
       - ""
       required: true
-    - description: A comma-separated list of the fields of a document to fetch. Leaving
-        the fields empty fetches the entire document.
+    - description: A comma-separated list of document fields to fetch. If empty, the
+        entire document is fetched.
       isArray: true
       name: fields
     - auto: PREDEFINED
       defaultValue: "false"
-      description: Whether to calculate an explanation of a score for a query. The
-        default value is "false". For example, "value:1.6943597".
+      description: Calculates an explanation of a score for a query. Default is "false".
+        For example, "value:1.6943597".
       name: explain
       predefined:
       - "true"
       - "false"
     - defaultValue: "0"
-      description: The page number from which to start a search. The default value
-        is "0".
+      description: The page number from which to start a search. The default is "0".
       name: page
     - defaultValue: "100"
       description: The number of documents displayed per page. Can be an integer between
-        "1" and "10,000". The default value is "100".
+        "1" and "10,000". The default is "100".
       name: size
     - description: The field by which to sort the results table. The supported result
         types are boolean, numeric, date, and keyword fields. Keyword fields require
@@ -233,30 +186,29 @@ script:
     - description: The index in which to perform a search.
       name: index
       required: true
-    - description: The string to query. Strings are queried using the Lucene syntax.
+    - description: The string to query (in Lucene syntax).
       name: query
       predefined:
       - ""
       required: true
-    - description: A comma-separated list of the fields of a document to fetch. If
-        empty, fetches the entire document.
+    - description: A comma-separated list of document fields to fetch. If empty, fetches
+        the entire document.
       isArray: true
       name: fields
     - auto: PREDEFINED
       defaultValue: "false"
-      description: Whether to calculate an explanation of a score for a query. The
-        default value is "false". For example, "value:1.6943597".
+      description: Calculates an explanation of a score for a query. Default is "false".
+        For example, "value:1.6943597".
       name: explain
       predefined:
       - "true"
       - "false"
     - defaultValue: "0"
-      description: The page number from which to start a search. The default value  is
-        "0".
+      description: The page number from which to start a search. The default is "0".
       name: page
     - defaultValue: "100"
       description: The number of documents displayed per page. Can be an integer between
-        "1" and "10,000". The default value is "100".
+        "1" and "10,000". The default is "100".
       name: size
     - description: The field by which to sort the results table. The supported result
         types are boolean, numeric, date, and keyword fields. Keyword fields require
@@ -267,7 +219,7 @@ script:
     - auto: PREDEFINED
       defaultValue: asc
       description: The order by which to sort the results table. The results tables
-        can only be sorted if a sort-field is defined. The default value is "asc".
+        can only be sorted if a sort-field is defined.
       name: sort-order
       predefined:
       - asc
@@ -314,28 +266,10 @@ script:
     - contextPath: Elasticsearch.Search.Size
       description: The maximum number of scores that a search can return.
       type: Number
-  - arguments:
-    - defaultValue: "50"
-      description: The maximum number of indicators to fetch.
-      name: limit
-      required: true
-    description: Gets indicators shared with this tenant (MT only).
-    name: get-shared-indicators
-    outputs:
-    - contextPath: ElasticsearchFeed.SharedIndicators
-      description: Indicators shared from other tenants.
-      type: Unknown
-    - contextPath: ElasticsearchFeed.SharedIndicators.Indicators
-      description: Indicators shared from other tenants without enrichments.
-      type: Unknown
-    - contextPath: ElasticsearchFeed.SharedIndicators.Enrichments
-      description: Enrichment indicators shared from other tenants.
-      type: Unknown
-  dockerimage: demisto/elasticsearch:1.0.0.4677
-  feed: true
+  dockerimage: demisto/elasticsearch:1.0.0.1795
   isfetch: true
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -356,14 +290,13 @@ script:
     requests.packages.urllib3.disable_warnings()
     warnings.filterwarnings(action="ignore", message='.*using SSL with verify_certs=False is insecure.')
 
+    API_KEY_PREFIX = '_api_key_id:'
     SERVER = demisto.params().get('url', '').rstrip('/')
-    CREDS = demisto.params().get('credentials')
-    if CREDS:
-        USERNAME = CREDS.get('identifier')
-        PASSWORD = CREDS.get('password')
-    else:
+    USERNAME = demisto.params().get('credentials', {}).get('identifier')
+    PASSWORD = demisto.params().get('credentials', {}).get('password')
+    API_KEY_ID = USERNAME[len(API_KEY_PREFIX):] if USERNAME and USERNAME.startswith(API_KEY_PREFIX) else None
+    if API_KEY_ID:
         USERNAME = None
-        PASSWORD = None
     PROXY = demisto.params().get('proxy')
     HTTP_ERRORS = {
         400: '400 Bad Request - Incorrect or invalid parameters',
@@ -376,6 +309,7 @@ script:
         503: '503 Service Unavailable'
     }
 
+
     '''VARIABLES FOR FETCH INCIDENTS'''
     TIME_FIELD = demisto.params().get('fetch_time_field', '')
     FETCH_INDEX = demisto.params().get('fetch_index', '')
@@ -384,7 +318,6 @@ script:
     FETCH_SIZE = int(demisto.params().get('fetch_size', 50))
     INSECURE = not demisto.params().get('insecure', False)
     TIME_METHOD = demisto.params().get('time_method', 'Simple-Date')
-    MODULE_TO_FEEDMAP_KEY = 'moduleToFeedMap'
 
 
     def get_timestamp_first_fetch(last_fetch):
@@ -430,7 +363,16 @@ script:
 
     def elasticsearch_builder():
         """Builds an Elasticsearch obj with the necessary credentials, proxy settings and secure connection."""
-        if USERNAME:
+        if API_KEY_ID:
+            if PROXY:
+                return Elasticsearch(hosts=[SERVER], connection_class=RequestsHttpConnection,
+                                     api_key=(API_KEY_ID, PASSWORD), verify_certs=INSECURE, proxies=handle_proxy())
+
+            else:
+                return Elasticsearch(hosts=[SERVER], connection_class=RequestsHttpConnection,
+                                     api_key=(API_KEY_ID, PASSWORD), verify_certs=INSECURE)
+
+        elif USERNAME:
             if PROXY:
                 return Elasticsearch(hosts=[SERVER], connection_class=RequestsHttpConnection,
                                      http_auth=(USERNAME, PASSWORD), verify_certs=INSECURE, proxies=handle_proxy())
@@ -438,7 +380,6 @@ script:
             else:
                 return Elasticsearch(hosts=[SERVER], connection_class=RequestsHttpConnection,
                                      http_auth=(USERNAME, PASSWORD), verify_certs=INSECURE)
-
         else:
             if PROXY:
                 return Elasticsearch(hosts=[SERVER], connection_class=RequestsHttpConnection,
@@ -871,103 +812,10 @@ script:
         return date_string
 
 
-    def get_indicators_command():
-        search, _ = get_indicators_search_scan()
-        limit = int(demisto.args().get('limit', FETCH_SIZE))
-        indicators_list: list = []
-        ioc_enrch_lst: list = []
-        for hit in search.scan():
-            hit_lst, hit_enrch_lst = extract_indicators_from_insight_hit(hit)
-            indicators_list.extend(hit_lst)
-            ioc_enrch_lst.extend(hit_enrch_lst)
-            if len(indicators_list) >= limit:
-                break
-        hr = tableToMarkdown('Indicators', indicators_list, ['name'])
-        for ioc_enrch_obj in ioc_enrch_lst:
-            hr += tableToMarkdown('Enrichments', ioc_enrch_obj, ['value', 'sourceBrand', 'score'])
-        ec = {'ElasticsearchFeed.SharedIndicators': {'Indicators': indicators_list, 'Enrichments': ioc_enrch_lst}}
-        return_outputs(hr, ec, indicators_list)
-
-
-    def fetch_indicators_command():
-        search, now = get_indicators_search_scan()
-        ioc_lst: list = []
-        ioc_enrch_lst: list = []
-        for hit in search.scan():
-            hit_lst, hit_enrch_lst = extract_indicators_from_insight_hit(hit)
-            ioc_lst.extend(hit_lst)
-            ioc_enrch_lst.extend(hit_enrch_lst)
-        if ioc_lst:
-            for b in batch(ioc_lst, batch_size=2000):
-                demisto.createIndicators(b)
-        if ioc_enrch_lst:
-            ioc_enrch_batches = create_enrichment_batches(ioc_enrch_lst)
-            for enrch_batch in ioc_enrch_batches:
-                # ensure batch sizes don't exceed 2000
-                for b in batch(enrch_batch, batch_size=2000):
-                    demisto.createIndicators(b)
-        demisto.setLastRun({'time': now})
-
-
-    def get_indicators_search_scan():
-        now = datetime.now()
-        time_field = "calculatedTime"
-        last_fetch = demisto.getLastRun().get('time')
-        range_field = {time_field: {'gt': datetime.fromtimestamp(float(last_fetch)), 'lte': now}} if last_fetch else {
-            time_field: {'lte': now}}
-        es = elasticsearch_builder()
-        query = QueryString(query=time_field + ":*")
-        tenant_hash = demisto.getIndexHash()
-        # all shared indexes minus this tenant shared
-        indexes = f'*-shared*,-*{tenant_hash}*-shared*'
-        search = Search(using=es, index=indexes).filter({'range': range_field}).query(query)
-        return search, str(now.timestamp())
-
-
-    def extract_indicators_from_insight_hit(hit):
-        ioc_lst = []
-        ioc_enirhcment_list = []
-        ioc = results_to_indicator(hit)
-        if ioc.get('value'):
-            ioc_lst.append(ioc)
-            module_to_feedmap = ioc.get(MODULE_TO_FEEDMAP_KEY)
-            updated_module_to_feedmap = {}
-            if module_to_feedmap:
-                ioc_enrichment_obj = []
-                for key, val in module_to_feedmap.items():
-                    if val.get('isEnrichment'):
-                        ioc_enrichment_obj.append(val)
-                    else:
-                        updated_module_to_feedmap[key] = val
-                ioc_enirhcment_list.append(ioc_enrichment_obj)
-                ioc[MODULE_TO_FEEDMAP_KEY] = updated_module_to_feedmap
-        return ioc_lst, ioc_enirhcment_list
-
-
-    def results_to_indicator(hit):
-        ioc_dict = hit.to_dict()
-        ioc_dict['value'] = ioc_dict.get('name')
-        ioc_dict['rawJSON'] = dict(ioc_dict)
-        return ioc_dict
-
-
-    def create_enrichment_batches(ioc_enrch_lst):
-        max_enrch_len = 0
-        for ioc_enrch_obj in ioc_enrch_lst:
-            max_enrch_len = max(max_enrch_len, len(ioc_enrch_obj))
-        enrch_batch_lst = []
-        for i in range(max_enrch_len):
-            enrch_batch_obj = []
-            for ioc_enrch_obj in ioc_enrch_lst:
-                if i < len(ioc_enrch_obj):
-                    enrch_batch_obj.append(ioc_enrch_obj[i])
-            enrch_batch_lst.append(enrch_batch_obj)
-        return enrch_batch_lst
-
-
-    def get_last_fetch_time():
+    def fetch_incidents():
         last_run = demisto.getLastRun()
         last_fetch = last_run.get('time')
+
         # handle first time fetch
         if last_fetch is None:
             last_fetch, _ = parse_date_range(date_range=FETCH_TIME, date_format='%Y-%m-%dT%H:%M:%S.%f', utc=False, to_timestamp=False)
@@ -984,11 +832,10 @@ script:
             last_fetch = parse(str(last_fetch))
             last_fetch_timestamp = int(last_fetch.timestamp() * 1000)
 
-        return last_fetch, last_fetch_timestamp
+        # if last_fetch is set and we are in a "Timestamp" method - than the last_fetch_timestamp is the last_fetch.
+        else:
+            last_fetch_timestamp = last_fetch
 
-
-    def fetch_incidents():
-        last_fetch, last_fetch_timestamp = get_last_fetch_time()
         es = elasticsearch_builder()
 
         query = QueryString(query=FETCH_QUERY + " AND " + TIME_FIELD + ":*")
@@ -1010,7 +857,6 @@ script:
                 demisto.setLastRun({'time': str(last_fetch)})
 
             demisto.info('extract {} incidents'.format(len(incidents)))
-
         demisto.incidents(incidents)
 
 
@@ -1021,10 +867,6 @@ script:
                 test_func()
             elif demisto.command() == 'fetch-incidents':
                 fetch_incidents()
-            elif demisto.command() == 'fetch-indicators':
-                fetch_indicators_command()
-            elif demisto.command() == 'get-shared-indicators':
-                get_indicators_command()
             elif demisto.command() in ['search', 'es-search']:
                 search_command()
         except Exception as e:

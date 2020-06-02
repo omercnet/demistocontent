@@ -4,16 +4,16 @@ commonfields:
   version: -1
 configuration:
 - defaultvalue: ""
-  display: ""
+  display: API key
   name: apiKey
   required: true
   type: 4
 - defaultvalue: ""
-  display: ""
+  display: API secret
   name: apiSecret
   required: true
   type: 4
-- defaultvalue: "true"
+- defaultvalue: ""
   display: Use system proxy settings
   name: proxy
   required: false
@@ -404,5 +404,6 @@ script:
             return_error('Download of recording failed: [%d] - %s' % (res.status_code, res.text))
     else:
         return_error('Unrecognized command: ' + demisto.command())
+  subtype: python2
   type: python
 system: true

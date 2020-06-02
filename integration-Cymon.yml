@@ -4,7 +4,7 @@ commonfields:
   version: -1
 configuration:
 - defaultvalue: ""
-  display: Trust any certificate (unsecure)
+  display: Trust any certificate (not secure)
   name: unsecure
   required: false
   type: 8
@@ -19,7 +19,7 @@ contentitemexportablefields:
     - all
 deprecated: true
 description: Analyzes suspicious domains and IP addresses
-detaileddescription: |
+detaileddescription: |-
   Analyzes suspicious domains and IP addresses.
 
   **Cymon has been deprecated due to the Cymon service becoming no longer available.**
@@ -104,7 +104,7 @@ script:
       description: The IP on which the malicious activity was reported
       type: Unknown
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -157,7 +157,7 @@ script:
 
             res.raise_for_status()
 
-        except Exception, e:
+        except Exception as e:
             raise (e)
 
 
@@ -569,5 +569,6 @@ script:
 
     except Exception, e:
         raise
+  subtype: python2
   type: python
 system: true

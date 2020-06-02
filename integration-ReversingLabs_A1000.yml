@@ -475,5 +475,6 @@ script:
         unpacked()
     else:
         return_error('Command [{}] not implemented'.format(demisto.command()))
+  subtype: python2
   type: python
 system: true

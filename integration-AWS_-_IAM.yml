@@ -1402,9 +1402,9 @@ script:
     description: Create/update password policy
     execution: true
     name: aws-iam-update-account-password-policy
-  dockerimage: demisto/boto3
+  dockerimage: demisto/boto3:1.9.55
   runonce: false
-  script: |2-
+  script: |2
 
 
     from datetime import datetime, date

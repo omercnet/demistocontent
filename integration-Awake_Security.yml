@@ -14,7 +14,7 @@ configuration:
   required: true
   type: 0
 - defaultvalue: ""
-  display: Trust any certificate (unsecure)
+  display: Trust any certificate (not secure)
   name: unsecure
   required: false
   type: 8
@@ -31,7 +31,7 @@ configuration:
 - defaultvalue: ""
   display: Use system proxy settings
   name: proxy
-  required: true
+  required: false
   type: 8
 - defaultvalue: ""
   display: 'Comma-separated list of threat behaviors to generate incidents for, e.g.,
@@ -373,17 +373,20 @@ script:
       description: Is the specified domain in white list
       type: boolean
     - contextPath: DBotScore.Indicator
-      description: The specified domain
-      type: string
-    - contextPath: DBotScore.Score
-      description: Severity score of the specified domain in Demisto
-      type: number
+      description: The indicator that was tested.
+      type: String
     - contextPath: DBotScore.Type
-      description: Indicator type in Demisto
-      type: string
+      description: The indicator type.
+      type: String
     - contextPath: DBotScore.Vendor
-      description: Vendor used to assess the specified domain
-      type: string
+      description: The vendor used to calculate the score.
+      type: String
+    - contextPath: DBotScore.Score
+      description: The actual score.
+      type: Number
+    - contextPath: Domain.Name
+      description: The domain name.
+      type: String
   - arguments:
     - description: The IP address
       name: ip
@@ -414,17 +417,20 @@ script:
       description: Date that the IP address was last seen in Awake Security
       type: string
     - contextPath: DBotScore.Indicator
-      description: The specified IP address
-      type: string
-    - contextPath: DBotScore.Score
-      description: Severity score of the specified IP address in Demisto
-      type: number
-    - contextPath: DBotScore.Vendor
-      description: Vendor used to assess the specified IP address
-      type: string
+      description: The indicator that was tested.
+      type: String
     - contextPath: DBotScore.Type
-      description: Indicator type in Demisto
-      type: string
+      description: The indicator type.
+      type: String
+    - contextPath: DBotScore.Vendor
+      description: The vendor used to calculate the score.
+      type: String
+    - contextPath: DBotScore.Score
+      description: The actual score.
+      type: Number
+    - contextPath: IP.Address
+      description: The IP Address.
+      type: String
   - arguments:
     - description: The email address
       name: email
@@ -488,18 +494,18 @@ script:
       description: Is the device associated with the specified email address in the
         white list
       type: bool
-    - contextPath: DBotScore.Score
-      description: Severity score of the specified email address in Demisto
-      type: number
-    - contextPath: DBotScore.Type
-      description: Indicator type in Demisto
-      type: string
-    - contextPath: DBotScore.Vendor
-      description: Vendor used to assess the specified email address
-      type: string
     - contextPath: DBotScore.Indicator
-      description: The specified email address
-      type: string
+      description: The indicator that was tested.
+      type: String
+    - contextPath: DBotScore.Type
+      description: The indicator type.
+      type: String
+    - contextPath: DBotScore.Vendor
+      description: The vendor used to calculate the score.
+      type: String
+    - contextPath: DBotScore.Score
+      description: The actual score.
+      type: Number
   - arguments:
     - description: The device ID
       name: device
@@ -639,7 +645,7 @@ script:
       type: string
   isfetch: true
   runonce: false
-  script: |2-
+  script: |2
 
 
     ''' IMPORTS '''
@@ -724,7 +730,7 @@ script:
             return "Empty results"
 
 
-    def returnResults(contents, outerKey, innerKey, humanReadable, dbotScore):
+    def returnResults(contents, outerKey, innerKey, humanReadable, dbotScore, genericContext=None):
         machineReadable = {
             "AwakeSecurity": contents,
         }
@@ -734,6 +740,10 @@ script:
         if dbotScore is not None:
             machineReadable["DBotScore"] = dbotScore
             entryContext["DBotScore"] = dbotScore
+
+        if genericContext:
+            entryContext.update(genericContext)
+
         demisto.results({
             "Type": entryTypes['note'],
             "ContentsFormat": formats['json'],
@@ -844,7 +854,8 @@ script:
             }
         humanReadable = displayTable([contents], humanReadableFields)
         contents["domain"] = lookup_key
-        returnResults(contents, "Domains", "domain", humanReadable, dbotScore)
+        genericContext = {"Domain": {"Name": lookup_key}}
+        returnResults(contents, "Domains", "domain", humanReadable, dbotScore, genericContext)
 
 
     def lookupEmail():
@@ -897,7 +908,8 @@ script:
         # Our product scores devices rather than IP addresses.
         humanReadable = displayTable([contents], humanReadableFields)
         contents["ip"] = lookup_key
-        returnResults(contents, "IPs", "ip", humanReadable, dbotScore)
+        genericContext = {"IP": {"Address": lookup_key}}
+        returnResults(contents, "IPs", "ip", humanReadable, dbotScore, genericContext)
 
 
     def query(lookup_type):
@@ -1102,11 +1114,12 @@ script:
         elif command == "device":
             lookupDevice()
 
-    except Exception, e:
+    except Exception as e:
         if command == "fetch-incidents":
             raise
         LOG(e)
         LOG.print_log()
         return_error(e.message)
+  subtype: python2
   type: python
 system: true

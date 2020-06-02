@@ -9,16 +9,16 @@ configuration:
   required: true
   type: 0
 - defaultvalue: ""
-  display: ""
+  display: Username
   name: credentials
   required: false
   type: 9
-- defaultvalue: "false"
-  display: Trust any certificate (unsecure)
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
   name: insecure
   required: false
   type: 8
-- defaultvalue: "false"
+- defaultvalue: ""
   display: Use system proxy settings
   name: proxy
   required: false
@@ -1197,5 +1197,6 @@ script:
         return_error(e.message)
 
     sys.exit(0)
+  subtype: python2
   type: python
 system: true

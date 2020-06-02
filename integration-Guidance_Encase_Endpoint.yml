@@ -18,8 +18,8 @@ configuration:
   name: proxy
   required: false
   type: 8
-- defaultvalue: "true"
-  display: ""
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
   name: insecure
   required: false
   type: 8

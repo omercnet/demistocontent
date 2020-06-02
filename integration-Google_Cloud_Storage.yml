@@ -14,7 +14,7 @@ configuration:
   required: false
   type: 8
 - defaultvalue: ""
-  display: Trust any certificate (unsecure)
+  display: Trust any certificate (not secure)
   name: insecure
   required: false
   type: 8
@@ -396,7 +396,7 @@ script:
     name: gcs-delete-bucket-object-policy
   dockerimage: demisto/google-cloud-storage:1.0.0.1734
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -947,5 +947,6 @@ script:
     except Exception as e:
         LOG(traceback.format_exc())
         return_error(format_error(e))
+  subtype: python3
   type: python
 system: true

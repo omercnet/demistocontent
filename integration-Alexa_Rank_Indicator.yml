@@ -25,7 +25,7 @@ contentitemexportablefields:
     - all
 description: Alexa provides website ranking information that can be useful in determining
   if the domain in question has a strong web presence.
-detaileddescription: |
+detaileddescription: |-
   To use this integration, simply call ```!domain```. !domain accepts
     "domain" as a parameter to query. Threshold is the point where a domain will be
     considered unknown versus suspicious.
@@ -36,7 +36,7 @@ script:
   commands:
   - arguments:
     - default: true
-      description: domain to search
+      description: Domain to search.
       name: domain
       required: true
     description: Provides an Alexa ranking of the Domain in question.
@@ -60,14 +60,17 @@ script:
     - contextPath: DBotScore.Indicator
       description: The indicator that was tested.
       type: string
-    - contextPath: Alexa.Domain.Data
+    - contextPath: Alexa.Domain.Indicator
+      description: The Domain being checked
+      type: string
+    - contextPath: Alexa.Domain.Name
       description: The Domain being checked
       type: string
     - contextPath: Alexa.Domain.Rank
       description: Alexa rank as determined by Amazon
       type: string
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -95,8 +98,7 @@ script:
         resp = requests.request('GET', 'https://www.alexa.com/minisiteinfo/{}'.format(domain),
                                 headers=headers, verify=USE_SSL, proxies=PROXIES)
         try:
-            x = re.search(r"style=\"margin-bottom:-2px;\"\/>\s(\d{0,3},)?(\d{3},)?\d{0,3}<\/a>",
-                          resp.content)
+            x = re.search(r"style=\"margin-bottom:-2px;\"\/>\s(\d{0,3},)?(\d{3},)?\d{0,3}<\/a>", resp.content)
             raw_result = x.group()  # type:ignore
             strip_beginning = raw_result.replace('style="margin-bottom:-2px;"/> ', '')
             strip_commas = strip_beginning.replace(',', '')
@@ -113,7 +115,7 @@ script:
                                     'https://data.alexa.com/data?cli=10&dat=s&url={}'.format(domain),
                                     verify=USE_SSL, proxies=PROXIES)
             root = ET.fromstring(str(resp.content))
-            rank = root.find("SD[0]/POPULARITY").attrib['TEXT']  # type: ignore
+            rank = root.find(".//POPULARITY").attrib['TEXT']  # type: ignore
         except:  # noqa
             rank = alexa_fallback_command(domain)
         if int(rank) > THRESHOLD:
@@ -160,7 +162,7 @@ script:
                                     'https://data.alexa.com/data?cli=10&dat=s&url={}'.format(domain),
                                     verify=USE_SSL, proxies=PROXIES)
             root = ET.fromstring(str(resp.content))
-            rank = root.find("SD[0]/POPULARITY").attrib['TEXT']  # type: ignore
+            rank = root.find(".//POPULARITY").attrib['TEXT']  # type: ignore
         except:  # noqa
             rank = alexa_fallback_command(domain)
         if rank == '1':

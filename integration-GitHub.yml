@@ -11,8 +11,13 @@ configuration:
 - defaultvalue: ""
   display: API Token
   name: token
-  required: true
+  required: false
   type: 4
+- defaultvalue: ""
+  display: Credentials
+  name: credentials
+  required: false
+  type: 9
 - defaultvalue: ""
   display: 'Username of the repository owner, for example: github.com/repos/{_owner_}/{repo}/issues'
   name: user
@@ -43,17 +48,27 @@ configuration:
   name: incidentType
   required: false
   type: 13
+- defaultvalue: ""
+  display: GitHub app integration ID
+  name: integration_id
+  required: false
+  type: 0
+- defaultvalue: ""
+  display: GitHub app installation ID
+  name: installation_id
+  required: false
+  type: 0
 contentitemexportablefields:
   contentitemfields:
     propagationLabels:
     - all
 description: Integration to GitHub API
-detaileddescription: "\nTo access the requested repository, you need to provide \nthe
-  username, repository name, and API key as parameters for the\nintegration.\n\nTo
-  generate your personal access token, visit:\nhttps://github.com/settings/tokens\n\nThe
-  integration supports the following workflows:\n- Create an issue\n- Update an issue\n-
-  Close an issue\n- List all issues\n- Search for specific issues\n- Get the download
-  count for each release in a repository\n"
+detaileddescription: "\n To access the requested repository, you need to provide \n
+  the username, repository name, and API key as parameters for the\n integration.\n
+  \n To generate your personal access token, visit:\n https://github.com/settings/tokens\n
+  \n The integration supports the following workflows:\n - Create an issue\n - Update
+  an issue\n - Close an issue\n - List all issues\n - Search for specific issues\n
+  - Get the download count for each release in a repository\n \n \n \n"
 display: GitHub
 image: data:image/png;base64,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
 name: GitHub
@@ -130,7 +145,7 @@ script:
       description: The state of the closed issue.
       type: String
     - contextPath: GitHub.Issue.Labels
-      description: Labels spplied to the issue.
+      description: Labels applied to the issue.
       type: String
     - contextPath: GitHub.Issue.Assignees
       description: Users assigned to the issue.
@@ -139,7 +154,7 @@ script:
       description: Date when the issue was created.
       type: Date
     - contextPath: GitHub.Issue.Updated_at
-      description: Date when the issue was last updated
+      description: Date when the issue was last updated.
       type: Date
     - contextPath: GitHub.Issue.Closed_at
       description: Date when the issue was closed.
@@ -2387,10 +2402,10 @@ script:
     - contextPath: GitHub.PR.ChangedFiles
       description: The number of changed files in the pull request.
       type: Number
-  dockerimage: demisto/python3:3.7.3.286
+  dockerimage: demisto/pyjwt3:1.0.0.4946
   isfetch: true
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -2409,6 +2424,9 @@ script:
 
     USER = demisto.params().get('user')
     TOKEN = demisto.params().get('token', '')
+    PRIVATE_KEY = demisto.params().get('credentials', {}).get('credentials', {}).get('sshkey', '')
+    INTEGRATION_ID = demisto.params().get('integration_id')
+    INSTALLATION_ID = demisto.params().get('installation_id')
     BASE_URL = 'https://api.github.com'
     REPOSITORY = demisto.params().get('repository')
     USE_SSL = not demisto.params().get('insecure', False)
@@ -2424,12 +2442,49 @@ script:
                      'Assignees', 'Labels']
 
     # Headers to be sent in requests
-    HEADERS = {
-        'Authorization': "Bearer " + TOKEN
-    }
-
+    MEDIA_TYPE_INTEGRATION_PREVIEW = "application/vnd.github.machine-man-preview+json"
 
     ''' HELPER FUNCTIONS '''
+
+
+    def create_jwt(private_key: bytes, integration_id: str):
+        """
+        Create a JWT token used for getting access token. It's needed for github bots.
+        POSTs https://api.github.com/app/installations/<installation_id>/access_tokens
+        :param private_key: bytes: github's private key
+        :param integration_id: str: ID of the github integration (bot)
+        """
+        now = int(time.time())
+        expiration = 60
+        payload = {"iat": now, "exp": now + expiration, "iss": integration_id}
+        jwt_token = jwt.encode(payload, private_key, algorithm='RS256')
+        return jwt_token.decode()
+
+
+    def get_installation_access_token(installation_id: str, jwt_token: str):
+        """
+        Get an access token for the given installation id.
+        POSTs https://api.github.com/app/installations/<installation_id>/access_tokens
+        :param installation_id: str: the id of the installation (where the bot was installed)
+        :param jwt_token: str token needed in the request for retrieving the access token
+        """
+        response = requests.post(
+            "{}/app/installations/{}/access_tokens".format(
+                BASE_URL, installation_id
+            ),
+            headers={
+                "Authorization": "Bearer {}".format(jwt_token),
+                "Accept": MEDIA_TYPE_INTEGRATION_PREVIEW,
+            },
+        )
+        if response.status_code == 201:
+            return response.json()['token']
+        elif response.status_code == 403:
+            return_error('403 Forbidden - The credentials are incorrect')
+        elif response.status_code == 404:
+            return_error('404 Not found - Installation wasn\'t found')
+        else:
+            return_error(f'Encountered an error: {response.text}')
 
 
     def safe_get(obj_to_fetch_from: dict, what_to_fetch: str, default_val: Union[dict, list, str]) -> Any:
@@ -2751,7 +2806,15 @@ script:
         head_or_base_user = head_or_base.get('user', {})
         ec_head_or_base_user = format_user_outputs(head_or_base_user)
         head_or_base_repo = head_or_base.get('repo', {})
-        head_or_base_repo_owner = head_or_base_repo.get('owner', {})
+
+        if head_or_base_repo:
+            head_or_base_repo_owner = head_or_base_repo.get('owner', {})
+        else:  # in case of a deleted fork
+            head_or_base_repo = {}
+            head_or_base_repo_owner = {
+                "Login": "Unknown"
+            }
+
         ec_head_or_base_repo_owner = format_user_outputs(head_or_base_repo_owner)
         ec_head_repo = {
             'ID': head_or_base_repo.get('id'),
@@ -3544,8 +3607,23 @@ script:
         'GitHub-create-pull-request': create_pull_request_command
     }
 
-
     '''EXECUTION'''
+
+    if TOKEN == '' and PRIVATE_KEY != '':
+        try:
+            import jwt
+        except Exception:
+            return_error("You need to update the docket image so that the jwt package could be used")
+
+        generated_jwt_token = create_jwt(PRIVATE_KEY, INTEGRATION_ID)
+        TOKEN = get_installation_access_token(INSTALLATION_ID, generated_jwt_token)
+
+    if TOKEN == '' and PRIVATE_KEY == '':
+        return_error("Insert api token or private key")
+
+    HEADERS = {
+        'Authorization': "Bearer " + TOKEN
+    }
 
 
     def main():

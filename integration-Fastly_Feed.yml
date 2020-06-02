@@ -1,0 +1,395 @@
+category: Data Enrichment & Threat Intelligence
+commonfields:
+  id: Fastly Feed
+  version: -1
+configuration:
+- defaultvalue: "true"
+  display: Fetch indicators
+  name: feed
+  required: false
+  type: 8
+- additionalinfo: Indicators from this integration instance will be marked with this
+    reputation
+  defaultvalue: Good
+  display: Indicator Reputation
+  name: feedReputation
+  options:
+  - None
+  - Good
+  - Suspicious
+  - Bad
+  required: false
+  type: 18
+- additionalinfo: Reliability of the source providing the intelligence data
+  defaultvalue: A - Completely reliable
+  display: Source Reliability
+  name: feedReliability
+  options:
+  - A - Completely reliable
+  - B - Usually reliable
+  - C - Fairly reliable
+  - D - Not usually reliable
+  - E - Unreliable
+  - F - Reliability cannot be judged
+  required: true
+  type: 15
+- defaultvalue: indicatorType
+  display: ""
+  name: feedExpirationPolicy
+  options:
+  - never
+  - interval
+  - indicatorType
+  - suddenDeath
+  required: false
+  type: 17
+- defaultvalue: "20160"
+  display: ""
+  name: feedExpirationInterval
+  required: false
+  type: 1
+- defaultvalue: "5"
+  display: Feed Fetch Interval
+  name: feedFetchInterval
+  required: false
+  type: 19
+- additionalinfo: When selected, the exclusion list is ignored for indicators from
+    this feed. This means that if an indicator from this feed is on the exclusion
+    list, the indicator might still be added to the system.
+  defaultvalue: "true"
+  display: Bypass exclusion list
+  name: feedBypassExclusionList
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Tags
+  name: feedTags
+  required: false
+  type: 0
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
+  name: insecure
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Use system proxy settings
+  name: proxy
+  required: false
+  type: 8
+contentitemexportablefields:
+  contentitemfields:
+    propagationLabels:
+    - all
+description: Use Fastly Feed to get assigned CIDRs and add them to your firewall's
+  allowlist in order to enable using Fastly's services.
+detaileddescription: |
+  ### Fastly Feed
+  Use Fastly Feed to get assigned CIDRs and add them to your firewall's allowlist in order to enable using Fastly's services.
+display: Fastly Feed
+image: data:image/png;base64,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
+name: Fastly Feed
+script:
+  commands:
+  - arguments:
+    - defaultValue: "50"
+      description: limits the number of context indicators to output
+      name: limit
+    description: Fetches indicators from the feed.
+    name: fastly-get-indicators
+  dockerimage: demisto/jmespath:1.0.0.6980
+  feed: true
+  runonce: false
+  script: |2
+
+
+
+
+
+    ### GENERATED CODE ###
+    # This code was inserted in place of an API module.
+
+    ''' IMPORTS '''
+    import urllib3
+    import jmespath
+    import tldextract
+    from typing import List, Dict, Union, Optional
+
+    # disable insecure warnings
+    urllib3.disable_warnings()
+
+
+    def auto_detect_indicator_type(indicator_value):
+        """Infer the type of the indicator.
+        Args:
+            indicator_value(str): The indicator whose type we want to check.
+        Returns:
+            str. The type of the indicator.
+        """
+        if re.match(ipv4cidrRegex, indicator_value):
+            return FeedIndicatorType.CIDR
+
+        if re.match(ipv6cidrRegex, indicator_value):
+            return FeedIndicatorType.IPv6CIDR
+
+        if re.match(ipv4Regex, indicator_value):
+            return FeedIndicatorType.IP
+
+        if re.match(ipv6Regex, indicator_value):
+            return FeedIndicatorType.IPv6
+
+        if re.match(sha256Regex, indicator_value):
+            return FeedIndicatorType.File
+
+        if re.match(urlRegex, indicator_value):
+            return FeedIndicatorType.URL
+
+        if re.match(md5Regex, indicator_value):
+            return FeedIndicatorType.File
+
+        if re.match(sha1Regex, indicator_value):
+            return FeedIndicatorType.File
+
+        if re.match(emailRegex, indicator_value):
+            return FeedIndicatorType.Email
+
+        try:
+            if tldextract.extract(indicator_value).suffix:
+                if '*' in indicator_value:
+                    return FeedIndicatorType.DomainGlob
+                return FeedIndicatorType.Domain
+        except Exception:
+            pass
+
+        return None
+
+
+    class Client:
+        def __init__(self, url: str = '', credentials: dict = None,
+                     feed_name_to_config: Dict[str, dict] = None, source_name: str = 'JSON',
+                     extractor: str = '', indicator: str = 'indicator',
+                     insecure: bool = False, cert_file: str = None, key_file: str = None, headers: dict = None, **_):
+            """
+            Implements class for miners of JSON feeds over http/https.
+            :param url: URL of the feed.
+            :param credentials: username and password used for basic authentication.
+             Can be also used as API key header and value by specifying _header in the username field.
+            :param extractor: JMESPath expression for extracting the indicators from
+            :param indicator: the JSON attribute to use as indicator. Default: indicator
+            :param source_name: feed source name
+            If None no additional attributes will be extracted.
+            :param insecure: if *False* feed HTTPS server certificate will be verified
+            Hidden parameters:
+            :param: cert_file: client certificate
+            :param: key_file: private key of the client certificate
+            :param: headers: Header parameters are optional to specify a user-agent or an api-token
+            Example: headers = {'user-agent': 'my-app/0.0.1'} or Authorization: Bearer
+            (curl -H "Authorization: Bearer " "https://api-url.com/api/v1/iocs?first_seen_since=2016-1-1")
+             Example:
+                Example feed config:
+                'AMAZON': {
+                    'url': 'https://ip-ranges.amazonaws.com/ip-ranges.json',
+                    'extractor': "prefixes[?service=='AMAZON']",
+                    'indicator': 'ip_prefix',
+                }
+            """
+
+            self.source_name = source_name or 'JSON'
+            if feed_name_to_config:
+                self.feed_name_to_config = feed_name_to_config
+            else:
+                self.feed_name_to_config = {
+                    self.source_name: {
+                        'url': url,
+                        'indicator': indicator or 'indicator',
+                        'extractor': extractor or '@',
+                    }}
+
+            # Request related attributes
+            self.url = url
+            self.verify = not insecure
+            self.auth: Optional[tuple] = None
+            self.headers = headers
+
+            if credentials:
+                username = credentials.get('identifier', '')
+                if username.startswith('_header:'):
+                    header_name = username.split(':')[1]
+                    header_value = credentials.get('password', '')
+                    if not self.headers:
+                        self.headers = {}
+                    self.headers[header_name] = header_value
+                else:
+                    password = credentials.get('password', '')
+                    if username is not None and password is not None:
+                        self.auth = (username, password)
+
+            self.cert = (cert_file, key_file) if cert_file and key_file else None
+
+        def build_iterator(self, **kwargs) -> List:
+            results = []
+            for feed_name, feed in self.feed_name_to_config.items():
+                r = requests.get(
+                    url=feed.get('url', self.url),
+                    verify=self.verify,
+                    auth=self.auth,
+                    cert=self.cert,
+                    headers=self.headers,
+                    **kwargs
+                )
+
+                try:
+                    r.raise_for_status()
+                    data = r.json()
+                    result = jmespath.search(expression=feed.get('extractor'), data=data)
+                    results.append({feed_name: result})
+
+                except ValueError as VE:
+                    raise ValueError(f'Could not parse returned data to Json. \n\nError massage: {VE}')
+
+            return results
+
+
+    def test_module(client, params) -> str:
+        client.build_iterator()
+        return 'ok'
+
+
+    def fetch_indicators_command(client: Client, indicator_type: str, feedTags: list, **kwargs) -> Union[Dict, List[Dict]]:
+        """
+        Fetches the indicators from client.
+        :param client: Client of a JSON Feed
+        :param indicator_type: the default indicator type
+        :param feedTags: the indicator tags
+        """
+        indicators = []
+        for result in client.build_iterator(**kwargs):
+            for service_name, items in result.items():
+                feed_config = client.feed_name_to_config.get(service_name, {})
+                indicator_field = feed_config.get('indicator') if feed_config.get('indicator') else 'indicator'
+                indicator_type = feed_config.get('indicator_type', indicator_type)
+                for item in items:
+                    mapping = feed_config.get('mapping')
+
+                    if isinstance(item, str):
+                        item = {indicator_field: item}
+                    indicator_value = item.get(indicator_field)
+
+                    current_indicator_type = indicator_type or auto_detect_indicator_type(indicator_value)
+                    if not current_indicator_type:
+                        continue
+
+                    indicator = {'value': indicator_value, 'type': current_indicator_type, 'fields': {'tags': feedTags}}
+
+                    attributes = {'source_name': service_name, 'value': indicator_value,
+                                  'type': current_indicator_type}
+
+                    attributes.update(extract_all_fields_from_indicator(item, indicator_field))
+
+                    if mapping:
+                        for map_key in mapping:
+                            if map_key in attributes:
+                                indicator['fields'][mapping[map_key]] = attributes.get(map_key)  # type: ignore
+
+                    indicator['rawJSON'] = item
+
+                    indicators.append(indicator)
+
+        return indicators
+
+
+    def extract_all_fields_from_indicator(indicator, indicator_key):
+        """Flattens the JSON object to create one dictionary of values
+
+        Args:
+            indicator(dict): JSON object that holds indicator full data.
+            indicator_key(str): The key that holds the indicator value.
+
+        Returns:
+            dict. A dictionary of the fields in the JSON object.
+        """
+        fields = {}  # type: dict
+
+        def insert_value_to_fields(key, value):
+            if key in fields:
+                if not isinstance(fields[key], list):
+                    fields[key] = [fields[key]]
+                fields[key].append(value)
+            else:
+                fields[key] = value
+
+        def extract(json_element):
+            if isinstance(json_element, dict):
+                for key, value in json_element.items():
+                    if value and isinstance(value, dict):
+                        extract(value)
+                    elif key != indicator_key:
+                        insert_value_to_fields(key, value)
+
+            elif json_element and indicator_key not in json_element:
+                for key, value in json_element:
+                    insert_value_to_fields(key, value)
+
+        extract(indicator)
+        return fields
+
+
+    def feed_main(params, feed_name, prefix):
+        handle_proxy()
+
+        client = Client(**params)
+        indicator_type = params.get('indicator_type')
+        feedTags = argToList(params.get('feedTags'))
+        command = demisto.command()
+        if prefix and not prefix.endswith('-'):
+            prefix += '-'
+        if command != 'fetch-indicators':
+            demisto.info(f'Command being called is {demisto.command()}')
+        try:
+            if command == 'test-module':
+                return_outputs(test_module(client, params))
+
+            elif command == 'fetch-indicators':
+                indicators = fetch_indicators_command(client, indicator_type, feedTags)
+                for b in batch(indicators, batch_size=2000):
+                    demisto.createIndicators(b)
+
+            elif command == f'{prefix}get-indicators':
+                # dummy command for testing
+                limit = int(demisto.args().get('limit', 10))
+                indicators = fetch_indicators_command(client, indicator_type, feedTags)[:limit]
+                hr = tableToMarkdown('Indicators', indicators, headers=['value', 'type', 'rawJSON'])
+                return_outputs(hr, {}, indicators)
+
+        except Exception as err:
+            err_msg = f'Error in {feed_name} integration [{err}]'
+            return_error(err_msg)
+
+
+
+
+    def main():
+        params = {k: v for k, v in demisto.params().items() if v is not None}
+
+        params['feed_name_to_config'] = {
+            'CIDR': {
+                'url': 'https://api.fastly.com/public-ip-list',
+                'extractor': "addresses[].{ip:@}",
+                'indicator': 'ip',
+                'indicator_type': FeedIndicatorType.CIDR,
+            },
+            'IPv6CIDR': {
+                'url': 'https://api.fastly.com/public-ip-list',
+                'extractor': "ipv6_addresses[].{ip:@}",
+                'indicator': 'ip',
+                'indicator_type': FeedIndicatorType.IPv6CIDR,
+            },
+        }
+
+        feed_main(params, 'Fastly Feed', 'fastly')
+
+
+    if __name__ in ('__main__', '__builtin__', 'builtins'):
+        main()
+  subtype: python3
+  type: python
+system: true

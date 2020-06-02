@@ -9,7 +9,7 @@ configuration:
   required: true
   type: 4
 - defaultvalue: ""
-  display: Use system proxy
+  display: Use system proxy settings
   name: proxy
   required: false
   type: 8
@@ -115,7 +115,7 @@ script:
       type: Unknown
   dockerimage: demisto/python3:3.7.3.286
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -372,5 +372,6 @@ script:
     # python2 uses __builtin__ python3 uses builtins
     if __name__ == "__builtin__" or __name__ == "builtins":
         main()
+  subtype: python3
   type: python
 system: true

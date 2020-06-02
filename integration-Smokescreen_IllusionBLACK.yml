@@ -1,0 +1,562 @@
+category: Deception
+commonfields:
+  id: Smokescreen IllusionBLACK
+  version: -1
+configuration:
+- defaultvalue: https://example.net
+  display: Server URL (e.g. https://example.net)
+  name: url
+  required: true
+  type: 0
+- defaultvalue: ""
+  display: IllusionBLACK API Client Id
+  name: client_id
+  required: true
+  type: 0
+- defaultvalue: ""
+  display: IllusionBLACK External API Token
+  name: token
+  required: true
+  type: 4
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
+  name: insecure
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Use system proxy settings
+  name: proxy
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: First fetch time for fetching incidents (2 days, 3 weeks, etc)
+  name: first_fetch
+  required: false
+  type: 0
+- defaultvalue: ""
+  display: Fetch incidents
+  name: isFetch
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Incident type
+  name: incidentType
+  required: false
+  type: 13
+contentitemexportablefields:
+  contentitemfields:
+    propagationLabels:
+    - all
+description: Smokescreen IllusionBLACK is a deception-based threat defense platform
+  designed to accurately and efficiently detect targeted threats including reconnaissance,
+  lateral movement, malware-less attacks, social engineering, Man-in-the-Middle attacks,
+  and ransomware in real-time.
+detaileddescription: "## Get an API Token\n1. Log in to IllusionBLACK.\n2. Go to the
+  **Orchestrate** tab under the **API Tokens** page.\n3. Click **ADD**. \n4. Enter
+  the necessary details and select all checkboxes for the permissions.\n5. After creating
+  the token, click the **edit** button and copy the ***X-CLIENT-AUTH***  and ***X-CLIENT-ID***
+  fields to use in Demisto.\n"
+display: Smokescreen IllusionBLACK
+image: data:image/png;base64,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
+name: Smokescreen IllusionBLACK
+script:
+  commands:
+  - arguments: []
+    description: Gets a list of Active Directory decoys.
+    name: illusionblack-get-ad-decoys
+    outputs:
+    - contextPath: IllusionBlack.AdDecoy
+      description: IllusionBLACK AD Decoy users.
+      type: Unknown
+  - arguments: []
+    description: Gets a list of Network decoys.
+    name: illusionblack-get-network-decoys
+    outputs:
+    - contextPath: IllusionBlack.NetworkDecoy
+      description: IllusionBLACK Network decoys.
+      type: Unknown
+  - arguments: []
+    description: Gets a list of Threat Intel decoys.
+    name: illusionblack-get-ti-decoys
+    outputs:
+    - contextPath: IllusionBlack.TIDecoy
+      description: IllusionBLACK TI Decoys.
+      type: Unknown
+  - arguments:
+    - description: Hostname or IP address to check.
+      name: host
+      required: true
+    description: Checks if a host or IP address is a network decoy.
+    name: illusionblack-is-host-decoy
+    outputs:
+    - contextPath: IllusionBlack.IsHostDecoy.Host
+      description: The IP address or hostname submitted to IllusionBLACK to check.
+      type: String
+    - contextPath: IllusionBlack.IsHostDecoy.Value
+      description: The boolean value whether the host is a decoy or not.
+      type: Boolean
+  - arguments:
+    - description: Active Directory user name to check.
+      name: user
+      required: true
+    description: Checks if an Active Directory user is a decoy.
+    name: illusionblack-is-user-decoy
+    outputs:
+    - contextPath: IllusionBlack.IsUserDecoy.User
+      description: The AD username submitted to IllusionBLACK to check.
+      type: String
+    - contextPath: IllusionBlack.IsUserDecoy.Value
+      description: The boolean value whether the user is a decoy or not.
+      type: Boolean
+  - arguments:
+    - description: 'Subdomain to check. For example: dec.smokescreen.io.'
+      name: subdomain
+      required: true
+    description: Checks if a subdomain is a Threat Intel decoy.
+    name: illusionblack-is-subdomain-decoy
+    outputs:
+    - contextPath: IllusionBlack.IsSubdomainDecoy.Subdomain
+      description: The subdomain submitted to IllusionBLACK to check.
+      type: String
+    - contextPath: IllusionBlack.IsSubdomainDecoy.Value
+      description: The boolean value whether the subdomain is a decoy or not.
+      type: Boolean
+  - arguments:
+    - description: Number of events. It can be between 1 and 1000.
+      name: limit
+    - description: 'IllusionBLACK query. For example: "attacker.ip is \"1.2.3.4\""'
+      name: query
+    - description: ISO 8601 formatted date string.
+      name: from
+    - description: ISO 8601 formatted date string.
+      name: to
+    description: Gets events from IllusionBLACK.
+    name: illusionblack-get-events
+    outputs:
+    - contextPath: IllusionBlack.Event
+      description: IllusionBLACK Events.
+      type: Unknown
+  - arguments:
+    - description: IllusionBLACK Event ID.
+      name: id
+      required: true
+    description: Gets a single event by the event ID.
+    name: illusionblack-get-event-by-id
+    outputs:
+    - contextPath: IllusionBlack.Event
+      description: IllusionBLACK Single Event.
+      type: Unknown
+    - contextPath: "IllusionBlack.Event.attacker.id\t"
+      description: IllusionBLACK Event Attacker ID.
+      type: Unknown
+    - contextPath: IllusionBlack.Event.decoy.id
+      description: IllusionBLACK Event Decoy ID.
+      type: Unknown
+    - contextPath: IllusionBlack.Event.id
+      description: IllusionBLACK Event ID.
+      type: Unknown
+    - contextPath: IllusionBlack.Event.severity
+      description: IllusionBLACK Event Severity.
+      type: Unknown
+    - contextPath: IllusionBlack.Event.type
+      description: IllusionBLACK Event Attack Type.
+      type: Unknown
+  dockerimage: demisto/python3:3.8.2.6981
+  isfetch: true
+  runonce: false
+  script: |2
+
+
+
+    from datetime import timezone
+    from typing import List, Dict, Any
+
+    import json
+    import requests
+
+    # Disable insecure warnings
+    requests.packages.urllib3.disable_warnings()
+
+
+    class Client(BaseClient):
+        """
+        Client will implement the service API, and should not contain any Demisto logic.
+        Should only do requests and return data.
+        """
+
+        def __init__(self, base_url, verify, client_id, token, proxy):
+            """
+            Constructor which adds the authentication headers required by IllusionBLACK external API
+            Args:
+                base_url: IllusionBLACK URL. For example: https://experience.illusionblack.com
+                verify: Allow insecure SSL
+                client_id:
+                token:
+                proxy:
+            """
+            headers = {"x-client-id": client_id, "x-client-auth": token}
+            super().__init__(base_url=base_url, verify=verify, proxy=proxy, headers=headers)
+
+        def ping(self):
+            """
+            Initiates a HTTP Request to IllusionBLACK test endpoint /ping
+            """
+            response = self._http_request(
+                method="GET",
+                url_suffix="/ping",
+                ok_codes=(200,)
+            )
+            return response.get("message", "error")
+
+        def get_ad_decoys(self):
+            """
+            Gets a list of Active Directory (AD) user decoys from IllusionBLACK
+            Returns: A tuple containing the response in human readable, context data and raw response formats
+            """
+            response = self._http_request(
+                method="GET",
+                url_suffix="/decoy/users",
+                ok_codes=(200,)
+            )
+            users = response["items"]
+            return (
+                tableToMarkdown(
+                    "IllusionBLACK AD Decoys",
+                    users,
+                    headerTransform=lambda s: " ".join([w.capitalize() for w in s.split("_")])
+                ),
+                {"IllusionBlack.AdDecoy(val.user_name==obj.user_name)": users},
+                users
+            )
+
+        def get_network_decoys(self):
+            """
+            Gets a list of network decoys from IllusionBLACK and enriches the data with the list of services enabled.
+            Returns:A tuple containing the response in human readable, context data and raw response formats
+            """
+            response = self._http_request(
+                method="GET",
+                url_suffix="/decoy/hosts",
+                ok_codes=(200,)
+            )
+            hosts: List = response["items"]
+            for h in hosts:
+                h["services"] = ", ".join(h["services"])
+            return (
+                tableToMarkdown("IllusionBLACK Network Decoys", hosts, headerTransform=lambda s: s.capitalize()),
+                {"IllusionBlack.NetworkDecoy(val.name==obj.name)": hosts},
+                hosts
+            )
+
+        def get_ti_decoys(self):
+            """
+            Gets a list of Threat Intelligence decoys from IllusionBLACK.
+            Returns: A tuple containing the response in human readable, context data and raw response formats
+            """
+            response = self._http_request(
+                method="GET",
+                url_suffix="/decoy/recon",
+                ok_codes=(200,)
+            )
+            recon_decoys = response["items"]
+            return (
+                tableToMarkdown(
+                    "IllusionBLACK TI Decoys",
+                    recon_decoys,
+                    headerTransform=lambda s: " ".join([w.capitalize() for w in s.split("_")])
+                ),
+                {"IllusionBlack.TIDecoy(val.name==obj.name)": recon_decoys},
+                recon_decoys
+            )
+
+        def is_host_decoy(self, host):
+            """
+            Checks if the host is an IllusionBLACK network decoy
+            Args:
+                host: The name of the entity For example: SMB-12
+            Returns: True if host is a decoy else False
+            """
+            response = self._http_request(
+                method="GET",
+                url_suffix="/decoy/hosts",
+                ok_codes=(200,)
+            )
+            hosts: List = response["items"]
+            for decoy_host in hosts:
+                if host == decoy_host["name"]:
+                    return "True", {"IllusionBlack.IsHostDecoy": {"Host": host, "Value": True}}
+            return "False", {"IllusionBlack.IsHostDecoy": {"Host": host, "Value": False}}
+
+        def is_user_decoy(self, user):
+            """
+            Checks if the user is an IllusionBLACK AD user decoy
+            Args:
+                user: The user name of the AD user to check
+            Returns: True if user is a decoy else False
+            """
+            response = self._http_request(
+                method="GET",
+                url_suffix="/decoy/users",
+                ok_codes=(200,)
+            )
+            users: List = response["items"]
+            for decoy_user in users:
+                if user.lower() == decoy_user["user_name"]:
+                    return "True", {"IllusionBlack.IsUserDecoy": {"User": user, "Value": True}}
+                return "False", {"IllusionBlack.IsUserDecoy": {"User": user, "Value": False}}
+
+        def is_subdomain_decoy(self, subdomain):
+            """
+            Checks if the subdomain is an IllusionBLACK TI decoy
+            Args:
+                subdomain: The subdomain to check. For example: experience.illusionblack.com
+            Returns: True if subdomain is a decoy else False
+            """
+            response = self._http_request(
+                method="GET",
+                url_suffix="/decoy/recon",
+                ok_codes=(200,)
+            )
+            ti_decoys: List = response["items"]
+            for ti_decoy in ti_decoys:
+                if subdomain == ti_decoy["name"]:
+                    return "True", {"IllusionBlack.IsSubdomainDecoy": {"Subdomain": subdomain, "Value": True}}
+                return "False", {"IllusionBlack.IsSubdomainDecoy": {"Subdomain": subdomain, "Value": False}}
+
+        def get_events(self, limit=None, query=None, from_time=None, to_time=None):
+            """
+            Gets Events and corresponding Threat Parse data from IllusionBLACK based on the filtering parameters.
+            Args:
+                limit: Number of events to return per API call. Defaults to 10.
+                query: IllusionBLACK orchestrate engine query string. Refer to IllusionBLACK doc for reference.
+                from_time: ISO-8601 formatted datetime string of the starting time in the filter
+                to_time: ISO-8601 formatted datetime string of the ending time in the filter
+            Returns: A tuple with raw events and threat parse data corresponding to the events
+            """
+            raw_events, raw_threat_parse, offset = [], {}, 0    # type: ignore
+            while True:
+                response = self._http_request(
+                    method="GET",
+                    url_suffix="/events",
+                    params={"limit": limit, "expfilter": query, "from": from_time, "to": to_time, "offset": offset},
+                    ok_codes=(200,)
+                )
+                meta: Dict = response["meta"]
+                amount = meta["paging"]["amount"]
+
+                raw_events.extend(response["events"])
+                for tp in response.get("threat_parse", {}):
+                    tp_id = tp["id"]
+                    if tp_id not in raw_threat_parse:
+                        tp.pop("id", None)
+                        raw_threat_parse[tp_id] = tp
+
+                offset += 1000
+                if amount < 1000:
+                    break
+            return raw_events, raw_threat_parse
+
+
+    def test_module(client):
+        """
+        Returning "ok" indicates that the integration works like it is supposed to. Connection to the service is successful.
+        Args:
+            client: IllusionBLACK client
+        Returns:
+            "ok" if test passed, anything else will fail the test.
+        """
+        try:
+            message = client.ping()
+            if message == "pong":
+                return "ok"
+        except DemistoException as e:
+            if e.args[0] == "Error in API call [401] - Unauthorized":
+                return_error("Failed to connect to IllusionBLACK. External API Token or Client Id might be invalid.")
+            else:
+                raise e
+
+
+    def convert_to_demisto_severity(ib_severity="medium", tp_score_based=False, score=0):
+        """
+        Converts the IllusionBLACK Threat Parse score for an attacker to demisto incident severity
+        Args:
+            ib_severity: IllusionBLACK severity. Some events do not have threat parse score.
+            tp_score_based: If score is based on Threat Parse cumulative score
+            score: The cumulative Threat Parse score
+        Returns: The demisto incident severity ranging from 1 to 4
+        """
+        severity = 1
+        if tp_score_based:
+            severity = score // 25
+            severity = 1 if severity < 1 else severity
+            severity = 4 if severity > 4 else severity
+        else:
+            if ib_severity == "low":
+                severity = 2
+            elif ib_severity == "medium":
+                severity = 3
+            elif ib_severity == "high":
+                severity = 4
+        return severity
+
+
+    def process_events(events, threat_parse):
+        """
+        Converts raw events and raw threat parse to demisto incidents based on common parameters.
+        Args:
+            events: Raw events from IllusionBLACK
+            threat_parse: Raw Threat Parse from IllusionBLACK
+        Returns: A list of raw incidents with data pertinent to demisto incident format.
+        """
+        raw_incident_data: Dict[str, Any] = {}
+
+        for event in events:
+            attacker_id = event.get("attacker.id", "")
+            decoy_id = event.get("decoy.id", "")
+            attack_type = event.get("type", "")
+            ib_severity = event.get("severity")
+
+            incident_id = "-".join(filter(None, [attacker_id, decoy_id, attack_type])).rstrip("-")
+            title = f"{attack_type} activity by {attacker_id} on {decoy_id} decoy"
+            tps = event.get("threat_parse_ids", [])
+
+            score, is_tp = 0, False
+            for tp in tps:
+                is_tp = True
+                score += threat_parse[tp]["score"]
+            severity = convert_to_demisto_severity(ib_severity=ib_severity, tp_score_based=is_tp, score=score)
+            raw_incident = raw_incident_data.setdefault(
+                incident_id,
+                {
+                    "events": [],
+                    "threat_parse_ids": [],
+                    "title": "",
+                    "severity": 1,
+                    "attack_type": "illusionblack_event",
+                    "attacker_id": "",
+                    "decoy_id": "",
+                    "source": "IllusionBLACK"
+                }
+            )
+            raw_incident["events"].append(event["id"])
+            raw_incident["threat_parse_ids"].extend(tps)
+            raw_incident["threat_parse_ids"] = list(set(raw_incident["threat_parse_ids"]))
+            raw_incident["title"] = title
+            raw_incident["severity"] = severity
+            raw_incident["attack_type"] = attack_type
+            raw_incident["attacker_id"] = attacker_id
+            raw_incident["decoy_id"] = decoy_id
+
+        return raw_incident_data
+
+
+    def create_incident(raw_incident):
+        """
+        Creates a demisto incident from a raw incident.
+        Args:
+            raw_incident: The data in the raw incident processed from raw events and Threat Parse from IllusionBLACK
+        Returns: Demisto incident dict
+        """
+        demisto.info(f"Severity is {raw_incident['severity']}")
+        return {
+            "name": raw_incident["title"],
+            "severity": raw_incident["severity"],
+            "rawJSON": json.dumps(raw_incident)
+        }
+
+
+    def fetch_incidents(first_fetch, client):
+        """
+        Automated fetching of incidents from IllusionBLACK. For first run 2 days is the fixed duration for events.
+        Args:
+            first_fetch: For first fetch the timespan to consider to fetch incidents. Example: 2 days, 5 weeks etc
+            client: IllusionBLACK client
+        Returns: Demisto Incidents
+        """
+        now = datetime.now(tz=timezone.utc)
+        demisto.info(f"IllusionBLACK: Fetching incidents at {now}")
+        demisto_last_run = demisto.getLastRun()
+        if "last_run" in demisto_last_run:
+            last_run = datetime.fromisoformat(demisto_last_run["last_run"])
+        else:
+            last_run, _ = parse_date_range(first_fetch)
+            last_run = last_run.replace(tzinfo=timezone.utc)
+        if now - last_run < timedelta(minutes=5):
+            return []
+        from_time = last_run.replace(microsecond=0).isoformat()
+        to_time = now.replace(microsecond=0).isoformat()
+        demisto.debug(f"IllusionBLACK: Getting raw events from {from_time} to {to_time}")
+        events, all_threat_parse = client.get_events(limit=1000, from_time=from_time, to_time=to_time)
+        raw_incidents = process_events(events, all_threat_parse)
+        incidents = []
+
+        for incident_id, raw_incident in raw_incidents.items():
+            incidents.append(create_incident(raw_incident))
+        demisto.setLastRun({"last_run": to_time})
+        return incidents
+
+
+    def main():
+        client_id = demisto.params().get("client_id")
+        token = demisto.params().get("token")
+        base_url = urljoin(demisto.params()["url"], "/apiv1")
+        verify_certificate = not demisto.params().get("insecure", False)
+        proxy = demisto.params().get("proxy", False)
+
+        LOG(f"Command being called is {demisto.command()}")
+        try:
+            client = Client(
+                base_url=base_url,
+                verify=verify_certificate,
+                client_id=client_id,
+                token=token,
+                proxy=proxy
+            )
+
+            if demisto.command() == "test-module":
+                # This is the call made when pressing the integration Test button.
+                result = test_module(client)
+                demisto.results(result)
+            elif demisto.command() == "illusionblack-get-ad-decoys":
+                return_outputs(*client.get_ad_decoys())
+            elif demisto.command() == "illusionblack-get-network-decoys":
+                return_outputs(*client.get_network_decoys())
+            elif demisto.command() == "illusionblack-get-ti-decoys":
+                return_outputs(*client.get_ti_decoys())
+            elif demisto.command() == "illusionblack-is-host-decoy":
+                return_outputs(*client.is_host_decoy(demisto.args()["host"]))
+            elif demisto.command() == "illusionblack-is-user-decoy":
+                return_outputs(*client.is_user_decoy(demisto.args()["user"]))
+            elif demisto.command() == "illusionblack-is-subdomain-decoy":
+                return_outputs(*client.is_subdomain_decoy(demisto.args()["subdomain"]))
+            elif demisto.command() == "illusionblack-get-events":
+                args = demisto.args()
+                events, _ = client.get_events(args.get("limit"), args.get("query"), args.get("from"), args.get("to"))
+                return_outputs(
+                    tableToMarkdown("IllusionBLACK Events", events),
+                    {"IllusionBlack.Event(val.id==obj.id)": events},
+                    events
+                )
+            elif demisto.command() == "illusionblack-get-event-by-id":
+                events, _ = client.get_events(query=f"id == \"{demisto.args()['id']}\"")
+                if len(events) != 1:
+                    return_error("Invalid event ID")
+                event = events[0]
+                return_outputs(
+                    tableToMarkdown("IllusionBLACK Single Event", event),
+                    {"IllusionBlack.Event(val.id==obj.id)": event},
+                    event
+                )
+            elif demisto.command() == "fetch-incidents":
+                demisto.incidents(fetch_incidents(demisto.params().get("first_fetch", "2 days"), client=client))
+
+        # Log exceptions
+        except Exception as e:
+            return_error(f"Failed to execute {demisto.command()} command. Error: {str(e)}")
+
+
+    if __name__ in ("__main__", "builtins"):
+        main()
+  subtype: python3
+  type: python
+system: true

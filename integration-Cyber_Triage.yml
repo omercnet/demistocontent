@@ -278,5 +278,6 @@ script:
     # This is the call made when pressing the integration test button.
     elif demisto.command() == 'test-module':
         test_connection()
+  subtype: python2
   type: python
 system: true

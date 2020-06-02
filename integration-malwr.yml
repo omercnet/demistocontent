@@ -94,7 +94,7 @@ script:
       description: Vendor used to calculate the score
     - contextPath: DBotScore.Score
       description: The actual score
-  dockerimage: demisto/bs4
+  dockerimage: demisto/bs4:1.0.0.7863
   runonce: false
   script: |
     import hashlib
@@ -392,5 +392,6 @@ script:
         entry['HumanReadable'] = message
 
     demisto.results(entry)
+  subtype: python2
   type: python
 system: true

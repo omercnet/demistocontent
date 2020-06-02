@@ -23,7 +23,7 @@ configuration:
   name: accessKey
   required: true
   type: 4
-- defaultvalue: "false"
+- defaultvalue: ""
   display: Use system proxy settings
   name: useproxy
   required: false

@@ -4,7 +4,7 @@ commonfields:
   version: -1
 configuration:
 - defaultvalue: ""
-  display: OTRS Server URL (e.g. https://demisto.managed-otrs.com)
+  display: OTRS Server URL (e.g. http://example.com)
   name: server
   required: true
   type: 0
@@ -13,8 +13,8 @@ configuration:
   name: credentials
   required: true
   type: 9
-- defaultvalue: "true"
-  display: Trust any certificate (unsecure)
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
   name: unsecure
   required: false
   type: 8
@@ -69,14 +69,22 @@ script:
   commands:
   - arguments:
     - default: true
-      description: Ticket ID of the ticket to get details of
+      description: Ticket ID of the ticket to get details of. If not supplied, the
+        ticket_number argument is required.
       name: ticket_id
-      required: true
-    description: Retrieves details for an OTRS ticket by ticket ID.
+    - description: Ticket Number of the ticket to get details of. If not supplied,
+        the ticket_id argument is required.
+      name: ticket_number
+    description: Retrieves details for an OTRS ticket by ticket ID or ticket number.
+      The arguments are both optional, but at least one is required for this integration
+      to run.
     name: otrs-get-ticket
     outputs:
     - contextPath: OTRS.Ticket.ID
       description: Ticket ID
+      type: string
+    - contextPath: OTRS.Ticket.Number
+      description: Ticket number
       type: string
     - contextPath: OTRS.Ticket.Created
       description: Ticket creation date
@@ -202,6 +210,9 @@ script:
     - contextPath: OTRS.Ticket.ID
       description: Ticket ID
       type: string
+    - contextPath: OTRS.Ticket.Number
+      description: Ticket number
+      type: string
     - contextPath: OTRS.Ticket.Created
       description: Ticket creation date
       type: date
@@ -281,6 +292,9 @@ script:
       type: string
     - contextPath: OTRS.Ticket.ID
       description: Ticket ID
+      type: string
+    - contextPath: OTRS.Ticket.Number
+      description: Ticket number
       type: string
     - contextPath: OTRS.Ticket.Created
       description: Ticket creation date
@@ -399,23 +413,19 @@ script:
     - contextPath: OTRS.Ticket.Article.Body
       description: Ticket article body
       type: string
-  dockerimage: demisto/pyotrs
+  dockerimage: demisto/pyotrs:1.0.0.7536
   isfetch: true
   runonce: false
-  script: |-
+  script: |
     ''' IMPORTS '''
-    import requests
-    from pyotrs import Article, Client, Ticket, DynamicField, Attachment
-    import base64
 
-    if not demisto.params()['proxy']:
-        del os.environ['HTTP_PROXY']
-        del os.environ['HTTPS_PROXY']
-        del os.environ['http_proxy']
-        del os.environ['https_proxy']
+    import urllib3
+
+    from pyotrs import Article, Attachment, Client, DynamicField, Ticket
+
 
     # disable insecure warnings
-    requests.packages.urllib3.disable_warnings()
+    urllib3.disable_warnings()
 
     ''' GLOBAL VARS '''
 
@@ -432,9 +442,8 @@ script:
 
     ''' HELPER FUNCTIONS '''
 
-    def ticket_to_incident(ticket):
 
-        incident = {}
+    def ticket_to_incident(ticket):
 
         attachments_list = []
         articles = ticket.get('Article')
@@ -450,11 +459,13 @@ script:
                             'name': file_name
                         })
 
-        incident['attachment'] = attachments_list
-        incident['name'] = 'OTRS ticket {}'.format(ticket['TicketID'])
-        incident['rawJSON'] = json.dumps(ticket)
-
+        incident = {
+            'attachment': attachments_list,
+            'rawJSON': json.dumps(ticket),
+            'name': 'OTRS ticket {}'.format(ticket['TicketID'])
+        }
         return incident
+
 
     def translate_state(state):
         state_dict = {
@@ -466,6 +477,7 @@ script:
         }
         return state_dict[state]
 
+
     def translate_priority(priority):
         priority_dict = {
             '1VeryLow': '1 very low',
@@ -476,6 +488,7 @@ script:
         }
         return priority_dict[priority]
 
+
     def calculate_age(seconds):
         """
         Convert seconds to time period string
@@ -485,6 +498,7 @@ script:
         h, m = divmod(m, 60)
         return '%d h %02d m' % (h, m)
 
+
     def demisto_entry_to_otrs_attachment(entry_list):
         """
         Convert Demisto file entry to OTRS attachment object
@@ -493,20 +507,20 @@ script:
         for file in entry_list:
             file_path = demisto.getFilePath(file)
             with open(file_path['path'], 'rb') as file_content:
-                encoded_file = base64.b64encode(file_content.read()) # Encoding file content in base64, as required by OTRS
+                encoded_file = base64.b64encode(file_content.read())  # Encoding file content in base64, as required by OTRS
 
             # Getting file type from context
             context_files = demisto.get(demisto.context(), 'File')
-            if isinstance(context_files, dict): # If there's only one file in context, we will get a dict and we convert it to list
+            if isinstance(context_files, dict):  # If there's only one file in context, we will get a dict and we convert it to list
                 context_files = [context_files]
             content_type = None
-            for context_file in context_files: # Looking for file entry in context
+            for context_file in context_files:  # Looking for file entry in context
                 if context_file['EntryID'] == file:
                     content_type = context_file['Info']
                     break
             if content_type is None:
                 return_error('Could not find file in context')
-            otrs_attachment = Attachment.create_basic( # Creating OTRS attachment object
+            otrs_attachment = Attachment.create_basic(  # Creating OTRS attachment object
                 Filename=file_path['name'],
                 Content=encoded_file,
                 ContentType=content_type
@@ -514,16 +528,25 @@ script:
             attachments.append(otrs_attachment)
         return attachments
 
+
     ''' FUNCTIONS '''
+
 
     def get_ticket_command():
 
-        ticket_id = demisto.args()['ticket_id']
+        ticket_id = demisto.args().get('ticket_id')
+        ticket_number = demisto.args().get('ticket_number')
 
-        ticket = get_ticket(ticket_id)
+        if (ticket_id and ticket_number is None):
+            ticket = get_ticket(ticket_id)
+        elif (ticket_id is None and ticket_number):
+            ticket = get_ticket_by_number(ticket_number)
+        else:
+            return_error('Exactly one ticket identifier is required in order to retrieve a ticket, ticket_id or ticket_number!')
 
         output = {
             'ID': str(ticket['TicketID']),
+            'Number': ticket['TicketNumber'],
             'Created': ticket['Created'],
             'CustomerID': ticket['CustomerUserID'],
             'Owner': ticket['Owner'],
@@ -545,8 +568,9 @@ script:
                     name = field['Name']
                     output['DynamicField'][name] = value
 
-        title = 'OTRS Ticket ' + ticket_id
-        headers = ['ID', 'Age', 'Title', 'State', 'Lock', 'Queue', 'Owner', 'CustomerID', 'Priority', 'Type', 'Created', 'DynamicField']
+        title = 'OTRS Ticket ' + str(ticket['TicketID'])
+        headers = ['ID', 'Number', 'Age', 'Title', 'State', 'Lock', 'Queue',
+                   'Owner', 'CustomerID', 'Priority', 'Type', 'Created', 'DynamicField']
         human_readable = tableToMarkdown(title, output, headers=headers, removeNull=True)
 
         attachments_list = []
@@ -592,7 +616,9 @@ script:
                 human_readable_articles.append(currect_human_readable_article)
                 articles_list.append(current_article)
 
-            human_readable += tableToMarkdown('Articles', human_readable_articles, headers=['ID', 'From', 'Subject', 'Body', 'CreateTime', 'ContentType', 'Attachment'], removeNull=True)
+            human_readable += tableToMarkdown('Articles', human_readable_articles,
+                                              headers=['ID', 'From', 'Subject', 'Body', 'CreateTime',
+                                                       'ContentType', 'Attachment'], removeNull=True)
             output['Article'] = articles_list
 
         ec = {
@@ -610,11 +636,20 @@ script:
 
         demisto.results(attachments_list)
 
+
     def get_ticket(ticket_id):
 
         response = client.ticket_get_by_id(ticket_id, articles=True, attachments=True, dynamic_fields=True)
         raw_ticket = response.to_dct()['Ticket']
         return raw_ticket
+
+
+    def get_ticket_by_number(ticket_number):
+
+        response = client.ticket_get_by_number(ticket_number, articles=True, attachments=True, dynamic_fields=True)
+        raw_ticket = response.to_dct().get('Ticket')
+        return raw_ticket
+
 
     def search_ticket_command():
 
@@ -645,6 +680,7 @@ script:
                 raw_ticket = get_ticket(ticket_id)
                 ticket = {
                     'ID': str(raw_ticket['TicketID']),
+                    'Number': raw_ticket['TicketNumber'],
                     'Created': raw_ticket['Created'],
                     'Owner': raw_ticket['Owner'],
                     'Priority': raw_ticket['Priority'],
@@ -658,7 +694,7 @@ script:
                 'OTRS.Ticket(val.ID===obj.ID)': output
             }
             title = 'OTRS Search Results'
-            headers = ['ID', 'Title', 'Type', 'State', 'Priority', 'Queue', 'Created', 'Owner']
+            headers = ['ID', 'Number', 'Title', 'Type', 'State', 'Priority', 'Queue', 'Created', 'Owner']
 
             demisto.results({
                 'Type': entryTypes['note'],
@@ -670,6 +706,7 @@ script:
             })
         else:
             demisto.results('No results found')
+
 
     def search_ticket(states=None, created_before=None, created_after=None, title=None, queue=None, priority=None, ticket_type=None):
 
@@ -683,6 +720,7 @@ script:
             Types=ticket_type
         )
         return response
+
 
     def create_ticket_command():
 
@@ -729,7 +767,8 @@ script:
         ticket = create_ticket(new_ticket, article, df, attachments)
 
         context = {
-            'ID': ticket['TicketID'],
+            'ID': str(ticket['TicketID']),
+            'Number': ticket['TicketNumber'],
             'CustomerUser': customer_user,
             'Priority': priority,
             'Queue': queue,
@@ -756,10 +795,12 @@ script:
             'EntryContext': ec
         })
 
+
     def create_ticket(new_ticket, article, df, attachments):
 
         response = client.ticket_create(new_ticket, article, dynamic_fields=df, attachments=attachments)
         return response
+
 
     def update_ticket_command():
 
@@ -774,7 +815,8 @@ script:
         dynamic_fields = demisto.args().get('dynamic_fields')
         attachment = demisto.args().get('attachment')
 
-        if all(v is None for v in [title, queue, state, priority, article_subject, article_body, ticket_type, dynamic_fields, attachment]):
+        if all(v is None for v in [title, queue, state, priority, article_subject,
+                                   article_body, ticket_type, dynamic_fields, attachment]):
             return_error('No fields to update were given')
 
         if (article_subject and article_body is None) or (article_subject is None and article_body):
@@ -821,7 +863,7 @@ script:
         if title:
             context['Title'] = title
         if article:
-            context['Article'] = article
+            context['Article'] = article.to_dct()
         if ticket_type:
             context['Type'] = ticket_type
         ec = {
@@ -837,6 +879,7 @@ script:
             'HumanReadable': output,
             'EntryContext': ec
         })
+
 
     def close_ticket_command():
 
@@ -872,7 +915,9 @@ script:
             'EntryContext': ec
         })
 
-    def update_ticket(ticket_id, title=None, queue=None, state=None, priority=None, article=None, ticket_type=None, df=None, attachments=None):
+
+    def update_ticket(ticket_id, title=None, queue=None, state=None, priority=None,
+                      article=None, ticket_type=None, df=None, attachments=None):
 
         kwargs = {'Type': ticket_type}
 
@@ -889,6 +934,7 @@ script:
         )
         return response
 
+
     def fetch_incidents():
         last_run = demisto.getLastRun() and demisto.getLastRun()['time']
         if last_run:
@@ -903,10 +949,9 @@ script:
         else:
             queue = queue_list
 
+        priority = None
         if FETCH_PRIORITY:
             priority = [translate_priority(p) for p in FETCH_PRIORITY]
-        else:
-            priority = None
 
         tickets = search_ticket(created_after=last_run, queue=queue, priority=priority)
         incidents = []
@@ -919,7 +964,8 @@ script:
             incident = ticket_to_incident(ticket)
             incidents.append(incident)
             if first_ticket:
-                last_created = ticket['Created'] # First ticket fetched is the last created, so should set its creation time as last fetched ticket
+                # First ticket fetched is the last created, so should set its creation time as last fetched ticket
+                last_created = ticket['Created']
                 first_ticket = False
 
         demisto.incidents(incidents)
@@ -929,8 +975,9 @@ script:
 
         demisto.setLastRun({'time': last_created})
 
-    ''' EXECUTION CODE '''
 
+    ''' EXECUTION CODE '''
+    handle_proxy(demisto.params().get('proxy'))
     client = Client(SERVER, USERNAME, PASSWORD, https_verify=USE_SSL)
     client.session_create()
 
@@ -959,9 +1006,10 @@ script:
         elif demisto.command() == 'otrs-close-ticket':
             close_ticket_command()
 
-    except Exception, e:
-        LOG(e.message)
+    except Exception as e:
+        LOG(str(e))
         LOG.print_log()
-        return_error(e.message)
+        return_error(str(e))
+  subtype: python3
   type: python
 system: true

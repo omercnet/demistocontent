@@ -141,7 +141,7 @@ script:
       description: The brand (attack target) countered by the URL.
       type: String
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -374,5 +374,6 @@ script:
         LOG(str(e))
         LOG.print_log()
         raise
+  subtype: python3
   type: python
 system: true

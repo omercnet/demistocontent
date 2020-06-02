@@ -13,6 +13,18 @@ configuration:
   name: feed
   required: false
   type: 8
+- additionalinfo: Indicators from this integration instance will be marked with this
+    reputation
+  defaultvalue: feedInstanceReputationNotSet
+  display: Indicator Reputation
+  name: feedReputation
+  options:
+  - None
+  - Good
+  - Suspicious
+  - Bad
+  required: false
+  type: 18
 - additionalinfo: Reliability of the source providing the intelligence data
   defaultvalue: A - Completely reliable
   display: Source Reliability
@@ -26,16 +38,6 @@ configuration:
   - F - Reliability cannot be judged
   required: true
   type: 15
-- additionalinfo: To fetch malware and phishing indicators select "all".
-  defaultvalue: all
-  display: The threat type for which to fetch indicators
-  name: threat_type
-  options:
-  - all
-  - malware
-  - phish
-  required: false
-  type: 15
 - defaultvalue: indicatorType
   display: ""
   name: feedExpirationPolicy
@@ -48,31 +50,10 @@ configuration:
   type: 17
 - defaultvalue: "20160"
   display: ""
-  hidden: true
   name: feedExpirationInterval
   required: false
   type: 1
-- additionalinfo: Indicators from this integration instance will be marked with this
-    reputation
-  defaultvalue: feedInstanceReputationNotSet
-  display: Indicator Reputation
-  name: feedReputation
-  options:
-  - None
-  - Good
-  - Suspicious
-  - Bad
-  required: false
-  type: 18
-- additionalinfo: This value also will be used as an expiration time - all indicators
-    before the given time will not be fetched.
-  defaultvalue: 3 days
-  display: First fetch time range (<number> <time unit>, e.g., 1 hour, 30 minutes)
-  name: fetch_time
-  required: false
-  type: 0
-- additionalinfo: The frequency for fetching indicators from this feed (in minutes).
-  defaultvalue: "60"
+- defaultvalue: "60"
   display: Feed Fetch Interval
   name: feedFetchInterval
   required: false
@@ -85,6 +66,23 @@ configuration:
   name: feedBypassExclusionList
   required: false
   type: 8
+- additionalinfo: To fetch malware and phishing indicators select "all".
+  defaultvalue: all
+  display: The threat type for which to fetch indicators
+  name: threat_type
+  options:
+  - all
+  - malware
+  - phish
+  required: false
+  type: 15
+- additionalinfo: This value also will be used as an expiration time - all indicators
+    before the given time will not be fetched.
+  defaultvalue: 3 days
+  display: First fetch time range (<number> <time unit>, e.g., 1 hour, 30 minutes)
+  name: fetch_time
+  required: false
+  type: 0
 - defaultvalue: ""
   display: Trust any certificate (not secure)
   name: insecure
@@ -116,10 +114,10 @@ script:
       name: from_time
     description: Gets indicators from the feed.
     name: cofense-get-indicators
-  dockerimage: demisto/python3:3.8.1.5734
+  dockerimage: demisto/python3:3.8.3.8347
   feed: true
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -254,6 +252,9 @@ script:
                 value = block.get("data_1", {}).get("url")
             else:
                 value = block.get("data_1")
+                # If a domain has '*' in the value it is of type domainGlob
+                if indicator_type == FeedIndicatorType.Domain and '*' in value:
+                    indicator_type = FeedIndicatorType.DomainGlob
             return indicator_type, value
 
         @classmethod
@@ -279,8 +280,27 @@ script:
                 block["value"] = value
                 block["type"] = indicator
                 block["threat_id"] = threat_id
+                malware_family: dict = block.get("malwarefamily", {})
+                ip_detail: dict = block.get("ipDetail", {})
                 if indicator:
-                    results.append({"value": value, "type": indicator, "rawJSON": block})
+                    results.append({
+                        "value": value,
+                        "type": indicator,
+                        "rawJSON": block,
+                        "fields": {
+                            "name": threat_id,
+                            "malwarefamily": malware_family.get("familyName"),
+                            "description": malware_family.get("description"),
+                            "sourceoriginalseverity": block.get("impact"),
+                            "threattypes": {
+                                "threatcategoryconfidence": block.get("confidence"),
+                                "threatcategory": block.get("role")
+                            },
+                            "geocountry": ip_detail.get("countryIsoCode"),
+                            "geolocation": f'{ip_detail.get("latitude", "")},{ip_detail.get("longitude", "")}' if ip_detail
+                            else ""
+                        }
+                    })
 
             return results
 
@@ -294,7 +314,8 @@ script:
         Returns:
             str -- "ok" if succeeded, else raises a error.
         """
-        client.build_iterator()
+        for _ in client.build_iterator():
+            return "ok", {}, {}
         return "ok", {}, {}
 
 
@@ -403,6 +424,10 @@ script:
         # handle params
         url = "https://www.threathq.com"
         credentials = params.get("credentials", {})
+        if not credentials:
+            raise DemistoException("Credentials are empty. "
+                                   "Fill up the username/password fields in the integration configuration.")
+
         auth = (credentials.get("identifier"), credentials.get("password"))
         verify = not params.get("insecure")
         proxy = params.get("proxy")

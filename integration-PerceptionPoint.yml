@@ -39,12 +39,12 @@ configuration:
   required: false
   type: 13
 - defaultvalue: ""
-  display: Trust any certificate (insecure)
+  display: Trust any certificate (not secure)
   name: insecure
   required: false
   type: 8
 - defaultvalue: ""
-  display: Use system proxy
+  display: Use system proxy settings
   name: proxy
   required: false
   type: 8
@@ -59,7 +59,7 @@ detaileddescription: "## Get your PerceptionPoint API token\nTo get an API token
   results to return, specify the parameter \"Number of API loops\". Each loop returns
   a maximum of 20 items.\n- View and manage your incidents list. This list will be
   updated automatically in the Incidents dashboard.\n- Release emails from quarantine
-  and resend them to their recipients, by passing the scan ID as an argument.\n"
+  and resend them to their recipients, by passing the scan ID as an argument.\n\n"
 display: PerceptionPoint
 image: data:image/png;base64,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
 name: PerceptionPoint
@@ -78,7 +78,7 @@ script:
   dockerimage: demisto/python3:3.7.2.214
   isfetch: true
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -260,5 +260,6 @@ script:
         LOG(message)
         LOG.print_log()
         return_error(message)
+  subtype: python3
   type: python
 system: true

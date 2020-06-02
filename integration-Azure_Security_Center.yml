@@ -36,7 +36,7 @@ contentitemexportablefields:
 deprecated: true
 description: Unified security management and advanced threat protection across hybrid
   cloud workloads.
-detaileddescription: |
+detaileddescription: |-
   To grant access to Microsoft Security Center, an admin needs to approve Demisto using an admin consent flow. To start the admin consent flow, click [here](https://demistobot.demisto.com/azuresc-sub).
     After authorizing the Demisto app, you'll receive a tenant ID, which you should enter in the integration instance settings.
 display: Azure Security Center
@@ -230,7 +230,7 @@ script:
       description: The geo-location where the resource resides
       type: string
   runonce: false
-  script: |2-
+  script: |2
 
 
     """ IMPORTS """
@@ -1801,7 +1801,7 @@ script:
             delete_jit_command(demisto.args())
         elif demisto.command() == "azure-sc-list-storage":
             list_sc_storage_command()
-    except Exception, e:
+    except Exception as e:
         LOG(e.message)
         LOG.print_log()
         raise

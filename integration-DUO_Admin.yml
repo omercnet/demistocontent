@@ -35,7 +35,7 @@ contentitemexportablefields:
 description: |-
   DUO for admins.
   Must have access to the admin api in order to use this
-detaileddescription: |
+detaileddescription: |-
   DUO admin api provides programmatic access to the administrative functionality of Duo Security's two-factor authentication platform.
 
   To set up an instance you will need:
@@ -210,7 +210,7 @@ script:
     name: duoadmin-associate-device-to-user
   dockerimage: demisto/duoadmin:1.0.0.147
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -342,7 +342,7 @@ script:
 
 
     # Generic function that receives a result json, and turns it into an entryObject
-    def get_entry_for_object(title, obj, contents, context, headers=None, human_readable=None):
+    def get_entry_for_object(title, obj, contents, context, headers=None):
         if len(obj) == 0:
             return {
                 'Type': entryTypes['note'],
@@ -567,7 +567,7 @@ script:
         if demisto.command() == 'duoadmin-delete-u2f-token':
             delete_u2f_token(demisto.getArg('token_id'))
 
-    except Exception, e:
+    except Exception as e:
         return_error(e.message)
     sys.exit(0)
   subtype: python2

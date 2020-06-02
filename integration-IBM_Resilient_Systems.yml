@@ -19,7 +19,7 @@ configuration:
   required: true
   type: 0
 - defaultvalue: ""
-  display: Do not validate server certificate (insecure)
+  display: Trust any certificate (not secure)
   name: insecure
   required: false
   type: 8
@@ -38,6 +38,11 @@ configuration:
   name: incidentType
   required: false
   type: 13
+- defaultvalue: ""
+  display: 'First fetch timestamp (YYYY-MM-DDTHH:MM:SSZ). For example: 2020-02-02T19:00:00Z'
+  name: fetch_time
+  required: false
+  type: 0
 contentitemexportablefields:
   contentitemfields:
     propagationLabels:
@@ -280,6 +285,7 @@ script:
       type: string
     - contextPath: Resilient.Incidents.NistAttackVectors
       description: Incident NIST attack vectors
+      type: Unknown
   - arguments:
     - description: 'Incident ID to set its members '
       name: incident-id
@@ -456,19 +462,30 @@ script:
     - contextPath: Resilient.Incidents.Tasks.Status
       description: Task status (Open/Closed)
       type: string
-  dockerimage: demisto/resilient
+  dockerimage: demisto/resilient:1.0.0.7764
   isfetch: true
   runonce: false
-  script: |-
-    ''' IMPORTS '''
-    import resilient
-    import datetime
-    import logging
-    import requests
-    import time
+  script: |
     import json
+    import logging
+    import time
+
+    import requests
+
+
+    import resilient
+
+
+    ''' IMPORTS '''
+    logging.basicConfig()
+
     # disable insecure warnings
     requests.packages.urllib3.disable_warnings()
+    try:
+        resilient.co3.LOG.disable(logging.ERROR)
+    except Exception:
+        # client with no co3 instance should pass this exception
+        pass
 
     if not demisto.params()['proxy']:
         del os.environ['HTTP_PROXY']
@@ -477,11 +494,16 @@ script:
         del os.environ['https_proxy']
 
     ''' GLOBAL VARS '''
-    SERVER=demisto.params()['server'][:-1] if demisto.params()['server'].endswith('/') else demisto.params()['server']
-    ORG_NAME=demisto.params()['org']
-    USERNAME=demisto.params()['credentials']['identifier']
-    PASSWORD=demisto.params()['credentials']['password']
+    SERVER = demisto.params()['server'][:-1] if demisto.params()['server'].endswith('/') else demisto.params()['server']
+    ORG_NAME = demisto.params()['org']
+    USERNAME = demisto.params()['credentials']['identifier']
+    PASSWORD = demisto.params()['credentials']['password']
     USE_SSL = not demisto.params().get('insecure', False)
+    FETCH_TIME = demisto.params().get('fetch_time', '')
+    TIME_FORMAT = '%Y-%m-%dT%H:%M:%SZ'
+    if FETCH_TIME:
+        if FETCH_TIME[-1] != 'Z':
+            FETCH_TIME = FETCH_TIME + 'Z'
 
     INCIDENT_TYPE_DICT = {
         'CommunicationError': 17,
@@ -540,6 +562,13 @@ script:
         56: 'Resolved'
     }
 
+    RESOLUTION_TO_ID_DICT = {
+        'Unresolved': 53,
+        'Duplicate': 54,
+        'Not an Issue': 55,
+        'Resolved': 56
+    }
+
     EXP_TYPE_ID_DICT = {
         1: 'Unknown',
         2: 'ExternalParty',
@@ -547,12 +576,12 @@ script:
     }
 
     ''' HELPER FUNCTIONS '''
+
+
     def normalize_timestamp(timestamp):
         ''' Converts epoch timestamp to human readable timestamp '''
-        return datetime.datetime.fromtimestamp(timestamp/1000.0).strftime('%Y-%m-%dT%H:%M:%SZ')
+        return datetime.fromtimestamp(timestamp / 1000.0).strftime('%Y-%m-%dT%H:%M:%SZ')
 
-    def date_to_timestamp(date):
-        return int(time.mktime(time.strptime(date, '%Y-%m-%dT%H:%M:%SZ'))*1000)
 
     def prettify_incidents(incidents):
         users = get_users()
@@ -604,8 +633,11 @@ script:
 
 
     ''' FUNCTIONS '''
+
+
     def search_incidents_command(args):
         incidents = search_incidents(args)
+        entry = None
         if incidents:
             pretty_incidents = prettify_incidents(incidents)
             result_incidents = createContext(pretty_incidents, id=None, keyTransform=underscoreToCamelCase, removeNull=True)
@@ -618,12 +650,15 @@ script:
                 'Contents': incidents,
                 'ContentsFormat': formats['json'],
                 'ReadableContentsFormat': formats['markdown'],
-                'HumanReadable': tableToMarkdown(title, result_incidents, headers=['Id', 'Name', 'CreatedDate', 'DiscoveredDate', 'Owner', 'Phase'], removeNull=True),
+                'HumanReadable': tableToMarkdown(title, result_incidents,
+                                                 headers=['Id', 'Name', 'CreatedDate', 'DiscoveredDate', 'Owner', 'Phase'],
+                                                 removeNull=True),
                 'EntryContext': ec
             }
+            return entry
         else:
-            entry = 'No results found.'
-        return entry
+            return 'No results found.'
+
 
     def search_incidents(args):
         conditions = []
@@ -644,21 +679,21 @@ script:
                 'value': value
             })
         if 'date-created-before' in args:
-            value = date_to_timestamp(args['date-created-before'])
+            value = date_to_timestamp(args['date-created-before'], date_format='%Y-%m-%dT%H:%M:%SZ')
             conditions.append({
                 'field_name': 'create_date',
                 'method': 'lte',
                 'value': value
             })
         elif 'date-created-after' in args:
-            value = date_to_timestamp(args['date-created-after'])
+            value = date_to_timestamp(args['date-created-after'], date_format='%Y-%m-%dT%H:%M:%SZ')
             conditions.append({
                 'field_name': 'create_date',
                 'method': 'gte',
                 'value': value
             })
         elif 'date-created-within-the-last' in args:
-            if not 'timeframe' in args:
+            if 'timeframe' not in args:
                 raise Exception('Timeframe was not given.')
             within_the_last = int(args['date-created-within-the-last'])
             now = int(time.time())
@@ -669,32 +704,33 @@ script:
                 from_time = now - (60 * 60 * within_the_last)
             elif timeframe == 'minutes':
                 from_time = now - (60 * within_the_last)
-            conditions.extend(({
-                'field_name': 'create_date',
-                'method': 'lte',
-                'value': now*1000
-            },
-            {
-                'field_name': 'create_date',
-                'method': 'gte',
-                'value': from_time*1000
-            }))
+            conditions.extend((
+                {
+                    'field_name': 'create_date',
+                    'method': 'lte',
+                    'value': now * 1000
+                },
+                {
+                    'field_name': 'create_date',
+                    'method': 'gte',
+                    'value': from_time * 1000
+                }))
         if 'date-occurred-before' in args:
-            value = date_to_timestamp(args['date-occurred-before'])
+            value = date_to_timestamp(args['date-occurred-before'], date_format='%Y-%m-%dT%H:%M:%SZ')
             conditions.append({
                 'field_name': 'start_date',
                 'method': 'lte',
                 'value': value
             })
         elif 'date-occurred-after' in args:
-            value = date_to_timestamp(args['date-occurred-after'])
+            value = date_to_timestamp(args['date-occurred-after'], date_format='%Y-%m-%dT%H:%M:%SZ')
             conditions.append({
                 'field_name': 'start_date',
                 'method': 'gte',
                 'value': value
             })
         elif 'date-occurred-within-the-last' in args:
-            if not 'timeframe' in args:
+            if 'timeframe' not in args:
                 raise Exception('Timeframe was not given.')
             within_the_last = int(args['date-occurred-within-the-last'])
             now = int(time.time())
@@ -705,16 +741,17 @@ script:
                 from_time = now - (60 * 60 * within_the_last)
             elif timeframe == 'minutes':
                 from_time = now - (60 * within_the_last)
-            conditions.extend(({
-                'field_name': 'start_date',
-                'method': 'lte',
-                'value': now*1000
-            },
-            {
-                'field_name': 'start_date',
-                'method': 'gte',
-                'value': from_time*1000
-            }))
+            conditions.extend((
+                {
+                    'field_name': 'start_date',
+                    'method': 'lte',
+                    'value': now * 1000
+                },
+                {
+                    'field_name': 'start_date',
+                    'method': 'gte',
+                    'value': from_time * 1000
+                }))
         if 'incident-type' in args:
             type_id = INCIDENT_TYPE_DICT[args['incident-type']]
             conditions.append({
@@ -737,7 +774,7 @@ script:
                 'value': [status]
             })
         if 'due-in' in args:
-            if not 'timeframe' in args:
+            if 'timeframe' not in args:
                 raise Exception('Timeframe was not given.')
             within_the_last = int(args['due-in'])
             now = int(time.time())
@@ -748,16 +785,17 @@ script:
                 to_time = now + (60 * 60 * within_the_last)
             elif timeframe == 'minutes':
                 to_time = now + (60 * within_the_last)
-            conditions.extend(({
-                'field_name': 'due_date',
-                'method': 'lte',
-                'value': to_time*1000
-            },
-            {
-                'field_name': 'due_date',
-                'method': 'gte',
-                'value': now*1000
-            }))
+            conditions.extend((
+                {
+                    'field_name': 'due_date',
+                    'method': 'lte',
+                    'value': to_time * 1000
+                },
+                {
+                    'field_name': 'due_date',
+                    'method': 'gte',
+                    'value': now * 1000
+                }))
         data = {
             'filters': [{
                 'conditions': conditions
@@ -765,6 +803,7 @@ script:
         }
         response = client.post('/incidents/query', data)
         return response
+
 
     def update_incident_command(args):
         if len(args.keys()) == 1:
@@ -814,34 +853,34 @@ script:
         if 'incident-type' in args:
             old_value = incident['incident_type_ids']
             type_id = INCIDENT_TYPE_DICT[args['incident-type']]
-            new_value = old_value[:]
-            new_value.append(type_id)
+            new_value_list = old_value[:]
+            new_value_list.append(type_id)
             changes.append({
                 'field': 'incident_type_ids',
                 'old_value': {
                     'ids': old_value
                 },
                 'new_value': {
-                    'ids': new_value
+                    'ids': new_value_list
                 }
             })
         if 'nist' in args:
             old_value = incident['nist_attack_vectors']
-            nist_id = nist_to_id(args['nist'])
-            new_value = old_value[:]
-            new_value.append(nist_id)
+            nist_id = NIST_DICT[args['nist']]
+            new_value_list = old_value[:]
+            new_value_list.append(nist_id)
             changes.append({
                 'field': 'nist_attack_vectors',
                 'old_value': {
                     'ids': old_value
                 },
                 'new_value': {
-                    'ids': new_value
+                    'ids': new_value_list
                 }
             })
         if 'resolution' in args:
             old_value = incident['resolution_id']
-            new_value = resolution_to_id(args['resolution'])
+            new_value = RESOLUTION_TO_ID_DICT[args['resolution']]
             changes.append({
                 'field': 'resolution_id',
                 'old_value': {
@@ -906,9 +945,11 @@ script:
         if response.status_code == 200:
             return 'Incident ' + args['incident-id'] + ' was updated successfully.'
 
+
     def update_incident(incident_id, data):
         response = client.patch('/incidents/' + incident_id, data)
         return response
+
 
     def get_incident_command(incident_id):
         incident = get_incident(incident_id)
@@ -920,7 +961,8 @@ script:
         if incident['resolution_id']:
             pretty_incident['resolution'] = RESOLUTION_DICT[incident['resolution_id']]
         if incident['resolution_summary']:
-            pretty_incident['resolution_summary'] = incident['resolution_summary'].replace('<div>', '').replace('</div>', '')
+            pretty_incident['resolution_summary'] = incident['resolution_summary'].replace('<div>', '').replace('</div>',
+                                                                                                                '')
         pretty_incident = prettify_incidents([pretty_incident])
         result_incident = createContext(pretty_incident, id=None, keyTransform=underscoreToCamelCase, removeNull=True)
         ec = {
@@ -938,20 +980,26 @@ script:
             'Contents': incident,
             'ContentsFormat': formats['json'],
             'ReadableContentsFormat': formats['markdown'],
-            'HumanReadable': tableToMarkdown(title, hr_incident, headers = ['Id', 'Name', 'Description', 'NistAttackVectors', 'Phase', 'Resolution', 'ResolutionSummary', 'Owner',
-                                                                            'CreatedDate', 'DateOccurred', 'DiscoveredDate', 'DueDate', 'NegativePr', 'Confirmed', 'ExposureType',
-                                                                            'Severity', 'Reporter']),
+            'HumanReadable': tableToMarkdown(title, hr_incident,
+                                             headers=['Id', 'Name', 'Description', 'NistAttackVectors', 'Phase',
+                                                      'Resolution', 'ResolutionSummary', 'Owner',
+                                                      'CreatedDate', 'DateOccurred', 'DiscoveredDate', 'DueDate',
+                                                      'NegativePr', 'Confirmed', 'ExposureType',
+                                                      'Severity', 'Reporter']),
             'EntryContext': ec
         }
         return entry
+
 
     def get_incident(incident_id):
         response = client.get('/incidents/' + incident_id)
         return response
 
+
     def list_open_incidents():
         response = client.get('/incidents/open')
         return response
+
 
     def get_members_command(incident_id):
         response = get_members(incident_id)['members']
@@ -985,9 +1033,11 @@ script:
         }
         return entry
 
+
     def get_members(incident_id):
         response = client.get('/incidents/' + incident_id + '/members')
         return response
+
 
     def get_users_command():
         response = get_users()
@@ -1010,13 +1060,16 @@ script:
         }
         return entry
 
+
     def get_users():
         response = client.get('/users')
         return response
 
+
     def get_phases():
         response = client.get('/phases')
         return response
+
 
     def get_tasks_command(incident_id):
         response = get_tasks(incident_id)
@@ -1053,16 +1106,20 @@ script:
                 'Contents': response,
                 'ContentsFormat': formats['json'],
                 'ReadableContentsFormat': formats['markdown'],
-                'HumanReadable': tableToMarkdown(title, tasks, ['ID', 'Name', 'Category', 'Form', 'Status', 'DueDate', 'Instructions', 'UserNotes', 'Required', 'Creator']),
+                'HumanReadable': tableToMarkdown(title, tasks,
+                                                 ['ID', 'Name', 'Category', 'Form', 'Status', 'DueDate', 'Instructions',
+                                                  'UserNotes', 'Required', 'Creator']),
                 'EntryContext': ec
             }
+            return entry
         else:
-            entry = 'No tasks found for this incident.'
-        return entry
+            return 'No tasks found for this incident.'
+
 
     def get_tasks(incident_id):
         response = client.get('/incidents/' + incident_id + '/tasks')
         return response
+
 
     def set_member_command(incident_id, members):
         members = [int(x) for x in members.split(',')]
@@ -1074,35 +1131,38 @@ script:
         }
         response = set_member(incident_id, data)
         users = get_users()
-        response = []
-        for user in users:
-            if user['id'] in members:
-                response.append({
-                    'FirstName': user['fname'],
-                    'LastName': user['lname'],
-                    'ID': user['id'],
-                    'Email': user['email']
-                })
-        ec = {
-            'Resilient.Incidents(val.Id && val.Id === obj.Id)': {
-                'Id': incident_id,
-                'Members': response
+        entry = {}
+        if response:
+            for user in users:
+                if user['id'] in members:
+                    response.append({
+                        'FirstName': user['fname'],
+                        'LastName': user['lname'],
+                        'ID': user['id'],
+                        'Email': user['email']
+                    })
+            ec = {
+                'Resilient.Incidents(val.Id && val.Id === obj.Id)': {
+                    'Id': incident_id,
+                    'Members': response
+                }
             }
-        }
-        title = 'Members of incident ' + incident_id
-        entry = {
-            'Type': entryTypes['note'],
-            'Contents': response,
-            'ContentsFormat': formats['json'],
-            'ReadableContentsFormat': formats['markdown'],
-            'HumanReadable': tableToMarkdown(title, response),
-            'EntryContext': ec
-        }
+            title = 'Members of incident ' + incident_id
+            entry = {
+                'Type': entryTypes['note'],
+                'Contents': response,
+                'ContentsFormat': formats['json'],
+                'ReadableContentsFormat': formats['markdown'],
+                'HumanReadable': tableToMarkdown(title, response),
+                'EntryContext': ec
+            }
         return entry
+
 
     def set_member(incident_id, data):
         response = client.put('/incidents/' + incident_id + '/members', data)
         return response
+
 
     def close_incident_command(incident_id):
         incident = get_incident(incident_id)
@@ -1111,6 +1171,7 @@ script:
         response = close_incident(incident_id, incident)
         if response.status_code == 200:
             return 'Incident ' + incident_id + ' was closed.'
+
 
     def close_incident(incident_id, incident):
         old_status = incident['plan_status']
@@ -1126,6 +1187,7 @@ script:
             }]
         }
         return update_incident(incident_id, data)
+
 
     def create_incident_command(args):
         incident_name = args['name']
@@ -1155,9 +1217,11 @@ script:
         }
         return entry
 
+
     def create_incident(data):
         response = client.post('/incidents', data)
         return response
+
 
     def incident_artifacts_command(incident_id):
         response = incident_artifacts(incident_id)
@@ -1212,20 +1276,24 @@ script:
                 'Contents': response,
                 'ContentsFormat': formats['json'],
                 'ReadableContentsFormat': formats['markdown'],
-                'HumanReadable': tableToMarkdown(title, hr_artifacts, headers=['ID', 'Value', 'Description', 'CreatedDate', 'Creator']),
+                'HumanReadable': tableToMarkdown(title, hr_artifacts,
+                                                 headers=['ID', 'Value', 'Description', 'CreatedDate', 'Creator']),
                 'EntryContext': ec
             }
+            return entry
         else:
-            entry = 'No artifacts found.'
-        return entry
+            return 'No artifacts found.'
+
 
     def incident_artifacts(incident_id):
         response = client.get('/incidents/' + incident_id + '/artifacts')
         return response
 
+
     def get_artifact_type(artifact_id):
         response = client.get('/artifact_types/' + str(artifact_id))
         return response['name']
+
 
     def incident_attachments_command(incident_id):
         response = incident_attachments(incident_id)
@@ -1264,13 +1332,15 @@ script:
                 'HumanReadable': tableToMarkdown(title, attachments),
                 'EntryContext': ec
             }
+            return entry
         else:
-            entry = 'No attachments found.'
-        return entry
+            return 'No attachments found.'
+
 
     def incident_attachments(incident_id):
         response = client.get('/incidents/' + incident_id + '/attachments')
         return response
+
 
     def related_incidents_command(incident_id):
         response = related_incidents(incident_id)['incidents']
@@ -1320,42 +1390,76 @@ script:
                 'HumanReadable': tableToMarkdown(title, hr_incidents),
                 'EntryContext': ec
             }
+            return entry
         else:
-            entry = 'No related incidents found.'
-        return entry
+            return 'No related incidents found.'
+
 
     def related_incidents(incident_id):
         response = client.get('/incidents/' + incident_id + '/related_ex?want_artifacts=true')
         return response
 
+
     def fetch_incidents():
-        now = int(time.time())
-        last_run = demisto.getLastRun() and demisto.getLastRun()['time']
+        last_run = demisto.getLastRun() and demisto.getLastRun().get('time')
         if not last_run:
-            now -= 600 # In the first run, fetch incidents from the last 10 minutes
-            last_run = now
-        args = {'date-created-after': normalize_timestamp(last_run*1000)}
+            last_run = date_to_timestamp(FETCH_TIME, date_format='%Y-%m-%dT%H:%M:%SZ')
+            args = {'date-created-after': FETCH_TIME}
+        else:
+            args = {'date-created-after': normalize_timestamp(last_run)}
+
         resilient_incidents = search_incidents(args)
         incidents = []
-        for incident in resilient_incidents:
-            artifacts = incident_artifacts(str(incident['id']))
-            if artifacts:
-                incident['artifacts'] = artifacts
-            attachments = incident_attachments(str(incident['id']))
-            if attachments:
-                incident['attachments'] = attachments
-            demisto_incident = {}
-            if isinstance(incident['description'], unicode):
-                incident['description'] = incident['description'].replace('<div>', '').replace('</div>', '')
-            incident['discovered_date'] = normalize_timestamp(incident['discovered_date'])
-            incident['create_date'] = normalize_timestamp(incident['create_date'])
-            demisto_incident['name'] = 'IBM Resilient Systems incident ID ' + str(incident['id'])
-            demisto_incident['occurred'] = incident['create_date']
-            demisto_incident['rawJSON'] = json.dumps(incident)
-            incidents.append(demisto_incident)
 
+        if resilient_incidents:
+            last_incident_creation_time = resilient_incidents[0].get('create_date')  # the first incident's creation time
+
+            for incident in resilient_incidents:
+                incident_creation_time = incident.get('create_date')
+                if incident_creation_time > last_run:  # timestamp in milliseconds
+                    artifacts = incident_artifacts(str(incident.get('id', '')))
+                    if artifacts:
+                        incident['artifacts'] = artifacts
+                    attachments = incident_attachments(str(incident.get('id', '')))
+                    if attachments:
+                        incident['attachments'] = attachments
+                    if isinstance(incident.get('description'), unicode):
+                        incident['description'] = incident['description'].replace('<div>', '').replace('</div>', '')
+
+                    incident['discovered_date'] = normalize_timestamp(incident.get('discovered_date'))
+                    incident['create_date'] = normalize_timestamp(incident_creation_time)
+
+                    demisto_incident = dict()  # type: dict
+
+                    demisto_incident['name'] = 'IBM Resilient Systems incident ID ' + str(incident['id'])
+                    demisto_incident['occurred'] = incident['create_date']
+                    demisto_incident['rawJSON'] = json.dumps(incident)
+
+                    incidents.append(demisto_incident)
+
+                    # updating last creation time if needed
+                    if incident_creation_time > last_incident_creation_time:
+                        last_incident_creation_time = incident_creation_time
+
+            demisto.setLastRun({'time': last_incident_creation_time})
         demisto.incidents(incidents)
-        demisto.setLastRun({'time': now})
+
+
+    def test():
+        """Verify that the first_fetch parameter is according to the standards, if exists.
+
+        Returns:
+            'ok' if test passed, anything else will fail the test.
+        """
+
+        if FETCH_TIME:
+            try:
+                datetime.strptime(FETCH_TIME, TIME_FORMAT)
+            except ValueError as error:
+                return_error('There is something wrong with the fetch date. Error: {}'.format(error))
+
+        demisto.results('ok')
+
 
     ''' EXECUTION CODE '''
     client = resilient.get_client({
@@ -1364,17 +1468,17 @@ script:
         'host': SERVER,
         'cafile': 'true' if USE_SSL else 'false',
         'org': ORG_NAME
-        })
+    })
 
     # Disable SDK logging warning messages
-    logger = logging.getLogger('resilient')
-    logger.propagate = False
+    integration_logger = logging.getLogger('resilient')  # type: logging.Logger
+    integration_logger.propagate = False
 
-    LOG('command is %s' % (demisto.command(), ))
+    LOG('command is %s' % (demisto.command(),))
     try:
         if demisto.command() == 'test-module':
             # Checks if there is an authenticated session
-            demisto.results('ok')
+            test()
         elif demisto.command() == 'fetch-incidents':
             fetch_incidents()
         elif demisto.command() == 'rs-search-incidents':
@@ -1406,5 +1510,6 @@ script:
         LOG(e.message)
         LOG.print_log()
         raise
+  subtype: python3
   type: python
 system: true

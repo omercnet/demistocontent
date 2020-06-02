@@ -97,7 +97,7 @@ script:
       type: Unknown
   dockerimage: demisto/bigquery:1.0.0.239
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -107,6 +107,7 @@ script:
     import json
     import requests
     from google.cloud import bigquery
+    from datetime import date
 
 
     # Disable insecure warnings
@@ -117,7 +118,7 @@ script:
 
     TEST_QUERY = ('SELECT name FROM `bigquery-public-data.usa_names.usa_1910_2013` '
                   'WHERE state = "TX" '
-                  'LIMIT 100')
+                  'LIMIT 10')
 
 
     ''' HELPER FUNCTIONS '''
@@ -200,6 +201,8 @@ script:
     def convert_to_string_if_datetime(object_that_may_be_datetime):
         if isinstance(object_that_may_be_datetime, datetime):
             return object_that_may_be_datetime.strftime("%m/%d/%Y %H:%M:%S")
+        if isinstance(object_that_may_be_datetime, date):
+            return object_that_may_be_datetime.strftime("%m/%d/%Y")
         else:
             return object_that_may_be_datetime
 

@@ -63,7 +63,7 @@ script:
       description: The indicator that was tested.
       type: string
     - contextPath: DBotScore.Score
-      description: The indicator score.
+      description: The actual score.
       type: number
     - contextPath: DBotScore.Type
       description: The indicator type.
@@ -121,7 +121,7 @@ script:
       description: The indicator that was tested.
       type: string
     - contextPath: DBotScore.Score
-      description: The indicator score.
+      description: The actual score.
       type: number
     - contextPath: DBotScore.Type
       description: The indicator type.
@@ -179,7 +179,7 @@ script:
       description: The indicator that was tested.
       type: string
     - contextPath: DBotScore.Score
-      description: The indicator score.
+      description: The actual score.
       type: number
     - contextPath: DBotScore.Type
       description: The indicator type.
@@ -228,7 +228,7 @@ script:
       description: The indicator that was tested.
       type: string
     - contextPath: DBotScore.Score
-      description: The indicator score.
+      description: The actual score.
       type: number
     - contextPath: DBotScore.Type
       description: The indicator type.
@@ -269,6 +269,9 @@ script:
     - contextPath: URL.Malicious.Vendor
       description: Vendor of malicious url.
       type: string
+    - contextPath: URL.Data
+      description: The URL
+      type: string
   - arguments:
     - default: true
       description: A list of hashes of the file to query. Supports MD5, SHA1 and SHA256.
@@ -283,7 +286,7 @@ script:
       description: The indicator that was tested.
       type: string
     - contextPath: DBotScore.Score
-      description: The indicator score.
+      description: The actual score.
       type: number
     - contextPath: DBotScore.Type
       description: The indicator type.
@@ -353,7 +356,7 @@ script:
       description: The indicator that was tested.
       type: string
     - contextPath: DBotScore.Score
-      description: The indicator score.
+      description: The actual score.
       type: number
     - contextPath: DBotScore.Type
       description: The indicator type.
@@ -509,7 +512,7 @@ script:
       description: The indicator that was tested.
       type: string
     - contextPath: DBotScore.Score
-      description: The indicator score.
+      description: The actual score.
       type: number
     - contextPath: DBotScore.Type
       description: The indicator type.
@@ -648,9 +651,9 @@ script:
     outputs:
     - contextPath: Flashpoint.Forum.Post
       description: A list of forum posts based on the search keyword.
-  dockerimage: demisto/python3:3.7.5.4583
+  dockerimage: demisto/python3:3.8.2.6981
   runonce: false
-  script: |2-
+  script: |2
 
 
     """ IMPORTS """
@@ -1260,6 +1263,7 @@ script:
 
             url_context = {
                 'Name': url,
+                'Data': url,
                 'Malicious': {
                     'Vendor': 'Flashpoint',
                     'Description': 'Found in malicious indicators dataset'
@@ -1354,12 +1358,21 @@ script:
                 }
                 flashpoint_file_context.append(event)
 
-            dbot_context = {
-                'Indicator': file,
-                'Type': indicator_type,
-                'Vendor': 'Flashpoint',
-                'Score': 3
-            }
+            dbot_context = [
+                {
+                    'Indicator': file,
+                    'Type': 'hash',
+                    'Vendor': 'Flashpoint',
+                    'Score': 3
+                },
+
+                {
+                    'Indicator': file,
+                    'Type': 'file',
+                    'Vendor': 'Flashpoint',
+                    'Score': 3
+                }
+            ]
 
             file_context = {
                 indicator_type: file,
@@ -1381,12 +1394,22 @@ script:
             hr = '### Flashpoint File reputation for ' + file + '\n'
             hr += 'Reputation: Unknown\n\n'
             ec = {
-                'DBotScore': {
-                    'Indicator': file,
-                    'Type': 'file',
-                    'Vendor': 'Flashpoint',
-                    'Score': 0
-                }
+                'DBotScore':
+                    [
+                        {
+                            'Indicator': file,
+                            'Type': 'file',
+                            'Vendor': 'Flashpoint',
+                            'Score': 0
+                        },
+                        {
+                            'Indicator': file,
+                            'Type': 'hash',
+                            'Vendor': 'Flashpoint',
+                            'Score': 0
+                        }
+
+                    ]
             }
 
             return hr, ec, resp

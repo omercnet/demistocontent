@@ -13,13 +13,13 @@ configuration:
   name: credentials
   required: true
   type: 9
-- defaultvalue: "true"
-  display: Trust any certificate (unsecure)
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
   name: insecure
   required: false
   type: 8
 - defaultvalue: ""
-  display: Use system proxy
+  display: Use system proxy settings
   name: proxy
   required: false
   type: 8
@@ -96,18 +96,18 @@ script:
     - contextPath: IP.Malcious.Description
       description: For malicious IPs, the reason that the vendor made the decision
       type: String
+    - contextPath: DBotScore.Indicator
+      description: The indicator that was tested.
+      type: String
     - contextPath: DBotScore.Type
-      description: Indicator type
+      description: The indicator type.
       type: String
     - contextPath: DBotScore.Vendor
-      description: Vendor used to calculate the score
+      description: The vendor used to calculate the score.
       type: String
     - contextPath: DBotScore.Score
-      description: The actual score
+      description: The actual score.
       type: Number
-    - contextPath: DBotScore.Indicator
-      description: The indicator that was tested
-      type: String
   - arguments:
     - default: true
       description: URL observable to get the reputation of
@@ -140,18 +140,18 @@ script:
     - contextPath: URL.Malcious.Description
       description: For malicious URLs, the reason that the vendor made the decision
       type: String
+    - contextPath: DBotScore.Indicator
+      description: The indicator that was tested.
+      type: String
     - contextPath: DBotScore.Type
-      description: Indicator type
+      description: The indicator type.
       type: String
     - contextPath: DBotScore.Vendor
-      description: Vendor used to calculate the score
+      description: The vendor used to calculate the score.
       type: String
     - contextPath: DBotScore.Score
-      description: The actual score
+      description: The actual score.
       type: Number
-    - contextPath: DBotScore.Indicator
-      description: The indicator that was tested
-      type: String
   - arguments:
     - default: true
       description: File hash observable to get the reputation of
@@ -202,18 +202,18 @@ script:
     - contextPath: File.Malcious.Description
       description: For malicious files, the reason that the vendor made the decision
       type: String
+    - contextPath: DBotScore.Indicator
+      description: The indicator that was tested.
+      type: String
     - contextPath: DBotScore.Type
-      description: Indicator type
+      description: The indicator type.
       type: String
     - contextPath: DBotScore.Vendor
-      description: Vendor used to calculate the score
+      description: The vendor used to calculate the score.
       type: String
     - contextPath: DBotScore.Score
-      description: The actual score
+      description: The actual score.
       type: Number
-    - contextPath: DBotScore.Indicator
-      description: The indicator that was tested
-      type: String
   - arguments:
     - default: true
       description: Observable ID to get entity information for (can be retrieved from
@@ -299,18 +299,18 @@ script:
       description: For malicious email addresses, the reason that the vendor made
         the decision
       type: String
+    - contextPath: DBotScore.Indicator
+      description: The indicator that was tested.
+      type: String
     - contextPath: DBotScore.Type
-      description: Indicator type
+      description: The indicator type.
       type: String
     - contextPath: DBotScore.Vendor
-      description: Vendor used to calculate the score
+      description: The vendor used to calculate the score.
       type: String
     - contextPath: DBotScore.Score
-      description: The actual score
+      description: The actual score.
       type: Number
-    - contextPath: DBotScore.Indicator
-      description: The indicator that was tested
-      type: String
   - arguments:
     - default: true
       description: Domain observable to get the reputation of
@@ -343,20 +343,20 @@ script:
     - contextPath: Domain.Malcious.Description
       description: For malicious domains, the reason that the vendor made the decision
       type: String
+    - contextPath: DBotScore.Indicator
+      description: The indicator that was tested.
+      type: String
     - contextPath: DBotScore.Type
-      description: Indicator type
+      description: The indicator type.
       type: String
     - contextPath: DBotScore.Vendor
-      description: Vendor used to calculate the score
+      description: The vendor used to calculate the score.
       type: String
     - contextPath: DBotScore.Score
-      description: The actual score
+      description: The actual score.
       type: Number
-    - contextPath: DBotScore.Indicator
-      description: The indicator that was tested
-      type: String
   runonce: false
-  script: |-
+  script: |
     ''' IMPORTS '''
 
 
@@ -1147,5 +1147,6 @@ script:
             command_func()
     except Exception as e:
         return_error('Error has occurred in EclecticIQ integration: {}\n {}'.format(type(e), e.message))
+  subtype: python2
   type: python
 system: true

@@ -56,8 +56,9 @@ contentitemexportablefields:
   contentitemfields:
     propagationLabels:
     - all
-description: TruSTAR's threat intelligence platform enriches every stage of the security
-  operations workflow from the trusted and relevant data sources.
+description: TruSTAR is an Intelligence Management Platform that helps you operationalize
+  data across tools and teams, helping you prioritize investigations and accelerate
+  incident response.
 display: TruSTAR
 image: data:image/png;base64,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
 name: TruSTAR
@@ -451,6 +452,7 @@ script:
       - LOW
       - MEDIUM
       - HIGH
+    deprecated: true
     description: Check file reputation on TruSTAR
     name: file
     outputs:
@@ -501,6 +503,7 @@ script:
       - LOW
       - MEDIUM
       - HIGH
+    deprecated: true
     description: Check IP Reputation on TruSTAR
     name: ip
     outputs:
@@ -545,6 +548,7 @@ script:
       - LOW
       - MEDIUM
       - HIGH
+    deprecated: true
     description: Check URL reputation on TruSTAR
     name: url
     outputs:
@@ -590,6 +594,7 @@ script:
       - LOW
       - MEDIUM
       - HIGH
+    deprecated: true
     description: Check Domain reputation on TruStar
     name: domain
     outputs:
@@ -623,18 +628,126 @@ script:
     - contextPath: TruSTAR.Domain.Priority
       description: Indicator's priority level by TruSTAR - LOW, MEDIUM or HIGH
       type: string
-  dockerimage: demisto/trustar
+  - arguments:
+    - defaultValue: -1,0,1,2,3
+      description: Score of email submission
+      isArray: true
+      name: priority_event_score
+    - description: Start of time window (defaults to 24 hours ago) (YYYY-MM-DD HH:MM:SS)
+      name: from_time
+    - description: End of time window (defaults to current time) (YYYY-MM-DD HH:MM:SS)
+      name: to_time
+    - auto: PREDEFINED
+      defaultValue: UNRESOLVED
+      description: A list of triage statuses for submissions (UNRESOLVED,CONFIRMED,IGNORED);
+        only email submissions marked with at least one of these statuses will be
+        returned
+      isArray: true
+      name: status
+      predefined:
+      - UNRESOLVED
+      - CONFIRMED
+      - IGNORED
+    description: Fetches all phishing submissions that fit the given criteria
+    name: trustar-get-phishing-submissions
+    outputs:
+    - contextPath: TruSTAR.PhishingSubmission.submissionId
+      description: The submission ID
+      type: string
+    - contextPath: TruSTAR.PhishingSubmission.title
+      description: Submission title
+      type: string
+    - contextPath: TruSTAR.PhishingSubmission.priorityEventScore
+      description: Submission triage score
+      type: number
+    - contextPath: TruSTAR.PhishingSubmission.context.indicatorType
+      description: Indicator type
+      type: string
+    - contextPath: TruSTAR.PhishingSubmission.context.sourceKey
+      description: Indicator source
+      type: string
+    - contextPath: TruSTAR.PhishingSubmission.context.normalizedIndicatorScore
+      description: Indicator score
+      type: number
+    - contextPath: TruSTAR.PhishingSubmission.context.originalIndicatorScore.name
+      description: Original Indicator score name
+      type: string
+    - contextPath: TruSTAR.PhishingSubmission.context.originalIndicatorScore.value
+      description: Original Indicator score value
+      type: string
+  - arguments:
+    - description: ID of the email submission
+      name: submission_id
+      required: true
+    - auto: PREDEFINED
+      description: Submission status
+      name: status
+      predefined:
+      - CONFIRMED
+      - IGNORED
+      required: true
+    description: Marks a phishing email submission with one of the phishing namespace
+      tags
+    name: trustar-set-triage-status
+  - arguments:
+    - defaultValue: -1,0,1,2,3
+      description: Intel score of the indicator
+      isArray: true
+      name: normalized_indicator_score
+    - defaultValue: -1,0,1,2,3
+      description: Score of email submission
+      isArray: true
+      name: priority_event_score
+    - description: Start of time window (defaults to 24 hours ago) (YYYY-MM-DD HH:MM:SS)
+      name: from_time
+    - description: End of time window (defaults to current time) (YYYY-MM-DD HH:MM:SS)
+      name: to_time
+    - auto: PREDEFINED
+      defaultValue: UNRESOLVED,CONFIRMED,IGNORED
+      description: A list of triage statuses for submissions; only email submissions
+        marked with at least one of these statuses will be returned. Options are 'UNRESOLVED',
+        'CONFIRMED', 'IGNORED'
+      isArray: true
+      name: status
+      predefined:
+      - UNRESOLVED
+      - CONFIRMED
+      - IGNORED
+    description: Get phishing indicators that match the given criteria.
+    name: trustar-get-phishing-indicators
+    outputs:
+    - contextPath: TruSTAR.PhishingIndicator.indicatorType
+      description: Indicator Type
+      type: string
+    - contextPath: TruSTAR.PhishingIndicator.normalizedIndicatorScore
+      description: Indicator normalized score
+      type: number
+    - contextPath: TruSTAR.PhishingIndicator.originalIndicatorScore.name
+      description: Indicator original score name
+      type: string
+    - contextPath: TruSTAR.PhishingIndicator.originalIndicatorScore.value
+      description: Indicator original score value
+      type: string
+    - contextPath: TruSTAR.PhishingIndicator.sourceKey
+      description: Indicator source key
+      type: string
+    - contextPath: TruSTAR.PhishingIndicator.value
+      description: Indicator value
+      type: string
+  dockerimage: demisto/trustar:20.1.0.8039
   runonce: false
-  script: |2-
+  script: |
+    import base64
+    import collections
+    import time
 
+
+    import requests
+
+
+    import trustar
 
     ''' IMPORTS '''
-    import requests
-    import time
-    import trustar
-    import collections
-    from trustar.models.indicator import Indicator
-    from trustar.models.page import Page
 
     handle_proxy()
 
@@ -651,7 +764,9 @@ script:
     ''' HELPER FUNCTIONS '''
 
 
-    def translate_indicators(ts_indicators):
+    def translate_indicators(ts_indicators, context_path=''):
+        if context_path and context_path[-1] != '.':
+            context_path += '.'
         indicators = []
         file_context = []
         url_context = []
@@ -660,9 +775,8 @@ script:
         key_context = []
         cve_context = []
         for indicator in ts_indicators:
-            current_indicator = indicator.to_dict(remove_nones=True)
+            current_indicator = indicator if isinstance(indicator, dict) else indicator.to_dict(remove_nones=True)
             indicator_type = current_indicator['indicatorType']
-            priority_level = current_indicator.get('priorityLevel')
             value = current_indicator['value']
             if indicator_type == 'SOFTWARE':
                 # Extracts the filename out of file path
@@ -672,55 +786,53 @@ script:
                     file_name = value.split('/')[-1]  # Handles file path with slash
                 current_indicator['value'] = file_name
                 context_dict = {'Name': file_name}
-                if priority_level:
-                    context_dict.update({'priorityLevel': priority_level})
                 file_context.append(context_dict)
             elif indicator_type in {'SHA256', 'SHA1', 'MD5'}:
                 context_dict = {indicator_type: value}
-                if priority_level:
-                    context_dict.update({'priorityLevel': priority_level})
                 file_context.append(context_dict)
             elif indicator_type == 'URL':
                 context_dict = {'Address': value}
-                if priority_level:
-                    context_dict.update({'priorityLevel': priority_level})
                 url_context.append(context_dict)
             elif indicator_type == 'IP':
                 context_dict = {'Address': value}
-                if priority_level:
-                    context_dict.update({'priorityLevel': priority_level})
                 ip_context.append(context_dict)
             elif indicator_type == 'EMAIL_ADDRESS':
                 context_dict = {'Address': value}
-                if priority_level:
-                    context_dict.update({'priorityLevel': priority_level})
                 email_context.append(context_dict)
             elif indicator_type == 'REGISTRY_KEY':
                 context_dict = {'Path': value}
-                if priority_level:
-                    context_dict.update({'priorityLevel': priority_level})
                 key_context.append(context_dict)
             elif indicator_type == 'CVE':
                 context_dict = {'ID': value}
-                if priority_level:
-                    context_dict.update({'priorityLevel': priority_level})
                 cve_context.append(context_dict)
             indicators.append(current_indicator)
         # Build Entry Context
         ec = {}
         if file_context:
-            ec['File(val.Name && val.Name === obj.Name)'] = file_context
+            ec['{}File(val.Name && val.Name === obj.Name)'.format(context_path)] = file_context
         if url_context:
-            ec['URL(val.Address && val.Address === obj.Address)'] = url_context
+            ec['{}URL(val.Address && val.Address === obj.Address)'.format(context_path)] = url_context
         if ip_context:
-            ec['IP(val.Address && val.Address === obj.Address)'] = ip_context
+            ec['{}IP(val.Address && val.Address === obj.Address)'.format(context_path)] = ip_context
         if email_context:
-            ec['Account.Email(val.Address && val.Address === obj.Address)'] = email_context
+            ec['{}Account.Email(val.Address && val.Address === obj.Address)'.format(context_path)] = email_context
         if key_context:
-            ec['RegistryKey(val.Path && val.Path === obj.Path)'] = key_context
+            ec['{}RegistryKey(val.Path && val.Path === obj.Path)'.format(context_path)] = key_context
         if cve_context:
-            ec['CVE(val.ID && val.ID === obj.ID)'] = cve_context
+            ec['{}CVE(val.ID && val.ID === obj.ID)'.format(context_path)] = cve_context
         return indicators, ec
+
+
+    def translate_triage_submission(submissions):
+        submission_dicts = [s.to_dict(remove_nones=True) for s in submissions]
+        ec = {'TruSTAR.PhishingSubmission(val.submissionId == obj.submissionId)': submission_dicts}
+        return submission_dicts, ec
+
+
+    def translate_phishing_indicators(indicators):
+        indicator_dicts = [i.to_dict(remove_nones=True) for i in indicators]
+        ec = {'TruSTAR.PhishingIndicator(val.value == obj.value)': indicator_dicts}
+        return indicator_dicts, ec
 
 
     def translate_specific_indicators(ts_indicators, specific_types):
@@ -728,13 +840,11 @@ script:
         for indicator in ts_indicators:
             current_indicator = indicator.to_dict(remove_nones=True)
             indicator_type = current_indicator['indicatorType']
-            priority_level = current_indicator.get('priorityLevel')
             value = current_indicator['value']
             whitelisted = current_indicator.get('whitelisted')
             if indicator_type in specific_types:
                 res.append({
                     'value': value,
-                    'priorityLevel': priority_level,
                     'whitelisted': whitelisted,
                     'indicatorType': indicator_type
                 })
@@ -766,6 +876,9 @@ script:
 
 
     def create_file_ec(indicators, file, threshold):
+        '''DEPRECATED this function relies on priorityLevel score which TruSTAR no longer supports.
+        This function will be removed in a future release
+        '''
         if not indicators:
             return {
                 'DBotScore': {
@@ -809,6 +922,9 @@ script:
 
 
     def create_ip_ec(indicators, ip, threshold):
+        '''DEPRECATED this function relies on priorityLevel score which TruSTAR no longer supports.
+        This function will be removed in a future release
+        '''
         if not indicators:
             return {
                 'DBotScore': {
@@ -852,6 +968,9 @@ script:
 
 
     def create_url_ec(indicators, url, threshold):
+        '''DEPRECATED this function relies on priorityLevel score which TruSTAR no longer supports.
+        This function will be removed in a future release
+        '''
         if not indicators:
             return {
                 'DBotScore': {
@@ -895,6 +1014,9 @@ script:
 
 
     def create_domain_ec(indicators, url, threshold):
+        '''DEPRECATED this function relies on priorityLevel score which TruSTAR no longer supports.
+        This function will be removed in a future release
+        '''
         if not indicators:
             return {
                 'DBotScore': {
@@ -937,13 +1059,17 @@ script:
         }
 
 
+    def encode_cursor(page_size, page_number):
+        cursor = '{' + '"pageSize":{},"pageNumber":{}'.format(page_size, page_number) + '}'
+        return base64.b64encode(cursor.encode()).decode()
+
+
     ''' FUNCTIONS '''
 
 
     def get_related_indicators(indicators, enclave_ids, page_size, page_number):
         # To display priority score
         items_list = []
-        indicators_json = dict()
         related_indicator_response = ts.get_related_indicators_page(indicators, enclave_ids, page_size, page_number)
         for related_indicator in related_indicator_response:
             current_indicator = related_indicator.to_dict(remove_nones=True)
@@ -952,14 +1078,9 @@ script:
             for found_indicator in search_indicator_response:
                 current_found_indicator = found_indicator.to_dict(remove_nones=True)
                 if current_indicator['value'] == current_found_indicator['value']:
-                    current_indicator['priorityLevel'] = current_found_indicator['priorityLevel']
                     break
-            if not current_indicator.get('priorityLevel'):
-                current_indicator['priorityLevel'] = "NOT_FOUND"
             items_list.append(current_indicator)
-        indicators_json.update({'items': items_list})
-        response = Page.from_dict(indicators_json, content_type=Indicator)
-        related_indicators, ec = translate_indicators(response)
+        related_indicators, ec = translate_indicators(items_list)
         if related_indicators:
             title = 'TruSTAR indicators related to ' + indicators
             entry = {
@@ -1187,13 +1308,12 @@ script:
 
     def get_correlated_reports(indicators, enclave_ids, distribution_type, page_size, page_number):
         response = ts.get_correlated_reports_page(indicators, enclave_ids, page_number, page_size)
-        correlated_reports = []  # type: List
+        correlated_reports = []
         for report in response:
             current_report = report.to_dict(remove_nones=True)
             current_report['updated'] = normalize_time(current_report['updated'])
             current_report['created'] = normalize_time(current_report['created'])
             current_report['timeBegan'] = normalize_time(current_report['timeBegan'])
-            return current_report
             correlated_reports.append(current_report)
         if correlated_reports:
             title = 'TruSTAR correlated reports'
@@ -1254,10 +1374,10 @@ script:
             value=indicator,
             type=indicator_type
         )
-        response = ts.delete_indicator_from_whitelist(ts_indicator)
-        if response:
+        try:
+            ts.delete_indicator_from_whitelist(ts_indicator)
             return 'Removed from the whitelist successfully'
-        else:
+        except Exception:
             return 'Indicator could not be removed from the whitelist.'
 
 
@@ -1277,12 +1397,77 @@ script:
         return entry
 
 
+    def get_all_phishing_indicators(priority_event_score,
+                                    normalized_indicator_score,
+                                    from_time,
+                                    to_time,
+                                    status):
+        cursor = encode_cursor(1000, 0)
+        args = {'priority_event_score': priority_event_score,
+                'normalized_indicator_score': normalized_indicator_score,
+                'status': status,
+                'cursor': cursor,
+                'from_time': date_to_unix(from_time) if from_time else None,
+                'to_time': date_to_unix(to_time) if to_time else None}
+        response = ts.get_phishing_indicators_page(**args)
+        indicators, ec = translate_phishing_indicators(response.items)
+        if indicators:
+            title = 'TruSTAR phishing indicators'
+            entry = {
+                'Type': entryTypes['note'],
+                'Contents': indicators,
+                'ContentsFormat': formats['json'],
+                'ReadableContentsFormat': formats['markdown'],
+                'HumanReadable': tableToMarkdown(title, indicators),
+                'EntryContext': ec
+            }
+            return entry
+        return 'No phishing indicators were found.'
+
+
+    def get_phishing_submissions(priority_event_score,
+                                 from_time,
+                                 to_time,
+                                 status):
+        cursor = encode_cursor(1000, 0)
+        args = {'priority_event_score': priority_event_score,
+                'status': status,
+                'cursor': cursor,
+                'from_time': date_to_unix(from_time) if from_time else None,
+                'to_time': date_to_unix(to_time) if to_time else None}
+        response = ts.get_phishing_submissions_page(**args)
+        if not response.items:
+            return 'No phishing submissions were found.'
+        submissions, ec = translate_triage_submission(response.items)
+        title = 'TruSTAR phishing triage submissions'
+        entry = {
+            'Type': entryTypes['note'],
+            'Contents': submissions,
+            'ContentsFormat': formats['json'],
+            'ReadableContentsFormat': formats['markdown'],
+            'HumanReadable': tableToMarkdown(title, submissions),
+            'EntryContext': ec
+        }
+        return entry
+
+
+    def set_triage_status(submission_id, status):
+        try:
+            response = ts.mark_triage_status(submission_id, status)
+            response.raise_for_status()
+            return "Submission ID {} is {}".format(submission_id, status)
+        except requests.exceptions.HTTPError as err:
+            return str(err)
+
+
     ''' EXECUTION CODE '''
     config = {
         'user_api_key': API_KEY,
         'user_api_secret': API_SECRET,
         'api_endpoint': BASE_URL,
-        'verify': INSECURE
+        'verify': INSECURE,
+        'client_type': "Python_SDK",
+        'client_metatag': "demisto-xsoar"
     }
     ts = trustar.TruStar(config=config)
 
@@ -1366,8 +1551,28 @@ script:
                                                      demisto.params().get('url_threshold'), ('URL',), create_url_ec))
 
         elif demisto.command() == 'domain':
-            demisto.results(generic_search_indicator(demisto.args().get('domain'), demisto.params().get('domain_threshold'),
+            demisto.results(generic_search_indicator(demisto.args().get('domain'),
+                                                     demisto.params().get('domain_threshold'),
                                                      ('Domain', 'URL',), create_domain_ec))
+
+        elif demisto.command() == 'trustar-get-phishing-indicators':
+            nts = argToList(demisto.args().get('priority_event_score'))
+            nss = argToList(demisto.args().get('normalized_indicator_score'))
+            ft = demisto.args().get('from_time')
+            tt = demisto.args().get('to_time')
+            st = argToList(demisto.args().get('status'))
+            demisto.results(get_all_phishing_indicators(nts, nss, ft, tt, st))
+
+        elif demisto.command() == 'trustar-get-phishing-submissions':
+            nts = argToList(demisto.args().get('priority_event_score'))
+            ft = demisto.args().get('from_time')
+            tt = demisto.args().get('to_time')
+            st = argToList(demisto.args().get('status'))
+            demisto.results(get_phishing_submissions(nts, ft, tt, st))
+
+        elif demisto.command() == 'trustar-set-triage-status':
+            demisto.results(set_triage_status(demisto.args().get('submission_id'),
+                                              demisto.args().get('status')))
 
     except Exception as e:
         return_error(str(e))

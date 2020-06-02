@@ -1,0 +1,1632 @@
+category: Network Security
+commonfields:
+  id: Endace
+  version: -1
+configuration:
+- additionalinfo: FQDN/IP address of EndaceProbe or Endace Investigation Manager
+  defaultvalue: ""
+  display: EndaceProbe URL (e.g. https://endaceprobe.com)
+  name: applianceurl
+  required: true
+  type: 0
+- defaultvalue: ""
+  display: Username
+  name: credentials
+  required: true
+  type: 9
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
+  name: insecure
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Use system proxy settings
+  name: proxy
+  required: false
+  type: 8
+contentitemexportablefields:
+  contentitemfields:
+    propagationLabels:
+    - all
+description: "The EndaceProbe Analytics Platform provides 100% accurate, continuous
+  packet capture on network links up to 100Gbps, with unparalleled depth of storage
+  and retrieval performance.  Coupled with the Endace InvestigationManager, this provides
+  a central search and data-mining capability across a fabric of EndaceProbes deployed
+  in a network. \n                                     \nThis integration uses Endace
+  APIs to search, archive and download PCAP file from either a single EndaceProbe
+  or many via the InvestigationManager and enables integration of full historical
+  packet capture into security automation workflows."
+detaileddescription: "The integration uses Endace APIs to Search, Archive and Download
+  PCAP file.\n\n\nTo setup an instance, follow the following steps:\n1. Create a user
+  account on EndaceProbe with RBAC roles of \"vision_admin\" and \"vision_download\".
+  \n2. Add these user account to XSOAR users and roles.\n3. Navigate to Settings ->
+  Integrations -> Servers and Services.\n4. Search for \"Endace\".\n5. Click Add Instance
+  to create and configure a new integration instance. \n6. Add the Server URL of EndaceProbe.\n7.
+  Click Test to verify connectivity and User's access to EndaceProbe.\n\n\nThe integration
+  works for EndaceProbe and Endace InvestigationManager.\nFor more information on
+  how to configure EndaceProbe, visit the www.endace.com or \nemail support@endace.com "
+display: Endace
+image: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAGAGlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDAgNzkuMTYwNDUxLCAyMDE3LzA1LzA2LTAxOjA4OjIxICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdEV2dD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlRXZlbnQjIiB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iIHhtbG5zOnBob3Rvc2hvcD0iaHR0cDovL25zLmFkb2JlLmNvbS9waG90b3Nob3AvMS4wLyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOCAoTWFjaW50b3NoKSIgeG1wOkNyZWF0ZURhdGU9IjIwMTgtMDctMThUMTA6MTQ6MjUrMTI6MDAiIHhtcDpNZXRhZGF0YURhdGU9IjIwMTgtMDctMThUMTA6MTQ6MjUrMTI6MDAiIHhtcDpNb2RpZnlEYXRlPSIyMDE4LTA3LTE4VDEwOjE0OjI1KzEyOjAwIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjMyOTA4MGVhLTBiZTMtNGVjNy1iODRhLWUyYzU3ODYyNDE1YiIgeG1wTU06RG9jdW1lbnRJRD0iYWRvYmU6ZG9jaWQ6cGhvdG9zaG9wOmU0NWJiZDFhLTNjYjAtMDA0YS1iNTRkLTg0OGVkNDQwNWJmZCIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjY3NGRmNjI1LTQ0OTItNDk5Zi04M2UwLTk0ODFkZGEzNTdhMyIgZGM6Zm9ybWF0PSJpbWFnZS9wbmciIHBob3Rvc2hvcDpDb2xvck1vZGU9IjMiIHBob3Rvc2hvcDpJQ0NQcm9maWxlPSJzUkdCIElFQzYxOTY2LTIuMSI+IDx4bXBNTTpIaXN0b3J5PiA8cmRmOlNlcT4gPHJkZjpsaSBzdEV2dDphY3Rpb249ImNyZWF0ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6Njc0ZGY2MjUtNDQ5Mi00OTlmLTgzZTAtOTQ4MWRkYTM1N2EzIiBzdEV2dDp3aGVuPSIyMDE4LTA3LTE4VDEwOjE0OjI1KzEyOjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOCAoTWFjaW50b3NoKSIvPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0ic2F2ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6MzI5MDgwZWEtMGJlMy00ZWM3LWI4NGEtZTJjNTc4NjI0MTViIiBzdEV2dDp3aGVuPSIyMDE4LTA3LTE4VDEwOjE0OjI1KzEyOjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOCAoTWFjaW50b3NoKSIgc3RFdnQ6Y2hhbmdlZD0iLyIvPiA8L3JkZjpTZXE+IDwveG1wTU06SGlzdG9yeT4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz60QbIbAAAHHElEQVR42u2caWxVRRSAPywIVKBCIooYURRTt0hdQDZJAFEkWIqKqIBQwWrFAoGwSECIBlFRXHBF0SCiEpTFLYpiRESNhk0lIKJUEAUBQ0tFWVJ/zLx0Op039772vdf29ZzkpM2dOXNn5nuz3jlDaWkpojVHpRIEiKgAESCiAkSAiAoQASIqQASIVIIAERUgAkRUgAgQUQEiQEQFiAARFSCiAiT1gFSTnAT0AAqAucAK4BtgO7AXKLJ0L7AN+BpYBjwO5ANdgQbVUYBUAHIJMAX4GNgHlMZJdwPvAWOBcwSIX84GxgGb4gggSL8ERgKnCpAy6QS8lUQILv0HeA64qC4DuVyPB6U1TF+Od3dW04Gcrgsdj8rbBMwEhgCDgMnAyjikewx4GGiY6kBG6plQmEopDggf73nPzQG2/4bMww6gbyoCORlYErISPgJuAjZ44uSHeOdtHvslwGDgu5B5eiqVgHQB/ghR6Nf0uALQwhNvdQzvXh0ljb+MOL30VDgof+srO7bUJCB3hijoO0B7y26WJ35ODO8f4UnneituL+DzgLyWANfUViAPBBRuq6d//iyKzb4Y85AOHI+S1owoNrnAwYC8D61NQJoAswMK9AyQFsW+kWfg3wKcD2SF1I76V+1Ka6GnDK1CTMnHhJ2FVTeQLp5CHAX6B9ifl6T1RpixqCAgjTNrA5D6ehZkZ74QyAy5YEwGkJ2eVmrK1cBhh33/2jaGDDcy/62e+oaRrCQBKdY7yWEkE9ij7Y7r3edaOcu6L8ZpKsBlSdwmOS2GfLUB1gLX1rXtd18LOQT8qlfQVdXfwo4Bdf17SEsPkB+phZIKH6i2ePagGgqQ5AOZ72kl4wRI8oEMDZiuVlVOFCCxSTPgiAfKu5VMN0ev0DMESOwStBe2EmgXsjXkAB8attJlVUIaAH+HWEu8DtwKdDD2sK4C7tBb+rut+NsFSOWlWwIWgzsESNVkUJyB7BIgVZfrjL2kqupxARIfyQCeJvwBBZeuAbIFSHyllR6wV+juxwfgT2AVMBG4VBaGiZc0vQt7BdBTaw9d+WclewEoQGTrRESACBABIkAEiAARIAKkzgBprdcibQh/1EiAJFB2GCvz6QKk+mW/AeQhASItRIAIkJoNpFCAKGkG9AOm6orIQXnY2nIC6maGLNSubEQuBkZp22GobXWfdEVto08HbqBsJzeohZyBcgwar8MLUN/cg6QlMACYpu1yUf4mTa14aSjvq8k63lCUS0VSgYy2BtOIHgHmOMCZcdoBjzlsD6Pcm10Vuhb3+axs1EcnF5C2qG8hx3B/K/kZtV3vkkeI7ujTzYiXbbVQUxejT1kmGshUgr/MLbGAHDWABTmAmr+u9BDxi6IA6UC4r4htLRgfBMSPXMNxY4i0NyYayAXWC19COdhkApOssN4GENtFbT/KZ70f6uCafZNCRGZS0S9xoLZzec6aQDpR5ro2QOfxQiCP8j7wLxg2eVQ8bT8B6INyo54B1AMaU/4g3ydAd/2OXMp/Zp6QSCCLjBctdzT16Ub4MuNXXmR1a/YBt61G+Drj+XarJdj99xoPkHbAlVG6pIFW1xUR8+ahEnssMKTA+pH40t+ZSCBmfznAkZFMI/wX/ayeBWSpw26eEf69ftbcquxXHXY9PEBMaaFbd+Qg3RDD5ndjC8ZM61HPgL/cbAGO8AbGGHQ0kUBKrEG10KGm60DEh68ooABPOFpIZ6uC8hx2aZQ/3WgDyQe+Qt32E3Rwrrf13OePvi6gHrYZ42ZJIoEcpnIuYyaQ2x0FnOsA0tNKa2CM6xDXBTeR2+a2OYBkW3E7e4BsjqUektVCngTuiaL5+m+6nvqZQIaFBNLeKtgkh11z4D8HELsrmwOca9hlOYB0DPkDgPJ3pMw3yuvSkYkE8pORkeEhF6oZFpDckEDqW7OVVQ4724/kfv38RePZWoddnmOsy7DSWuYp02JiuJgmkUDMaWixXoG7+vWxxgKqaSWBoPv/aP16E5QDqBk+TYeZU+k11rtOsWZT+ym7HPMHK70Rjl2HhnpXIkxrGgz0SSSQxo4BcoFusmOAV1DeraWoO6uqCsR10Hoh6jq+3Z51yF3W8+XAvSifkwNU9Fdvou26O9L8VOdvgR6vbtFxN1DxEp0C4G7gWQPu1ESv1DsQfLmYuTC0u4LRDiBvGOF7rLA38btJH7HGtchU23cX1jzrR2JegjkpoFyRbrEV0Z1TTR2VjL2s1rrwW3TBirUeQN30OYUyt7F04Av9y1+H+7DzRCN8kSN8hp4ZRe7m3Qe8rbc9Zhm25tS4EfA86vxvJI+bjThLtc16XR5T+gLvo+7VMu8E3qVbrdk9P6jTOKjfcUj/vxF1CU8budlarhoXFSACRFSACBBRASIqQASIqAARIKICRICIChABIipARAWIABEVIAJEVICknP4PGmTpkAj6sm4AAAAASUVORK5CYII=
+name: Endace
+script:
+  commands:
+  - arguments:
+    - description: Event Start Time in ISO 8601 format as in 2020-04-08T15:46:30
+      name: start
+    - description: Event End Time in ISO 8601 format  as in 2020-04-08T15:46:30
+      name: end
+    - description: List of Source IP addresses to search with a maximum of 10 IP addresses
+        per search. For valid search either a Src Host or a Dest Host value is required.
+      isArray: true
+      name: src_host_list
+    - description: List of Destination IP addresses to search with a maximum of 10
+        IP addresses per search. For valid search either a Src Host or a Dest Host
+        value is required.
+      isArray: true
+      name: dest_host_list
+    - description: List of Source Port addresses to search with a maximum of 10 Port
+        addresses per search.
+      isArray: true
+      name: src_port_list
+    - description: List of Destination Port addresses to search with a maximum of
+        10 Port addresses per search.
+      isArray: true
+      name: dest_port_list
+    - description: TCP or UDP
+      name: protocol
+    - description: Event timeframe to search - in seconds.  Timeframe works as search
+        for last "n" seconds if start and end time is not provided. For example, by
+        specifying 3600 seconds as the timeframe, analyst can schedule a search for
+        last 1 hour. If both start and end time is provided, timeframe value is ignored.
+        If either start or end time is provided along with timeframe, the respective
+        start or end time is calculated accordingly.
+      name: timeframe
+    description: Create a search task on EndaceProbe. Search is issued against all
+      Rotation Files on EndaceProbe.
+    name: endace-create-search
+    outputs:
+    - contextPath: Endace.Search.Task.JobID
+      description: Search Job ID
+      type: String
+    - contextPath: Endace.Search.Task.Status
+      description: Status of Search Task
+      type: String
+    - contextPath: Endace.Search.Task.Error
+      description: Search Error
+      type: String
+  - arguments:
+    - description: This is the job ID returned by endace-create-search command
+      name: jobid
+      required: true
+    description: Get search status from EndaceProbe. This command can be polled in
+      a loop until response is received or polling timer is over.
+    name: endace-get-search-status
+    outputs:
+    - contextPath: Endace.Search.Response.JobID
+      description: This is the job ID of search query which we polled to get search
+        status
+      type: String
+    - contextPath: Endace.Search.Response.Status
+      description: 'Task status '
+      type: String
+    - contextPath: Endace.Search.Response.JobProgress
+      description: 'Progress of this search Job '
+      type: String
+    - contextPath: Endace.Search.Response.DataSources
+      description: List of Data Sources where packets of interest were found.
+      type: String
+    - contextPath: Endace.Search.Response.TotalBytes
+      description: Total data matching this search across all Data Sources.
+      type: String
+    - contextPath: Endace.Search.Response.Status
+      description: Status of Search Response
+      type: String
+    - contextPath: Endace.Search.Response.Error
+      description: 'Search response error '
+      type: String
+  - arguments:
+    - description: Job ID obtained from endace-create-search command
+      name: jobid
+      required: true
+    description: Delete search task
+    name: endace-delete-search-task
+    outputs:
+    - contextPath: Endace.Search.Delete.JobID
+      description: JobID of the task that needs to be deleted
+      type: String
+    - contextPath: Endace.Search.Delete.Error
+      description: 'Error message '
+      type: String
+    - contextPath: Endace.Search.Delete.Status
+      description: 'delete status, queryNotFound indicates that the search query has
+        already expired before this operation, which is expected as EndaceProbe purges
+        inactive tasks after api timer expire. Deleted indicates an active search
+        query is now deleted. '
+      type: String
+  - arguments:
+    - description: Event Start Time in ISO 8601 format  as in 2020-04-08T15:46:30
+      name: start
+    - description: Event End Time in ISO 8601 format  as in 2020-04-08T15:46:30
+      name: end
+    - description: 'Event timeframe to search - in seconds.  Timeframe works as search
+        for last "n" seconds if start and end time is not provided. For example, by
+        specifying 3600 seconds as the timeframe, analyst can schedule a search for
+        last 1 hour. If both start and end time is provided, timeframe value is ignored.
+        If either start or end time is provided along with timeframe, the respective
+        start or end time is calculated accordingly.  '
+      name: timeframe
+    - description: List of Source IP addresses to search with a maximum of 10 IP addresses
+        per search. For valid search either a Src Host or a Dest Host value is required.
+      name: src_host_list
+    - description: List of Destination IP addresses to search with a maximum of 10
+        IP addresses per search. For valid search either a Src Host or a Dest Host
+        value is required.
+      name: dest_host_list
+    - description: List of Source Port addresses to search with a maximum of 10 Port
+        addresses per search.
+      name: src_port_list
+    - description: List of Destination Port addresses to search with a maximum of
+        10 Port addresses per search.
+      name: dest_port_list
+    - description: TCP or UDP
+      name: protocol
+    - description: 'Name of the archive file. For example, archive_filename could
+        be an event ID. To keep archive filename unique, value of epoch seconds at
+        the time of execution of the command is appended to this filename argument.
+        For example: if the event id is ''123456789'', then archive_filename is 123456789-<epoch
+        time>.'
+      name: archive_filename
+      required: true
+    description: Create an archive task to archive packets of interest on EndaceProbe.
+      Archived packets can later be downloaded from EndaceProbe as a PCAP file. Archived
+      Files never expire. Allowed chars are text, numbers, dash and underscore.
+    name: endace-create-archive
+    outputs:
+    - contextPath: Endace.Archive.Task.FileName
+      description: Name of the archived File
+      type: String
+    - contextPath: Endace.Archive.Task.P2Vurl
+      description: Endace Pivot to Vision URL to archived packets that links to an
+        Investigation Dashboard on EndaceProbe. This enables an analyst to utilize
+        tools available on EndaceProbe for further drill down on packets of interests
+        without needing to download a PCAP.
+      type: String
+    - contextPath: Endace.Archive.Task.Status
+      description: Status of archived task
+      type: String
+    - contextPath: Endace.Archive.Task.Error
+      description: Archive error
+      type: String
+    - contextPath: Endace.Archive.Task.JobID
+      description: Archive Task Job ID
+      type: String
+  - arguments:
+    - description: Get status of this archived file
+      name: archive_filename
+      required: true
+    description: get status of archived task
+    name: endace-get-archive-status
+    outputs:
+    - contextPath: Endace.Archive.Response.FileName
+      description: Archived File Name
+      type: String
+    - contextPath: Endace.Archive.Response.FileSize
+      description: Archived File Size
+      type: String
+    - contextPath: Endace.Archive.Response.Status
+      description: Status of the archive process
+      type: String
+    - contextPath: Endace.Archive.Response.Error
+      description: Archive response error
+      type: String
+  - arguments:
+    - description: Job ID of archive task
+      name: jobid
+    description: delete archive task
+    name: endace-delete-archive-task
+    outputs:
+    - contextPath: Endace.Archive.Delete.Status
+      description: Status of delete task
+      type: String
+    - contextPath: Endace.Archive.Delete.Error
+      description: Delete task error
+      type: String
+    - contextPath: Endace.Archive.Delete.JobID
+      description: Delete Task ID
+      type: String
+  - arguments:
+    - description: Name of the file to download from EndaceProbe
+      name: filename
+      required: true
+    - defaultValue: "50"
+      description: 'User defined upper size limit on file download (in MegaBytes).
+        A PCAP File with size less than or equal to this limit can be downloaded from
+        EndaceProbe. Default Upper Limit is 50MB. '
+      name: filesizelimit
+      required: true
+    description: Download a copy of the PCAP file from EndaceProbe if PCAP file size
+      is within the threshold value defined by filesizelimit.
+    name: endace-download-pcap
+    outputs:
+    - contextPath: Endace.Download.PCAP.FileName
+      description: Name of the File to download from EndaceProbe
+      type: String
+    - contextPath: Endace.Download.PCAP.FileSize
+      description: File size in MegaBytes
+      type: String
+    - contextPath: Endace.Download.PCAP.FileType
+      description: The file downloaded from EndaceProbe is either a Rotation File
+        or Archive.
+      type: String
+    - contextPath: Endace.Download.PCAP.FileURL
+      description: 'URL to PCAP file on EndaceProbe. '
+      type: String
+    - contextPath: Endace.Download.PCAP.FileUser
+      description: Username of the person who has permission to download this PCAP
+        from EndaceProbe.
+      type: String
+    - contextPath: Endace.Download.PCAP.Status
+      description: Download status of the PCAP file.
+      type: String
+    - contextPath: Endace.Download.PCAP.Error
+      description: Error occured during downloading of this file
+      type: String
+  - arguments:
+    - description: Base name of the archived file to be deleted on EndaceProbe. Filename
+        must be without any extension. Refer to Endace.Archive.Response.FileName field
+      name: archived_filename
+      required: true
+    description: Delete an archived file from EndaceProbe.
+    name: endace-delete-archived-file
+    outputs:
+    - contextPath: Endace.ArchivedFile.Delete.FileName
+      description: Filename of the deleted archived file
+      type: String
+    - contextPath: Endace.ArchivedFile.Delete.Status
+      description: Archived File Delete task status
+      type: String
+    - contextPath: Endace.ArchivedFile.Delete.Error
+      description: Delete Error
+      type: String
+  dockerimage: demisto/python3:3.7.4.2245
+  runonce: false
+  script: |
+    # --------------------------------------------------------------------------------------------------------------------
+    # Copyright 2020 Endace Technology Limited
+    #
+    # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+    # documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+    # the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+    # to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+    #
+    # The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+    # Software.
+    #
+    # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+    # WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+    # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    # SOFTWARE.
+    #
+    # --------------------------------------------------------------------------------------------------------------------
+
+
+
+    import time
+    import requests
+    import urllib3
+    import calendar
+    import json
+
+
+    class EndaceVisionAPIAdapter(object):
+        """Adapter for EndaceWebSession which allows
+        a simpler interface to the private Vision API.
+
+        Implements some of the request methods, so the interface
+        in most cases should be the same.
+
+        Ensures CSRF tokens are sent correctly in requests.
+        """
+
+        API_BASE = "/vision2/data"
+
+        def __init__(self, endace_session):
+            self.endace_session = endace_session
+
+        def request(self, method, path, **kwargs):
+            headers = {}
+            if method == "POST":
+                csrf_cookie = self.endace_session.requests.cookies.get("vision2_csrf_cookie")
+                if csrf_cookie:
+                    headers = {
+                        'XSRF-csrf-token': str(csrf_cookie)
+                    }
+            try:
+                r = self.endace_session.requests.request(
+                    method, self.endace_session.page("{}/{}".format(self.API_BASE, path)), headers=headers, **kwargs)
+                r.raise_for_status()
+            except requests.exceptions.HTTPError as err:
+                return err.response.status_code
+            else:
+                return r
+
+        def get(self, path, **kwargs):
+            return self.request("GET", path, **kwargs)
+
+        def post(self, path, **kwargs):
+            return self.request("POST", path, **kwargs)
+
+        def put(self, path, **kwargs):
+            return self.request("PUT", path, **kwargs)
+
+        def delete(self, path, **kwargs):
+            return self.request("DELETE", path, **kwargs)
+
+
+    class EndaceWebSession(object):
+
+        LOGIN_PAGE = "/admin/launch?script=rh&template=login"
+        LOGIN_ACTION = "/admin/launch?script=rh&template=login&action=login"
+
+        def __init__(self, app_url=None, username=None, password=None, cert_verify=False):
+            self.app_url = app_url
+            self.username = username
+            self.password = password
+            self.requests = None
+            self.verify = cert_verify
+
+        def __enter__(self):
+            self.requests = self._create_login_session()
+            return self
+
+        def __exit__(self, exception_type, exception_value, traceback):
+            if self.requests:
+                self.requests.close()
+            _ = exception_type
+            _ = exception_value
+            _ = traceback
+
+        def page(self, path="/"):
+            return "{}{}".format(self.app_url, path)
+
+        def _create_login_session(self):
+            """
+            Creates a requests.Session object with correct cookies
+            setup for an OSm session.
+            """
+            sess = requests.Session()
+            r = sess.get(self.page(self.LOGIN_PAGE), verify=self.verify)
+            if r.status_code == 200:
+                csrf_token = EndaceWebSession.find_csrf_token_login(r.content)
+                if csrf_token is None:
+                    raise Exception("Could not find CSRF token")
+                login_result = sess.post(self.page(self.LOGIN_ACTION),
+                                         data={
+                                             "_csrf": csrf_token,
+                                             "d_user_id": "user_id",
+                                             "t_user_id": "string",
+                                             "c_user_id": "string",
+                                             "e_user_id": "true",
+                                             "f_user_id": str(self.username),
+                                             "f_password": str(self.password),
+                                             "Login": "Login"},
+                                         headers={"Content-type": "application/x-www-form-urlencoded"}
+                                         )
+                if login_result.status_code == 200 and len(sess.cookies) > 0:
+                    return sess
+                else:
+                    raise Exception("Login failed")
+            else:
+                raise Exception("Login failed")
+
+        @staticmethod
+        def find_csrf_token_login(page_content=""):
+            return EndaceWebSession.fetch_csrf_token(str(page_content), r"(class=\"csrf-token\").*?\/>")
+
+        @staticmethod
+        def fetch_csrf_token(input_text, pattern):
+            """
+            Fetch CSRF Token from the given input html tag by applying the pattern passed
+            :param input_text:
+            :param pattern:
+            :return:
+            """
+
+            m = re.search(pattern=pattern, string=input_text)
+            if not m:
+                return None
+
+            match_input_tag = m.group(0)
+
+            if match_input_tag:
+                for replace_tag in ["value", "content"]:
+                    m = re.search(pattern=replace_tag + "=\".*\"", string=match_input_tag)
+                    if m:
+                        csrf_tag = str(m.group(0))
+                        csrf_tag = csrf_tag.replace(replace_tag + "=", '')
+                        csrf_tag = csrf_tag.replace('"', '')
+                        return csrf_tag.strip()
+            return None
+
+
+    class EndaceVisionData(object):
+        def __init__(self, args=None):
+            self.args = args
+
+        def build_search_data(self):
+            investigation_data = {
+                "type": "TrafficBreakdownNG",
+                "breakdown_type": "datasource",
+                "datasource_guids": ["tag:rotation-file"],
+                "start_time": int(self.args['start']) * 1000,
+                "end_time": int(self.args['end']) * 1000,
+                "filter": self.get_filters(),
+                "order_by": "bytes",
+                "required_aggregates": ["bytes"],
+                "order_direction": "desc",
+                "other_required": True,
+                "points": 10,
+                "auto_pivot": True,
+                "disable_uvision": False,
+                "disable_mvision": False
+            }
+            return investigation_data
+
+        def build_archive_data(self):
+            archive_data = {
+                "filename": self.args['archive_filename'],
+                "deduplication": False,
+                "bidirection": False,
+                "datasources": self.get_datasources(),
+                "timerange": self.get_timerange(),
+                "filters": self.get_filters(),
+                "individualSessionData": False
+            }
+
+            return archive_data
+
+        def get_datasources(self):
+
+            datasources = {
+                "key": "tag:rotation-file",
+                "datasource": {
+                    "id": "tag:rotation-file",
+                    "type": "tag",
+                    "name": "rotation-file",
+                    "probeName": "tag",
+                    "displayName": "tag:rotation-file",
+                    "status": {
+                        "inUse": False,
+                        "readers": [],
+                        "writers": []
+                    },
+                    "vision": True,
+                    "mplsLevel1": 1,
+                    "mplsLevel2": "BOTTOM",
+                    "metadataTimerange": {
+                        "visionObjectType": "timerange",
+                        "visionObjectValue": {
+                            "start": {
+                                "seconds": self.args['start'],
+                                "nanoseconds": 0
+                            },
+                            "end": {
+                                "seconds": self.args['end'],
+                                "nanoseconds": 0
+                            }
+                        }
+                    },
+                    "packetTimerange": {
+                        "visionObjectType": "timerange",
+                        "visionObjectValue": {
+                            "start": {
+                                "seconds": self.args['start'],
+                                "nanoseconds": 0
+                            },
+                            "end": {
+                                "seconds": self.args['end'],
+                                "nanoseconds": 0
+                            }
+                        }
+                    },
+                    "datasourceIds": self.args['ids']
+                },
+                "missing": False
+            }
+
+            return [datasources]
+
+        def get_timerange(self):
+
+            timerange = {
+                "visionObjectType": "timerange",
+                "visionObjectValue": {
+                    "start": {
+                        "seconds": int(self.args['start']),
+                        "nanoseconds": 0
+                    },
+                    "end": {
+                        "seconds": int(self.args['end']),
+                        "nanoseconds": 0
+                    }
+                }
+            }
+            return timerange
+
+        def get_filters(self):
+
+            filters = {
+                "visionObjectType": "filter",
+                "visionObjectValue": {
+                    "active": "basic",
+                    "basic": {
+                        "visionObjectType": "basicFilter",
+                        "visionObjectValue": {
+                            "filters": self.get_basicfilters()
+                        }
+                    }
+                }
+            }
+
+            return filters
+
+        def get_basicfilters(self):
+
+            allfilterslist = []
+            visionobjecttype = "basicFilterDirectionlessIp"
+            for filtertype in self.args['filterby']:
+                filterlist = []
+                if filtertype == 0:
+                    visionobjecttype = "basicFilterDirectionlessIp"
+                    for sip in self.args['src_host_list']:
+                        filterlist.append(sip)
+                    for dip in self.args['dest_host_list']:
+                        filterlist.append(dip)
+                if filtertype == 1:
+                    visionobjecttype = "basicFilterSourceIp"
+                    for sip in self.args['src_host_list']:
+                        filterlist.append(sip)
+                if filtertype == 2:
+                    visionobjecttype = "basicFilterDestinationIp"
+                    for dip in self.args['dest_host_list']:
+                        filterlist.append(dip)
+                if filtertype == 3:
+                    visionobjecttype = "basicFilterSourcePort"
+                    for sport in self.args['src_port_list']:
+                        filterlist.append(sport)
+                if filtertype == 4:
+                    visionobjecttype = "basicFilterDestinationPort"
+                    for dport in self.args['dest_port_list']:
+                        filterlist.append(dport)
+                if filtertype == 5:
+                    visionobjecttype = "basicFilterIpProtocol"
+                    filterlist.append(self.args['protocol'])
+                if filtertype == 6:
+                    visionobjecttype = "basicFilterVlan"
+                    for vlan in self.args.vlan1list:
+                        filterlist.append(vlan)
+
+                visionfilter = {
+                    "visionObjectType": visionobjecttype,
+                    "visionObjectValue": {
+                        "version": 1,
+                        "include": True,
+                        "value": filterlist
+                    }
+                }
+
+                allfilterslist.append(visionfilter)
+
+            return allfilterslist
+
+
+    class EndaceApp(object):
+        delta_time = 50
+        wait_time = 5
+
+        def __init__(self, *args):
+            self.args = dict()
+
+            self.applianceurl = args[0]
+            self.username = args[1]
+            self.password = args[2]
+            self.cert_verify = args[3]
+
+        @staticmethod
+        def endace_get_input_arguments(args=None):
+            function_args = dict()
+            function_args['start'] = args.get("start")
+            if args.get("start"):
+                #   converting ISO time to epoch time
+                function_args['start'] = date_to_timestamp(args.get("start")) / 1000
+
+            function_args['end'] = args.get("end")
+            if args.get("end"):
+                #   converting ISO time to epoch time
+                function_args['end'] = date_to_timestamp(args.get("end")) / 1000
+
+            function_args['timeframe'] = args.get("timeframe")
+
+            #   filter params
+            function_args['src_host_list'] = argToList(args.get("src_host_list"))[:10]
+            #   args.get("dest_host_list")
+            function_args['dest_host_list'] = argToList(args.get("dest_host_list"))[:10]
+            #   args.get("src_port_list")
+            function_args['src_port_list'] = argToList(args.get("src_port_list"))[:10]
+            #   args.get("dest_port_list")
+            function_args['dest_port_list'] = argToList(args.get("dest_port_list"))[:10]
+
+            #   adding a limit to number of filter items to be passed to 10 max
+            if (len(function_args['src_host_list']) + len(function_args['dest_host_list'])
+                    + len(function_args['src_port_list']) + len(function_args['dest_port_list'])) > 10:
+                raise ValueError("Wrong set of filters - Limit search filters to 10 items")
+
+            function_args['protocol'] = args.get("protocol")
+
+            #   Doing a sanity check on input function arguments
+
+            if not function_args['start'] and not function_args['end'] and not function_args['timeframe']:
+                raise ValueError("Wrong value of Start time , End time and timeframe arguments")
+            elif (not function_args['start'] or not function_args['end']) and not function_args['timeframe']:
+                raise ValueError("Wrong value of timeframe - since either start time or end time argument is missing")
+
+            if function_args['start'] and function_args['end']:
+                if function_args['start'] == function_args['end']:
+                    raise ValueError("Wrong value of start time or end time argument - both are same")
+
+            #   Logical options for search time:
+            #   1) start and stop time is not provided: will work like search Last n seconds, n = timeframe
+            #   2) only either start or stop time is provided: Search will be either +/- of timeframe of the given time
+            #   3) Both start and stop time is provided: Search using start and stop time, ignore timeframe
+
+            if not function_args['start'] and not function_args['end']:
+                function_args['end'] = int(calendar.timegm(time.gmtime()))
+                function_args['start'] = (int(function_args['end']) - int(function_args['timeframe']))
+            elif function_args['start'] and not function_args['end']:
+                function_args['end'] = function_args['start'] + int(args['timeframe'])
+                if function_args['end'] > (calendar.timegm(time.gmtime()) - 60):
+                    function_args['end'] = (calendar.timegm(time.gmtime()) - 60)
+            elif not function_args['start'] and function_args['end']:
+                function_args['start'] = function_args['end'] - int(args['timeframe'])
+            else:
+                if function_args['end'] < function_args['start']:
+                    raise ValueError('Wrong value of end time , end time cannot be before start time')
+
+            if not function_args['src_host_list'] and not function_args['dest_host_list']:
+                raise ValueError("Wrong or missing value of Src or Dest IP arguments")
+
+            return function_args
+
+        #  search
+        def create_search_task(self, args=None):
+
+            """ create a search task on Endace Probe
+            Args: dict
+            Returns:
+                Dictionary context data in response to the command execution
+           """
+            input_args_dict = args
+            input_args_dict.update({"filterby": []})
+
+            result = {"Task": "CreateSearchTask", "Status": "Started", "Error": "NoError", "JobID": ""}
+
+            #   Filter order
+            if input_args_dict['src_host_list']:
+                input_args_dict['filterby'].append(1)
+            if input_args_dict['dest_host_list']:
+                input_args_dict['filterby'].append(2)
+            if input_args_dict['src_port_list']:
+                input_args_dict['filterby'].append(3)
+            if input_args_dict['dest_port_list']:
+                input_args_dict['filterby'].append(4)
+            if input_args_dict['protocol']:
+                input_args_dict['filterby'].append(5)
+
+            with EndaceWebSession(app_url=self.applianceurl, username=self.username, password=self.password,
+                                  cert_verify=self.cert_verify) as sess:
+                api = EndaceVisionAPIAdapter(sess)
+                rd = api.get("files")
+                if rd.status_code == 200:
+                    path = "queries/"
+                    evid = EndaceVisionData(input_args_dict)
+                    rp = api.post(path, json=evid.build_search_data())
+                    if rp.status_code == 200:
+                        try:
+                            response = rp.json()
+                        except json.decoder.JSONDecodeError:
+                            result['Status'] = "Failed"
+                            result['Error'] = "ServerError"
+                            return result
+                        else:
+                            meta = response.get("meta", {})
+                            payload = response.get("payload")
+                            if meta:
+                                meta_error = meta.get("error")
+                                if meta_error is not None:
+                                    if meta_error is not False:
+                                        result['Status'] = "Failed"
+                                        result['Error'] = str(meta_error)
+                                    else:
+                                        if payload is not None:
+                                            result['JobID'] = payload
+                                        else:
+                                            result['Status'] = "Failed"
+                                            result['Error'] = "ServerError"
+                                else:
+                                    result['Status'] = "Failed"
+                                    result['Error'] = str(meta.get('error_data'))
+                            else:
+                                result['Status'] = "Failed"
+                                result['Error'] = "ServerError"
+                    else:
+                        result['Status'] = rp.status_code
+                        result['Error'] = f"httpError /{path}"
+                else:
+                    result['Status'] = rd.status_code
+                    result['Error'] = "httpError /files"
+
+            return result
+
+        def get_search_status(self, args=None):
+
+            """ get status of the search task on Endace Probe
+               Args: string - Job ID
+               Returns:
+                   Dictionary context data in response to the command execution
+            """
+            result = {'Task': "GetSearchStatus", "Status": "Complete", "Error": "NoError", "JobProgress": '0',
+                      "DataSources": [], "TotalBytes": 0, "JobID": args}
+
+            matching_data = 0
+            keys = []
+            values = []
+            id_to_key_dict = dict()
+            app_dict = dict()
+
+            with EndaceWebSession(app_url=self.applianceurl, username=self.username, password=self.password,
+                                  cert_verify=self.cert_verify) as sess:
+                api = EndaceVisionAPIAdapter(sess)
+                rd = api.get("files")
+                if rd.status_code == 200:
+                    path = "queries/" + args
+                    progress_status = True
+                    query_time = calendar.timegm(time.gmtime())
+
+                    while progress_status:
+                        #  progress loop
+                        #  exit when whichever occurrs before, search timeout or search progress = 100% or search returns an
+                        #   unknown value
+                        current_time = calendar.timegm(time.gmtime())
+                        if current_time - query_time > self.delta_time:
+                            progress_status = False
+                            result['Status'] = "Failed"
+                            result['Error'] = "SearchTimeOut"
+                        else:
+                            rj = api.get(path)
+                            if rj.status_code == 200:
+                                #  Check metadata for no error.
+                                try:
+                                    response = rj.json()
+                                except json.decoder.JSONDecodeError:
+                                    progress_status = False
+                                    result['Status'] = "Failed"
+                                    result['Error'] = "ServerError"
+                                else:
+                                    meta = response.get("meta", {})
+                                    payload = response.get("payload")
+                                    if meta:
+                                        meta_error = meta.get("error")
+                                        if meta_error is not None:
+                                            if meta_error is not False:
+                                                progress_status = False
+                                                result['Status'] = "Failed"
+                                                result['Error'] = str(meta_error)
+                                            else:
+                                                #  check payload for no error
+                                                if payload is not None:
+                                                    progress = payload.get("progress")
+                                                    if progress is not None:
+                                                        result['JobProgress'] = str(progress)
+                                                        #  check if the Search Job has finished. if so, return a data dict back
+                                                        #   to Demisto
+                                                        #  if No, Wait and loop in to run another status check,
+                                                        #   until "self.delta_time" has elapsed
+                                                        payload_data = payload.get("data")
+                                                        if payload_data is not None:
+                                                            if int(progress) == 100:
+                                                                progress_status = False
+                                                                for data_map_dict in payload_data:
+                                                                    id_to_key_dict[data_map_dict['id']] = data_map_dict['name']
+
+                                                                for top_key in payload["top_keys"]:
+                                                                    keys.append(id_to_key_dict[top_key])
+
+                                                                #   Calculate Total matching MBytes
+                                                                for top_value in payload["top_values"]:
+                                                                    matching_data = matching_data + int(top_value)
+                                                                    values.append(str(top_value))
+
+                                                                result['TotalBytes'] = int(matching_data)
+
+                                                                for index in range(len(keys)):
+                                                                    app_dict[keys[index]] = values[index] + ' Bytes'
+
+                                                                result['Status'] = str(payload['state'])
+                                                                result['DataSources'] = keys
+                                                else:
+                                                    result['Status'] = "Failed"
+                                                    result['Error'] = "ServerError"
+                                        else:
+                                            result['Status'] = "Failed"
+                                            result['Error'] = str(meta.get('error_data'))
+                                    else:
+                                        result['Status'] = "Failed"
+                                        result['Error'] = "ServerError"
+                            else:
+                                progress_status = False
+                                result['Status'] = rj.status_code
+                                result['Error'] = f"HTTP GET Request Failed to {path}"
+                        #   wait time before next run
+                        time.sleep(self.wait_time)
+                else:
+                    result['Status'] = rd.status_code
+                    result['Error'] = "httpError /files"
+
+            return result
+
+        def delete_search_task(self, args=None):
+            """ delete the search task on Endace Probe
+                Args: string - Job ID
+                Returns:
+                    dict with delete status
+            """
+            result = {"Task": "DeleteSearchTask", "Status": "Deleted", "Error": "NoError", "JobID": args}
+
+            with EndaceWebSession(app_url=self.applianceurl, username=self.username, password=self.password,
+                                  cert_verify=self.cert_verify) as sess:
+                api = EndaceVisionAPIAdapter(sess)
+                rd = api.get("files")
+                if rd.status_code == 200:
+                    path = "queries/" + args
+                    dr = api.delete(path)
+                    if dr.status_code == 200:
+                        try:
+                            response = dr.json()
+                        except json.decoder.JSONDecodeError:
+                            result['Status'] = "Failed"
+                            result['Error'] = "ServerError"
+                            return result
+                        else:
+                            meta = response.get('meta', {})
+                            if meta:
+                                meta_error = meta.get("error")
+                                if meta_error is not None:
+                                    if meta_error is not False:
+                                        result['Status'] = "Failed"
+                                        result['Error'] = str(meta_error)
+                                else:
+                                    result['Status'] = "Failed"
+                                    result['Error'] = str(meta.get('error_data'))
+                            else:
+                                result['Status'] = "Failed"
+                                result['Error'] = "ServerError"
+
+                else:
+                    result['Error'] = rd.status_code
+                    result['Status'] = "HTTP DELETE Request Failed while deleting search task"
+
+            return result
+
+        #  archive
+        def create_archive_task(self, args=None):
+
+            """ create an archive task on Endace Probe
+            Args: dict
+            Returns:
+                Dictionary context data in response to the command execution
+            """
+            input_args_dict = args
+            input_args_dict.update({"archive_filename": (args.get('archive_filename')
+                                                         + '-' + str(calendar.timegm(time.gmtime())))
+                                    })
+            input_args_dict.update({"filterby": []})
+            input_args_dict.update({"ids": ""})
+
+            result = {"Task": "CreateArchiveTask", "Status": "Started", "Error": "NoError", "JobID": "",
+                      "Start": args.get('start'), "End": args.get('end'), "P2Vurl": "",
+                      "FileName": args['archive_filename']}
+
+            probe_hostname = self.applianceurl.split(".")[0].split("//")[1]
+            datasource = probe_hostname + ":" + input_args_dict['archive_filename']
+
+            start_time_in_ms = str(int(input_args_dict['start']) * 1000)
+            end_time_in_ms = str(int(input_args_dict['end']) * 1000)
+
+            p2v_url = f'{self.applianceurl}/vision2/pivotintovision/?datasources={datasource}' \
+                      f'&title={result["FileName"]}&start={start_time_in_ms}&end={end_time_in_ms}' \
+                      f'&tools=trafficOverTime_by_app%2CtrafficOverTime_by_sip%2CtrafficOverTime_by_dip' \
+                      f'%2Cconversations_by_ipaddress'
+
+            #   Endace Filter order
+            if input_args_dict['src_host_list']:
+                input_args_dict['filterby'].append(1)
+                src_ip = ''
+                for ip in input_args_dict['src_host_list']:
+                    src_ip = src_ip + "," + ip
+                src_ip = src_ip[1:]
+                p2v_url = p2v_url + "&sip=" + src_ip
+            if input_args_dict['dest_host_list']:
+                input_args_dict['filterby'].append(2)
+                dest_ip = ''
+                for ip in input_args_dict['dest_host_list']:
+                    dest_ip = dest_ip + "," + ip
+                dest_ip = dest_ip[1:]
+                p2v_url = p2v_url + "&dip=" + dest_ip
+            if input_args_dict['src_port_list']:
+                input_args_dict['filterby'].append(3)
+                port = ''
+                for sport in input_args_dict['src_port_list']:
+                    port = port + "," + sport
+                port = port[1:]
+                p2v_url = p2v_url + "&sport=" + port
+            if input_args_dict['dest_port_list']:
+                input_args_dict['filterby'].append(4)
+                port = ''
+                for dport in input_args_dict['dest_port_list']:
+                    port = port + "," + dport
+                port = port[1:]
+                p2v_url = p2v_url + "&dport=" + port
+            if input_args_dict['protocol']:
+                input_args_dict['filterby'].append(5)
+
+            evid = EndaceVisionData(input_args_dict)
+            with EndaceWebSession(app_url=self.applianceurl, username=self.username, password=self.password,
+                                  cert_verify=self.cert_verify) as sess:
+                api = EndaceVisionAPIAdapter(sess)
+                rd = api.get("datasources")
+
+                #  Extract list of rotationfiles datasources and exclude previously archived files
+                rotfile_ids = []
+                try:
+                    response = rd.json()
+                except json.decoder.JSONDecodeError:
+                    result['Status'] = "Failed"
+                    result['Error'] = "ServerError"
+                    return result
+                else:
+                    if rd.status_code == 200:
+                        payload = response.get("payload")
+                        for rotfile in payload:
+                            if rotfile["type"] == "rotation_file_v2":
+                                rotfile_ids.append(rotfile["id"])
+
+                        input_args_dict['ids'] = rotfile_ids
+                        path = "archive/"
+                        rp = api.post(path, json=evid.build_archive_data())
+                        if rp.status_code == 200:
+                            try:
+                                response = rp.json()
+                            except json.decoder.JSONDecodeError:
+                                result['Status'] = "Failed"
+                                result['Error'] = "ServerError"
+                                return result
+                            else:
+                                meta = response.get("meta", {})
+                                payload = response.get("payload")
+                                if meta:
+                                    meta_error = meta.get("error")
+                                    if meta_error is not None:
+                                        if meta_error is not False:
+                                            result['Status'] = "Failed"
+                                            result['Error'] = str(meta_error)
+                                        else:
+                                            if payload is not None:
+                                                result['JobID'] = payload
+                                                result['P2Vurl'] = f'[Endace PivotToVision URL]({p2v_url})'
+                                            else:
+                                                result['Status'] = "Failed"
+                                                result['Error'] = "ServerError"
+                                    else:
+                                        result['Status'] = "Failed"
+                                        result['Error'] = "ServerError"
+                                else:
+                                    result['Status'] = "Failed"
+                                    result['Error'] = "ServerError"
+                        else:
+                            result['Status'] = "Failed"
+                            result['Error'] = "ServerError"
+                    else:
+                        result['Status'] = rd.status_code
+                        result['Error'] = "httpError /archive"
+
+            return result
+
+        def get_archive_status(self, args=None):
+
+            """ get status of the archive task on Endace Probe
+               Args: string - Archived File Name
+               Returns:
+                   Dictionary context data in response to the command execution
+            """
+            result = {"Task": "GetArchiveStatus", "Error": "NoError", "Status": "ArchiveNotFound",
+                      "FileName": args["archive_filename"], "FileSize": 0}
+
+            with EndaceWebSession(app_url=self.applianceurl, username=self.username, password=self.password,
+                                  cert_verify=self.cert_verify) as sess:
+                api = EndaceVisionAPIAdapter(sess)
+                path = "files"
+                progress_status = True
+                query_time = calendar.timegm(time.gmtime())
+
+                while progress_status:
+                    #   wait time before next run
+                    time.sleep(self.wait_time)
+                    current_time = calendar.timegm(time.gmtime())
+                    if current_time - query_time > self.delta_time:
+                        progress_status = False
+
+                    rf = api.get(path)
+                    if rf.status_code == 200:
+                        try:
+                            response = rf.json()
+                        except json.decoder.JSONDecodeError:
+                            progress_status = False
+                            result['Status'] = "Failed"
+                            result['Error'] = "ServerError"
+                        else:
+                            meta = response.get("meta", {})
+                            payload = response.get("payload")
+                            if meta:
+                                meta_error = meta["error"]
+                                if meta_error is not None:
+                                    if meta_error is not False:
+                                        progress_status = False
+                                        result['Status'] = "Failed"
+                                        result['Error'] = str(meta_error)
+                                    else:
+                                        #   progress loop
+                                        #   exit at timeout or archive finished
+                                        #  archive_payload = payload
+
+                                        for file in payload:
+                                            if args['archive_filename'] == file['name']:
+                                                result['FileName'] = file['name']
+                                                if not file['status']['inUse']:
+                                                    #  archive finished
+                                                    progress_status = False
+                                                    result['FileSize'] = file['usage']
+                                                    result['Status'] = "Finished"
+                                                else:
+                                                    result['Status'] = "InProgress"
+                                                break
+                                else:
+                                    progress_status = False
+                                    result['Status'] = "Failed"
+                                    result['Error'] = "ServerError"
+                            else:
+                                progress_status = False
+                                result['Status'] = "Failed"
+                                result['Error'] = "ServerError"
+                    else:
+                        progress_status = False
+                        result['Status'] = rf.status_code
+                        result['Error'] = f"HTTP GET Request Failed to {path}"
+
+            return result
+
+        def delete_archive_task(self, args=None):
+            """ delete the search task on Endace Probe
+                Args: string - Job ID
+                Returns: dict with delete status
+            """
+            result = {"Task": "DeleteArchiveTask", "Error": "NoError", "Status": "Deleted", "JobID": args}
+
+            with EndaceWebSession(app_url=self.applianceurl, username=self.username, password=self.password,
+                                  cert_verify=self.cert_verify) as sess:
+
+                path = "queries/" + args
+                api = EndaceVisionAPIAdapter(sess)
+                rd = api.get("files")
+                if rd.status_code == 200:
+                    dr = api.delete(path)
+                    if dr.status_code == 200:
+                        try:
+                            response = dr.json()
+                        except json.decoder.JSONDecodeError:
+                            result['Status'] = "Failed"
+                            result['Error'] = "ServerError"
+                            return result
+                        else:
+                            meta = response.get('meta', {})
+                            if meta:
+                                meta_error = meta.get("error")
+                                if meta_error is not None:
+                                    if meta_error is not False:
+                                        result['Status'] = "Failed"
+                                        result['Error'] = str(meta_error)
+                                else:
+                                    result['Status'] = "Failed"
+                                    result['Error'] = str(meta.get('error_data'))
+                            else:
+                                result['Status'] = "Failed"
+                                result['Error'] = "ServerError"
+                else:
+                    result['Error'] = rd.status_code
+                    result['Status'] = "HTTP Error {path}"
+
+            return result
+
+        def delete_archived_file(self, args=None):
+
+            """ Delete archived file on Endace Probe
+               Args: string - Archived File Name
+               Returns:
+                   Dictionary context data in response to the command execution
+            """
+            result = {"Task": "DeleteArchivedFile", "Error": "NoError", "Status": "NotFound",
+                      "FileName": args['archived_filename']}
+
+            with EndaceWebSession(app_url=self.applianceurl, username=self.username, password=self.password,
+                                  cert_verify=self.cert_verify) as sess:
+                api = EndaceVisionAPIAdapter(sess)
+                path = "files"
+
+                rf = api.get(path)
+                if rf.status_code == 200:
+                    try:
+                        response = rf.json()
+                    except json.decoder.JSONDecodeError:
+                        result['Status'] = "Failed"
+                        result['Error'] = "ServerError"
+                        return result
+                    else:
+                        meta = response.get("meta", {})
+                        payload = response.get("payload")
+                        if meta:
+                            meta_error = meta["error"]
+                            if meta_error is not None:
+                                if meta_error is not False:
+                                    result['Status'] = "Failed"
+                                    result['Error'] = str(meta_error)
+                                else:
+                                    #   Delete archived File
+                                    for file in payload:
+                                        if result['FileName'] == file['name'] and len(file["id"]):
+                                            #   File available to delete
+                                            if file['type'] == 'archive_file':
+                                                archived_file_path = f'files?_={str(calendar.timegm(time.gmtime()))}000'\
+                                                                     f'&files={file["id"]}'
+                                                df = api.delete(archived_file_path)
+                                                try:
+                                                    response = df.json()
+                                                except json.decoder.JSONDecodeError:
+                                                    result['Status'] = "Failed"
+                                                    result['Error'] = "ServerError"
+                                                    return result
+                                                else:
+                                                    meta = response.get("meta", {})
+                                                    if df.status_code == 200:
+                                                        if meta["error"] is None:
+                                                            result['Status'] = meta['error']
+                                                            result['Error'] = meta["error_data"]
+                                                        else:
+                                                            result['Status'] = "FileDeleted"
+                                                    else:
+                                                        result['Status'] = "ServerError"
+                            else:
+                                result['Status'] = "Failed"
+                                result['Error'] = "ServerError"
+                else:
+                    result['Status'] = "Failed"
+                    result['Error'] = "ServerError"
+            return result
+
+        #  download
+        def download_pcap(self, args=None):
+            """ download a PCAP file from EndaceProbe
+                Args:
+                    dict - FileName and FileSize
+                Returns:
+                    Dictionary context data in response to the command execution
+            """
+            result = {"Task": "DownloadPCAP", "Error": "NoError", "Status": "FileNotFound", "FileName": args['filename'],
+                      "FileSize": 0, "FileType": "", "FileURL": '', "FileUser": ''}
+            with EndaceWebSession(app_url=self.applianceurl, username=self.username, password=self.password,
+                                  cert_verify=self.cert_verify) as sess:
+                api = EndaceVisionAPIAdapter(sess)
+                path = "files"
+
+                rf = api.get(path)
+                if rf.status_code == 200:
+                    try:
+                        response = rf.json()
+                    except json.decoder.JSONDecodeError:
+                        result['Status'] = "Failed"
+                        result['Error'] = "ServerError"
+                        return result
+                    else:
+                        meta = response.get("meta", {})
+                        payload = response.get("payload")
+                        if meta:
+                            meta_error = meta["error"]
+                            if meta_error is not None:
+                                if meta_error is not False:
+                                    result['Status'] = "Failed"
+                                    result['Error'] = str(meta_error)
+                                else:
+                                    #   Download PCAP File
+                                    for file in payload:
+                                        if result['FileName'] == file['name'] and len(file["id"]):
+                                            file_numerical_part = float(re.findall(r'[\d\.]+', file['usage'])[0])
+
+                                            if 'KB' in file['usage']:
+                                                filesize = file_numerical_part * 0.001
+                                            elif 'GB' in file['usage']:
+                                                filesize = file_numerical_part * 1000
+                                            elif 'TB' in file['usage']:
+                                                filesize = file_numerical_part * 1000000
+                                            else:
+                                                filesize = file_numerical_part * 1
+
+                                            if filesize <= int(args['filesizelimit']):
+                                                result['FileName'] = file['name'] + ".pcap"
+                                                if not file['status']['inUse']:
+                                                    #   File available to download
+                                                    pcapfile_url_path = ("files/%s/stream?format=pcap" % file["id"])
+                                                    d = api.get(pcapfile_url_path)
+                                                    if d.status_code == 200:
+                                                        demisto.results(fileResult(f'{result["FileName"]}', d.content,
+                                                                                   file_type=entryTypes['entryInfoFile']))
+
+                                                        result['FileURL'] = f'[Endace PCAP URL]'\
+                                                                            f'({self.applianceurl}/vision2/data/'\
+                                                                            f'{pcapfile_url_path})'
+
+                                                        result['FileSize'] = file['usage']
+                                                        result['Status'] = "DownloadFinished"
+                                                        result['FileType'] = file['type']
+                                                        result['FileUser'] = file['user']
+
+                                                    else:
+                                                        result['Status'] = "Failed"
+                                                        result['Error'] = d.status_code
+                                                else:
+                                                    result['Status'] = "FileInUse"
+
+                                            else:
+                                                result['Status'] = "FileExceedsSizeLimit"
+                            else:
+                                result['Status'] = "Failed"
+                                result['Error'] = "ServerError"
+                        else:
+                            result['Status'] = "Failed"
+                            result['Error'] = "ServerError"
+            return result
+
+
+    ''' COMMAND FUNCTION '''
+    #  Search Commands
+
+
+    def endace_create_search_command(app, args):
+        """ create search command function
+        Function Params:
+            app: Endace App Client
+            args:
+                start time: in ISO 8601 format
+                end time: in ISO 8601 format
+                src ips: comma separated source ips to search for. Src IPs will be OR'd
+                dest ips: comma separated destination ips to search for. Destination IPs will be OR'd
+                src ports: comma separated source ports to search for. Src Ports will be OR'd
+                dest ports: comma separated destination ports to search for. Destination ports will be OR'd
+                protocol: TCP or UDP protocol value
+                search window: number in second
+        Returns: The Search JOB ID.
+        Raises:
+            ValueError: If input argument is in wrong format.
+
+        """
+        if len(args.values()):
+
+            function_args = app.endace_get_input_arguments(args)
+
+            #  calling search task function of app instance
+            result = app.create_search_task(function_args)
+
+            #  create entry context to return to Demisto
+            output = {'Endace.Search.Task(val.JobID == obj.JobID)': result}
+            table_header = ['Task', 'JobID', 'Status', 'Error']
+            readable_output = tableToMarkdown('EndaceResult', [result], headers=table_header, removeNull=False)
+            raw_response = result
+
+            return readable_output, output, raw_response
+        else:
+            raise ValueError("Incorrect arguments provided")
+
+
+    def endace_delete_search_task_command(app, args):
+        """
+            Delete search Job on Endace Probe
+            Function Params:
+            app: Endace App Client
+            args: string - Search JOB id
+            Returns:
+                Null
+            Raises:
+                 ValueError: If input argument is in wrong format
+                 exception: If delete command fails
+            """
+
+        jobid = args.get("jobid")
+        if len(re.findall(r'([0-9a-fA-F]+)', jobid)) == 5:
+
+            #   calling search status function of app instance
+            result = app.delete_search_task(jobid)
+
+            #   create entry context to return to Demisto
+            output = {'Endace.Search.Delete(val.JobID == obj.JobID)': result}
+            table_header = ["Task", "JobID", "Status", "Error"]
+            readable_output = tableToMarkdown('EndaceSearch', result, headers=table_header, removeNull=False)
+            raw_response = result
+            return readable_output, output, raw_response
+        else:
+            raise ValueError("Incorrect JOB ID provided")
+
+
+    def endace_get_search_status_command(app, args):
+        """ Poll search task on Endace Probe by given Job ID
+            Function Params:
+            app: Endace App Client
+            args: Search JobID
+            Returns:
+                  Dictionary context data in response to the command execution
+            Raises:
+                 ValueError: If input argument is in wrong format.
+        """
+
+        jobid = args.get("jobid")
+        if len(re.findall(r'([0-9a-fA-F]+)', jobid)) == 5:
+            #   calling search status function of app instance
+            result = app.get_search_status(jobid)
+
+            #   create entry context to return to Demisto
+            output = {'Endace.Search.Response(val.JobID == obj.JobID)': result}
+            table_header = ["Task", "JobID", 'Status', 'Error', 'JobProgress', 'DataSources', 'TotalBytes']
+            readable_output = tableToMarkdown('EndaceSearch', result, headers=table_header, removeNull=False)
+            raw_response = result
+
+            return readable_output, output, raw_response
+
+        else:
+            raise ValueError("Wrong JOB ID provided")
+
+
+    #  Archive Commands
+
+
+    def endace_create_archive_command(app, args):
+        """ create archive command function
+        Function Params:
+            app: Endace App Client
+            args:
+                start time: in ISO 8601 format
+                end time: in ISO 8601 format
+                src ips: comma separated source ips to search for. Src IPs will be OR'd
+                dest ips: comma separated destination ips to search for. Destination IPs will be OR'd
+                src ports: comma separated source ports to search for. Src Ports will be OR'd
+                dest ports: comma separated destination ports to search for. Destination ports will be OR'd
+                protocol: TCP or UDP protocol value
+                search window: number representing seconds
+                archive_filename: string representing archive filename
+        Returns: The Archive JOB ID.
+        Raises:
+            ValueError: If input argument is in wrong format.
+
+        """
+        if len(args.values()):
+            #   archive file name
+            if re.fullmatch(r'[\w0-9_-]+', args.get("archive_filename")) is None:
+                raise ValueError("Wrong value of archive_filename")
+            function_args = app.endace_get_input_arguments(args)
+            function_args['archive_filename'] = args.get("archive_filename")
+
+            #  calling archive task function of app instance
+            result = app.create_archive_task(function_args)
+
+            #  create entry context to return to Demisto
+            output = {'Endace.Archive.Task(val.JobID == obj.JobID)': result}
+            table_header = ['Task', 'FileName', 'P2Vurl', 'Status', 'Error', 'JobID']
+            readable_output = tableToMarkdown('EndaceResult', [result], headers=table_header, removeNull=False)
+            raw_response = result
+            return readable_output, output, raw_response
+        else:
+            raise ValueError("Incorrect arguments provided")
+
+
+    def endace_delete_archive_task_command(app, args):
+        """
+            Delete archive Job on Endace Probe
+            Function Params:
+            app: Endace App Client
+            args: Archive JOB id - string
+            Returns:
+                Null
+            Raises:
+                 ValueError: If input argument is in wrong format
+                 exception: If delete command fails
+        """
+        jobid = args.get("jobid")
+        if not re.fullmatch(r'[0-9a-zA-Z\-]+', jobid) is None:
+
+            #   calling delete archive task function of app instance
+            result = app.delete_archive_task(jobid)
+
+            #   create entry context to return to Demisto
+            output = {'Endace.Archive.Delete(val.JobID == obj.JobID)': result}
+            table_header = ["Task", "JobID", "Status", "Error"]
+            readable_output = tableToMarkdown('EndaceResult', result, headers=table_header, removeNull=False)
+            raw_response = result
+            return readable_output, output, raw_response
+        else:
+            raise ValueError("Incorrect JOB ID provided")
+
+
+    def endace_get_archive_status_command(app, args):
+        """ Poll archive task on Endace Probe by given Job ID
+            Function Params:
+            app: Endace App Client
+            args: archive JobID - string
+            Returns:
+                  Dictionary context data in response to the command execution
+            Raises:
+                 ValueError: If input argument is in wrong format.
+        """
+        if len(args.values()):
+            function_arg = dict()
+            #   archive file name
+            function_arg['archive_filename'] = args.get("archive_filename")
+            #  calling app instance
+            result = app.get_archive_status(function_arg)
+
+            #   create entry context to return to Demisto
+            output = {'Endace.Archive.Response(val.FileName == obj.FileName)': result}
+            table_header = ['Task', 'FileName', 'Status', 'Error', 'FileSize']
+            readable_output = tableToMarkdown('EndaceResult', result, headers=table_header, removeNull=False)
+            raw_response = result
+            return readable_output, output, raw_response
+        else:
+            raise ValueError("Incorrect arguments provided")
+
+
+    def endace_delete_archived_file_command(app, args):
+        """ Delete archived file on Endace Probe
+        Function Params:
+        app: Endace App Client
+        args: string , archive filename
+        Returns:
+            Dictionary context data in response to the command execution
+        Raises:
+            ValueError: If input argument is in wrong format.
+        """
+
+        if len(args.values()):
+            function_arg = dict()
+            #   archive file name
+            function_arg['archived_filename'] = args.get("archived_filename")
+
+            if re.fullmatch(r'[\w0-9_-]+', args.get("archived_filename")) is None:
+                raise ValueError("Wrong value of archive_filename")
+
+            #   calling archive file delete task function of app instance
+            result = app.delete_archived_file(function_arg)
+
+            #   create entry context to return to Demisto
+            output = {'Endace.ArchivedFile.Delete(val.FileName == obj.FileName)': result}
+            table_header = ['Task', 'FileName', 'Status', 'Error']
+            readable_output = tableToMarkdown('EndaceResult', result, headers=table_header, removeNull=False)
+            raw_response = result
+            return readable_output, output, raw_response
+        else:
+            raise ValueError("Incorrect arguments provided")
+
+
+    #  Download Command
+    def endace_download_pcap_command(app, args):
+        """ download pcap file function
+           Function Params:
+            app: Endace App Client
+            args: dict of
+                   filename: Name of the file to download
+                   filesize: limit download to max filesize.
+           Returns: Dictionary context data in response to the command execution
+           Raises:
+               ValueError: If input argument is in wrong format.
+           """
+        if len(args.values()):
+            function_args = {"filename": args.get("filename"), "filesizelimit": args.get("filesizelimit")}
+
+            #   Doing a sanity check on input function arguments
+            try:
+                int(function_args['filesizelimit'])
+            except ValueError:
+                raise ValueError("Filesize Limit value is incorrect")
+            else:
+                if int(function_args['filesizelimit']) < 0:
+                    raise ValueError("Filesize Limit value is incorrect")
+
+                #   calling download PCAP function of app instance
+                result = app.download_pcap(function_args)
+
+                #   create entry context to return to Demisto
+
+                output = {'Endace.Download.PCAP(val.FileName == obj.FileName)': result}
+                table_header = ['Task', 'FileName', 'Status', 'Error', 'FileSize', 'FileType', 'FileUser', 'FileURL']
+                readable_output = tableToMarkdown('EndaceResult', [result], headers=table_header, removeNull=False)
+                raw_response = result
+                return readable_output, output, raw_response
+        else:
+            raise ValueError("Incorrect arguments provided")
+
+
+    #  Test Command
+    def endace_test_command(appurl, username, password, insecure):
+        if re.match(r'https://[\w\-\.]+\.\w+', appurl) is None:
+            raise ValueError('Wrong Appliance URL')
+        with EndaceWebSession(app_url=appurl, username=username, password=password, cert_verify=insecure):
+            return 'ok'
+
+
+    #  Main Function
+    def main():
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+        ''' COMMANDS + REQUESTS FUNCTIONS '''
+        command = demisto.command()
+        applianceurl = demisto.params().get('applianceurl')
+        username = demisto.params().get('credentials').get('identifier')
+        password = demisto.params().get('credentials').get('password')
+        insecure = not demisto.params().get('insecure', False)
+
+        LOG(f'Command being called is {demisto.command()}')
+
+        try:
+            handle_proxy()
+            if command == 'test-module':
+                """
+                   Returning 'ok' indicates that the the user can login to EndaceProbe successfully with his credentials.
+                   Returns:
+                       'ok' if test passed, anything else will fail the test
+                """
+                demisto.results(endace_test_command(applianceurl, username, password, insecure))
+            else:
+                app = EndaceApp(applianceurl, username, password, insecure)
+                """ Command Modules """
+                if command == "endace-create-search":
+                    return_outputs(*endace_create_search_command(app, demisto.args()))
+                elif command == "endace-get-search-status":
+                    return_outputs(*endace_get_search_status_command(app, demisto.args()))
+                elif command == "endace-delete-search-task":
+                    return_outputs(*endace_delete_search_task_command(app, demisto.args()))
+                elif command == "endace-create-archive":
+                    return_outputs(*endace_create_archive_command(app, demisto.args()))
+                elif command == "endace-get-archive-status":
+                    return_outputs(*endace_get_archive_status_command(app, demisto.args()))
+                elif command == "endace-delete-archive-task":
+                    return_outputs(*endace_delete_archive_task_command(app, demisto.args()))
+                elif command == "endace-delete-archived-file":
+                    return_outputs(*endace_delete_archived_file_command(app, demisto.args()))
+                elif command == "endace-download-pcap":
+                    return_outputs(*endace_download_pcap_command(app, demisto.args()))
+
+        except Exception as err:
+            err_msg = f'Error in Integration [{err}]'
+            return_error(err_msg, error=err)
+
+
+    #   python2 uses __builtin__ python3 uses builtins
+    if __name__ == '__builtin__' or __name__ == 'builtins':
+        main()
+  subtype: python3
+  type: python
+system: true

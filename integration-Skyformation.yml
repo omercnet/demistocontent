@@ -14,7 +14,7 @@ configuration:
   required: true
   type: 9
 - defaultvalue: ""
-  display: Trust any certificate (unsecure)
+  display: Trust any certificate (not secure)
   name: insecure
   required: false
   type: 8
@@ -211,5 +211,6 @@ script:
     if demisto.command() == 'skyformation-unsuspend-user':
         unsuspend_user()
         sys.exit(0)
+  subtype: python2
   type: python
 system: true

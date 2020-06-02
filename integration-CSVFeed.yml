@@ -53,12 +53,6 @@ configuration:
   name: feedFetchInterval
   required: false
   type: 19
-- additionalinfo: Type of the indicator in the feed.
-  defaultvalue: ""
-  display: Indicator Type
-  name: indicator_type
-  required: false
-  type: 0
 - additionalinfo: When selected, the exclusion list is ignored for indicators from
     this feed. This means that if an indicator from this feed is on the exclusion
     list, the indicator might still be added to the system.
@@ -67,6 +61,12 @@ configuration:
   name: feedBypassExclusionList
   required: false
   type: 8
+- additionalinfo: Type of the indicator in the feed.
+  defaultvalue: ""
+  display: Indicator Type
+  name: indicator_type
+  required: false
+  type: 0
 - defaultvalue: ""
   display: URL
   name: url
@@ -77,20 +77,20 @@ configuration:
   name: credentials
   required: false
   type: 9
-- additionalinfo: Time in seconds before http requests timeout.
+- additionalinfo: Time (in seconds) before HTTP requests timeout.
   defaultvalue: "20"
   display: Request Timeout
   name: polling_timeout
   required: true
   type: 0
-- additionalinfo: Python regular expression for lines that should be ignored.
+- additionalinfo: Python regular expression for lines to ignore.
   defaultvalue: ""
   display: Ignore Regex
   name: ignore_regex
   required: false
   type: 0
-- additionalinfo: Name of the field names in the CSV feed. If several are given, will
-    use "indicator" as the default indicator value field.
+- additionalinfo: The names to apply to the fields in the CSV feed. The name for the
+    field containing the indicator should be "value".
   defaultvalue: value
   display: Field Names
   name: fieldnames
@@ -122,7 +122,7 @@ configuration:
   name: quotechar
   required: false
   type: 0
-- additionalinfo: When True, whitespace immediately following the delimiter is ignored.
+- additionalinfo: When "True", whitespace immediately following the delimiter is ignored.
   defaultvalue: ""
   display: Skip Initial Space
   name: skipinitialspace
@@ -143,23 +143,48 @@ contentitemexportablefields:
     propagationLabels:
     - all
 description: Fetch indicators from a CSV feed.
-detaileddescription: |
-  Fetch indicators from a CSV feed. The integration allows a great amount of user configuration to support different types of CSV feeds.
-  * **Server URL** - URL where the feed is.
-  * **Username + Password** - Access feeds that require basic authentication.
-  * **Ignore Regex** - Python regular expression for lines that should be ignored.
-  * **Field Names** - Name of the field names in the CSV. If several are given, will use
-      "indicator" as the indicator value field.
-  * **Double Quote** - Controls how instances of quotechar appearing inside a field should themselves be quoted. When True, the character is doubled. When False, the escapechar is used as a prefix to the quotechar. It defaults to True.
-  * **Delimiter** -  A one-character string used to separate fields.
-  * **Doubequote** - Controls how instances of quotechar appearing inside a field should
-      themselves be quoted. When True, the character is doubled.
-  * **Delimiter** - A one-character string used to separate fields.
-  * **Quote Character** - A one-character string used to quote fields containing special characters.
-  * **Escape character** - A one-character string used by the writer to escape the delimiter.
-  * **Skip Initial Space** - When True, whitespace immediately following the delimiter is ignored.
+detaileddescription: "Fetch indicators from a CSV feed. The integration allows a great
+  amount of user configuration to support different types of CSV feeds.\n\n* **Indicator
+  Type** - The type of indicators in the feed.\n* **Server URL** - URL of the feed.\n*
+  **Username + Password** - Credentials to access feeds that require basic authentication.
+  \nThese fields also support the use of API key headers. To use API key headers,
+  specify the header name and value in the following format:\n`_header:<header_name>`
+  in the **Username** field and the header value in the **Password** field.\n* **Ignore
+  Regex** - Python regular expression for lines that should be ignored.\n* **Field
+  Names** - The names to give the fields in the CSV feed. The name for the field containing
+  the indicator should be \"value\".\n* **Double quote** - Controls how instances
+  of quote character appearing inside a field should themselves be quoted. When True,
+  the character is doubled. When False, the escape character is used as a prefix to
+  the quote characters.\n* **Delimiter** -  A one-character string used to separate
+  fields.\n* **Quote Character** - A one-character string used to quote fields containing
+  special characters.\n* **Escape character** - A one-character string used by the
+  writer to escape the delimiter.\n* **Skip Initial Space** - When True, whitespace
+  immediately following the delimiter is ignored.\n\n## Step by step configuration\nAs
+  an example, we'll be looking at the SSL BL feed by Abuse. This feed will ingest
+  indicators of type IP. These are the feed isntance configuration parameters for
+  our example.\n\n**Indicator Type** - IP.\n\n**Server URL**: https://sslbl.abuse.ch/blacklist/sslipblacklist.csv.\n\n**Credentials**
+  - This feed does not require authentication.\n\nFrom a quick look at the feed in
+  the web browser, we are going to configure the rest of the parameters:\n\n**Ignore
+  Regex** - We are going to need to ignore all the text inside the part enclosed by
+  the `#` character (included) \nso we'll configure `^#` as the regular expression
+  to use to ignore this text.\n\n**Field Names** - We have 3 fields in this feed -
+  `Firstseen,DstIP,DstPort`. The integration ignores these headers and we have to
+  configure the field names for each indicator.\nNote that the field for the indicator
+  value itself (the IP) must be `value`. So we will configure these field names: `date,value,name`,
+  so that the indicator will be created with these fields.\n\n**Double quote** - No
+  need to double the quote characters, we'll leave this option unchecked.\n\n**Delimiter**
+  - The delimiter between the fields in this feed is `,`, we'll use that as the value
+  for this field.\n\n**Quote Character** - No need to change the quote character,
+  we'll leave that as the default (`\"`).\n\n**Escape Character** - No need to change
+  the escape character, we'll leave that empty.\n\n**Skip Initial Space** - No whitespaces
+  between the delimiter and the value, we'll leave the unchecked.\n\nNow we have successfully
+  configured an instance for the Abuse SSL BL feed, once we enable `Fetches indicators`
+  the instance will start pulling indicators.\n\nBy clicking `Mapping` in the integration
+  instance, we can map the field names we previously configured to actual indicator
+  fields (except `value` which is the indicator value).\nWe can use `Set up a new
+  classification rule` using actual data from the feed.\n"
 display: CSV Feed
-image: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAAyCAYAAACXpx/YAAAAAXNSR0IArs4c6QAADFpJREFUeAHtWw1wVMUd333vLgkEAqIQvqQGrNWxAmrb3F3IJRAlDbTSUrGlaKllnAHb6Ygj1SpQdLA4HWGYttPaams7lqmW1mn5MHwlJJfk7jKVWsWpQFUIAco3iOTrcm+3v727d9n37t7lHZfQj3k7c+zub//78f5f+9/dQIiTHA44HHA44HDA4YDDAYcDDgccDjgccDjgcMDhgMMBhwP/Jxyg2XzHjBkzp0W16HrOqYcQXmi/Lz2rKvSeYLAxZL+PQzkQHLAtYJ9v1hSNRd/OTrCGJV5SFeXzjpANPBn0isvuDIxHHxPCpZSc4VRZSSk/aasv469yToaAtkhjbIfPV+EI2RbjBobItoAx3VQxJSd0U2uw8Zd2p/d4y6MSrSNkiRlXo6hkMYlb0FJOLmfRJ0lKCX0WvYXV60L2JhudwqBxwLYFc0jHvAqPx78W+FIzLtc558NEnSvKAYWTmYyzvaiNHWx37fPNHqORnnsJZ3dj6ROx+HGc8ItQtENwQ4cUhdQHg4Fd8lr7K1dWVhZ0RfhCynkF4fwTGPcGfD+nhLcRStsw7u7rry9+dfPmzVq6sfx+f0lvL5kjt3E3qQ8HAu/JmLlcU1NTdPFixwNGXDkeCjX82Yil1mwLGAzCVmpKlN+Jj7rWhFpWsaADXm/loAoZQnB19bB1jHcvx4rV+GIg2nhhAkq3iqLGyOPYPuog8BWhUOCteHP6f+Njaqu6e7RlGGh0Hx/iJfxbkuDO4qPHTj4DxV8dDgc2mUeLRNTxnER/asCjFLENySjgCxc6lmPda+R+CmWL5bpVORsXbTVGVrgQskKVmYPhrsvLy8dBuPVg9mPwHAnhWi8PGlvFON8HpfuCFdWaNWuU7gj7DQS7GvSjreiSOCeTIYxXPGX++UksUXC51HYzBusfY8bkOpRrJBRouYxRSvdXV8/6nYxZlW0LGJOkuGirQdPinE3T8cEQsmdGZWVvL30Lwi3X57GZI6zQfg1Gjk1HX7uzfj1nfJG5DZZ/BG65CTiOjqTT1E4JI7/1+P23yLjLFT0B4RjdN6fFMo253NWjQbh8hIxTojwJxWMyZlW2LWCrAWzjsCqP1/8O3GKz+IGpL0FjuhP9Y4FXWVnlZ2yPJxF6vbMm8Ki2HZZjYBal5DwE8SzmuXNYYd51quK+UaF0ScJ7JEcQltndw36WBBKFBQsWqLAw0BvSITEeXHBJayjgbw03TR8+LH88hL1RporFHhFiUIyGhoYo5vqXTAfPYGnBXm/1KLQ/ItNj7mYYyDYZy1TObQ/GyEKTEWXUi0kQfAyFpX8NHyuCl2MxjJDp+Ng7RBn5bSLvS6DuS0Wapn0L1Tf7IHsl7GuI0MlQmRqWctylumc1N9cdkvBzKH+AYGdvT4S8a+zD78L60A0GnUjHj5++AwIZrtdF7lLVRS0tDX+TsT179nyE+vJSrx8xSZ8HAV9SFZaSdghtYrI/JQalTOIocN71KLIiA+ZSvy/X+yvbtmArF80pfxOavET83G4iFkSoQjfqGDTgdVjSaVxVVgN/mirkR6D4CEoQEuVE/XBsoeBufws2t3s85RAC/4aMY5Q2l5rnNwk3SRIIBA5j3l8lARSEIMvKqiYZMVYm1wUZvvF9E5asQjUC+ISe5I+QTycbEwXQHJUxzJvWgquqqq6FxXxXpsV3bWttbmiWsf7KOVtwfxOIdlyOaIkjSexYUurxL8CH1oVDTatEO1z2VHxoiShnnSjZICaQ+3GFPtzcvOdDGTOXOVFgwcwAc86Eh2nTQRj0GbF6KdH4nkh+IGHJItz2SlTEzzLBqoUFSyl9kNXZ2YtA0eA9GLzlk1JHW0XbFmxrtKtMJB4/wIQKw7SUHAw3N9YasDSVcEvDi9Om3pIn/6qrK9+QSSlV9sn1WBnRNFzxNhHUiT06pb0fANbdbiLJE5GyjJWX14ij2HdkDCq8Cce5/QbMRsW2BVuNBdPx4dz3F9EeiZICofFc46uBxS9AOLkJNKN0GkEXD4YMRifgrJOmRWemdKLKj8FEg42k0ABI0PSma9OxYHDvQa+3ohbrrdGxWM75XAR1c9uPnTyPwLEFgdgul4v8qampyRhAGTrFK5TTo+bFRaOqcNMXdfJItHMF9oxheh15hOarq6W67eL/tAXDwZr3SKJwWm/76/shFEpQWOh+APmBdKTwHqOw/3+RcfKTSC85LixbvLqlo9UxpqZYMGQZTQZa4gYOt2/f1ulFDtf8Qrih4YiM2S3nLGBoYxB7zzzxy3Pxb4qJcZHxtI4J1wKa83pd5FjyKbsLzEQHHzDO1M7z88kRE5ZTta6u7lxBvnI7mLwWQc7HGQaDIfO5eHV7N9PFicrcZhdNopwlAy3Gur+HOZInAjGn2124NsO8GZtyFnDG0Qe5ERZkuFmCpZ3AWVM/Ww/Y7GJMKOYqSsYWQ3m/jnk2x04CaWaARRfgvv1lq4uTlpadZ9DftEYlZsGxPpQ/bBiW0/VNTbUI9q4s5b4Hc5oXC+kxf3c3G0VIFIrMinTscmd0KM7Hil4Xy+zojKjiij7XhBG65f0MAjeGxblOYOofCm3uAvR78YMwXJGIVs04XQKhftlIyq/r6WH3A3veiMf3fuzbx4DfqLfp15W4Zn0cAYp4O48lWO8ZVRm5Qa9fSZ6zgBGA3HO5I3JWnhzYa8CSkBCCmSZ38WJQSg9Cm6YmJyJ8Al5e8mtra3v6sNRSaZl/Di4MjfscJSv1R4fSqqriIZrm1ntGo4Udzc3bL+h1kYtbKWTbxQ8B5H3imwWuJ2iaOHKlTeDHUTQkBQyhFpeV3T1eYz1LZYXFhcLalpYtmbaFtOPLYM4uGu4mSFU6L/ZTyIOxwSl5pg+jm6CJF5J1QTtAezAYc1D+GJSV85c6qkxYShXCfQQCmaP/cKFw68SJxe/ohLQz8lpXt9au/3q1j1/R29LlcN9/gLL9XW6DVU6Q63IZym3ch3HZofHuJ4R71+nAoyPXTxjzgl6/0nwgLPhEa0vTFrEA8ZoTgepSRQmHW+JnUY/PfxvuIWa1tgRiNIIOFx0bB8KC8cZ8kDDj3T3FEQ2MqoXiGYxBzCtSqa/yfs40vBFLCUcrwxsuJ/9Aa4VOAWHdrJetc264UoSA/mpJy00Cpnwatqy58qWKotDVWFOfG7QcLHNDzhacefjBbR2SR3bAO5yXZ4FUS6FUr2OPlM+RRDz7eXwVyyhnL8r0Ikq9ZsTQl2QMjuA9uY69fQr6PipjcrnUV/EgvMlkGcNtWkCuG8oKPSrXxfhQynwdg3Lunz17Zsp7st6eTZ6zBUNTP+XxVIjQnvT2clzMw/Exfi+w2B6EhZfDAobpNLHFUTZiIIIs7INnvV7/CsxouFfGEr6Ex/kPcC4NYT1v40Zq/I6d9TOwlhRLxPqXY8++JDMNDN4NP9QjM50z9jz22rvQBnfN2zBmJ6NsMr51IWHsK3J/9O24pmhoixHrq+Gyoz2te0mQZPMc2Ddq+pJtAWNBqV6V033AP4sPjgk4PgU9BwbPA9PjVWRw0XA1fTQYSPjVrK/d0n1CMNj4MqxrMYItv9wOqxiDOXHmxlq4RXBNlXWhUKNROdAhhD9KKPX5n8LC5SgYPp/XQOjxWy1u3BqkuSOqQuablUZqJ3C/7aadJdkM3mT1HJjsaFGwLWBMDJ4ZE4KLlUDE7z+WYFEcR7D5HV3R52BlS7CQVEVMXZ14F/xFKNjwFPLUViCIITZ4fRWfg0DvS0uQHuxVFXVRMNiwK32zjg6HizYE5XoDctcTUiXnopLFCL2CFsdXw96WRX9LUlh4YayR8tgcloQWDeK2KRxsfAhvtT6IqxVCszQvyHOb2+W6PRwKLBPKYTFk7K4aNF+lLpcHbvwNK7o4Ts/i+fGHCnWXBIMNf8xMS0j86IMnU1PCeraGw3stXbuJ3FY1vfqm6YrD+c+hzUvBoOz+8D3NWAZIozfjfmIdMAWLeSgcbjIFPAZqWxW88uS1nzo1RYnym+B2ShhVzyqcfUhpwfvB4K7TtgYxESFoG9mlqZOUqDaJUT6JMqISlbe5qNo2fHjBgf7O3qbhrlrVtoAH4L+uZPwoWMk/R48eMX3r1q2dGQmdxqw4oNqlbm8/fKHkhsnbEbB8EtucuDvNs9s3Mx09By3bgr+UWLh7926rjSnzEE6rwwGHAw4HHA44HHA44HDA4YDDAYcDDgccDjgccDjgcMDhgMMBhwMOBxwO/Ddz4N8w6uEEGHPg+QAAAABJRU5ErkJggg==
+image: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAAyCAYAAACXpx/YAAAABGdBTUEAALGPC/xhBQAABCNJREFUeAHtXFtIFUEYHvWQkVSWJWUg0UMUWkkQ9BAqXR6MootCJBIRUWAXKEoDI6ggSsgKQoPCJAp6EsHKhyzspQs+ZEJRUQahFWEXwupo59L36S6cs3r0nE06O3v+Hz53/n8uzn4fMzuzOquUmKsZSNL47lLQ971AAeCxeR/JqJcK3AWqbbbh6Gp2iXHCTe1TSeqsWpYVVKkeih279Q0o9fQT660CZgKH6bjJdBY4f1Dc2nX2xKWKL3uVKmtUlfXVSWd2VBxCpB84yiy3GKcoXc1je+Ra7rg4t1BdaLvJaBVwzJKttauzwONK/J4VJaqm9QbbPA5UjmvjcWxMBA4hf3/hFlXd0sDIaeAAE7qbCGxR8OCaMnWq+QqjNUC5JVs7N7EFThnaJXq93jDhKoq2qxONdYxdBNaHZWrm6LyK/neqs6eqlIw0VbqtTOXlLh7W3vy8nODrjuccxc3DMjUJJLbAqR7lr1uruq93qu5vncMl6+lNxl47XQWHZ+kSSWyBqdK8adgY8WXYCFZ1T6nWLq/y66twYj+DR9DUbSER2G2KWu5HBLYQ4jbXVc9gX15tmD6ejqFtbKzxsEY0d2QEay7gWN0XgcdiSPN8V03R5pRs1STWuLW+zr6MYJ3Vi6LvrhrBsS6mIpWPgjdtisgI1kYqex0Vge3xpk0tV03RsS6mIpXXRr0oOiojOAqSdC7iqhEcadEUa1xnQa19lxFsZcRlvgjsMkGtt+OqKTrSoinWuJUknX0ZwTqrF0XfdRbYp/p9/iju0X4Rry+gAsE/9huIf02dp+gHqv3DBlV+yz9eR1jC5BjwB9B+EP9w1xYW18xJ9OOjo8nlQ+ZD4DzAtJgwIAwIA8KAMCAMCANRM2D/dHzUv+K/FuSuYBGwAMDxfRW6xUmDvxyYA3wBuHCaAswFWI6n+02bjkQ28BOQBZbJSpyvPH/yHuA5E+I3sBOgFQKfATPvO9KlwBIjdhLXUKuHwyOHk0ODko4fAxxtv4C3QBGQA3B7UwzQuoBuIB9YCvAfqM28d0i3A6HGsndCA5KOLwOX8ev5VovCWo3TNqfZ29YMwz+HK+vOMHy2wZG+y/Dl4gAGnqEPHaP0owl5FK0N2ARQdNMKkGDeViPATzcEgNmGLxcHMMBn6v1R+jEJefwkQx9AMd8AXHDRuNDkgqwBoLUAjwdT8sMxDHD0UrwJY/QoHfn8gg6f1z2A+ceWBsNnfa6cjwBiDmLgEvrCkbna0qeJhp9piV+Fz/IZRnyj4fPTiIwvNOJycQgDWejHD+AjsBvYDDQCXAlzK8QRew0oAXjk8CvwAjCNUzjLcKp+ZQbl6iwG+ILjCcAFEkchn7MrAT5j+Q1Kis848Qjgy5BQa4LDvOrQoKSdxwBfTmRG6NYsxPkcFhMGhAFhQAMG/gK7ntoqYSgcJQAAAABJRU5ErkJggg==
 name: CSVFeed
 script:
   commands:
@@ -181,10 +206,10 @@ script:
     - contextPath: CSV.Indicator.rawJSON
       description: The indicator rawJSON value.
       type: Unknown
-  dockerimage: demisto/python3:3.8.1.5734
+  dockerimage: demisto/python3:3.8.1.6120
   feed: true
   runonce: false
-  script: |-
+  script: |
     def main():
         feed_main('CSV', prefix='csv')
 
@@ -196,9 +221,11 @@ script:
 
 
     ''' IMPORTS '''
-    import urllib3
     import csv
-    from typing import Optional, Pattern, Dict, Any
+    import gzip
+    import urllib3
+    from dateutil.parser import parse
+    from typing import Optional, Pattern, Dict, Any, Tuple, Union
 
     # disable insecure warnings
     urllib3.disable_warnings()
@@ -221,10 +248,16 @@ script:
                     'fieldnames': ['value'],
                     'indicator_type': 'IP',
                     'mapping': {
-                        'date': 'Date'
+                        'Date': 'date' / 'Date': ('date', r'(regex_string)', 'The date is {}')
                     }
                 }
              }
+             For the mapping you can use either:
+                1. 'indicator_field': 'value_from_feed'
+                2. 'indicator_field': ('value_from_feed', regex_string_extractor, string_formatter)
+                    * regex_string_extractor will extract the first match from the value_from_feed,
+                    Use None to get the full value of the field.
+                    * string_formatter will format the data in your preferred way, Use None to get the extracted field.
             :param fieldnames: list of field names in the file. If *null* the values in the first row of the file are
                 used as names. Default: *null*
             :param insecure: boolean, if *false* feed HTTPS server certificate is verified. Default: *false*
@@ -327,14 +360,14 @@ script:
                     return_error('Exception in request: {} {}'.format(r.status_code, r.content))
                     raise
 
-                response = r.content.decode(self.encoding).split('\n')
+                response = self.get_feed_content_divided_to_lines(url, r)
                 if self.feed_url_to_config:
                     fieldnames = self.feed_url_to_config.get(url, {}).get('fieldnames', [])
                 else:
                     fieldnames = self.fieldnames
                 if self.ignore_regex is not None:
-                    response = filter(
-                        lambda x: self.ignore_regex.match(x) is None,  # type: ignore[union-attr]
+                    response = filter(  # type: ignore
+                        lambda x: self.ignore_regex.match(x) is None,  # type: ignore
                         response
                     )
 
@@ -348,33 +381,81 @@ script:
 
             return results
 
+        def get_feed_content_divided_to_lines(self, url, raw_response):
+            """Fetch feed data and divides its content to lines
+
+            Args:
+                url: Current feed's url.
+                raw_response: The raw response from the feed's url.
+
+            Returns:
+                List. List of lines from the feed content.
+            """
+            if self.feed_url_to_config and self.feed_url_to_config.get(url).get('is_zipped_file'):  # type: ignore
+                response_content = gzip.decompress(raw_response.content)
+            else:
+                response_content = raw_response.content
+
+            return response_content.decode(self.encoding).split('\n')
+
+
+    def determine_indicator_type(indicator_type, default_indicator_type, value):
+        if not indicator_type:
+            indicator_type = default_indicator_type
+        if indicator_type == FeedIndicatorType.Domain and '*' in value:
+            indicator_type = FeedIndicatorType.DomainGlob
+        return indicator_type
+
 
     def module_test_command(client: Client, args):
         if not client.feed_url_to_config:
             indicator_type = args.get('indicator_type', demisto.params().get('indicator_type'))
             if not FeedIndicatorType.is_valid_type(indicator_type):
-                supported_values = ', '.join((
-                    FeedIndicatorType.Account,
-                    FeedIndicatorType.CVE,
-                    FeedIndicatorType.Domain,
-                    FeedIndicatorType.Email,
-                    FeedIndicatorType.File,
-                    FeedIndicatorType.MD5,
-                    FeedIndicatorType.SHA1,
-                    FeedIndicatorType.SHA256,
-                    FeedIndicatorType.Host,
-                    FeedIndicatorType.IP,
-                    FeedIndicatorType.CIDR,
-                    FeedIndicatorType.IPv6,
-                    FeedIndicatorType.IPv6CIDR,
-                    FeedIndicatorType.Registry,
-                    FeedIndicatorType.SSDeep,
-                    FeedIndicatorType.URL
-                ))
+                supported_values = FeedIndicatorType.list_all_supported_indicators()
                 raise ValueError(f'Indicator type of {indicator_type} is not supported. Supported values are:'
                                  f' {supported_values}')
         client.build_iterator()
         return 'ok', {}, {}
+
+
+    def date_format_parsing(date_string):
+        formatted_date = parse(date_string).isoformat()
+        if "+" in formatted_date:
+            formatted_date = formatted_date.split('+')[0]
+
+        if "." in formatted_date:
+            formatted_date = formatted_date.split('.')[0]
+
+        if not formatted_date.endswith('Z'):
+            formatted_date = formatted_date + 'Z'
+
+        return formatted_date
+
+
+    def create_fields_mapping(raw_json: Dict[str, Any], mapping: Dict[str, Union[Tuple, str]]):
+        fields_mapping = {}  # type: dict
+
+        for key, field in mapping.items():
+            regex_extractor = None
+            formatter_string = None
+
+            if isinstance(field, tuple):
+                field, regex_extractor, formatter_string = field
+
+            if not raw_json.get(field):  # type: ignore
+                continue
+
+            try:
+                field_value = re.match(regex_extractor, raw_json[field]).group(1)  # type: ignore
+            except Exception:
+                field_value = raw_json[field]  # type: ignore
+
+            fields_mapping[key] = formatter_string.format(field_value) if formatter_string else field_value
+
+            if key in ['firstseenbysource', 'lastseenbysource']:
+                fields_mapping[key] = date_format_parsing(fields_mapping[key])
+
+        return fields_mapping
 
 
     def fetch_indicators_command(client: Client, default_indicator_type: str, **kwargs):
@@ -391,16 +472,14 @@ script:
                         value = next(iter(item.values()))
                     if value:
                         raw_json['value'] = value
-                        indicator_type = config.get(url, {}).get('indicator_type')
-                        if not indicator_type:
-                            indicator_type = default_indicator_type
+                        conf_indicator_type = config.get(url, {}).get('indicator_type')
+                        indicator_type = determine_indicator_type(conf_indicator_type, default_indicator_type, value)
                         raw_json['type'] = indicator_type
-
                         indicator = {
                             'value': value,
                             'type': indicator_type,
                             'rawJSON': raw_json,
-                            'CustomFields': {field: raw_json[key] for key, field in mapping.items()}
+                            'fields': create_fields_mapping(raw_json, mapping) if mapping else {}
                         }
                         indicators.append(indicator)
 
@@ -412,7 +491,7 @@ script:
         limit = int(args.get('limit'))
         indicators_list = fetch_indicators_command(client, itype)
         entry_result = indicators_list[:limit]
-        hr = tableToMarkdown('Indicators', entry_result, headers=['value', 'type'])
+        hr = tableToMarkdown('Indicators', entry_result, headers=['value', 'type', 'fields'])
         return hr, {}, indicators_list
 
 

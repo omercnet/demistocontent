@@ -13,8 +13,28 @@ configuration:
   name: SecureTrack-User
   required: true
   type: 9
-- defaultvalue: "true"
-  display: Trust any certificate (unsecure)
+- defaultvalue: ""
+  display: SecureChange IP or FQDN
+  name: SecureChange-Server
+  required: false
+  type: 0
+- defaultvalue: ""
+  display: SecureChange User Credentials
+  name: SecureChange-User
+  required: false
+  type: 9
+- defaultvalue: ""
+  display: SecureApp IP or FQDN
+  name: SecureApp-Server
+  required: false
+  type: 0
+- defaultvalue: ""
+  display: SecureApp User Credentials
+  name: SecureApp-User
+  required: false
+  type: 9
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
   name: unsecure
   required: false
   type: 8
@@ -34,7 +54,7 @@ contentitemexportablefields:
     - all
 description: Retrieve and analyze network access controls across Tufin-managed firewalls,
   SDN, and public cloud to identify vulnerable access paths of an attack
-detaileddescription: Learn more about Tufin at [https://www.tufin.com/](https://www.tufin.com/)
+detaileddescription: Learn more about Tufin at https://www.tufin.com/
 display: Tufin
 image: data:image/png;base64,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
 name: Tufin
@@ -97,14 +117,223 @@ script:
     - contextPath: Tufin.Policysearch.NumberRulesFound
       description: Number of rules found via search
       type: number
+  - arguments:
+    - description: IP Address
+      name: ip
+      required: true
+    description: Match the IP address to the assigned Tufin Zone
+    name: tufin-get-zone-for-ip
+    outputs:
+    - contextPath: Tufin.Zone.ID
+      description: Tufin Zone ID
+      type: number
+    - contextPath: Tufin.Zone.Name
+      description: Tufin Zone Name
+      type: string
+  - arguments:
+    - auto: PREDEFINED
+      description: Request Type
+      name: request-type
+      predefined:
+      - Firewall Change Request
+      - Server Decommission Request
+      required: true
+    - auto: PREDEFINED
+      description: Request Priority
+      name: priority
+      predefined:
+      - Critical
+      - High
+      - Normal
+      - Low
+      required: true
+    - description: Source or Target
+      name: source
+      required: true
+    - description: Destination (Mandatory for FW Change)
+      name: destination
+    - auto: PREDEFINED
+      description: Protocol (Mandatory for FW Change)
+      name: protocol
+      predefined:
+      - TCP
+      - UDP
+    - description: Port (Mandatory for FW Change)
+      name: port
+    - auto: PREDEFINED
+      description: Action (Mandatory for FW Change)
+      name: action
+      predefined:
+      - Accept
+      - Drop
+      - Remove
+    - description: Comment
+      name: comment
+    - description: Ticket Subject
+      name: subject
+      required: true
+    description: Submit a change request to SecureChange
+    name: tufin-submit-change-request
+    outputs:
+    - contextPath: Tufin.Request.Status
+      description: Status of the request submission
+      type: string
+  - arguments:
+    - description: Device name
+      name: name
+    - description: Device IP
+      name: ip
+    - description: Device vendor
+      name: vendor
+    - description: Device model
+      name: model
+    description: Search SecureTrack devices
+    name: tufin-search-devices
+    outputs:
+    - contextPath: Tufin.Device.ID
+      description: Device ID
+      type: number
+    - contextPath: Tufin.Device.Name
+      description: Device name
+      type: string
+    - contextPath: Tufin.Device.Vendor
+      description: Device vendor
+      type: string
+    - contextPath: Tufin.Device.Model
+      description: Device model
+      type: string
+    - contextPath: Tufin.Device.IP
+      description: Device IP
+      type: string
+  - arguments:
+    - description: SecureChange Ticket ID
+      name: ticket-id
+      required: true
+    description: Get information on a SecureChange Ticket (ID retrieved from SecureChange
+      UI)
+    name: tufin-get-change-info
+    outputs:
+    - contextPath: Tufin.Ticket.ID
+      description: Ticket ID
+      type: number
+    - contextPath: Tufin.Ticket.Subject
+      description: Ticket subject
+      type: string
+    - contextPath: Tufin.Ticket.Priority
+      description: Ticket priority
+      type: string
+    - contextPath: Tufin.Ticket.Status
+      description: Ticket status
+      type: string
+    - contextPath: Tufin.Ticket.Requester
+      description: Ticket requester
+      type: string
+    - contextPath: Tufin.Ticket.WorkflowID
+      description: Ticket workflow ID
+      type: number
+    - contextPath: Tufin.Ticket.WorkflowName
+      description: Ticket workflow name
+      type: string
+    - contextPath: Tufin.Ticket.CurrentStep
+      description: Ticket current step
+      type: string
+  - arguments:
+    - description: Application name
+      name: name
+    description: Search SecureApp applications
+    name: tufin-search-applications
+    outputs:
+    - contextPath: Tufin.App.ID
+      description: Application ID
+      type: number
+    - contextPath: Tufin.App.Name
+      description: Application name
+      type: string
+    - contextPath: Tufin.App.Status
+      description: Application status
+      type: string
+    - contextPath: Tufin.App.Decommissioned
+      description: Is the application decommissioned
+      type: string
+    - contextPath: Tufin.App.OwnerID
+      description: Application owner ID
+      type: string
+    - contextPath: Tufin.App.OwnerName
+      description: Application owner name
+      type: string
+    - contextPath: Tufin.App.Comments
+      description: Application comments
+      type: string
+  - arguments:
+    - description: Application ID
+      name: application-id
+      required: true
+    description: Get SecureApp application connections
+    name: tufin-search-application-connections
+    outputs:
+    - contextPath: Tufin.AppConnection.ID
+      description: Connection ID
+      type: number
+    - contextPath: Tufin.AppConnection.Name
+      description: Connection name
+      type: string
+    - contextPath: Tufin.AppConnection.AppID
+      description: Application ID
+      type: number
+    - contextPath: Tufin.AppConnection.Status
+      description: Connection status
+      type: string
+    - contextPath: Tufin.AppConnection.Source
+      description: Connection source list
+      type: string
+    - contextPath: Tufin.AppConnection.Destination
+      description: Connection destination list
+      type: string
+    - contextPath: Tufin.AppConnection.Service
+      description: Connection service list
+      type: string
+    - contextPath: Tufin.AppConnection.Comment
+      description: Connection comment
+      type: string
+  dockerimage: demisto/netutils:1.0.0.5165
   runonce: false
-  script: |-
+  script: |2
+
+
     import json
     import requests
     import socket
+    from typing import Dict, Any, List
+    from netaddr import IPNetwork, IPAddress
 
     # Disable insecure warnings
     requests.packages.urllib3.disable_warnings()
+
+    '''
+    Templates for change requests
+
+    Change these templates if you have customized your Firewall Change Request or Server Decommission Request worflows to match
+    your workflow.  To view the JSON structure of your customized workflows, create a sample ticket then view the data via the
+    API: https://<SecureChange IP Address>/securechangeworkflow/api/securechange/tickets/<tickt_ID>.json
+    '''
+
+    FW_CHANGE_REQ = json.loads('''{ "ticket": { "subject": "", "priority": "", "workflow": { "name": "Firewall Change Request",
+                               "uses_topology": true }, "steps": { "step": [ { "name": "Submit Access Request", "tasks": { "task":
+                               { "fields": { "field": { "@xsi.type": "multi_access_request", "name": "Required Access",
+                               "access_request": { "use_topology": true, "targets": { "target": { "@type": "ANY" } },
+                               "users": { "user": [ "Any" ] }, "sources": { "source": [ { "@type": "IP", "ip_address": "",
+                               "netmask": "255.255.255.255", "cidr": 32 } ] }, "destinations": { "destination": [ { "@type": "IP",
+                               "ip_address": "", "netmask": "255.255.255.255", "cidr": 32 } ] }, "services": { "service":
+                                [ { "@type": "PROTOCOL", "protocol": "", "port": 0 } ] }, "action": "" } } } } } } ] },
+                                "comments": "" } }''')
+    SERVER_DECOM_REQ = json.loads('''{ "ticket": { "subject": "", "priority": "", "workflow": { "name":
+                                  "Server Decommission Request", "uses_topology": false }, "steps": { "step": [ {
+                                  "name": "Server Decommission Request", "tasks": { "task": { "fields": { "field": { "@xsi.type":
+                                  "multi_server_decommission_request", "name": "Request verification",
+                                  "server_decommission_request": { "servers": { "server": { "@type": "IP", "ip_address": "",
+                                  "netmask": "255.255.255.255", "cidr": 32 } }, "targets": { "target": { "@type": "ANY" } },
+                                  "comment": "" } } } } } } ] }, "comments": "" }}''')
+
     # remove proxy if not set to true in params
     if not demisto.params().get('proxy'):
         del os.environ['HTTP_PROXY']
@@ -112,7 +341,8 @@ script:
         del os.environ['http_proxy']
         del os.environ['https_proxy']
 
-    def tos_request(path, params=None, headers=None):
+
+    def tos_request(tos_app, req_type, path, params=None, headers=None, data=None):
         """ Function to access TOS via REST API """
         if headers is None:
             headers = {
@@ -122,29 +352,60 @@ script:
             }
 
         # Get Configuration
-        st_ip = demisto.params()['SecureTrack-Server']
-        st_user = demisto.params()['SecureTrack-User']['identifier']
-        st_pass = demisto.params()['SecureTrack-User']['password']
+        tos_ip = ""
+        tos_user = ""
+        tos_pass = ""
+        if tos_app == "st":
+            tos_ip = demisto.params()['SecureTrack-Server']
+            tos_user = demisto.params()['SecureTrack-User']['identifier']
+            tos_pass = demisto.params()['SecureTrack-User']['password']
+        elif tos_app == "sc":
+            tos_ip = demisto.params()['SecureChange-Server']
+            tos_user = demisto.params()['SecureChange-User']['identifier']
+            tos_pass = demisto.params()['SecureChange-User']['password']
+        elif tos_app == "sa":
+            tos_ip = demisto.params()['SecureApp-Server']
+            tos_user = demisto.params()['SecureApp-User']['identifier']
+            tos_pass = demisto.params()['SecureApp-User']['password']
         verify_ssl = not demisto.params().get('unsecure', False)
-        url = 'https://' + st_ip + path
+        url = 'https://' + tos_ip + path
 
         # Go do
-        try:
-            res = requests.get(url, params=params, headers=headers, auth=(st_user, st_pass), verify=verify_ssl)
-        except requests.exceptions.RequestException as e:
-            return_error(str(e))
-
-        # Check output
-        if res.status_code != requests.codes.ok:
-            if res.status_code == 401:
-                return_error('TOS Reached, Auth Failed. Please check your credentials')
-            else:
-                return_error('Error {} Reaching {} to TOS: {}'.format(res.status_code, res.url, res.reason))
-        else:
+        if req_type.upper() == 'GET':
             try:
-                return res.json()
-            except:
-                return res.content
+                res = requests.get(url, params=params, headers=headers, auth=(tos_user, tos_pass), verify=verify_ssl)
+            except requests.exceptions.RequestException as e:
+                return_error(str(e))
+
+            # Check output
+            if res.status_code == 200 or res.status_code == 201:
+                try:
+                    return res.json()
+                except json.decoder.JSONDecodeError:
+                    return res.content
+            else:
+                if res.status_code == 401:
+                    return_error('TOS Reached, Auth Failed. Please check your credentials')
+                else:
+                    return_error('Error {} Reaching {} to TOS: {}'.format(res.status_code, res.url, res.reason))
+        elif req_type.upper() == 'POST':
+            try:
+                res = requests.post(url, data=data, params=params, headers=headers, auth=(tos_user, tos_pass), verify=verify_ssl)
+            except requests.exceptions.RequestException as e:
+                return_error(str(e))
+
+            # Check output
+            if res.status_code == 200 or res.status_code == 201:
+                try:
+                    return res.json()
+                except json.decoder.JSONDecodeError:
+                    return res.content
+            else:
+                if res.status_code == 401:
+                    return_error('TOS Reached, Auth Failed. Please check your credentials')
+                else:
+                    return_error('Error {} Reaching {} to TOS: {}'.format(res.status_code, res.url, res.reason))
+
 
     def valid_ip(ipa):
         # ipaddress module not installed by default, using this approach
@@ -154,9 +415,10 @@ script:
         except socket.error:
             return False
 
+
     def path_finder(querystring):
         # Define the basic output for the function, augmenting later with TOS data
-        entry = {
+        entry: Dict[str, Any] = {
             'Type': entryTypes['note'],
             'Contents': '',
             'ContentsFormat': formats['json'],
@@ -166,25 +428,33 @@ script:
         }
 
         # Ask TOS for the path
-        o = tos_request('/securetrack/api/topology/path', querystring)
+        o = tos_request('st', 'GET', '/securetrack/api/topology/path', querystring)
 
         # Verify the data and return
         try:
             entry['EntryContext']['Tufin.Topology.TrafficAllowed'] = o['path_calc_results']['traffic_allowed']
-            # entry['EntryContext']['Tufin.TrafficRawJSON'] = o['path_calc_results']['device_info']
             entry['EntryContext']['Tufin.Topology.TrafficDevices'] = [d['name'] for d in o['path_calc_results']['device_info']]
             entry['Contents'] = o['path_calc_results']['device_info']
-            entry['HumanReadable'] = tableToMarkdown('Tufin Topology Search for {} to {} via Service {}. Traffic is {}'.format(querystring['src'],
-                                                    querystring['dst'], querystring['service'], ('**Denied**', '**Allowed**')[o['path_calc_results']['traffic_allowed']]),
-                                                    {'Start': querystring['src'], 'Devices in Path' : '-->'.join(['**' + d['name'] + '**' + ' ({})'.format(d['vendor']) for d in o['path_calc_results']['device_info']]),
-                                                    'End': querystring['dst']}, ['Start', 'Devices in Path', 'End'])
+            entry['HumanReadable'] = tableToMarkdown(
+                'Tufin Topology Search for {} to {} via Service {}. Traffic is {}'.format(querystring['src'],
+                                                                                          querystring['dst'],
+                                                                                          querystring['service'],
+                                                                                          ('**Denied**', '**Allowed**')[
+                                                                                              o['path_calc_results'][
+                                                                                                  'traffic_allowed']]),
+                {'Start': querystring['src'], 'Devices in Path': '-->'.join(
+                    ['**' + d['name'] + '**' + ' ({})'.format(d['vendor']) for d in o['path_calc_results']['device_info']]),
+                 'End': querystring['dst']}, ['Start', 'Devices in Path', 'End'])
+
         except KeyError:
             return_error('Unknown Output Returned')
         # Send back to Demisto inside function
         return entry
 
+
     def path_finder_command():
-        """ Sample query: querystring = {'src':'10.80.80.0','dst':'172.16.200.80','service':'tcp:22','includeIncompletePaths':'true'} """
+        ''' Sample query: querystring = {'src':'10.80.80.0','dst':'172.16.200.80',
+            'service':'tcp:22','includeIncompletePaths':'true'} '''
         # Build the query from user input
         querystring = {
             'src': demisto.args()['source'],
@@ -194,6 +464,7 @@ script:
         }
         e = path_finder(querystring)
         demisto.results(e)
+
 
     def path_finder_image(querystring):
         entry = {
@@ -206,10 +477,10 @@ script:
         }
 
         try:
-            headers = {'accept': 'image/png','content-type': 'application/json','cache-control': 'no-cache'}
-            img = tos_request('/securetrack/api/topology/path_image', querystring, headers)
+            headers = {'accept': 'image/png', 'content-type': 'application/json', 'cache-control': 'no-cache'}
+            img = tos_request('st', 'GET', '/securetrack/api/topology/path_image', querystring, headers)
             # simple check if we have an image or error message.
-            if len(img) > 100:
+            if len(img) > 20:
                 # Send back to Demisto inside function
                 return fileResult('topo.png', img, entryTypes['image'])
             else:
@@ -217,11 +488,13 @@ script:
                 entry['Contents'] = 'No Valid Path Found'
                 # Send back to Demisto inside function
                 return entry
-        except:
-            return_error('Error Running Query')
+        except Exception as e:
+            return_error('Error Running Query: {}'.format(e))
+
 
     def path_finder_image_command():
-        """ Sample query: querystring = {'src':'10.80.80.0','dst':'172.16.200.80','service':'tcp:80','includeIncompletePaths':'true','displayBlockedStatus':'true'} """
+        ''' Sample query: querystring = {'src':'10.80.80.0','dst':'172.16.200.80',
+            'service':'tcp:80','includeIncompletePaths':'true','displayBlockedStatus':'true'} '''
         querystring = {
             'src': demisto.args()['source'],
             'dst': demisto.args()['destination'],
@@ -232,11 +505,13 @@ script:
         e = path_finder_image(querystring)
         demisto.results(e)
 
+
     def device_name(devices, device_id):
         return [e['name'] + ' ({} {})'.format(e['vendor'], e['model']) for e in devices if int(e['id']) == int(device_id)][0]
 
+
     def object_lookup(querystring):
-        entry = {
+        entry: Dict[str, Any] = {
             'Type': entryTypes['note'],
             'Contents': '',
             'ContentsFormat': formats['json'],
@@ -245,9 +520,9 @@ script:
             'EntryContext': {}
         }
 
-        return_json = {'objects': []}
+        return_json: Dict[str, List] = {'objects': []}
 
-        o = tos_request('/securetrack/api/network_objects/search', querystring)
+        o = tos_request('st', 'GET', '/securetrack/api/network_objects/search', querystring)
 
         # Validate result
         try:
@@ -256,13 +531,14 @@ script:
             total = 0
 
         if total > 0:
-            device_json = tos_request('/securetrack/api/devices')['devices']['device']
+            device_json = tos_request('st', 'GET', '/securetrack/api/devices')['devices']['device']
             objs = o['network_objects']['network_object']
             if not isinstance(o['network_objects']['network_object'], list):
                 objs = [objs]
             for obj in objs:
                 # display_name device_id
-                return_json['objects'].append({'object_name': obj['display_name'], 'device': device_name(device_json, obj['device_id']), 'comment': obj['comment']})
+                return_json['objects'].append({'object_name': obj['display_name'], 'device': device_name(device_json,
+                                              obj['device_id']), 'comment': obj['comment']})
         else:
             entry['HumanReadable'] = 'No Results'
             entry['EntryContext']['Tufin.ObjectResolve.NumberOfObjects'] = 0
@@ -271,9 +547,11 @@ script:
         # Return to Demisto
         entry['Contents'] = json.dumps(return_json)
         entry['EntryContext']['Tufin.ObjectResolve.NumberOfObjects'] = total
-        entry['HumanReadable'] = tableToMarkdown('Object Lookup for {}'.format(querystring['exact_subnet']), return_json['objects'], ['object_name', 'device', 'comment'], underscoreToCamelCase, removeNull=True)
+        entry['HumanReadable'] = tableToMarkdown('Object Lookup for {}'.format(querystring['exact_subnet']), return_json['objects'],
+                                                 ['object_name', 'device', 'comment'], underscoreToCamelCase, removeNull=True)
         # Send back to Demisto inside function
         return entry
+
 
     def object_lookup_command():
         """ Sample query: querystring = {'filter':'subnet','count':'50','exact_subnet':'1.1.1.1'} """
@@ -293,7 +571,7 @@ script:
     def policy_search(querystring, max_rules_per_device=100):
         """ Search policy across all devices.  See docs for syntax """
         u = '/securetrack/api/rule_search'
-        entry = {
+        entry: Dict[str, Any] = {
             'Type': entryTypes['note'],
             'Contents': '',
             'ContentsFormat': formats['json'],
@@ -302,7 +580,7 @@ script:
             'EntryContext': {}
         }
 
-        matches = tos_request(u, querystring)
+        matches = tos_request('st', 'GET', u, querystring)
         search_devices = [e['device_id'] for e in matches['device_list']['device'] if int(e['rule_count']) > 0]
 
         if not len(search_devices):
@@ -315,9 +593,9 @@ script:
             querystring['count'] = max_rules_per_device
             querystring['start'] = 0
             rule_return = []
-            device_json = tos_request('/securetrack/api/devices')['devices']['device']
+            device_json = tos_request('st', 'GET', '/securetrack/api/devices')['devices']['device']
             for d in search_devices:
-                rules = tos_request(u + '/{}'.format(d), querystring)
+                rules = tos_request('st', 'GET', u + '/{}'.format(d), querystring)
                 # If no matches(there should be) just break the iteration
                 if rules['rules']['count'] == 0:
                     break
@@ -337,9 +615,12 @@ script:
             # Send back to Demisto
             entry['Contents'] = json.dumps(rule_return)
             entry['EntryContext']['Tufin.Policysearch.NumberRulesFound'] = rule_total
-            entry['HumanReadable'] = tableToMarkdown('Policy Search Results for {}'.format(querystring['search_text']), rule_return, ['Device', 'Source', 'Source Service', 'Destination', 'Destination Service', 'Action'], removeNull=True)
+            entry['HumanReadable'] = tableToMarkdown('Policy Search Results for {}'.format(querystring['search_text']),
+                                                     rule_return, ['Device', 'Source', 'Source Service', 'Destination',
+                                                     'Destination Service', 'Action'], removeNull=True)
             # Send back to Demisto inside function
             return entry
+
 
     def policy_search_command():
         max_rules_per_device = demisto.params()['MaxRules']
@@ -347,9 +628,330 @@ script:
         e = policy_search(querystring, max_rules_per_device)
         demisto.results(e)
 
+
+    def zone_match(ipaddr):
+        """ Find the zone for the given IP address """
+        entry: Dict[str, Any] = {
+            'Type': entryTypes['note'],
+            'Contents': '',
+            'ContentsFormat': formats['text'],
+            'ReadableContentsFormat': formats['markdown'],
+            'HumanReadable': '',
+            'EntryContext': {}
+        }
+        try:
+            zone_list = tos_request('st', 'GET', '/securetrack/api/zones/')
+            for zone in zone_list['zones']['zone']:
+                zone_subnets = tos_request('st', 'GET', '/securetrack/api/zones/%s/entries' % zone['id'])
+                zone.update(zone_subnets)
+                for subnet in zone_subnets['zone_entries']['zone_entry']:
+                    ipnet = '%s/%s' % (subnet['ip'], subnet['prefix'])
+                    if IPAddress(ipaddr) in IPNetwork(ipnet):
+                        z = {}
+                        z['Name'] = zone['name']
+                        z['ID'] = int(zone['id'])
+                        entry['EntryContext']['Tufin.Zone'] = [z]
+                        entry['Contents'] = zone
+                        entry['HumanReadable'] = tableToMarkdown('Tufin Zone Search for {}'.format(ipaddr),
+                                                                 {'Name': zone['name'], 'ID': zone['id']},
+                                                                 ['Name', 'ID'], removeNull=True)
+                        return entry
+        except Exception as e:
+            return_error(f'Error retrieving zone: {str(e)}')
+        entry['EntryContext']['Tufin.Zones'] = [{'Name': 'None', 'ID': 'None'}]
+        entry['Contents'] = 'Not Found'
+        entry['HumanReadable'] = tableToMarkdown('Tufin Zone Search for {}'.format(ipaddr),
+                                                 {'Name': 'Not Found', 'ID': '0'}, ['Name', 'ID'], removeNull=True)
+        return entry
+
+
+    def zone_match_command():
+
+        ipaddr = demisto.getArg('ip')
+        e = zone_match(ipaddr)
+        demisto.results(e)
+
+
+    def change_req(req_type, subj, priority, src, dst='', proto='', port='', action='', comment=''):
+        """ Submit a change request to SecureChange """
+        entry: Dict[str, Any] = {
+            'Type': entryTypes['note'],
+            'Contents': '',
+            'ContentsFormat': formats['text'],
+            'ReadableContentsFormat': formats['markdown'],
+            'HumanReadable': '',
+            'EntryContext': {}
+        }
+        try:
+            if req_type.lower() == 'firewall change request':
+                # Check for valid input
+                if (dst == '' or proto == '' or port == '' or action == ''
+                        or dst is None or proto is None or port is None or action is None):
+                    return_error('''Request Type, Subject, Priority, Source, Destination, Protocol,
+                                 Port and Action parameters are mandatory for this request type''')
+                if not priority.capitalize() in ['Critical', 'High', 'Normal', 'Low']:
+                    return_error('Priority must be Critical, High, Normal or Low')
+                if not proto.upper() in ['TCP', 'UDP']:
+                    return_error('Protocol must be TCP or UDP')
+                if not action.capitalize() in ['Accept', 'Drop', 'Remove']:
+                    return_error('Action must be Accept, Drop or Remove')
+                if not port.isdigit():
+                    return_error('Port must be an integer')
+                # Build change request JSON
+                req = FW_CHANGE_REQ
+                req['ticket']['subject'] = subj
+                req['ticket']['priority'] = priority.capitalize()
+                (req['ticket']['steps']['step'][0]['tasks']['task']['fields']['field']
+                    ['access_request']['sources']['source'][0]['ip_address']) = src
+                (req['ticket']['steps']['step'][0]['tasks']['task']['fields']['field']
+                    ['access_request']['destinations']['destination'][0]['ip_address']) = dst
+                (req['ticket']['steps']['step'][0]['tasks']['task']['fields']['field']
+                    ['access_request']['services']['service'][0]['protocol']) = proto.upper()
+                (req['ticket']['steps']['step'][0]['tasks']['task']['fields']['field']
+                    ['access_request']['services']['service'][0]['port']) = int(port)
+                (req['ticket']['steps']['step'][0]['tasks']['task']['fields']['field']
+                    ['access_request']['action']) = action.capitalize()
+                req['ticket']['comment'] = comment
+                tos_request('sc', 'POST', '/securechangeworkflow/api/securechange/tickets', data=json.dumps(req))
+                entry['Contents'] = {'status': 'Ticket Created'}
+                entry['HumanReadable'] = tableToMarkdown('{} ticket request'.format(req_type),
+                                                         {'status': 'Success'}, ['status'], removeNull=True)
+                entry['EntryContext']['Tufin.Request.Status'] = 'Success'
+                return entry
+            elif req_type.lower() == 'server decommission request':
+                # Check for valid input
+                if not priority.capitalize() in ['Critical', 'High', 'Normal', 'Low']:
+                    return_error('Priority must be Critical, High, Normal or Low')
+                # Build change request JSON
+                req = SERVER_DECOM_REQ
+                req['ticket']['subject'] = subj
+                req['ticket']['priority'] = priority.capitalize()
+                (req['ticket']['steps']['step'][0]['tasks']['task']['fields']['field']
+                    ['server_decommission_request']['servers']['server']['ip_address']) = src
+                req['ticket']['comment'] = comment
+                tos_request('st', 'POST', '/securechangeworkflow/api/securechange/tickets', data=json.dumps(req))
+                entry['Contents'] = {'status': 'Ticket Created'}
+                entry['HumanReadable'] = tableToMarkdown('{} ticket request'.format(req_type),
+                                                         {'status': 'Success'}, ['status'], removeNull=True)
+                entry['EntryContext']['Tufin.Request.Status'] = 'Success'
+                return entry
+        except Exception as e:
+            return_error(f'Error submitting request: {str(e)}')
+        return entry
+
+
+    def change_req_command():
+        req_type = demisto.getArg('request-type')
+        subject = demisto.getArg('subject')
+        priority = demisto.getArg('priority')
+        source = demisto.getArg('source')
+        destination = demisto.getArg('destination')
+        protocol = demisto.getArg('protocol')
+        port = demisto.getArg('port')
+        action = demisto.getArg('action')
+        comment = demisto.getArg('comment')
+        e = change_req(req_type, subject, priority, source, destination, protocol, port, action, comment)
+        demisto.results(e)
+
+
+    def dev_search(name='', ip='', vendor='', model=''):
+        """ Search SecureTrack Devices """
+        entry: Dict[str, Any] = {
+            'Type': entryTypes['note'],
+            'Contents': '',
+            'ContentsFormat': formats['text'],
+            'ReadableContentsFormat': formats['markdown'],
+            'HumanReadable': '',
+            'EntryContext': {}
+        }
+        dev_list = []
+        try:
+            qstr = '?show_os_version=true'
+            if not name == '' and name is not None:
+                qstr = '{}&name={}'.format(qstr, name)
+            if not ip == '' and ip is not None:
+                qstr = '{}&ip={}'.format(qstr, ip)
+            if not vendor == '' and vendor is not None:
+                qstr = '{}&vendor={}'.format(qstr, vendor)
+            if not model == '' and model is not None:
+                qstr = '{}&model={}'.format(qstr, model)
+            url = '/securetrack/api/devices{}'.format(qstr)
+            devices = tos_request('st', 'GET', url)
+            if devices['devices']['count'] > 0:
+                for device in devices['devices']['device']:
+                    if 'ip' in device.keys():
+                        dev_list.append({'ID': int(device['id']), 'Name': device['name'], 'IP': device['ip'],
+                                         'Vendor': device['vendor'], 'Model': device['model']})
+                    else:
+                        dev_list.append({'ID': int(device['id']), 'Name': device['name'], 'IP': '0.0.0.0',
+                                         'Vendor': device['vendor'], 'Model': device['model']})
+                entry['Contents'] = devices
+                entry['EntryContext'] = {'Tufin.Device': dev_list}
+                entry['HumanReadable'] = tableToMarkdown('Device Search Results', dev_list,
+                                                         ['ID', 'Name', 'IP', 'Vendor', 'Model'], removeNull=True)
+        except Exception as e:
+            return_error(f'Error submitting request: {str(e)}')
+        return entry
+
+
+    def dev_search_command():
+        name = demisto.getArg('name')
+        ip = demisto.getArg('ip')
+        vendor = demisto.getArg('vendor')
+        model = demisto.getArg('model')
+        e = dev_search(name, ip, vendor, model)
+        demisto.results(e)
+
+
+    def change_info(ticket_id):
+        """ Get the information from a change request """
+        entry: Dict[str, Any] = {
+            'Type': entryTypes['note'],
+            'Contents': '',
+            'ContentsFormat': formats['text'],
+            'ReadableContentsFormat': formats['markdown'],
+            'HumanReadable': '',
+            'EntryContext': {}
+        }
+        try:
+            url = '/securechangeworkflow/api/securechange/tickets/{}'.format(ticket_id)
+            ticket = tos_request('sc', 'GET', url)
+            cur_step = ''
+            if type(ticket['ticket']['current_step']) != str:
+                cur_step = ticket['ticket']['current_step']['name']
+            else:
+                cur_step = ''
+            comments = ''
+            if type(ticket['ticket']['comments']) != str:
+                for comment in ticket['ticket']['comments']['comment']:
+                    comments = '{}\n{}: {}'.format(comments, comment['created'], comment['content'])
+            else:
+                comments = ''
+            entry['Contents'] = ticket['ticket']
+            chg = {}
+            chg['ID'] = ticket['ticket']['id']
+            chg['Subject'] = ticket['ticket']['subject']
+            chg['Priority'] = ticket['ticket']['priority']
+            chg['Status'] = ticket['ticket']['status']
+            chg['CurrentStep'] = cur_step
+            chg['Requester'] = ticket['ticket']['requester']
+            chg['WorkflowID'] = ticket['ticket']['workflow']['id']
+            chg['WorkflowName'] = ticket['ticket']['workflow']['name']
+            entry['EntryContext']['Tufin.Ticket'] = [chg]
+            entry['HumanReadable'] = tableToMarkdown('Ticket ID {}'.format(ticket_id), {'ID': ticket['ticket']['id'],
+                                                     'Subject': ticket['ticket']['subject'],
+                                                     'Priority': ticket['ticket']['priority'], 'Status': ticket['ticket']['status'],
+                                                     'CurrentStep': cur_step, 'Requester': ticket['ticket']['requester'],
+                                                     'Comments': comments}, ['ID', 'Subject', 'Priority', 'Status', 'CurrentStep',
+                                                     'Requester', 'Comments'])
+        except Exception as e:
+            return_error(f'Error submitting request: {str(e)}')
+        return entry
+
+
+    def change_info_command():
+        ticket_id = demisto.getArg('ticket-id')
+        e = change_info(ticket_id)
+        demisto.results(e)
+
+
+    def app_search(name=''):
+        """ Search for applications in SecureApp """
+        entry: Dict[str, Any] = {
+            'Type': entryTypes['note'],
+            'Contents': '',
+            'ContentsFormat': formats['text'],
+            'ReadableContentsFormat': formats['markdown'],
+            'HumanReadable': '',
+            'EntryContext': {}
+        }
+        try:
+            url = '/securechangeworkflow/api/secureapp/repository/applications'
+            if name is not None and name != '':
+                url = '{}?name={}'.format(url, name)
+            apps = tos_request('sa', 'GET', url)
+            app_list = []
+            for app in apps['applications']['application']:
+                app_list.append({'ID': app['id'], 'Name': app['name'], 'Status': app['status'],
+                                 'Decommissioned': app['decommissioned'], 'OwnerID': app['owner']['id'],
+                                 'OwnerName': app['owner']['name'], 'Comments': app['comment']})
+            entry['Contents'] = app_list
+            entry['EntryContext']['Tufin.App'] = app_list
+            entry['HumanReadable'] = tableToMarkdown('Application Search Results', app_list,
+                                                     ['ID', 'Name', 'Status', 'OwnerName', 'Comments'], removeNull=True)
+        except Exception as e:
+            return_error(f'Error submitting request: {str(e)}')
+        return entry
+
+
+    def app_search_command():
+        name = demisto.getArg('name')
+        e = app_search(name)
+        demisto.results(e)
+
+
+    def app_conns(app_id):
+        """ Get application connections from SecureApp """
+        entry: Dict[str, Any] = {
+            'Type': entryTypes['note'],
+            'Contents': '',
+            'ContentsFormat': formats['text'],
+            'ReadableContentsFormat': formats['markdown'],
+            'HumanReadable': '',
+            'EntryContext': {}
+        }
+        try:
+            url = '/securechangeworkflow/api/secureapp/repository/applications/{}/connections'.format(app_id)
+            conns = tos_request('sa', 'GET', url)
+            conn_list = []
+            conn_md = '### Connections for application ID: {}'.format(app_id)
+            for conn in conns['connections']['connection']:
+                conn_md = '{}\n#### Connection: {} ({})\nStatus: **{}**\nExternal: **{}**\nComment: **{}**'.format(conn_md,
+                                                                                                                   conn['name'],
+                                                                                                                   conn['id'],
+                                                                                                                   conn['status'],
+                                                                                                                   conn['external'],
+                                                                                                                   conn['comment'])
+                # Get sources
+                source_list = []
+                conn_md = '{}\n\n**Source:**\nid|type|name\n---|---|---'.format(conn_md)
+                for source in conn['sources']['source']:
+                    source_list.append(source['name'])
+                    conn_md = '{}\n{} | {} | {}'.format(conn_md, source['id'], source['type'], source['name'])
+                # Get destinations
+                dest_list = []
+                conn_md = '{}\n\n**Destination:**\nid|type|name\n---|---|---'.format(conn_md)
+                for dest in conn['destinations']['destination']:
+                    dest_list.append(dest['name'])
+                    conn_md = '{}\n{} | {} | {}'.format(conn_md, dest['id'], dest['type'], dest['name'])
+                # Get services
+                service_list = []
+                conn_md = '{}\n\n**Service:**\nid|name\n---|---'.format(conn_md)
+                for service in conn['services']['service']:
+                    service_list.append(service['name'])
+                    conn_md = '{}\n{} | {}'.format(conn_md, service['id'], service['name'])
+                # Add to connection list
+                conn_list.append({'ID': conn['id'], 'Name': conn['name'], 'AppID': app_id, 'Status': conn['status'],
+                                  'External': conn['external'], 'Source': source_list, 'Destination': dest_list,
+                                  'Service': service_list, 'Comment': conn['comment']})
+            entry['Contents'] = conn_list
+            entry['EntryContext']['Tufin.AppConnection'] = conn_list
+            entry['HumanReadable'] = conn_md
+        except Exception as e:
+            return_error(f'Error submitting request: {str(e)}')
+        return entry
+
+
+    def app_conns_command():
+        app_id = demisto.getArg('application-id')
+        e = app_conns(app_id)
+        demisto.results(e)
+
+
     def test_command():
-        tos_request('/securetrack/api/devices')
+        tos_request('st', 'GET', '/securetrack/api/devices')
         demisto.results('ok')
+
 
     # Demisto Command Routing
     try:
@@ -364,7 +966,20 @@ script:
             path_finder_image_command()
         elif demisto.command() == 'tufin-policy-search':
             policy_search_command()
+        elif demisto.command() == 'tufin-get-zone-for-ip':
+            zone_match_command()
+        elif demisto.command() == 'tufin-submit-change-request':
+            change_req_command()
+        elif demisto.command() == 'tufin-search-devices':
+            dev_search_command()
+        elif demisto.command() == 'tufin-get-change-info':
+            change_info_command()
+        elif demisto.command() == 'tufin-search-applications':
+            app_search_command()
+        elif demisto.command() == 'tufin-search-application-connections':
+            app_conns_command()
     except Exception as e:
         return_error(e)
+  subtype: python3
   type: python
 system: true

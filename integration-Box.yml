@@ -3,8 +3,8 @@ commonfields:
   id: Box
   version: -1
 configuration:
-- defaultvalue: "True"
-  display: Use system proxy settings
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
   name: insecure
   required: false
   type: 8

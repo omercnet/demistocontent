@@ -4,52 +4,22 @@ commonfields:
   version: -1
 configuration:
 - defaultvalue: https://www.spamhaus.org/drop/drop.txt
-  display: Sub-Feeds
+  display: Services
   name: url
   options:
   - https://www.spamhaus.org/drop/edrop.txt
   - https://www.spamhaus.org/drop/drop.txt
   required: false
   type: 16
-- defaultvalue: ""
+- defaultvalue: "true"
   display: Fetch indicators
   name: feed
   required: false
   type: 8
-- defaultvalue: "60"
-  display: Fetch Interval
-  name: feedFetchInterval
-  required: false
-  type: 19
-- defaultvalue: B - Usually reliable
-  display: Reliability
-  name: feedReliability
-  options:
-  - A - Completely reliable
-  - B - Usually reliable
-  - C - Fairly reliable
-  - D - Not usually reliable
-  - E - Unreliable
-  - F - Reliability cannot be judged
-  required: false
-  type: 15
-- defaultvalue: ""
-  display: ""
-  name: expiration
-  required: false
-  type: 17
-- additionalinfo: When selected, the exclusion list is ignored for indicators from
-    this feed. This means that if an indicator from this feed is on the exclusion
-    list, the indicator might still be added to the system.
-  defaultvalue: ""
-  display: Bypass exclusion list
-  name: feedBypassExclusionList
-  required: false
-  type: 8
 - additionalinfo: Indicators from this integration instance will be marked with this
-    reputation.
+    reputation
   defaultvalue: Bad
-  display: Indicator reputation
+  display: Indicator Reputation
   name: feedReputation
   options:
   - None
@@ -58,18 +28,53 @@ configuration:
   - Bad
   required: false
   type: 18
+- additionalinfo: Reliability of the source providing the intelligence data
+  defaultvalue: B - Usually reliable
+  display: Source Reliability
+  name: feedReliability
+  options:
+  - A - Completely reliable
+  - B - Usually reliable
+  - C - Fairly reliable
+  - D - Not usually reliable
+  - E - Unreliable
+  - F - Reliability cannot be judged
+  required: true
+  type: 15
 - defaultvalue: indicatorType
   display: ""
-  hidden: true
   name: feedExpirationPolicy
+  options:
+  - never
+  - interval
+  - indicatorType
+  - suddenDeath
   required: false
-  type: 0
-- defaultvalue: ""
+  type: 17
+- defaultvalue: "20160"
   display: ""
-  hidden: true
   name: feedExpirationInterval
   required: false
   type: 1
+- defaultvalue: "60"
+  display: Feed Fetch Interval
+  name: feedFetchInterval
+  required: false
+  type: 19
+- additionalinfo: When selected, the exclusion list is ignored for indicators from
+    this feed. This means that if an indicator from this feed is on the exclusion
+    list, the indicator might still be added to the system.
+  defaultvalue: ""
+  display: Bypass exclusion list
+  name: feedBypassExclusionList
+  required: false
+  type: 8
+- additionalinfo: Supports CSV values.
+  defaultvalue: ""
+  display: Tags
+  name: feedTags
+  required: false
+  type: 0
 - defaultvalue: ""
   display: Trust any certificate (not secure)
   name: insecure
@@ -91,6 +96,7 @@ contentitemexportablefields:
     propagationLabels:
     - all
 description: Use the Spamhaus feed integration to fetch indicators from the feed.
+detaileddescription: ' '
 display: Spamhaus Feed
 image: data:image/png;base64,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
 name: SpamhausFeed
@@ -104,10 +110,10 @@ script:
       name: indicator_type
     description: Gets the feed indicators.
     name: spamhaus-get-indicators
-  dockerimage: demisto/python3:3.8.1.5734
+  dockerimage: demisto/python3:3.8.2.6981
   feed: true
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -115,7 +121,7 @@ script:
         params = {k: v for k, v in demisto.params().items() if v is not None}
 
         feed_url_to_config = {
-            # TODO: Add this sub feed once we have an indicator type of ASN
+            # TODO: Add this service once we have an indicator type of ASN
             'https://www.spamhaus.org/drop/asndrop.txt': {
                 'indicator_type': 'ASN',
                 'indicator': {
@@ -172,24 +178,30 @@ script:
     # disable insecure warnings
     urllib3.disable_warnings()
 
+    ''' GLOBALS '''
+    TAGS = 'feedTags'
+
 
     class Client(BaseClient):
         def __init__(self, url: str, feed_name: str = 'http', insecure: bool = False, credentials: dict = None,
                      ignore_regex: str = None, encoding: str = None, indicator_type: str = '',
                      indicator: str = '', fields: str = '{}', feed_url_to_config: dict = None, polling_timeout: int = 20,
-                     headers: list = None, proxy: bool = False, custom_fields_mapping: dict = {}, **kwargs):
+                     headers: dict = None, proxy: bool = False, custom_fields_mapping: dict = None, **kwargs):
             """Implements class for miners of plain text feeds over HTTP.
             **Config parameters**
             :param: url: URL of the feed.
             :param: polling_timeout: timeout of the polling request in seconds.
                 Default: 20
-            :param: custom_fields_mapping: Dict, the CustomFields to be used in the indicator - where the keys
+            :param feed_name: The name of the feed.
+            :param: custom_fields_mapping: Dict, the "fields" to be used in the indicator - where the keys
             are the *current* keys of the fields returned feed data and the *values* are the *indicator fields in Demisto*.
-            :param: headers: list, Optional list of headers to send in the request.
+            :param: headers: dict, Optional list of headers to send in the request.
             :param: ignore_regex: Python regular expression for lines that should be
                 ignored. Default: *null*
-            :param: verify_cert: boolean, if *true* feed HTTPS server certificate is
-                verified. Default: *true*
+            :param: insecure: boolean, if *false* feed HTTPS server certificate is
+                verified. Default: *false*
+            :param credentials: username and password used for basic authentication.
+                                Can be also used as API key header and value by specifying _header in the username field.
             :param: encoding: encoding of the feed, if not UTF-8. See
                 ``str.decode`` for options. Default: *null*, meaning do
                 nothing, (Assumes UTF-8).
@@ -199,7 +211,7 @@ script:
                 character is used as indicator. Default: *null*
             :param: fields: a dictionary of *extraction dictionaries* to extract
                 additional attributes from each line. Default: {}
-            :param: feed_url_to_config: For each sub-feed, a dictionary to process indicators by.
+            :param: feed_url_to_config: For each service, a dictionary to process indicators by.
             For example, ASN feed:
             'https://www.spamhaus.org/drop/asndrop.txt': {
                 'indicator_type': ASN,
@@ -254,13 +266,30 @@ script:
                 self.polling_timeout = int(polling_timeout)
             except (ValueError, TypeError):
                 raise ValueError('Please provide an integer value for "Request Timeout"')
+
             self.headers = headers
             self.encoding = encoding
             self.feed_name = feed_name
             if not credentials:
                 credentials = {}
-            self.username = credentials.get('identifier', None)
-            self.password = credentials.get('password', None)
+            self.username = None
+            self.password = None
+
+            username = credentials.get('identifier', '')
+            if username.startswith('_header:'):
+                if not self.headers:
+                    self.headers = {}
+                header_field = username.split(':')
+                if len(header_field) < 2:
+                    raise ValueError('An incorrect value was provided for an API key header.'
+                                     ' The correct value is "_header:<header_name>"')
+                header_name: str = header_field[1]
+                header_value: str = credentials.get('password', '')
+                self.headers[header_name] = header_value
+            else:
+                self.username = username
+                self.password = credentials.get('password', None)
+
             self.indicator_type = indicator_type
             if feed_url_to_config:
                 self.feed_url_to_config = feed_url_to_config
@@ -269,6 +298,9 @@ script:
             self.ignore_regex: Optional[Pattern] = None
             if ignore_regex is not None:
                 self.ignore_regex = re.compile(ignore_regex)
+
+            if custom_fields_mapping is None:
+                custom_fields_mapping = {}
             self.custom_fields_mapping = custom_fields_mapping
 
         def get_feed_config(self, fields_json: str = '', indicator_json: str = ''):
@@ -292,7 +324,7 @@ script:
             :return: The feed configuration.
             """
             config = {}
-            if indicator_json is not None:
+            if indicator_json:
                 indicator = json.loads(indicator_json)
                 if 'regex' in indicator:
                     indicator['regex'] = re.compile(indicator['regex'])
@@ -324,7 +356,7 @@ script:
 
         def build_iterator(self, **kwargs):
             """
-            For each URL (sub-feed), send an HTTP request to get indicators and return them after filtering by Regex
+            For each URL (service), send an HTTP request to get indicators and return them after filtering by Regex
             :param kwargs: Arguments to send to the HTTP API endpoint
             :return: List of indicators
             """
@@ -382,8 +414,11 @@ script:
         def custom_fields_creator(self, attributes: dict):
             created_custom_fields = {}
             for attribute in attributes.keys():
-                if attribute in self.custom_fields_mapping.keys():
-                    created_custom_fields[self.custom_fields_mapping[attribute]] = attributes[attribute]
+                if attribute in self.custom_fields_mapping.keys() or attribute == TAGS:
+                    if attribute == TAGS:
+                        created_custom_fields[attribute] = attributes[attribute]
+                    else:
+                        created_custom_fields[self.custom_fields_mapping[attribute]] = attributes[attribute]
 
             return created_custom_fields
 
@@ -393,16 +428,17 @@ script:
         return int(date.timestamp() * 1000)
 
 
-    def get_indicator_fields(line, url, client: Client):
+    def get_indicator_fields(line, url, feed_tags: list, client: Client):
         """
         Extract indicators according to the feed type
         :param line: The current line in the feed
         :param url: The feed URL
         :param client: The client
+        :param feed_tags: The indicator tags.
         :return: The indicator
         """
         attributes = None
-        value = None
+        value: str = ''
         indicator = None
         fields_to_extract = []
         feed_config = client.feed_url_to_config.get(url, {})
@@ -413,8 +449,6 @@ script:
                     indicator['regex'] = re.compile(indicator['regex'])
                 if 'transform' not in indicator:
                     indicator['transform'] = r'\g<0>'
-        else:
-            indicator = None
 
         if 'fields' in feed_config:
             fields = feed_config['fields']
@@ -456,23 +490,25 @@ script:
                         attributes[f] = i
             attributes['value'] = value = extracted_indicator
             attributes['type'] = feed_config.get('indicator_type', client.indicator_type)
+            attributes['tags'] = feed_tags
         return attributes, value
 
 
-    def fetch_indicators_command(client, itype, **kwargs):
+    def fetch_indicators_command(client, feed_tags, itype, **kwargs):
         iterators = client.build_iterator(**kwargs)
         indicators = []
         for iterator in iterators:
             for url, lines in iterator.items():
                 for line in lines:
-                    attributes, value = get_indicator_fields(line, url, client)
+                    attributes, value = get_indicator_fields(line, url, feed_tags, client)
                     if value:
-                        if 'lastseenbyfeed' in attributes.keys():
-                            attributes['lastseenbyfeed'] = datestring_to_millisecond_timestamp(attributes['lastseenbyfeed'])
+                        if 'lastseenbysource' in attributes.keys():
+                            attributes['lastseenbysource'] = datestring_to_millisecond_timestamp(
+                                attributes['lastseenbysource'])
 
-                        if 'firstseenbyfeed' in attributes.keys():
-                            attributes['firstseenbyfeed'] = datestring_to_millisecond_timestamp(
-                                attributes['firstseenbyfeed'])
+                        if 'firstseenbysource' in attributes.keys():
+                            attributes['firstseenbysource'] = datestring_to_millisecond_timestamp(
+                                attributes['firstseenbysource'])
 
                         indicator_data = {
                             "value": value,
@@ -480,9 +516,9 @@ script:
                             "rawJSON": attributes,
                         }
 
-                        if len(client.custom_fields_mapping.keys()) > 0:
+                        if len(client.custom_fields_mapping.keys()) > 0 or TAGS in attributes.keys():
                             custom_fields = client.custom_fields_creator(attributes)
-                            indicator_data["CustomFields"] = custom_fields
+                            indicator_data["fields"] = custom_fields
 
                         indicators.append(indicator_data)
         return indicators
@@ -491,19 +527,34 @@ script:
     def get_indicators_command(client: Client, args):
         itype = args.get('indicator_type', client.indicator_type)
         limit = int(args.get('limit'))
-        indicators_list = fetch_indicators_command(client, itype)[:limit]
+        feed_tags = args.get('feedTags')
+        indicators_list = fetch_indicators_command(client, feed_tags, itype)[:limit]
         entry_result = camelize(indicators_list)
         hr = tableToMarkdown('Indicators', entry_result, headers=['Value', 'Type', 'Rawjson'])
         return hr, {}, indicators_list
 
 
-    def test_module(client, args):
+    def test_module(client: Client, args):
+        if not client.feed_url_to_config:
+            indicator_type = args.get('indicator_type', demisto.params().get('indicator_type'))
+            if not FeedIndicatorType.is_valid_type(indicator_type):
+                indicator_types = []
+                for key, val in vars(FeedIndicatorType).items():
+                    if not key.startswith('__') and type(val) == str:
+                        indicator_types.append(val)
+                supported_values = ', '.join(indicator_types)
+                raise ValueError(f'Indicator type of {indicator_type} is not supported. Supported values are:'
+                                 f' {supported_values}')
         client.build_iterator()
         return 'ok', {}, {}
 
 
-    def feed_main(feed_name, params, prefix=''):
-        params['feed_name'] = feed_name
+    def feed_main(feed_name, params=None, prefix=''):
+        if not params:
+            params = assign_params(**demisto.params())
+        if 'feed_name' not in params:
+            params['feed_name'] = feed_name
+        feed_tags = argToList(demisto.params().get('feedTags'))
         client = Client(**params)
         command = demisto.command()
         if command != 'fetch-indicators':
@@ -517,13 +568,15 @@ script:
         }
         try:
             if command == 'fetch-indicators':
-                indicators = fetch_indicators_command(client, params.get('indicator_type'))
+                indicators = fetch_indicators_command(client, feed_tags, params.get('indicator_type'))
                 # we submit the indicators in batches
                 for b in batch(indicators, batch_size=2000):
                     demisto.createIndicators(b)
             else:
                 args = demisto.args()
                 args['feed_name'] = feed_name
+                if feed_tags:
+                    args['feedTags'] = feed_tags
                 readable_output, outputs, raw_response = commands[command](client, args)
                 return_outputs(readable_output, outputs, raw_response)
         except Exception as e:

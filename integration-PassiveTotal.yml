@@ -18,13 +18,13 @@ configuration:
   name: APIKey
   required: true
   type: 4
-- defaultvalue: "true"
-  display: Use system proxy
+- defaultvalue: ""
+  display: Use system proxy settings
   name: proxy
   required: false
   type: 8
-- defaultvalue: "false"
-  display: Trust self-signed certificate (insecure)
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
   name: insecure
   required: false
   type: 8

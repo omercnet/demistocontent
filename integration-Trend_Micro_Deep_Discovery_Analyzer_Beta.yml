@@ -19,8 +19,8 @@ configuration:
   name: apiKey
   required: true
   type: 4
-- defaultvalue: "true"
-  display: Trust any certificate (unsecure)
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
   name: insecure
   required: false
   type: 8
@@ -292,6 +292,7 @@ script:
       - "3"
     description: Retrieves a brief XML report of a given submission
     name: trendmicro-dda-get-brief-report
+  dockerimage: demisto/python:2.7.17.5734
   runonce: false
   script: |-
     import hashlib
@@ -651,9 +652,25 @@ script:
         #true if list, false if dict
         reports_type_is_list = isinstance(reports['FILE_ANALYZE_REPORT'], list)
         hr = {}
+
+        if isinstance(reports, dict):
+            image_type_dict = reports.get('IMAGE_TYPE', {})
+            if isinstance(image_type_dict, dict):
+                image_type_dict = image_type_dict.get('TYPE', {})
+
+                if isinstance(image_type_dict, dict):
+                    image_type = image_type_dict.get('#text', 'Unknown')
+                else:
+                    image_type = 'Unknown'
+
+            else:
+                image_type = 'Unknown'
+        else:
+            image_type = 'Unknown'
+
         hr_headers = {
             'Risk Level': reports['OVERALL_RISK_LEVEL'],
-            'Image Type': reports['IMAGE_TYPE']['TYPE']['#text'],
+            'Image Type': image_type,
             'Sum of Files Analyzed': (len(reports['FILE_ANALYZE_REPORT'])) if reports_type_is_list  else '1',
         }
 
@@ -681,6 +698,8 @@ script:
                 hr['Detection Name'] = file_analyze_report['VirusName']['#text']
             #set the filename
             filename = hr['Detection Name'] if ('Detection Name' in hr) else file_analyze_report['FileSHA1']
+            if '.' not in filename:
+                filename = filename + ".txt"
 
             #add data regarding the submission to the context
             context['TrendMicroDDA.Submission(val.SHA1 && val.SHA1==obj.SHA1)'] = {
@@ -757,6 +776,8 @@ script:
 
             #set the filename
             filename = main_file_analyze_report['OrigFileName']
+            if '.' not in filename:
+                filename = filename + ".txt"
 
             if verbose == 'true':
                 hr['Download URL'] = download_url_list
@@ -873,7 +894,7 @@ script:
             demisto.results({
                 'Type': entryTypes['note'],
                 'ContentsFormat': formats['text'],
-                'Content': res,
+                'Content': {"value": res},
                 'HumanReadable': 'Submission analyzation was not finished yet.',
                 'EntryContext': {
                     'TrendMicroDDA.Submission(val.SHA1 && val.SHA1==obj.SHA1)': ec
@@ -888,12 +909,15 @@ script:
                 markdown_table_headers.append('Download URL')
             markdown_table_headers.extend(('Deny List', 'White List'))
 
+            tmp_file = fileResult(filename, res.text)
+
+            temp = demisto.uniqueFile()
             demisto.results({ #add context and the Report File to the war room
-                'Type': 9,
-                'FileID': res.text,
+                'Type': entryTypes['file'],
+                'FileID': tmp_file.get('FileID'),
                 'Contents': '',
                 'ContentsFormat': formats['text'],
-                'File': filename,
+                'File': tmp_file.get('File'),
                 'EntryContext': context,
             })
             demisto.results({ #add table to the war room
@@ -1035,12 +1059,13 @@ script:
         elif demisto.command() == 'trendmicro-dda-get-sample-list':
             get_sample_list_command()
 
-    except Exception, e:
-        LOG(e.message)
+    except Exception as e:
+        LOG(str(e))
         LOG.print_log()
         raise
 
     finally:
         unregister()
+  subtype: python2
   type: python
 system: true

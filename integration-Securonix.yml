@@ -28,13 +28,13 @@ configuration:
   name: isFetch
   required: false
   type: 8
-- defaultvalue: open
+- defaultvalue: opened
   display: Incidents to fetch
   name: incident_status
   options:
   - All
-  - open
-  - completed
+  - opened
+  - closed
   required: false
   type: 15
 - defaultvalue: ""
@@ -62,6 +62,10 @@ contentitemexportablefields:
     propagationLabels:
     - all
 description: Use the Securonix integration to manage incidents and watchlists.
+detaileddescription: "This integration supports both cloud and on-prem instances of
+  Securonix.\nTo configure a cloud base instance use the *tenant* parameter only.\nTo
+  configure an on-prem instance, use both the *host* and *tenant* parameters.\n\nFor
+  more information, visit: `securonix/etnants/<tenantname>/securonix_home/responses/demisto` "
 display: Securonix
 image: data:image/png;base64,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
 name: Securonix
@@ -645,6 +649,9 @@ script:
       predefined:
       - ""
       required: true
+    - description: 'The parameters, if needed, to perform the action. For example,
+        for the ASSIGN TO ANALYST action: assigntouserid={user_id},assignedTo=USER.'
+      name: action_parameters
     description: Performs an action on the specified incident.
     name: securonix-perform-action-on-incident
   - arguments:
@@ -878,7 +885,7 @@ script:
   dockerimage: demisto/python3:3.7.5.4328
   isfetch: true
   runonce: false
-  script: |-
+  script: |
     from datetime import datetime
     from typing import Dict, Tuple, Optional, List, Callable, Any
 
@@ -1197,13 +1204,13 @@ script:
                                                params=params)
             return violation_data
 
-        def list_incidents_request(self, from_epoch: str, to_epoch: str, incident_types: str) -> Dict:
+        def list_incidents_request(self, from_epoch: str, to_epoch: str, incident_status: str) -> Dict:
             """List all incidents by sending a GET request.
 
             Args:
                 from_epoch: from time in epoch
                 to_epoch: to time in epoch
-                incident_types: incident types
+                incident_status: incident status e.g:closed, opened
 
             Returns:
                 Response from API.
@@ -1212,7 +1219,7 @@ script:
                 'type': 'list',
                 'from': from_epoch,
                 'to': to_epoch,
-                'rangeType': incident_types
+                'rangeType': incident_status
             }
             incidents = self.http_request('GET', '/incident/get', headers={'token': self._token}, params=params)
             return incidents.get('result').get('data')
@@ -1281,21 +1288,29 @@ script:
             incident = self.http_request('GET', '/incident/get', headers={'token': self._token}, params=params)
             return incident.get('result')
 
-        def perform_action_on_incident_request(self, incident_id, action: str) -> Dict:
+        def perform_action_on_incident_request(self, incident_id, action: str, action_parameters: str) -> Dict:
             """get incident available actions by sending a GET request.
 
             Args:
                 incident_id: incident ID.
-                action: action to perform on the incident
+                action: action to perform on the incident.
+                action_parameters: parameters needed in order to perform the action.
 
             Returns:
                 Response from API.
             """
+
             params = {
                 'type': 'actionInfo',
                 'incidentId': incident_id,
                 'actionName': action
             }
+            if action_parameters:
+                action_parameters_dict = {
+                    k: v.strip('"') for k, v in [i.split("=", 1) for i in action_parameters.split(',')]
+                }
+                params.update(action_parameters_dict)
+
             possible_action = self.http_request('GET', '/incident/get', headers={'token': self._token}, params=params)
 
             if 'error' in possible_action:
@@ -1789,7 +1804,8 @@ script:
         """
         incident_id = str(args.get('incident_id'))
         action = str(args.get('action'))
-        incident_result = client.perform_action_on_incident_request(incident_id, action)
+        action_parameters = str(args.get('action_parameters', ''))
+        incident_result = client.perform_action_on_incident_request(incident_id, action, action_parameters)
         if incident_result != 'submitted':
             raise Exception(f'Failed to perform the action {action} on incident {incident_id}.')
         return f'Action {action} was performed on incident {incident_id}.', {}, incident_result
@@ -1979,14 +1995,14 @@ script:
         return human_readable, {}, response
 
 
-    def fetch_incidents(client: Client, fetch_time: Optional[str], incident_types: str, last_run: Dict) -> list:
+    def fetch_incidents(client: Client, fetch_time: Optional[str], incident_status: str, last_run: Dict) -> list:
         """Uses to fetch incidents into Demisto
         Documentation: https://github.com/demisto/content/tree/master/docs/fetching_incidents
 
         Args:
             client: Client object with request
             fetch_time: From when to fetch if first time, e.g. `3 days`
-            incident_types: Incident statuses to fetch, can be: all, open, closed
+            incident_status: Incident statuses to fetch, can be: all, opened, closed, updated
             last_run: Last fetch object.
 
         Returns:
@@ -2004,17 +2020,21 @@ script:
         to_epoch = date_to_timestamp(datetime.now(), date_format=timestamp_format)
         # Get incidents from Securonix
         demisto.info(f'Fetching Securonix incidents. From: {from_epoch}. To: {to_epoch}')
-        securonix_incidents = client.list_incidents_request(from_epoch, to_epoch, incident_types)
+        securonix_incidents = client.list_incidents_request(from_epoch, to_epoch, incident_status)
 
         if securonix_incidents:
             incidents_items = list(securonix_incidents.get('incidentItems'))  # type: ignore
             last_incident_id = last_run.get('id', '0')
-            demisto_incidents = [{
-                'name': f"Securonix Incident: {incident.get('incidentId')}",
-                'occurred': timestamp_to_datestring(incident.get('lastUpdateDate')),
-                'severity': incident_priority_to_dbot_score(incident.get('priority')),
-                'rawJSON': json.dumps(incident)
-            } for incident in incidents_items if incident.get('incidentId') > last_incident_id]
+            for incident in incidents_items:
+                incident_id = incident.get('incidentId')
+                if incident_id > last_incident_id:
+                    incident_name = get_incident_name(incident, incident_id)  # Try to get incident reason as incident name
+                    demisto_incidents.append({
+                        'name': incident_name,
+                        'occurred': timestamp_to_datestring(incident.get('lastUpdateDate')),
+                        'severity': incident_priority_to_dbot_score(incident.get('priority')),
+                        'rawJSON': json.dumps(incident)
+                    })
             if demisto_incidents:
                 last_incident_id = incidents_items[-1].get('incidentId')
                 new_last_run.update({'id': last_incident_id})
@@ -2022,6 +2042,34 @@ script:
         new_last_run.update({'time': now})
         demisto.setLastRun(new_last_run)
         return demisto_incidents
+
+
+    def get_incident_name(incident: Dict, incident_id: str) -> str:
+        """Get the incident name by concatenating the incident reasons if possible
+
+        Args:
+            incident: incident details
+            incident_id: the incident id
+
+
+        Returns:
+            incident name.
+        """
+        incident_reasons = incident.get('reason', [])
+        try:
+            incident_reason = ''
+            for reason in incident_reasons:
+                if reason.startswith('Policy: '):
+                    incident_reason += f"{reason[8:]}, "
+            if incident_reason:
+                # Remove ", " last chars and concatenate with the incident ID
+                incident_name = f"{incident_reason[:-2]}: {incident_id}"
+            else:
+                incident_name = f"Securonix Incident: {incident_id}."
+        except ValueError:
+            incident_name = f"Securonix Incident: {incident_id}."
+
+        return incident_name
 
 
     def main():
@@ -2079,9 +2127,9 @@ script:
                 'securonix-add-entity-to-watchlist': add_entity_to_watchlist
             }
             if command == 'fetch-incidents':
-                fetch_time = params.get('fetch_time')
-                incident_types = params.get('incident_types') if 'incident_types' in params else 'opened'
-                incidents = fetch_incidents(client, fetch_time, incident_types, last_run=demisto.getLastRun())
+                fetch_time = params.get('fetch_time', '1 hour')
+                incident_status = params.get('incident_status') if 'incident_status' in params else 'opened'
+                incidents = fetch_incidents(client, fetch_time, incident_status, last_run=demisto.getLastRun())
                 demisto.incidents(incidents)
             elif command in commands:
                 return_outputs(*commands[command](client, demisto.args()))

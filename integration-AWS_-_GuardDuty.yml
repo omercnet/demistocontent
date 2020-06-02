@@ -598,7 +598,7 @@ script:
       name: roleSessionDuration
     description: Marks specified Amazon GuardDuty findings as useful or not useful.
     name: aws-gd-update-findings-feedback
-  dockerimage: demisto/boto3
+  dockerimage: demisto/boto3:1.9.55
   isfetch: true
   runonce: false
   script: |+
@@ -1332,5 +1332,6 @@ script:
     demisto.results(result)
     sys.exit(0)
 
+  subtype: python2
   type: python
 system: true

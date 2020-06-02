@@ -38,8 +38,8 @@ configuration:
   name: severity
   required: false
   type: 0
-- defaultvalue: "true"
-  display: Trust any certificate (unsecure)
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
   name: insecure
   required: false
   type: 8
@@ -440,5 +440,6 @@ script:
 
     if demisto.command() == 'aella-get-event':
         aella_get_event_command()
+  subtype: python2
   type: python
 system: true

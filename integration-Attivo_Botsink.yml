@@ -14,7 +14,7 @@ configuration:
   required: true
   type: 9
 - defaultvalue: ""
-  display: Do not verify server SSL
+  display: Trust any certificate (not secure)
   name: insecure
   required: false
   type: 8
@@ -192,22 +192,29 @@ script:
     name: attivo-list-users
   isfetch: true
   runonce: false
-  script: |-
-    import requests
+  script: |
     import base64
-    import socket
     import json
-    from datetime import datetime
-    import time
     import os
+    import socket
+    import time
+    from datetime import datetime
 
+    import requests
     import urllib3
+
+
+
+
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
     SERVER = demisto.params()['server']
     API_USER = demisto.params()['credentials']['identifier']
     API_PASS = demisto.params()['credentials']['password']
-    VERIFY_SSL =  not demisto.params()['insecure']
+    VERIFY_SSL = not demisto.params()['insecure']
+
+    handle_proxy()
+
 
     class BSAPI:
         BS_DEFAULT_PORT = 8443
@@ -218,49 +225,58 @@ script:
             self.bs_port = bs_port
             self.timeout = timeout
             self.session_key = None
-            self.base_url = "https://{host}:{port}/api".format(host=self.bs_host,port=self.bs_port)
+            self.base_url = "https://{host}:{port}/api".format(host=self.bs_host, port=self.bs_port)
             self.verify_ssl = verify_ssl
 
-        def do_request(self, url, data=None, headers=None, files=None, method=None, content_type='application/json', json_dump=True):
+        def do_request(self, url, data=None, headers=None, files=None, method=None, content_type='application/json',
+                       json_dump=True):
             # Guess the method if not provided
             if not method:
-                if data: method='post'
-                else: method='get'
+                if data:
+                    method = 'post'
+
+                else:
+                    method = 'get'
 
             headers = {}
-            if self.session_key: headers = {'sessionKey': self.session_key}
-            if content_type: headers['content-type']=content_type
+            if self.session_key:
+                headers = {'sessionKey': self.session_key}
+
+            if content_type:
+                headers['content-type'] = content_type
 
             url = self.base_url + url
             # Convert data dictionary to a string
-            if data and json_dump: data = json.dumps(data)
+            if data and json_dump:
+                data = json.dumps(data)
 
             request_func = getattr(requests, method)
             r = None
 
             try:
-                r = request_func(url,headers=headers,data=data,files=files,verify=self.verify_ssl)
-            except requests.exceptions.SSLError as e:
+                r = request_func(url, headers=headers, data=data, files=files, verify=self.verify_ssl)
+            except requests.exceptions.SSLError:
                 demisto.error("SSL verification failed")
                 demisto.results("SSL verification to {url} failed".format(url=url))
             except requests.exceptions.ConnectionError as e:
                 demisto.error("Could not connect to: {server}".format(server=SERVER))
                 demisto.error("Exception: {}".format(e))
                 demisto.results("Could not connect to {server} ({exception})".format(server=SERVER, exception=e))
-            except Exception, e:
+            except Exception as e:
                 demisto.error("Generic Exception: {exception}".format(exception=e))
                 demisto.error("Type is: {type}".format(type=e.__class__.__name__))
 
             if r is not None and r.content:
-               return r.json()
+                return r.json()
             else:
-               return None
+                return None
 
         def login(self, bs_user, bs_pass):
-            url="/auth/login"
-            login_data = {'userName': base64.b64encode(bs_user), 'password':base64.b64encode(bs_pass)}
+            url = "/auth/login"
+            login_data = {'userName': base64.b64encode(bs_user.encode()).decode(),
+                          'password': base64.b64encode(bs_pass.encode()).decode()}
 
-            login_status = self.do_request(url,data=login_data)
+            login_status = self.do_request(url, data=login_data)
             if login_status and 'sessionKey' in login_status:
                 self.session_key = login_status['sessionKey']
 
@@ -271,82 +287,82 @@ script:
             logout_status = self.do_request(url)
             return (logout_status)
 
-        def deploy_decoys(self,target_ip,vlan=None,decoy_number=1):
+        def deploy_decoys(self, target_ip, vlan=None, decoy_number=1):
             url = "/autodeploy/config"
             if vlan:
-               data = {"config": [{"ipAddress":target_ip,"vlanID": vlan, "numberOfIPsToAcquire": decoy_number}]}
+                data = {"config": [{"ipAddress": target_ip, "vlanID": vlan, "numberOfIPsToAcquire": decoy_number}]}
             else:
-               data = {"config": [{"ipAddress":target_ip,"numberOfIPsToAcquire": decoy_number}]}
+                data = {"config": [{"ipAddress": target_ip, "numberOfIPsToAcquire": decoy_number}]}
 
-            deploy_status = self.do_request(url,data=data,content_type=None)
+            deploy_status = self.do_request(url, data=data, content_type=None)
             return (deploy_status)
 
         def get_threatdirect_rules(self):
-            url="/nwinterfaces/get"
+            url = "/nwinterfaces/get"
             td_decoys = self.do_request(url)
             return (td_decoys)
 
         def get_bs_health(self):
-            url="/device/health"
+            url = "/device/health"
             health = self.do_request(url)
             return health
 
         def get_monitoring_rules(self):
-           url = "/interfaces/get"
-           monitoring_rules = self.do_request(url,data='{}',method='post',json_dump=None)
-           return (monitoring_rules)
+            url = "/interfaces/get"
+            monitoring_rules = self.do_request(url, data='{}', method='post', json_dump=None)
+            return (monitoring_rules)
 
-        def get_deceptive_objects(self,object_type,object_id):
+        def get_deceptive_objects(self, object_type, object_id):
             if object_type == 'USERS':
                 if object_id == 'ALL':
-                    url="/obj_group_cfg/summary/user"
+                    url = "/obj_group_cfg/summary/user"
                 else:
-                    url="/obj_group_cfg/user/{object_id}".format(object_id=object_id)
+                    url = "/obj_group_cfg/user/{object_id}".format(object_id=object_id)
             else:
-                response="Unknown option: {object_type}".format(object_type=object_type)
+                response = "Unknown option: {object_type}".format(object_type=object_type)
                 return (response)
 
             deceptive_objects = self.do_request(url)
             return (deceptive_objects)
 
         def get_playbooks(self):
-           url='/pb/getAll'
-           return self.do_request(url)
+            url = '/pb/getAll'
+            return self.do_request(url)
 
         def run_playbook(self, playbook_id, attacker_ip):
-           'This simulates an internal playbook execution based on the attacker IP'
-           url='/pb/runplaybook'
-           data= {'attacker_ip': attacker_ip, 'playbook_id': playbook_id}
-           return self.do_request(url,data=data)
+            'This simulates an internal playbook execution based on the attacker IP'
+            url = '/pb/runplaybook'
+            data = {'attacker_ip': attacker_ip, 'playbook_id': playbook_id}
+            return self.do_request(url, data=data)
 
-        def get_events(self,severity_start=None, severity_end=None, timestamp_start=None, timestamp_end=None,
-                        offset=None, acknowledged='unacknowledged', attacker_ip=None, category=None,
-                        device=None, service=None, target_os=None, target_host=None, target_ip=None,
-                        target_vlan=None, keywords=None, description=None, comments=None):
+        def get_events(self, severity_start=None, severity_end=None, timestamp_start=None, timestamp_end=None,
+                       offset=None, acknowledged='unacknowledged', attacker_ip=None, category=None,
+                       device=None, service=None, target_os=None, target_host=None, target_ip=None,
+                       target_vlan=None, keywords=None, description=None, comments=None):
 
             url = "/eventsquery/alerts"
 
             query_data = {
-                'severity_start' : severity_start,
-                'severity_end' : severity_end,
-                'timestampStart' : timestamp_start,
-                'timestampEnd' : timestamp_end,
-                'offset' : offset,
-                'acknowledged' : acknowledged,
-                'attackerIp' : [] if attacker_ip is None else attacker_ip,
-                'category' : [] if category is None else category,
-                'device' : [] if device is None else device,
-                'service' : [] if service is None else service,
-                'targetOs' : [] if target_os is None else target_os,
-                'targetHost' : [] if target_host is None else target_host,
-                'targetIP' : [] if target_ip is None else target_ip,
-                'targetVLAN' : [] if target_vlan is None else target_vlan,
-                'keywords' : [] if keywords is None else keywords,
-                'description' : [] if description is None else description,
-                'comments' : [] if comments is None else comments
+                'severity_start': severity_start,
+                'severity_end': severity_end,
+                'timestampStart': timestamp_start,
+                'timestampEnd': timestamp_end,
+                'offset': offset,
+                'acknowledged': acknowledged,
+                'attackerIp': [] if attacker_ip is None else attacker_ip,
+                'category': [] if category is None else category,
+                'device': [] if device is None else device,
+                'service': [] if service is None else service,
+                'targetOs': [] if target_os is None else target_os,
+                'targetHost': [] if target_host is None else target_host,
+                'targetIP': [] if target_ip is None else target_ip,
+                'targetVLAN': [] if target_vlan is None else target_vlan,
+                'keywords': [] if keywords is None else keywords,
+                'description': [] if description is None else description,
+                'comments': [] if comments is None else comments
             }
 
-            event_data = self.do_request(url,data=query_data)
+            event_data = self.do_request(url, data=query_data)
             return (event_data)
 
         def convert_severity_string(self, severity_string):
@@ -366,14 +382,14 @@ script:
             else:
                 return None
 
-        def convert_to_demisto_severity(self,attivo_severity):
-            if attivo_severity >= 14:   # Very High
+        def convert_to_demisto_severity(self, attivo_severity):
+            if attivo_severity >= 14:  # Very High
                 demisto_severity = 3
-            elif attivo_severity >= 11: # High
+            elif attivo_severity >= 11:  # High
                 demisto_severity = 3
-            elif attivo_severity >= 7: # Medium
+            elif attivo_severity >= 7:  # Medium
                 demisto_severity = 2
-            else:                      # Low
+            else:  # Low
                 demisto_severity = 1
 
             return demisto_severity
@@ -383,8 +399,9 @@ script:
         try:
             socket.inet_aton(host)
             return True
-        except:
+        except Exception:
             return False
+
 
     def date_to_epoch(date):
         date_pattern1 = '\d{4}-\d{2}-\d{2}$'
@@ -399,6 +416,7 @@ script:
             epoch = int(time.mktime(time.strptime(date, date_format1))) * 1000
 
         return epoch
+
 
     ''' EXECUTION CODE '''
     attivo_api = BSAPI(SERVER, verify_ssl=VERIFY_SSL)
@@ -427,16 +445,22 @@ script:
             return_error("Bad date: {}\nDate should be of the format yyyy-mm-dd or yyyy-mm-ddThh:mm:ssZ".format(end_date))
 
         if timestampStart is None:
-            demisto.info("\nBad date: {}\nDate should be of the format yyyy-mm-dd or yyyy-mm-ddThh:mm:ssZ".format(start_date))
-            return_error("\nBad date: {}\nDate should be of the format yyyy-mm-dd or yyyy-mm-ddThh:mm:ssZ".format(start_date))
+            demisto.info(
+                "\nBad date: {}\nDate should be of the format yyyy-mm-dd or yyyy-mm-ddThh:mm:ssZ".format(start_date))
+            return_error(
+                "\nBad date: {}\nDate should be of the format yyyy-mm-dd or yyyy-mm-ddThh:mm:ssZ".format(start_date))
 
         severity_end = "15"
         severity_start = attivo_api.convert_severity_string(severity_string)
         attacker_ips = [attacker_ip]
 
-        demisto.info("Pulling events for {src_ip} and severity {severity} from {start_date} to {end_date}".format(src_ip=attacker_ip, severity=severity_start, start_date=timestampStart, end_date=timestampEnd))
+        demisto.info("Pulling events for {src_ip} and severity {severity} from {start_date} "
+                     "to {end_date}".format(src_ip=attacker_ip, severity=severity_start,
+                                            start_date=timestampStart, end_date=timestampEnd))
 
-        events = attivo_api.get_events(severity_start=severity_start, severity_end=severity_end, timestamp_start=timestampStart, timestamp_end=timestampEnd, attacker_ip=attacker_ips)
+        events = attivo_api.get_events(severity_start=severity_start, severity_end=severity_end,
+                                       timestamp_start=timestampStart, timestamp_end=timestampEnd,
+                                       attacker_ip=attacker_ips)
 
         attivo_api.logout()
 
@@ -445,12 +469,12 @@ script:
         for event in events['eventdata']:
             brief_events.append({
                 'Attack Name': event['attackName'],
-                'Severity' : event['details']['Severity'],
+                'Severity': event['details']['Severity'],
                 'Target IP': event['details']['Target IP'],
                 'Target OS': event['details']['Target OS'],
                 'Timestamp': event['details']['Timestamp'],
             })
-            context.append({k.replace(' ', ''):v for k,v in event['details'].items()})
+            context.append({k.replace(' ', ''): v for k, v in event['details'].items()})
 
         headers = ['Attack Name', 'Severity', 'Timestamp', 'Target IP', 'Target OS']
         entry = {
@@ -476,9 +500,8 @@ script:
         severity_start = attivo_api.convert_severity_string(FETCH_SEVERITY)
         if not severity_start:
             demisto.info("Attivo fetch-incidents: Unknown severity specified ('{}') using Medium".format(FETCH_SEVERITY))
-            severity_start = 7 # Medium
-        severity_end = 15 # Very High
-
+            severity_start = 7  # Medium
+        severity_end = "15"  # Very High
 
         # When run for the first time, get events from the specified number of days
         one_day = 24 * 60 * 60
@@ -488,7 +511,8 @@ script:
         if last_run_time is None or last_run_time == 0:
             last_run_time = first_fetch_seconds
 
-        demisto.info("Attivo fetch-incidents: Last run time {}, severity {}:{}".format(last_run_time, FETCH_SEVERITY, severity_start))
+        demisto.info("Attivo fetch-incidents: Last run time {}, severity {}:{}".format(last_run_time, FETCH_SEVERITY,
+                                                                                       severity_start))
 
         new_last_run = 0
         incidents = []
@@ -540,12 +564,12 @@ script:
         else:
             demisto.error("Login to {} failed".format(SERVER))
             demisto.error("API Results: {}".format(login_status))
-            demisto.results("Login to {} failed\n{}".format(SERVER,login_status))
+            demisto.results("Login to {} failed\n{}".format(SERVER, login_status))
 
     if demisto.command() == 'attivo-list-playbooks':
         login_status = attivo_api.login(API_USER, API_PASS)
         all_playbooks = attivo_api.get_playbooks()
-        brief_playbooks=[]
+        brief_playbooks = []
         for playbook in all_playbooks['pb']:
             brief_playbook = {
                 'ID': playbook['id'],
@@ -555,7 +579,7 @@ script:
             if len(playbook['investigate']) > 0:
                 investigate_names = []
                 for investigate in playbook['investigate']:
-                   investigate_names.append(investigate['name'])
+                    investigate_names.append(investigate['name'])
                 brief_playbook['Investigate'] = ', '.join(investigate_names)
             else:
                 brief_playbook['Investigate'] = []
@@ -563,7 +587,7 @@ script:
             if len(playbook['analyze']) > 0:
                 analyze_names = []
                 for analyze in playbook['analyze']:
-                   analyze_names.append(analyze['name'])
+                    analyze_names.append(analyze['name'])
                 brief_playbook['Analyze'] = ', '.join(analyze_names)
             else:
                 brief_playbook['Analyze'] = []
@@ -571,7 +595,7 @@ script:
             if len(playbook['manage']) > 0:
                 manage_names = []
                 for manage in playbook['manage']:
-                   manage_names.append(manage['name'])
+                    manage_names.append(manage['name'])
                 brief_playbook['Manage'] = ', '.join(manage_names)
             else:
                 brief_playbook['Manage'] = []
@@ -579,7 +603,7 @@ script:
             if len(playbook['isolate']) > 0:
                 isolate_names = []
                 for isolate in playbook['isolate']:
-                   isolate_names.append(isolate['name'])
+                    isolate_names.append(isolate['name'])
                 brief_playbook['Isolate'] = ', '.join(isolate_names)
             else:
                 brief_playbook['Isolate'] = []
@@ -616,21 +640,23 @@ script:
             status_message = "Failed: could not find playbook named '{}'".format(playbook_name)
             status = False
         else:
-            demisto.info("Running Attivo playbook named {} ({}) with attacker IP {}".format(playbook_name, playbook_id, attacker_ip))
+            demisto.info(
+                "Running Attivo playbook named {} ({}) with attacker IP {}".format(playbook_name, playbook_id, attacker_ip))
             playbook_status = attivo_api.run_playbook(playbook_id, attacker_ip)
             demisto.info("Run playbook status = {}".format(playbook_status))
 
             if 'error' in playbook_status:
                 error_text = playbook_status['error']
                 status_message = error_text
-                status=False
+                status = False
             elif 'status' in playbook_status:
                 status_text = playbook_status['status']
                 if status_text == 'submitted':
-                    status=True
-                    status_message = "Attivo playbook '{}' (ID={}) has been run with attacker IP {}".format(playbook_name, playbook_id,attacker_ip)
+                    status = True
+                    status_message = "Attivo playbook '{}' (ID={}) has been run with attacker " \
+                                     "IP {}".format(playbook_name, playbook_id, attacker_ip)
                 else:
-                    status=False
+                    status = False
                     status_message = "Attivo playbook has not been run.  Status = '{}'".format(status_text)
             else:
                 status = False
@@ -644,7 +670,7 @@ script:
             'ReadableContentsFormat': formats['text'],
             'EntryContext': {'Attivo.Playbook.Status': status,
                              'Attivo.Playbook.Message': status_message}
-            }
+        }
 
         demisto.results(entry)
         logout_status = attivo_api.logout()
@@ -655,24 +681,24 @@ script:
         login_status = attivo_api.login(API_USER, API_PASS)
         demisto.info("Deploying {} decoy(s) on the subnet of {}".format(decoy_number, vulnerable_ip))
         deploy_status = {}
-        deploy_status = attivo_api.deploy_decoys(vulnerable_ip,decoy_number=decoy_number)
+        deploy_status = attivo_api.deploy_decoys(vulnerable_ip, decoy_number=decoy_number)
         demisto.info("Deployment status = {}".format(deploy_status))
 
         status = False
         status_text = "Unknown failure"
         if 'result' in deploy_status:
             status_text = deploy_status['result'][0]['success']
-            if status_text == True:
+            if status_text is True:
                 status = True
         elif 'success' in deploy_status:
             status_text = deploy_status['success']
-            if status_text == True:
+            if status_text is True:
                 status = True
         elif 'error' in deploy_status:
             status_text = deploy_status['error']
 
         if status:
-            status_message = "{} new Attivo decoy(s) deployed on the subnet with {}".format(decoy_number,vulnerable_ip)
+            status_message = "{} new Attivo decoy(s) deployed on the subnet with {}".format(decoy_number, vulnerable_ip)
         else:
             status_message = "No Attivo decoys have been deployed. {}".format(status_text)
 
@@ -684,7 +710,7 @@ script:
             'ReadableContentsFormat': formats['text'],
             'EntryContext': {'Attivo.DeployDecoy.Status': status,
                              'Attivo.DeployDecoy.Message': status_message}
-            }
+        }
 
         demisto.results(entry)
         logout_status = attivo_api.logout()
@@ -693,8 +719,8 @@ script:
         demisto.info("Retrieving information about all deceptive users")
         login_status = attivo_api.login(API_USER, API_PASS)
 
-        user_groups = attivo_api.get_deceptive_objects('USERS','ALL')
-        users = {}
+        user_groups = attivo_api.get_deceptive_objects('USERS', 'ALL')
+        users = {}  # type: Dict
         for user_group in user_groups['objGroup']:
             group_id = user_group['esid']
             group_name = user_group['name']
@@ -724,16 +750,15 @@ script:
         demisto.results(entry)
         logout_status = attivo_api.logout()
 
-
     if demisto.command() == 'attivo-check-user':
         user = demisto.args()['user']
         demisto.info("Check Attivo for user = {}".format(user))
         login_status = attivo_api.login(API_USER, API_PASS)
 
         is_deceptive = False
-        this_user_object= None
+        this_user_object = None
 
-        user_groups = attivo_api.get_deceptive_objects('USERS','ALL')
+        user_groups = attivo_api.get_deceptive_objects('USERS', 'ALL')
         in_groups = []
         for user_group in user_groups['objGroup']:
             group_id = user_group['esid']
@@ -748,19 +773,22 @@ script:
 
         output_table = {'User': user, 'Is Deceptive': str(is_deceptive), 'Groups': ', '.join(in_groups)}
 
-        entry = {'Type': entryTypes['note'],
-                'Contents': this_user_object,
-                'ContentsFormat': formats['text'],
-                'HumanReadable': output_table,
-                'ReadableContentsFormat': formats['table'],
-                'EntryContext': {
-                                    'Attivo.User.Name': user,
-                                    'Attivo.User.IsDeceptive': is_deceptive,
-                                    'Attivo.User.Groups': in_groups
-                                 }
+        entry = {
+            'Type': entryTypes['note'],
+            'Contents': this_user_object,
+            'ContentsFormat': formats['text'],
+            'HumanReadable': output_table,
+            'ReadableContentsFormat': formats['table'],
+            'EntryContext': {
+                'Attivo.User.Name': user,
+                'Attivo.User.IsDeceptive': is_deceptive,
+                'Attivo.User.Groups': in_groups
+            }
         }
 
-        demisto.info("User {user}, deceptive = {is_deceptive}, group(s) = {groups}".format(user=user,is_deceptive=is_deceptive, groups=in_groups))
+        demisto.info(
+            "User {user}, deceptive = {is_deceptive}, group(s) = {groups}".format(user=user, is_deceptive=is_deceptive,
+                                                                                  groups=in_groups))
         demisto.results(entry)
         logout_status = attivo_api.logout()
 
@@ -768,12 +796,14 @@ script:
         demisto.info('Retrieving information about all deceptive hosts')
         login_status = attivo_api.login(API_USER, API_PASS)
 
-        all_hosts=[]
+        all_hosts = []
 
         td_monitoring = attivo_api.get_threatdirect_rules()
         bs_monitoring = attivo_api.get_monitoring_rules()
 
-        if td_monitoring['forwarder_vm_monitoring_rules']['forwarderVmMonitoringRules']:
+        if td_monitoring.get('forwarder_vm_monitoring_rules') is not None \
+                and td_monitoring.get('forwarder_vm_monitoring_rules').get('forwarderVmMonitoringRules') is not None:
+
             for rule in td_monitoring['forwarder_vm_monitoring_rules']['forwarderVmMonitoringRules']:
                 if rule['type'] == 'onNet':
                     td_type = "EP"
@@ -784,19 +814,21 @@ script:
                 if 'dnsName' in rule and rule['dnsName']:
                     host_names.append(rule['dnsName'])
 
-                host_entry = {  'IP': rule['ip'],
-                                'MAC': rule['customized_mac'],
-                                'VLAN': rule['vlanID'],
-                                'DHCP': rule['dhcpip'],
-                                'TD Name': rule['threatDirectName'],
-                                'TD Type': td_type,
-                                'Host Name': ', '.join(host_names)
-                            }
+                host_entry = {'IP': rule['ip'],
+                              'MAC': rule['customized_mac'],
+                              'VLAN': rule['vlanID'],
+                              'DHCP': rule['dhcpip'],
+                              'TD Name': rule['threatDirectName'],
+                              'TD Type': td_type,
+                              'Host Name': ', '.join(host_names)
+                              }
                 all_hosts.append(host_entry)
 
-        if bs_monitoring['cfg_monitoring_rules']['monitoringRules']:
+        if bs_monitoring.get('cfg_monitoring_rules') is not None \
+                and bs_monitoring.get('cfg_monitoring_rules').get('monitoringRules') is not None:
+
             for rule in bs_monitoring['cfg_monitoring_rules']['monitoringRules']:
-                #demisto.info("BS RULE: {}".format(rule))
+                # demisto.info("BS RULE: {}".format(rule))
                 vlan = rule['vlanID']
                 if vlan == -1:
                     vlan = None
@@ -807,13 +839,13 @@ script:
                 if 'interfaceName' in rule and rule['interfaceName']:
                     host_names.append(rule['interfaceName'])
 
-                host_entry = {  'IP': rule['ipAddress'],
-                            'MAC': rule['externalMAC'],
-                            'DHCP': rule['isDHCPIP'],
-                            'VLAN': vlan,
-                            'User Defined': rule['userDefined'],
-                            'Host Name': ", ".join(host_names)
-                        }
+                host_entry = {'IP': rule['ipAddress'],
+                              'MAC': rule['externalMAC'],
+                              'DHCP': rule['isDHCPIP'],
+                              'VLAN': vlan,
+                              'User Defined': rule['userDefined'],
+                              'Host Name': ", ".join(host_names)
+                              }
                 if td_monitoring is not None:
                     host_entry['TD Name'] = ''
                     host_entry['TD Type'] = ''
@@ -829,14 +861,14 @@ script:
             'Type': entryTypes['note'],
             'Contents': all_hosts,
             'ContentsFormat': formats['json'],
-            'HumanReadable': tableToMarkdown("Attivo deceptive hosts (network decoys): {}".format(len(all_hosts)), all_hosts, headers=headers),
+            'HumanReadable': tableToMarkdown("Attivo deceptive hosts (network decoys): {}".format(len(all_hosts)),
+                                             all_hosts, headers=headers),
             'ReadableContentsFormat': formats['markdown'],
             'EntryContext': {}
         }
 
         demisto.results(entry)
         logout_status = attivo_api.logout()
-
 
     if demisto.command() == 'attivo-check-host':
         host = demisto.args()['host']
@@ -845,7 +877,7 @@ script:
 
         is_deceptive = False
         this_rule = None
-        host_info={}
+        host_info = {}
 
         if valid_ip(host):
             ip_address = host
@@ -856,7 +888,9 @@ script:
 
         # Check native Monitoring Rules
         bs_monitoring = attivo_api.get_monitoring_rules()
-        if bs_monitoring is not None:
+        if bs_monitoring is not None and bs_monitoring.get('cfg_monitoring_rules') is not None and \
+                bs_monitoring.get('cfg_monitoring_rules').get('monitoringRules') is not None:
+
             for rule in bs_monitoring['cfg_monitoring_rules']['monitoringRules']:
                 this_ip = rule['ipAddress']
                 mac = rule['externalMAC']
@@ -874,15 +908,19 @@ script:
                 if (ip_address and this_ip == ip_address) or (host_name and this_host_name and host_name in this_host_name):
                     this_rule = rule
                     is_deceptive = True
-                    demisto.info("Attivo BOTSink IP/Host match ({ip}) ({name}) ({user_defined}) ({mac}) ({dhcp}) ({vlan})".format(ip=this_ip, name=this_host_name, user_defined=user_defined, mac=mac, dhcp=dhcp, vlan=vlan))
-                    host_info = {'ip': this_ip, 'name': this_host_name, 'user_defined': user_defined, 'mac': mac, 'dhcp': dhcp, 'vlan': vlan}
+                    demisto.info(
+                        "Attivo BOTSink IP/Host match ({ip}) ({name}) ({user_defined}) ({mac}) ({dhcp}) ({vlan})".format(
+                            ip=this_ip, name=this_host_name, user_defined=user_defined, mac=mac, dhcp=dhcp, vlan=vlan))
+                    host_info = {'ip': this_ip, 'name': this_host_name, 'user_defined': user_defined, 'mac': mac,
+                                 'dhcp': dhcp, 'vlan': vlan}
                     break
-
 
         if not is_deceptive:
             # Check ThreatDirect Monitoring Rules
             td_monitoring = attivo_api.get_threatdirect_rules()
-            if td_monitoring is not None:
+            if td_monitoring is not None and td_monitoring.get('forwarder_vm_monitoring_rules') is not None \
+                    and td_monitoring.get('forwarder_vm_monitoring_rules').get('forwarderVmMonitoringRules') is not None:
+
                 for rule in td_monitoring['forwarder_vm_monitoring_rules']['forwarderVmMonitoringRules']:
                     this_ip = rule['ip']
                     this_host_name = []
@@ -897,50 +935,57 @@ script:
                     if 'dnsName' in rule and rule['dnsName']:
                         this_host_name.append(rule['dnsName'])
 
-                    if (ip_address and this_ip == ip_address) or (host_name and this_host_name and host_name in this_host_name):
+                    if (ip_address and this_ip == ip_address) or (
+                            host_name and this_host_name and host_name in this_host_name):
                         this_rule = rule
                         is_deceptive = True
-                        demisto.info("Attivo ThreatDirect IP match ({ip}) ({name}) ({mac}) ({dhcp}) ({vlan}) ({td_name}) ({td_type})".format(ip=this_ip, name=this_host_name, mac=mac, dhcp=dhcp, vlan=vlan, td_name=td_name, td_type=td_type))
-                        host_info = {'ip': this_ip, 'name': this_host_name, 'mac': mac, 'dhcp': dhcp, 'vlan': vlan, 'td_name': td_name, 'td_type': td_type}
+                        demisto.info(
+                            "Attivo ThreatDirect IP match ({ip}) ({name}) ({mac}) ({dhcp}) ({vlan}) ({td_name}) ({td_type})".format(
+                                ip=this_ip, name=this_host_name, mac=mac, dhcp=dhcp, vlan=vlan, td_name=td_name,
+                                td_type=td_type))
+                        host_info = {'ip': this_ip, 'name': this_host_name, 'mac': mac, 'dhcp': dhcp, 'vlan': vlan,
+                                     'td_name': td_name, 'td_type': td_type}
                         break
-                    #elif host_name and this_host_name and host_name in this_host_name:
-                     #   this_rule = rule
-                     #   is_deceptive = True
-                     #   demisto.info("Attivo ThreatDirect host match ({ip}) ({name}) ({user_defined}) ({mac}) ({dhcp}) ({vlan})".format(this_ip, #this_host_name, user_defined, mac, dhcp, vlan))
-                    #break
+                    # elif host_name and this_host_name and host_name in this_host_name:
+                    #   this_rule = rule
+                    #   is_deceptive = True
+                    #   demisto.info("Attivo ThreatDirect host match ({ip}) ({name})
+                    #   ({user_defined}) ({mac}) ({dhcp}) ({vlan})".format(this_ip, #this_host_name,
+                    #   user_defined, mac, dhcp, vlan))
+                    # break
 
         if is_deceptive:
             output_table = {'Is Deceptive': 'True',
-                'IP Address': this_ip,
-                'Host Names': ', '.join(this_host_name),
-                'MAC Address': mac,
-                'DHCP': str(dhcp),
-                'User Defined': str(user_defined),
-                'VLAN': vlan
-            }
+                            'IP Address': this_ip,
+                            'Host Names': ', '.join(this_host_name),
+                            'MAC Address': mac,
+                            'DHCP': str(dhcp),
+                            'User Defined': str(user_defined),
+                            'VLAN': vlan
+                            }
         else:
             output_table = {'Is Deceptive': 'False',
-                'IP Address': ip_address,
-                'Host Names': host_name,
-                'MAC Address': '',
-                'DHCP': '',
-                'User Defined': '',
-                'VLAN': ''
-            }
-
+                            'IP Address': ip_address,
+                            'Host Names': host_name,
+                            'MAC Address': '',
+                            'DHCP': '',
+                            'User Defined': '',
+                            'VLAN': ''
+                            }
 
         entry = {'Type': entryTypes['note'],
-                'Contents': output_table,
-                'ContentsFormat': formats['table'],
-                'HumanReadable': output_table,
-                'ReadableContentsFormat': formats['table'],
-                'EntryContext': {'Attivo.Host.HostInfo': host_info,
-                                 'Attivo.Host.IsDeceptive': is_deceptive
-                                }
-                }
+                 'Contents': output_table,
+                 'ContentsFormat': formats['table'],
+                 'HumanReadable': output_table,
+                 'ReadableContentsFormat': formats['table'],
+                 'EntryContext': {'Attivo.Host.HostInfo': host_info,
+                                  'Attivo.Host.IsDeceptive': is_deceptive
+                                  }
+                 }
 
-        demisto.info("Deception status for {host} is {is_deceptive}".format(host=host,is_deceptive=is_deceptive))
+        demisto.info("Deception status for {host} is {is_deceptive}".format(host=host, is_deceptive=is_deceptive))
         demisto.results(entry)
         logout_status = attivo_api.logout()
+  subtype: python2
   type: python
 system: true

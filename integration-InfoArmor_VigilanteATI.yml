@@ -18,13 +18,13 @@ configuration:
   name: apisecret
   required: true
   type: 4
-- defaultvalue: "True"
-  display: Trust any certificate (unsecure)
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
   name: unsecure
   required: false
   type: 8
 - defaultvalue: ""
-  display: Use system proxy
+  display: Use system proxy settings
   name: proxy
   required: false
   type: 8
@@ -1248,5 +1248,6 @@ script:
 
     else:
         demisto.results('Command not implement yet')
+  subtype: python2
   type: python
 system: true

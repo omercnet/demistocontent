@@ -66,13 +66,17 @@ script:
     - contextPath: File.Malicious.TotalEngines
       description: For malicious files. Total engines
     - contextPath: DBotScore.Indicator
-      description: The indicator we tested
+      description: The indicator that was tested.
+      type: string
     - contextPath: DBotScore.Type
-      description: The type of the indicator
+      description: The indicator type.
+      type: string
     - contextPath: DBotScore.Vendor
-      description: Vendor used to calculate the score
+      description: The vendor used to calculate the score.
+      type: string
     - contextPath: DBotScore.Score
-      description: The actual score
+      description: The actual score.
+      type: number
   runonce: false
   script: |
     import requests
@@ -240,7 +244,14 @@ script:
                     'Type': 'hash',
                     'Vendor': 'ReversingLabs',
                     'Score': score
+                },
+                {
+                    'Indicator': hash_value,
+                    'Type': 'file',
+                    'Vendor': 'ReversingLabs',
+                    'Score': score
                 }
+
             ]
         }
         return True, (md, ec, r)
@@ -272,7 +283,10 @@ script:
                     ec[outputPaths['file']][k] = extended_res[1][k]
                     if k in ('MD5', 'SHA1', 'SHA256') and k.lower() != hash_type:
                         ec['DBotScore'].append({'Indicator': extended_res[1][k], 'Type': 'hash', 'Vendor': 'ReversingLabs', 'Score': score})
+                        ec['DBotScore'].append({'Indicator': extended_res[1][k], 'Type': 'file', 'Vendor': 'ReversingLabs', 'Score': score})
+
 
         demisto.results({'Type': entryTypes['note'], 'ContentsFormat': formats['json'], 'Contents': r, 'EntryContext': ec, 'HumanReadable': md})
+  subtype: python2
   type: python
 system: true

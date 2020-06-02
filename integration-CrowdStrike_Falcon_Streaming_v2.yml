@@ -1,0 +1,442 @@
+beta: true
+category: Endpoint
+commonfields:
+  id: CrowdStrike Falcon Streaming v2
+  version: -1
+configuration:
+- defaultvalue: https://api.crowdstrike.com
+  display: Cloud Base URL (e.g., https://api.crowdstrike.com)
+  name: base_url
+  required: true
+  type: 0
+- defaultvalue: ""
+  display: Client ID
+  name: client_id
+  required: true
+  type: 0
+- defaultvalue: ""
+  display: Client Secret
+  name: client_secret
+  required: true
+  type: 4
+- defaultvalue: "true"
+  display: Long running instance
+  hidden: true
+  name: longRunning
+  required: false
+  type: 8
+- defaultvalue: DetectionSummaryEvent
+  display: Event type to fetch
+  name: event_type
+  options:
+  - DetectionSummaryEvent
+  - AuthActivityAuditEvent
+  - CustomerIOCEvent
+  - UserActivityAuditEvent
+  - Event_ExternalApiEvent
+  - RemoteResponseSessionEndEvent
+  required: false
+  type: 16
+- defaultvalue: "0"
+  display: Offset to fetch events from
+  name: offset
+  required: false
+  type: 0
+- defaultvalue: ""
+  display: Incident type
+  name: incidentType
+  required: false
+  type: 13
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
+  name: insecure
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Use system proxy settings
+  name: proxy
+  required: false
+  type: 8
+contentitemexportablefields:
+  contentitemfields:
+    propagationLabels:
+    - all
+description: Use the CrowdStrike Falcon Stream v2 integration to stream detections
+  and audit security events.
+detaileddescription: |-
+  For information on how to get access to the CrowdStrike API, generate a client ID, and client secret, see the [CrowdStrike documentation](https://www.crowdstrike.com/blog/tech-center/get-access-falcon-apis/).
+
+  The required API scope is `Event streams`.
+
+  ---
+  Note: This is a beta Integration, which lets you implement and test pre-release software. Since the integration is beta, it might contain bugs. Updates to the integration during the beta phase might include non-backward compatible features. We appreciate your feedback on the quality and usability of the integration to help us identify issues, fix them, and continually improve.
+display: CrowdStrike Falcon Streaming v2
+image: data:image/png;base64,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
+name: CrowdStrike Falcon Streaming v2
+script:
+  dockerimage: demisto/aiohttp:1.0.0.6695
+  longRunning: true
+  runonce: false
+  script: |2
+
+      # noqa: E402 lgtm [py/polluting-import]
+      # noqa: E402 lgtm [py/polluting-import]
+
+    import requests
+    from asyncio import Event, create_task, sleep, run
+    from contextlib import asynccontextmanager
+    from aiohttp import ClientSession, TCPConnector
+    from typing import Dict, AsyncGenerator, AsyncIterator
+
+    requests.packages.urllib3.disable_warnings()
+
+    TOKEN_RETRIEVAL_HEADERS = {'Content-Type': 'application/x-www-form-urlencoded'}
+
+    MINUTES_25 = 25 * 60
+    MINUTES_30 = 30 * 60
+    TIME_BUFFER_1_MINUTE = 1 * 60
+    CREATED_STATUS_CODE = 201
+    TOO_MANY_REQUESTS_STATUS_CODE = 429
+
+
+    class Client(BaseClient):
+        """CrowdStrike Falcon Streaming Client.
+
+        Args:
+            base_url (str): CrowdStrike Falcon Cloud base URL.
+            app_id (str): CrowdStrike Falcon application ID.
+            verify_ssl (bool): Whether the request should verify the SSL certificate.
+            proxy (bool): Whether to run the integration using the system proxy.
+
+        Returns:
+            None: No data returned.
+        """
+
+        def __init__(self, base_url: str, app_id: str, verify_ssl: bool, proxy: bool) -> None:
+            self.app_id = app_id
+            self.refresh_stream_url = None
+            super().__init__(base_url=base_url, verify=verify_ssl, proxy=proxy)
+
+        async def set_access_token(self, refresh_token: 'RefreshToken') -> None:
+            await refresh_token.set_access_token(self)
+            demisto.debug('Set access token successfully')
+
+        def set_auth_headers(self, token: str) -> None:
+            self._headers = {'Authorization': f'Bearer {token}'}
+            demisto.debug('Set auth headers successfully')
+
+        def discover_stream(self) -> Dict:
+            demisto.debug('Sending request to discover stream')
+            return self._http_request(
+                method='GET',
+                url_suffix='/sensors/entities/datafeed/v2',
+                params={'appId': self.app_id},
+            )
+
+        def refresh_stream_session(self) -> None:
+            demisto.debug('Sending request to refresh stream')
+            self._http_request(
+                method='POST',
+                url_suffix='',
+                full_url=self.refresh_stream_url
+            )
+
+
+    class EventStream:
+        """CrowdStrike Falcon Streaming event object.
+
+        Args:
+            base_url (str): CrowdStrike Falcon Cloud base URL.
+            app_id (str): CrowdStrike Falcon application ID.
+            verify_ssl (bool): Whether the request should verify the SSL certificate.
+            proxy (bool): Whether to run the integration using the system proxy.
+
+        Returns:
+            None: No data returned.
+        """
+
+        def __init__(self, base_url: str, app_id: str, verify_ssl: bool, proxy: bool):
+            self.base_url = base_url
+            self.app_id = app_id
+            self.verify_ssl = verify_ssl
+            self.proxy = proxy
+            self.data_feed_url: str
+            self.session_token: str
+            self.refresh_token: RefreshToken
+
+        def set_refresh_token(self, refresh_token) -> None:
+            self.refresh_token = refresh_token
+
+        async def _discover_refresh_stream(self, event: Event) -> None:
+            """Discovers or refreshes a discovered CrowdStrike Falcon stream in a loop.
+
+            Sleeps for 25 minutes (expiry time is 30 minutes) between operations.
+
+            Args:
+                event (Event): Asynchronous event object to set or clear its internal flag.
+
+            Yields:
+                Iterator[Dict]: Event fetched from the stream.
+            """
+            client = Client(base_url=self.base_url, app_id=self.app_id, verify_ssl=self.verify_ssl, proxy=self.proxy)
+            while True:
+                if client.refresh_stream_url:
+                    # We already discovered an event stream, need to refresh it
+                    demisto.debug('Starting stream refresh')
+                    client.refresh_stream_session()
+                    demisto.debug('Finished stream refresh')
+                else:
+                    # We have no event stream, need to discover
+                    await client.set_access_token(self.refresh_token)
+                    demisto.debug('Starting stream discovery')
+                    discover_stream_response = client.discover_stream()
+                    demisto.debug('Finished stream discovery')
+                    resources = discover_stream_response.get('resources', [])
+                    if not resources:
+                        raise ValueError(f'Did not get event stream resources - {str(discover_stream_response)}')
+                    resource = resources[0]
+                    self.data_feed_url = resource.get('dataFeedURL')
+                    self.session_token = resource.get('sessionToken', {}).get('token')
+                    refresh_url = resource.get('refreshActiveSessionURL')
+                    client.refresh_stream_url = refresh_url
+                    event.set()
+                await sleep(MINUTES_25)
+                event.clear()
+
+        async def fetch_event(self, offset: int = 0, event_type: str = '') -> AsyncGenerator[Dict, None]:
+            """Retrieves events from a CrowdStrike Falcon stream starting from given offset.
+
+            Args:
+                offset (int): Stream offset to start the fetch from.
+                event_type (str): Stream event type to fetch.
+
+            Yields:
+                AsyncGenerator[Dict, None]: Event fetched from the stream.
+            """
+            demisto.debug('Fetching event')
+            event = Event()
+            create_task(self._discover_refresh_stream(event))
+            demisto.debug('Waiting for stream discovery or refresh')
+            await event.wait()
+            demisto.debug('Done waiting for stream discovery or refresh')
+            async with ClientSession(
+                connector=TCPConnector(ssl=self.verify_ssl),
+                headers={'Authorization': f'Token {self.session_token}'},
+                trust_env=self.proxy
+            ) as session:
+                try:
+                    async with session.get(self.data_feed_url, params={'offset': offset, 'eventType': event_type}) as res:
+                        demisto.debug(f'Fetched event: {res.content}')
+                        async for line in res.content:
+                            stripped_line = line.strip()
+                            if stripped_line:
+                                try:
+                                    yield json.loads(stripped_line)
+                                except json.decoder.JSONDecodeError:
+                                    demisto.debug(f'Failed decoding event (skipping it) - {str(stripped_line)}')
+                except Exception as e:
+                    demisto.debug(f'Failed to fetch event: {e} - Going to sleep for 10 seconds and then retry')
+                    await sleep(10)
+
+
+    class RefreshToken:
+        """Object to represent CrowdStrike Falcon refresh token needed to get access token for API requests.
+
+        Args:
+            base_url (str): CrowdStrike Falcon Cloud base URL.
+            client_id (str): CrowdStrike Falcon application ID.
+            client_secret (str): CrowdStrike Falcon application secret.
+            verify_ssl (bool): Whether the request should verify the SSL certificate.
+            proxy (bool): Whether to run the integration using the system proxy.
+
+        Returns:
+            None: No data returned.
+        """
+        def __init__(self, base_url: str, client_id: str, client_secret: str, verify_ssl: bool, proxy: bool) -> None:
+            self.base_url: str = base_url
+            self.client_id: str = client_id
+            self.client_secret: str = client_secret
+            self.verify_ssl: bool = verify_ssl
+            self.proxy: bool = proxy
+            self.client: Client
+            self.token: str = ''
+            self.expiry_time: int = 0
+
+        async def set_access_token(self, client: Client) -> None:
+            self.client = client
+            if not self.token:
+                token = await self.get_access_token()
+                self.token = token
+            client.set_auth_headers(self.token)
+
+        async def get_access_token(self) -> str:
+            """Retrieves CrowdStrike Falcon access token required for API requests.
+
+            Runs for max retries of 3 attempts in case of API rate limit hit.
+
+            Returns:
+                str: The access token retrieved.
+
+            Raises:
+                RuntimeError: An error occurred (json.decoder.JSONDecodeError) trying to deserialize the API response.
+            """
+            token = None
+            body = None
+            max_retries = 3
+            async with ClientSession(
+                connector=TCPConnector(ssl=self.verify_ssl),
+                headers=TOKEN_RETRIEVAL_HEADERS,
+                trust_env=self.proxy
+            ) as session:
+                for _ in range(max_retries):
+                    data = {
+                        'client_id': self.client_id,
+                        'client_secret': self.client_secret
+                    }
+                    async with session.post(f'{self.base_url}/oauth2/token', data=data) as res:
+                        if res.status == TOO_MANY_REQUESTS_STATUS_CODE:
+                            demisto.debug('Token retrieval requests status: rate limit exceeded, will retry in 5 seconds.')
+                            await sleep(5)
+                        elif res.status == CREATED_STATUS_CODE:
+                            try:
+                                body = await res.json()
+                                break
+                            except json.decoder.JSONDecodeError:
+                                raise RuntimeError(
+                                    f'Failed to decode successful token retrieval response: {str(res.content)}'
+                                )
+                        else:
+                            try:
+                                body = await res.json()
+                                error = body.get('errors', [{}])
+                                error_message = error[0].get('message', '')
+                                raise RuntimeError(
+                                    f'Failed to retrieve token, verify client details are correct: {error_message}'
+                                )
+                            except json.decoder.JSONDecodeError:
+                                raise RuntimeError(
+                                    f'Failed to decode token retrieval failure response: {str(res.content)}'
+                                )
+                if not body:
+                    raise RuntimeError(f'Failed to retrieve token - got empty response: {str(res.content)}')
+                token = body.get('access_token')
+                self.expiry_time = body.get('expires_in', MINUTES_30) - TIME_BUFFER_1_MINUTE
+            if not token:
+                raise RuntimeError('Failed to retrieve token')
+            return token
+
+        async def refresh_token_loop(self) -> None:
+            while True:
+                await sleep(self.expiry_time)
+                token = await self.get_access_token()
+                self.token = token
+                self.client.set_auth_headers(token)
+
+
+    @asynccontextmanager
+    async def init_refresh_token(
+            base_url: str,
+            client_id: str,
+            client_secret: str,
+            verify_ssl: bool,
+            proxy: bool
+    ) -> AsyncIterator[RefreshToken]:
+        """Initializes RefreshToken instance and authenticates with CrowdStrike Falcon.
+
+        Args:
+            base_url (str): CrowdStrike Falcon Cloud base URL.
+            client_id (str): CrowdStrike Falcon application ID.
+            client_secret (str): CrowdStrike Falcon application secret.
+            verify_ssl (bool): Whether the request should verify the SSL certificate.
+            proxy (bool): Whether to run the integration using the system proxy.
+
+        Yields:
+            AsyncIterator[RefreshToken]: RefreshToken instance initialized with client details.
+        """
+        refresh_token = RefreshToken(base_url, client_id, client_secret, verify_ssl, proxy)
+        await refresh_token.get_access_token()
+        task = create_task(refresh_token.refresh_token_loop())
+        yield refresh_token
+        task.cancel()
+
+
+    async def long_running_loop(
+            base_url: str,
+            client_id: str,
+            client_secret: str,
+            stream: EventStream,
+            offset: int,
+            event_type: str,
+            verify_ssl: bool,
+            proxy: bool
+    ) -> None:
+        """Connects to a CrowdStrike Falcon stream and fetches events from it in a loop.
+
+        Args:
+            base_url (str): CrowdStrike Falcon Cloud base URL.
+            client_id (str): CrowdStrike Falcon application ID.
+            client_secret (str): CrowdStrike Falcon application secret.
+            stream (EventStream): CrowdStrike Falcon stream to fetch events from.
+            offset (int): Stream offset to start the fetch from.
+            event_type (str): Stream event type to fetch.
+            verify_ssl (bool): Whether the request should verify the SSL certificate.
+            proxy (bool): Whether to run the integration using the system proxy.
+
+        Returns:
+            None: No data returned.
+        """
+        async with init_refresh_token(base_url, client_id, client_secret, verify_ssl, proxy) as refresh_token:
+            stream.set_refresh_token(refresh_token)
+            async for event in stream.fetch_event(offset=offset, event_type=event_type):
+                event_metadata = event.get('metadata', {})
+                event_type = event_metadata.get('eventType', '')
+                event_offset = event_metadata.get('offset', '')
+                demisto.info(f'Fetching event with offset: {event_offset}')
+                incident_name = f'{event_type} - offset {event_offset}'
+                incident = [{
+                    'name': incident_name,
+                    'details': json.dumps(event)
+                }]
+                demisto.createIncidents(incident)
+
+
+    async def test_module(base_url: str, client_id: str, client_secret: str, verify_ssl: bool, proxy: bool) -> None:
+        async with init_refresh_token(base_url, client_id, client_secret, verify_ssl, proxy) as refresh_token:
+            await refresh_token.get_access_token()
+            demisto.results('ok')
+
+
+    def main():
+        params: Dict = demisto.params()
+        base_url: str = params.get('base_url', '')
+        client_id: str = params.get('client_id', '')
+        client_secret: str = params.get('client_secret', '')
+        event_type = ','.join(params.get('event_type', []))
+        verify_ssl = not params.get('insecure', False)
+        proxy = params.get('proxy', False)
+        offset = params.get('offset', '0')
+        try:
+            offset = int(offset)
+        except ValueError:
+            offset = 0
+
+        stream = EventStream(base_url=base_url, app_id='Demisto', verify_ssl=verify_ssl, proxy=proxy)
+
+        LOG(f'Command being called is {demisto.command()}')
+        try:
+            if demisto.command() == 'test-module':
+                run(test_module(base_url, client_id, client_secret, verify_ssl, proxy))
+            elif demisto.command() == 'long-running-execution':
+                run(long_running_loop(base_url, client_id, client_secret, stream, offset, event_type, verify_ssl, proxy))
+        except Exception as e:
+            error_msg = f'Error in CrowdStrike Falcon Streaming v2: {str(e)}'
+            demisto.error(error_msg)
+            demisto.updateModuleHealth(error_msg)
+            return_error(error_msg)
+
+
+    if __name__ in ('__main__', '__builtin__', 'builtins'):
+        main()
+  subtype: python3
+  type: python
+system: true

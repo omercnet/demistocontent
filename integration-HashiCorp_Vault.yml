@@ -19,7 +19,7 @@ configuration:
   required: false
   type: 4
 - defaultvalue: ""
-  display: Trust any certificate (unsecure)
+  display: Trust any certificate (not secure)
   name: unsecure
   required: false
   type: 8
@@ -1071,5 +1071,6 @@ script:
         LOG(e)
         LOG.print_log()
         return_error(e.message)
+  subtype: python2
   type: python
 system: true

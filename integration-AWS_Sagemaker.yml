@@ -24,7 +24,7 @@ configuration:
   required: true
   type: 0
 - defaultvalue: ""
-  display: Use system proxy
+  display: Use system proxy settings
   name: proxy
   required: false
   type: 8
@@ -50,7 +50,7 @@ script:
     - contextPath: DBotPhishingPrediction.Probability
       description: The predication probability (range 0-1)
       type: number
-  dockerimage: demisto/boto3
+  dockerimage: demisto/boto3:1.9.55
   runonce: false
   script: |-
     import json, boto3, sys, os
@@ -105,5 +105,6 @@ script:
                   "HumanReadableFormat" : formats["markdown"]
         })
         sys.exit(0)
+  subtype: python2
   type: python
 system: true

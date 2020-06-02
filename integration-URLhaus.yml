@@ -9,12 +9,12 @@ configuration:
   required: false
   type: 0
 - defaultvalue: ""
-  display: Trust any certificate (unsecure)
+  display: Trust any certificate (not secure)
   name: insecure
   required: false
   type: 8
 - defaultvalue: ""
-  display: Use system proxy
+  display: Use system proxy settings
   name: proxy
   required: false
   type: 8
@@ -28,6 +28,13 @@ configuration:
   name: compromised_is_malicious
   required: false
   type: 8
+- additionalinfo: Determines how many times a command should be retried before raising
+    an error.
+  defaultvalue: "3"
+  display: Number of retries
+  name: retry
+  required: false
+  type: 0
 contentitemexportablefields:
   contentitemfields:
     propagationLabels:
@@ -64,7 +71,8 @@ name: URLhaus
 script:
   commands:
   - arguments:
-    - description: URL to query.
+    - default: true
+      description: URL to query.
       name: url
       required: true
     description: Retrieves URL information from URLhaus.
@@ -112,18 +120,18 @@ script:
     - contextPath: URLhaus.URL.Payload.VT.Result
       description: VirusTotal results for the payload.
       type: Number
-    - contextPath: DBotScore.Type
-      description: Indicator type.
-      type: string
-    - contextPath: DBotScore.Vendor
-      description: Vendor used to calculate the score.
-      type: string
-    - contextPath: DBotScore.Score
-      description: The actual score.
-      type: number
     - contextPath: DBotScore.Indicator
       description: The indicator that was tested.
-      type: string
+      type: String
+    - contextPath: DBotScore.Type
+      description: The indicator type.
+      type: String
+    - contextPath: DBotScore.Vendor
+      description: The vendor used to calculate the score.
+      type: String
+    - contextPath: DBotScore.Score
+      description: The actual score.
+      type: Number
     - contextPath: URLhaus.URL.Blacklist.Status
       description: Status of the URL in the blacklist.
       type: String
@@ -131,7 +139,8 @@ script:
       description: Link to the VirusTotal report.
       type: String
   - arguments:
-    - description: Domain to query.
+    - default: true
+      description: Domain to query.
       name: domain
       required: true
     description: Retrieves domain information from URLhaus.
@@ -140,18 +149,18 @@ script:
     - contextPath: Domain.Name
       description: The domain name, for example, google.com.
       type: String
-    - contextPath: DBotScore.Type
-      description: Indicator type.
-      type: string
-    - contextPath: DBotScore.Vendor
-      description: Vendor used to calculate the score.
-      type: string
-    - contextPath: DBotScore.Score
-      description: The actual score.
-      type: number
     - contextPath: DBotScore.Indicator
       description: The indicator that was tested.
-      type: string
+      type: String
+    - contextPath: DBotScore.Type
+      description: The indicator type.
+      type: String
+    - contextPath: DBotScore.Vendor
+      description: The vendor used to calculate the score.
+      type: String
+    - contextPath: DBotScore.Score
+      description: The actual score.
+      type: Number
     - contextPath: URLhaus.Domain.FirstSeen
       description: Date that the IP was seen for the first time (UTC).
       type: Date
@@ -171,7 +180,8 @@ script:
       description: Status of the URL in the blacklist.
       type: String
   - arguments:
-    - description: MD5 hash or SHA256 hash of the file to query.
+    - default: true
+      description: MD5 hash or SHA256 hash of the file to query.
       name: file
       required: true
     description: Retrieves file information from URLhaus.
@@ -220,7 +230,8 @@ script:
       description: A list of malware URLs associated with this payload (max. 100).
       type: Unknown
   - arguments:
-    - description: SHA256 hash of the file to download.
+    - default: true
+      description: SHA256 hash of the file to download.
       name: file
       required: true
     description: Downloads a malware sample from URLhaus.
@@ -257,9 +268,9 @@ script:
     - contextPath: File.Extension
       description: File extension.
       type: string
-  dockerimage: demisto/python3:3.7.3.286
+  dockerimage: demisto/python3:3.8.2.6981
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -308,17 +319,22 @@ script:
 
 
     def http_request(method, command, data=None):
-        url = f'{API_URL}/{command}/'
-        res = requests.request(method,
-                               url,
-                               verify=USE_SSL,
-                               data=data,
-                               headers=HEADERS)
+        retry = int(demisto.params().get('retry', 3))
+        try_num = 0
 
-        if res.status_code != 200:
-            raise Exception(f'Error in API call {url} [{res.status_code}] - {res.reason}')
+        while try_num < retry:
+            try_num += 1
+            url = f'{API_URL}/{command}/'
+            res = requests.request(method,
+                                   url,
+                                   verify=USE_SSL,
+                                   data=data,
+                                   headers=HEADERS)
 
-        return res
+            if res.status_code == 200:
+                return res
+
+        raise Exception(f'Error in API call {url} [{res.status_code}] - {res.reason}')
 
 
     def reformat_date(date):
@@ -727,7 +743,8 @@ script:
                     'HumanReadable': f'No results for SHA256: {file_sha256}',
                     'HumanReadableFormat': formats['markdown']
                 })
-            elif res.headers['content-type'] == 'text/html' and res.json()['query_status'] == 'not_found':
+            elif res.headers['content-type'] in ['text/html', 'application/json'] and \
+                    res.json()['query_status'] == 'not_found':
                 demisto.results({
                     'Type': entryTypes['note'],
                     'ContentsFormat': formats['json'],
@@ -744,7 +761,7 @@ script:
             demisto.results({
                 'Type': entryTypes['error'],
                 'ContentsFormat': formats['text'],
-                'Contents': res.content
+                'Contents': str(res.content)
             })
 
 
@@ -771,5 +788,6 @@ script:
         LOG(str(e))
         LOG.print_log()
         raise
+  subtype: python3
   type: python
 system: true

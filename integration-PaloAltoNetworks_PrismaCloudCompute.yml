@@ -71,7 +71,7 @@ script:
   dockerimage: demisto/python3:3.7.4.2245
   isfetch: true
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -132,8 +132,9 @@ script:
                 params = params or {}
                 params.update({'project': self._project})
 
-            return super()._http_request(method, url_suffix, full_url, headers, auth, json_data, params, data, files,
-                                         timeout, resp_type, ok_codes, **kwargs)
+            return super()._http_request(method=method, url_suffix=url_suffix, full_url=full_url, headers=headers,
+                                         auth=auth, json_data=json_data, params=params, data=data, files=files,
+                                         timeout=timeout, resp_type=resp_type, ok_codes=ok_codes, **kwargs)
 
         def test(self):
             """

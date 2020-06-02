@@ -1207,7 +1207,7 @@ script:
     name: qradar-upload-indicators
   isfetch: true
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -1425,14 +1425,18 @@ script:
 
         except HTTPError:
             if res is not None:
-                err_json = res.json()
+                try:
+                    err_json = res.json()
+                except ValueError:
+                    raise Exception('Error code {err}\nContent: {cnt}'.format(err=res.status_code, cnt=res.content))
+
                 err_msg = ''
                 if 'message' in err_json:
-                    err_msg = err_msg + 'Error: {0}.\n'.format(err_json['message'])
+                    err_msg += 'Error: {0}.\n'.format(err_json['message'])
                 elif 'http_response' in err_json:
-                    err_msg = err_msg + 'Error: {0}.\n'.format(err_json['http_response'])
+                    err_msg += 'Error: {0}.\n'.format(err_json['http_response'])
                 if 'code' in err_json:
-                    err_msg = err_msg + 'QRadar Error Code: {0}'.format(err_json['code'])
+                    err_msg += 'QRadar Error Code: {0}'.format(err_json['code'])
 
                 raise Exception(err_msg)
             else:
@@ -1692,7 +1696,9 @@ script:
 
 
     def test_module():
-        get_offenses('0-0')
+        full_url = '{0}/api/ariel/databases'.format(SERVER)
+        headers = dict(AUTH_HEADERS)
+        send_request('GET', full_url, headers)
         # If encountered error, send_request will return_error
         return 'ok'
 
@@ -2317,7 +2323,7 @@ script:
             query = args.get('query')
             indicators_values_list, indicators_data_list = get_indicators_list(query, limit, page)
             if len(indicators_values_list) == 0:
-                return "No indicators found, Reference set {0} didn't change".format(reference_name)
+                return "No indicators found, Reference set {0} didn't change".format(reference_name), {}, {}
             else:
                 raw_response = upload_indicators_list_request(reference_name, indicators_values_list)
                 ref_set_data = unicode_to_str_recur(get_ref_set(reference_name))
@@ -2333,7 +2339,7 @@ script:
         # Gets an error if the user tried to add indicators that dont match to the reference set type
         except Exception as e:
             if '1005' in str(e):
-                return "You tried to add indicators that dont match to reference set type"
+                return "You tried to add indicators that dont match to reference set type", {}, {}
             raise e
 
 

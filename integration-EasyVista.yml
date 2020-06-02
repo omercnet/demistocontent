@@ -18,12 +18,12 @@ configuration:
   name: credentials
   required: false
   type: 9
-- defaultvalue: "true"
-  display: Trust any certificate (unsecure)
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
   name: insecure
   required: false
   type: 8
-- defaultvalue: "false"
+- defaultvalue: ""
   display: Use system proxy settings
   name: proxy
   required: false
@@ -275,5 +275,6 @@ script:
         LOG.print_log()
         raise
 
+  subtype: python2
   type: python
 system: true

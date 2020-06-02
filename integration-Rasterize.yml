@@ -37,14 +37,15 @@ detaileddescription: |
   ## Rasterize
   Create an image or PDF file from a URL or HTML body.
 
-  **Notes:**
+  **Configuration Notes:**
   * Return Errors: If this checkbox is not selected, a warning will be returned instead of an error entry.
+  * Use system proxy settings: Select this checkbox to use the system's proxy settings. **Important**: this integration does not support proxies which require authentication.
   * Chrome options: Add or remove Chrome options used to rasterize. Supports a comma-separated list. If a value contains a comma (for example, when setting the user agent value), escape it with the backslash (**\\**) character. To remove a default option being used, put the option in square brackets. For example, to add the option *--disable-auto-reload* and remove the option *--disable-dev-shm-usage*, set the following value:
   ```
   --disable-auto-reload,[--disable-dev-shm-usage]
   ```
 display: Rasterize
-image: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAA10lEQVR4Ae3TYQ3CQAwFYCQgAQlIOCmTMAnnYBJOAhImYRImYRJKSfrrBXoXDkrJtcnLEtaQr9fdiYhcJ4AugAHkIgdJAfwrYAC/eTO51nGAv1x7AAPoH2h4w02AXFdOfjyVngtnNQdyTdC3vOgr8j5ZA/dan5weSbYuICdLWoFHA3CBnqkHiKkBcZgbvD8/GWI3AcJ3mDmzrHPGATAmQDwpWGXBT8AcKKgkzw378bd3gFmJCpRVHtXBOoBq9D/FE/MHLBxyCfx0RgDaJ4AB9AJ0nAAOALwDFV7f8k1w4yAAAAAASUVORK5CYII=
+image: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAAyCAYAAACXpx/YAAAABGdBTUEAALGPC/xhBQAABGZJREFUeAHtnF2oFWUUhvfpaEoWmj8XgZoFpoUgwdEuCqJAqAi9ESKQwiAVUST0gEmggooieNOFJBSEBYIRBQkRXogGCUYSqESk+EOCiZRBRf5Uz5vzeRYbZ5+Z7Zk9a5+zFjx7vvlmvjVr1trrnTlbsKfRHfavCbPHjL3Nm9B8DO/xEUZEUVUGosBVZdaJXyt3TkK6HcaA/H677Paku0HfHhuSu3xGB9vyDMNxFHgYFtXe0ii742xs5W5ArqsO0kpusUeDjbPq6Er7jw4unbLuWhAF7q56lY7Ws0TXL8vF5NrG6U6uo4NL90R3LYgCd1e9SkfrWaKt3FkZLH2Tgy6wb8vFZNm6tHHaeRfj6GAXZaguiChwdbl14dmzRA+NLJeVXCvXxUpk43Qn19HBxYrYtWdFgbu2dMUC9yzRVu6sDA5+Z3mynDef57HY+TbOPE+1zUcH15b6zlw4CtyZPNd2Fc8SXa0s58lv2flGw8bpTq6jg2vrrc5cOArcmTzXdhXPEm3lzsrgQLLKymkV5zcaNs6B2JyMooOdFKKqMKLAVWXWiV/PEu1Xlu3v1X17bJzu5Do62EmnVRVGFLiqzDrx605ScvKSJ4Pe5nPCr286Ori+3HfkylHgjqQ5LhIZiAxEBiIDkYHIwEjLQK+TG55MHNNA24lwE/6Guu0ZAvgCTsD5uoNp5/pe3qJXE/wPGT+y/Q2+hoehXdPaQ/B4uw5YpwYQXvJ0F7dS79LNXF4/WjwHT8JKUBere9o1+ZLPp9p1EOuGLgOpwNONy8OML2T789l+ChfhJLwFqavGMn4XzsNZ2AkL4QyowNp+BzKtWQ9n4RfYDVov2wH6H1WWgK7bD8+DrvcsyD4D7VvGs9/KL4frM6//mjSblPTBl1lq5rL9A/pBxd4FR+EbeA2WgwozGmbBT3AMHgEVRfuytbAFNsIV2AqXYBNMhRdgAbwHuvaj8AQ8ALL9MAmmwDtwEH6HdZDnl0NhqYNPkwp1jzrvHMwDaw+x8xL8A0qobBtchyVwLyRbwUB+rERLAT6HBzM+YnscZB+D/NprLmJfPl4Ga1ITvSfoxVDWyu+tM0b4ZyrwJvLwPiipr0CyOQyOgLrlK7gBKohM3bUP9My+DG+CrLnA9zMnv82kx4D8/QXW7lTg1zlBPvSFkg3m99ZZI/wzFXg6eVAXqpP1Np068hRjyXGSyj8ZpwIz/N9m8Ck5Vhc+BstAhXgakv3K4ACMMvRmB4sUWPFdhU+yNWnTym86p5atXg682TUCehtmwuosuLFsVbip0A/aT7aKwVJQV38PPTAGfgbZq5D+VNrL+EVYAzNAcq/nbBGT3w/hPpDMy4/Ql+5u/LJ8+NtmblHdpg5Jpo7Vc24KvJGNVWS96ByH1MEbsmNar2fxdpCNhiOgea3TDyjj4APQl0HzV2AxyOSvlUTP5bjWNKP5Vn45HFYkA+raCTknqrv05VB3NZu6fnLTpHzp/KFWsKr8NoUfu5GByMDIyMB/DVAH+glQKKAAAAAASUVORK5CYII=
 name: Rasterize
 script:
   commands:
@@ -58,11 +59,13 @@ script:
         prefix.
       name: url
       required: true
-    - description: The page width, for example, 50px. If empty, the width is the entire
-        page.
+    - defaultValue: 1024px
+      description: The page width, for example, 1024px. Specify with or without the
+        px suffix.
       name: width
-    - description: The page height, for example, 50px. If empty, the height is the
-        entire page.
+    - defaultValue: 800px
+      description: The page height, for example, 800px. Specify with or without the
+        px suffix.
       name: height
     - description: The file type to which to convert the contents of the URL. Can
         be "pdf" or "png". Default is "png".
@@ -74,11 +77,13 @@ script:
       description: The HTML body of the email.
       name: htmlBody
       required: true
-    - description: The email width, for example, 50px. If empty, the height is the
-        entire email.
+    - defaultValue: 600px
+      description: The html page width, for example, 600px. Specify with or without
+        the px suffix.
       name: width
-    - description: The page height, for example, 50px. If empty, the height is the
-        entire email.
+    - defaultValue: 800px
+      description: The html page height, for example, 800px. Specify with or without
+        the px suffix.
       name: height
     - description: The file type to which to convert the email body. Can be "pdf"
         or "png". Default is "png".
@@ -96,10 +101,12 @@ script:
       description: The entry ID of the image file.
       name: EntryID
       required: true
-    - description: The image width, for example, 50px. If empty, the height is the
-        entire image.
+    - defaultValue: 600px
+      description: The image width, for example, 600px. Specify with or without the
+        px suffix.
       name: width
-    - description: The image height, for example, 50px. If empty, the height is the
+    - defaultValue: 800px
+      description: The image height, for example, 800px. If empty, the height is the
         entire image.
       name: height
     description: Converts an image file to a PDF file.
@@ -125,9 +132,9 @@ script:
       - "false"
     description: Converts a PDF file to an image file.
     name: rasterize-pdf
-  dockerimage: demisto/chromium:1.0.0.5952
+  dockerimage: demisto/chromium:1.0.0.6596
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -140,30 +147,30 @@ script:
     from PIL import Image
     import tempfile
     from io import BytesIO
-    import sys
     import base64
     import time
     import subprocess
     import traceback
     import re
+    import os
 
-    PROXY = demisto.getParam('proxy')
-
-    if PROXY:
-        HTTP_PROXY = os.environ.get('http_proxy')
-        HTTPS_PROXY = os.environ.get('https_proxy')
+    # Chrome respects proxy env params
+    handle_proxy()
+    # Make sure our python code doesn't go through a proxy when communicating with chrome webdriver
+    os.environ['no_proxy'] = 'localhost,127.0.0.1'
 
     WITH_ERRORS = demisto.params().get('with_error', True)
     DEFAULT_WAIT_TIME = max(int(demisto.params().get('wait_time', 0)), 0)
     DEFAULT_PAGE_LOAD_TIME = int(demisto.params().get('max_page_load_time', 180))
-    DEFAULT_STDOUT = sys.stdout
 
     URL_ERROR_MSG = "Can't access the URL. It might be malicious, or unreachable for one of several reasons. " \
                     "You can choose to receive this message as error/warning in the instance settings\n"
     EMPTY_RESPONSE_ERROR_MSG = "There is nothing to render. This can occur when there is a refused connection." \
                                " Please check your URL."
     DEFAULT_W, DEFAULT_H = '600', '800'
+    DEFAULT_W_WIDE = '1024'
     CHROME_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36'  # noqa
+    DRIVER_LOG = f'{tempfile.gettempdir()}/chromedriver.log'
     DEFAULT_CHROME_OPTIONS = [
         '--no-sandbox',
         '--headless',
@@ -174,12 +181,14 @@ script:
         '--start-fullscreen',
         '--ignore-certificate-errors',
         '--disable-dev-shm-usage',
-        '--verbose',
-        '--log-path=chromedriver.log',
         f'--user-agent={CHROME_USER_AGENT}'
     ]
 
     USER_CHROME_OPTIONS = demisto.params().get('chrome_options', "")
+
+
+    def return_err_or_warn(msg):
+        return_error(msg) if WITH_ERRORS else return_warning(msg, exit=True)
 
 
     def opt_name(opt):
@@ -199,6 +208,7 @@ script:
         user_options = re.split(r'(?<!\\),', user_options) if user_options else list()
         if not user_options:  # nothing to do
             return default_options
+        demisto.debug(f'user chrome options: {user_options}')
         options = []
         remove_opts = []
         for opt in user_options:
@@ -217,7 +227,7 @@ script:
     def check_response(driver):
         EMPTY_PAGE = '<html><head></head><body></body></html>'
         if driver.page_source == EMPTY_PAGE:
-            return_error(EMPTY_RESPONSE_ERROR_MSG) if WITH_ERRORS else return_warning(EMPTY_RESPONSE_ERROR_MSG, exit=True)
+            return_err_or_warn(EMPTY_RESPONSE_ERROR_MSG)
 
 
     def init_driver(offline_mode=False):
@@ -226,20 +236,16 @@ script:
         """
         demisto.debug(f'Creating chrome driver. Mode: {"OFFLINE" if offline_mode else "ONLINE"}')
         try:
-            with tempfile.TemporaryFile() as log:
-                sys.stdout = log  # type: ignore
-                chrome_options = webdriver.ChromeOptions()
-                for opt in merge_options(DEFAULT_CHROME_OPTIONS, USER_CHROME_OPTIONS):
-                    chrome_options.add_argument(opt)
-
-                driver = webdriver.Chrome(options=chrome_options)
-                if offline_mode:
-                    driver.set_network_conditions(offline=True, latency=5, throughput=500 * 1024)
-
+            chrome_options = webdriver.ChromeOptions()
+            for opt in merge_options(DEFAULT_CHROME_OPTIONS, USER_CHROME_OPTIONS):
+                chrome_options.add_argument(opt)
+            driver = webdriver.Chrome(options=chrome_options, service_args=[
+                f'--log-path={DRIVER_LOG}',
+            ])
+            if offline_mode:
+                driver.set_network_conditions(offline=True, latency=5, throughput=500 * 1024)
         except Exception as ex:
-            return_error(str(ex))
-        finally:
-            sys.stdout = DEFAULT_STDOUT
+            return_error(f'Unexpected exception: {ex}\nTrace:{traceback.format_exc()}')
 
         demisto.debug('Creating chrome driver - COMPLETED')
         return driver
@@ -317,15 +323,15 @@ script:
         except (InvalidArgumentException, NoSuchElementException) as ex:
             if 'invalid argument' in str(ex):
                 err_msg = URL_ERROR_MSG + str(ex)
-                return_error(err_msg) if WITH_ERRORS else return_warning(err_msg, exit=True)
+                return_err_or_warn(err_msg)
             else:
-                return_error(str(ex)) if WITH_ERRORS else return_warning(str(ex), exit=True)
+                return_err_or_warn(f'Invalid exception: {ex}\nTrace:{traceback.format_exc()}')
         except TimeoutException as ex:
-            err_msg = f'Timeout exception with max load time of: {page_load_time} seconds. {ex}'
-            return_error(err_msg) if WITH_ERRORS else return_warning(err_msg, exit=True)
+            return_err_or_warn(f'Timeout exception with max load time of: {page_load_time} seconds. {ex}')
         except Exception as ex:
-            demisto.error("General exception when doing rasterize: {}. Trace: {}".format(ex, traceback.format_exc()))
-            return_error(str(ex)) if WITH_ERRORS else return_warning(str(ex), exit=True)
+            err_str = f'General error: {ex}\nTrace:{traceback.format_exc()}'
+            demisto.error(err_str)
+            return_err_or_warn(err_str)
         finally:
             quit_driver_and_reap_children(driver)
 
@@ -418,7 +424,7 @@ script:
 
     def rasterize_command():
         url = demisto.getArg('url')
-        w = demisto.args().get('width', DEFAULT_W).rstrip('px')
+        w = demisto.args().get('width', DEFAULT_W_WIDE).rstrip('px')
         h = demisto.args().get('height', DEFAULT_H).rstrip('px')
         r_type = demisto.args().get('type', 'png')
         wait_time = int(demisto.args().get('wait_time', 0))
@@ -427,10 +433,6 @@ script:
         if not (url.startswith('http')):
             url = f'http://{url}'
         filename = f'url.{"pdf" if r_type == "pdf" else "png"}'  # type: ignore
-        proxy_flag = ""
-        if PROXY:
-            proxy_flag = f"--proxy={HTTPS_PROXY if url.startswith('https') else HTTP_PROXY}"  # type: ignore
-        demisto.debug('rasterize proxy settings: ' + proxy_flag)
 
         output = rasterize(path=url, r_type=r_type, width=w, height=h, wait_time=wait_time, max_page_load_time=page_load)
         res = fileResult(filename=filename, data=output)
@@ -513,6 +515,8 @@ script:
 
     def main():
         try:
+            with open(DRIVER_LOG, 'w'):
+                pass  # truncate the log file
             if demisto.command() == 'test-module':
                 module_test()
 
@@ -532,10 +536,12 @@ script:
                 return_error('Unrecognized command')
 
         except Exception as ex:
-            return_error(str(ex))
-
-        finally:  # just to be extra safe
-            sys.stdout = DEFAULT_STDOUT
+            return_err_or_warn(f'Unexpected exception: {ex}\nTrace:{traceback.format_exc()}')
+        finally:
+            if is_debug_mode():
+                demisto.debug(f'os.environ: {os.environ}')
+                with open(DRIVER_LOG, 'r') as log:
+                    demisto.debug('Driver log:' + log.read())
 
 
     if __name__ in ["__builtin__", "builtins", '__main__']:

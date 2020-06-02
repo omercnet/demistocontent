@@ -1,0 +1,352 @@
+category: Utilities
+commonfields:
+  id: Google Cloud Functions
+  version: -1
+configuration:
+- defaultvalue: ""
+  display: Service account private key file contents (JSON)
+  name: credentials_json
+  required: true
+  type: 4
+- defaultvalue: ""
+  display: Default project ID
+  name: project_id
+  required: false
+  type: 0
+- defaultvalue: ""
+  display: Default region
+  name: region
+  required: false
+  type: 0
+- defaultvalue: ""
+  display: Use system proxy settings
+  name: proxy
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
+  name: insecure
+  required: false
+  type: 8
+contentitemexportablefields:
+  contentitemfields:
+    propagationLabels:
+    - all
+description: Google Cloud Functions is an event-driven serverless compute platform
+  that enables you to run your code locally or in the cloud without having to provision
+  servers.
+detaileddescription: |
+  Google Cloud Functions is an event-driven serverless compute platform.
+  Run your code locally or in the cloud without having to provision servers.
+
+  ## Getting The Crecentials.json
+  In order to get the *credentials.json* file required for this integration, see the [Google documentation](https://developers.google.com/identity/protocols/oauth2/web-server#creatingcred).
+display: Google Cloud Functions
+image: data:image/png;base64,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
+name: Google Cloud Functions
+script:
+  commands:
+  - arguments:
+    - description: The project ID the Google Cloud function is in. Default is the
+        instance's project.
+      name: project_id
+    - description: The region of the Google Cloud function. Default is all regions.
+        You can get a full list of regions using the `google-cloud-function-regions-list`
+        command.
+      name: region
+    description: Lists all Google Cloud functions.
+    name: google-cloud-functions-list
+    outputs:
+    - contextPath: GoogleCloudFunctions.Function.name
+      description: A user-defined name of the Google Cloud function.
+      type: String
+    - contextPath: GoogleCloudFunctions.Function.status
+      description: 'Status of the Google Cloud function deployment. The status can
+        be: ACTIVE, OFFLINE, DEPLOY_IN_PROGRESS, DELETE_IN_PROGRESS, UNKNOWN.'
+      type: String
+    - contextPath: GoogleCloudFunctions.Function.labels
+      description: Labels associated with this Google Cloud function.
+      type: String
+    - contextPath: GoogleCloudFunctions.Function.runtime
+      description: The time in which to run the Google Cloud function.
+      type: String
+  - arguments:
+    - description: The project ID the Google Cloud function is in. Default is the
+        instance's project.
+      name: project_id
+    description: Lists all regions in the project.
+    name: google-cloud-function-regions-list
+    outputs:
+    - contextPath: GoogleCloudFunctions.Region.locationId
+      description: The location ID of the region.
+      type: String
+    - contextPath: GoogleCloudFunctions.Region.name
+      description: The full name of the region.
+      type: String
+    - contextPath: GoogleCloudFunctions.Region.labels
+      description: The labels for the region.
+      type: String
+  - arguments:
+    - description: The project ID the Google Cloud function is in. Default is the
+        instance's project.
+      name: project_id
+    - description: The region of the Google Cloud function. You can get a full list
+        of regions using the `google-cloud-function-regions-list` command. Default
+        is all regions.
+      name: region
+    - description: The name of the function.
+      name: function_name
+      required: true
+    description: Gets the details of a specific Google Cloud function.
+    name: google-cloud-function-get-by-name
+    outputs:
+    - contextPath: GoogleCloudFunctions.Function.name
+      description: A user-defined name of the Google Cloud function.
+      type: String
+    - contextPath: GoogleCloudFunctions.Function.status
+      description: Status of the Google Cloud function deployment. The status can
+        be ACTIVE, OFFLINE, DEPLOY_IN_PROGRESS, DELETE_IN_PROGRESS, UNKNOWN.
+      type: String
+    - contextPath: GoogleCloudFunctions.Function.labels
+      description: The labels associated with this Google Cloud Function.
+      type: String
+    - contextPath: GoogleCloudFunctions.Function.runtime
+      description: The time in which to run the Google Cloud function.
+      type: String
+  - arguments:
+    - description: The name of the Google Cloud function to execute.
+      name: function_name
+      required: true
+    - description: The region of the Google Cloud function. Default is all regions.
+        You can get a full list of regions using the `google-cloud-function-regions-list`
+        command.
+      name: region
+    - description: The Google Cloud function parameters in a key:value format. Multiple
+        parameters should be comma-separated (i.e., key1:value1,key2:value2).
+      name: parameters
+    description: Executes a Google Cloud function.
+    name: google-cloud-function-execute
+    outputs:
+    - contextPath: GoogleCloudFunctions.Execution.executionId
+      description: Execution ID of the Google Cloud function invocated.
+      type: String
+    - contextPath: GoogleCloudFunctions.Execution.result
+      description: Result populated for successful execution of a synchronous Google
+        Cloud function. It will not be populated if the Google Cloud function does
+        not return a result through context.
+      type: String
+    - contextPath: GoogleCloudFunctions.Execution.error
+      description: Either a system or user-function generated error. Set if the execution
+        was not successful.
+      type: String
+  dockerimage: demisto/google-api-py3:1.0.0.6697
+  runonce: false
+  script: |2
+
+      # noqa: E402 lgtm [py/polluting-import]
+      # noqa: E402 lgtm [py/polluting-import]
+
+    ''' IMPORTS '''
+    import json
+    import urllib.parse
+    import httplib2
+    from oauth2client import service_account
+    from apiclient import discovery
+
+
+    class GoogleClient:
+        """
+        A Client class to wrap the google cloud api library.
+        """
+        def __init__(self, service_name: str, service_version: str, client_secret: str, scopes: list, proxy: bool,
+                     insecure: bool, **kwargs):
+            """
+            :param service_name: The name of the service. You can find this and the service  here
+             https://github.com/googleapis/google-api-python-client/blob/master/docs/dyn/index.md
+            :param service_version:The version of the API.
+            :param client_secret: A string of the credentials.json generated
+            :param scopes: The scope needed for the project. Might be different per function.
+            (i.e. ['https://www.googleapis.com/auth/cloud-platform'])
+            :param proxy:
+            :param insecure:
+            :param kwargs:
+            """
+            self.project = kwargs.get('project', '')
+            self.region = kwargs.get('region', '-')
+            credentials = service_account.ServiceAccountCredentials.from_json_keyfile_dict(client_secret, scopes=scopes)
+            if proxy or insecure:
+                http_client = credentials.authorize(self.get_http_client_with_proxy(proxy, insecure))
+                self.service = discovery.build(service_name, service_version, http=http_client)
+            else:
+                self.service = discovery.build(service_name, service_version, credentials=credentials)
+
+        # disable-secrets-detection-start
+        @staticmethod
+        def get_http_client_with_proxy(proxy, insecure):
+            """
+            Create an http client with proxy with whom to use when using a proxy.
+            :param proxy: Whether to use a proxy.
+            :param insecure: Whether to disable ssl and use an insecure connection.
+            :return:
+            """
+            if proxy:
+                proxies = handle_proxy()
+                https_proxy = proxies.get('https')
+                http_proxy = proxies.get('http')
+                proxy_conf = https_proxy if https_proxy else http_proxy
+                # if no proxy_conf - ignore proxy
+                if proxy_conf:
+                    if not proxy_conf.startswith('https') and not proxy_conf.startswith('http'):
+                        proxy_conf = 'https://' + proxy_conf
+                    parsed_proxy = urllib.parse.urlparse(proxy_conf)
+                    proxy_info = httplib2.ProxyInfo(
+                        proxy_type=httplib2.socks.PROXY_TYPE_HTTP,
+                        proxy_host=parsed_proxy.hostname,
+                        proxy_port=parsed_proxy.port,
+                        proxy_user=parsed_proxy.username,
+                        proxy_pass=parsed_proxy.password)
+                    return httplib2.Http(proxy_info=proxy_info, disable_ssl_certificate_validation=insecure)
+            return httplib2.Http(disable_ssl_certificate_validation=insecure)
+        # disable-secrets-detection-end
+
+        def functions_list(self, region=None, project_id=None):
+            if project_id:
+                self.project = project_id
+            if region:
+                self.region = region
+            parent = f'projects/{self.project}/locations/{self.region}'
+            return self.service.projects().locations().functions().list(parent=parent).execute()
+
+        def region_list(self, project_id):
+            if project_id:
+                self.project = project_id
+            name = f'projects/{self.project}'
+            return self.service.projects().locations().list(name=name).execute()
+
+        def function_by_name(self, function_name, region=None, project_id=None):
+            if project_id:
+                self.project = project_id
+            if region:
+                self.region = region
+            name = f'projects/{self.project}/locations/{self.region}/functions/{function_name}'
+            return self.service.projects().locations().functions().get(name=name).execute()
+
+        def execute_function(self, function_name: str, data: str, region, project_id):
+            if project_id:
+                self.project = project_id
+            if region:
+                self.region = region
+            name = f'projects/{self.project}/locations/{self.region}/functions/{function_name}'
+            body = {'data': data}
+            return self.service.projects().locations().functions().call(name=name, body=body).execute()
+
+
+    '''COMMAND FUNCTIONS'''
+
+
+    def functions_list_command(client: GoogleClient, args: dict):
+        region = args.get('region')
+        project_id = args.get('project_id')
+        res = client.functions_list(region, project_id)
+        functions = res.get('functions', [])
+        keys = list(functions[0].keys())
+        keys.remove('name')
+        disp_region = 'All' if client.region == '-' else client.region
+        hr = tableToMarkdown(f'Functions in project "{client.project}" and region "{disp_region}"',
+                             functions, ['name'] + keys)
+        ec = {'GoogleCloudFunctions.Function(val.name && val.name == obj.name)': functions}
+        return hr, ec, res
+
+
+    def region_list_command(client: GoogleClient, args: dict):
+        project_id = args.get('project_id')
+        res = client.region_list(project_id)
+        regions = res.get('locations', [])
+        hr = tableToMarkdown(f'Regions in project "{client.project}"', regions, ['locationId', 'name', 'labels'])
+        ec = {'GoogleCloudFunctions.Region(val.locationId && val.locationId == obj.locationId)': regions}
+        return hr, ec, res
+
+
+    def get_function_by_name_command(client: GoogleClient, args: dict):
+        function_name = args.get('function_name', '')
+        project_id = args.get('project_id')
+        region = args.get('region')
+        res = client.function_by_name(function_name, region, project_id)
+        keys = list(res.keys())
+        keys.remove('name')
+        hr = tableToMarkdown(f'Here are the details for {args.get("function_name")}:', res, ['name'] + keys)
+        ec = {'GoogleCloudFunctions.Function(val.name && val.name == obj.name)': res}
+        return hr, ec, res
+
+
+    def execute_function_command(client: GoogleClient, args: dict):
+        project_id = args.get('project_id')
+        region = args.get('region')
+        function_name = args.get('function_name', '')
+        parameters = format_parameters(args.get('parameters', ''))
+        res = client.execute_function(function_name, parameters, region, project_id)
+        hr = tableToMarkdown(f'Execution details for {args.get("function_name")}:', res)
+        ec = {'GoogleCloudFunctions.Execution(val.executionId && val.executionId == obj.executionId)': res}
+        return hr, ec, res
+
+
+    '''HELPER FUNCTIONS'''
+
+
+    @logger
+    def format_parameters(parameters: str) -> str:
+        """
+        Receives a key:value string and retuns a dictionary string ({"key":"value"}). In the process strips trailing and
+        leading spaces.
+        :param parameters: The key-value-list
+        :return:
+        """
+        if not parameters:
+            return '{}'
+        pairs = []
+        for item in parameters.split(','):
+            try:
+                key, value = item.split(':')
+            except ValueError:
+                raise ValueError(f"Got unexpected parameters {item}.")
+            pairs.append((key.strip(), value.strip()))
+        return json.dumps(dict(pairs))
+
+
+    def main():
+        credentials_json = json.loads(demisto.params().get('credentials_json', {}))
+        project = demisto.params().get('project_id', '')
+        region = demisto.params().get('region')
+        proxy = demisto.params().get('proxy', False)
+        insecure = demisto.params().get('insecure', False)
+        scopes = ['https://www.googleapis.com/auth/cloud-platform']
+        client = GoogleClient('cloudfunctions', 'v1', credentials_json, scopes, proxy, insecure, project=project,
+                              region=region)
+        commands = {
+            'google-cloud-functions-list': functions_list_command,
+            'google-cloud-function-regions-list': region_list_command,
+            'google-cloud-function-get-by-name': get_function_by_name_command,
+            'google-cloud-function-execute': execute_function_command,
+        }
+
+        '''EXECUTION CODE'''
+        cmd_func = demisto.command()
+        LOG(f'Command being called is {cmd_func}')
+        try:
+            if cmd_func == 'test-module':
+                functions_list_command(client, {})
+                demisto.results('ok')
+            else:
+                hr, outputs, raw = commands[cmd_func](client, demisto.args())
+                return_outputs(hr, outputs, raw)
+
+        except Exception as e:
+            return_error(f"Failed to execute {cmd_func} command. Error: {e}")
+            raise
+
+
+    if __name__ in ('__main__', '__builtin__', 'builtins'):
+        main()
+  subtype: python3
+  type: python
+system: true

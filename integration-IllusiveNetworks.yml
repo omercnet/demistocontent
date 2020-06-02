@@ -1,0 +1,1145 @@
+category: Deception
+commonfields:
+  id: IllusiveNetworks
+  version: -1
+configuration:
+- defaultvalue: https://example.net
+  display: Server URL (e.g. https://example.net)
+  name: url
+  required: true
+  type: 0
+- defaultvalue: ""
+  display: API Token
+  name: api_token
+  required: true
+  type: 4
+- defaultvalue: ""
+  display: Fetch incidents
+  name: isFetch
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Incident type
+  name: incidentType
+  required: false
+  type: 13
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
+  name: insecure
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Use system proxy settings
+  name: proxy
+  required: false
+  type: 8
+- defaultvalue: 3 days
+  display: The initial time to fetch from
+  name: fetch_time
+  required: false
+  type: 0
+- defaultvalue: ALL
+  display: Fetch only incidents with forensics
+  name: has_forensics
+  options:
+  - "True"
+  - "False"
+  - ALL
+  required: true
+  type: 15
+contentitemexportablefields:
+  contentitemfields:
+    propagationLabels:
+    - all
+description: The Illusive Attack Management API allows customers to retrieve detected
+  incidents with a forensics timeline, attack surface insights, collect forensics
+  on-demand, and manage a variety of operations with regard to deceptive entities,
+  deception policies, and more.
+detaileddescription: |2+
+
+  Open the Illusive Management console, navigate to Settings > General, and locate the API KEYS section. Generate a new API key with all permissions and copy the token at the end of the process.
+
+display: IllusiveNetworks
+image: data:image/png;base64,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
+name: IllusiveNetworks
+script:
+  commands:
+  - arguments:
+    - description: The desired incident ID
+      name: incident_id
+      required: true
+    - description: The starting date of the forensics timeline.
+      name: start_date
+    - description: The last date of the forensics timeline.
+      name: end_date
+    description: Retrieve forensics timeline for a specific incident
+    name: illusive-get-forensics-timeline
+    outputs:
+    - contextPath: Illusive.Forensics.Evidence.details
+      description: The forensics evidence details
+      type: String
+    - contextPath: Illusive.Forensics.Evidence.eventId
+      description: The event ID
+      type: String
+    - contextPath: Illusive.Forensics.Evidence.id
+      description: The forensics evidence ID
+      type: String
+    - contextPath: Illusive.Forensics.Evidence.source
+      description: The Evidence source
+      type: String
+    - contextPath: Illusive.Forensics.Evidence.starred
+      description: Whether the forensics evidence has been starred
+      type: Boolean
+    - contextPath: Illusive.Forensics.Evidence.time
+      description: 'Date and time of the forensics evidence '
+      type: Date
+    - contextPath: Illusive.Forensics.Evidence.title
+      description: The forensics evidence description
+      type: String
+    - contextPath: Illusive.Forensics.IncidentId
+      description: The Incident Id
+      type: String
+    - contextPath: Illusive.Forensics.Status
+      description: The process progress ( Done, InProgress)
+      type: String
+  - arguments:
+    - description: The hostname or IP address of the desired host
+      name: hostnameOrIp
+      required: true
+    description: Retrieve the specified host insights from Attack Surface Manager
+    name: illusive-get-asm-host-insight
+    outputs:
+    - contextPath: Illusive.AttackSurfaceInsightsHost.DomainName
+      description: The host domain
+      type: String
+    - contextPath: Illusive.AttackSurfaceInsightsHost.HostName
+      description: The host hostname
+      type: String
+    - contextPath: Illusive.AttackSurfaceInsightsHost.HostType
+      description: The host type (Server, Workstation, Other)
+      type: String
+    - contextPath: Illusive.AttackSurfaceInsightsHost.IpAddresses
+      description: The host IP address
+      type: String
+    - contextPath: Illusive.AttackSurfaceInsightsHost.OperatingSystemName
+      description: The host operating system name
+      type: String
+    - contextPath: Illusive.AttackSurfaceInsightsHost.OperatingSystemVersion
+      description: The host operating system version
+      type: String
+    - contextPath: Illusive.AttackSurfaceInsightsHost.OrganizationalUnit
+      description: The host Active Directory Organizational Unit
+      type: String
+    - contextPath: Illusive.AttackSurfaceInsightsHost.SourceConnectivityExposure
+      description: The host Source Connectivity Exposure to crown jewels and domain
+        user credentials
+      type: Number
+  - arguments: []
+    description: Retrieve Crown-Jewels insights from Attack Surface Manager
+    name: illusive-get-asm-cj-insight
+    outputs:
+    - contextPath: Illusive.AttackSurfaceInsightsCrownJewel.data
+      description: The number of connections to this Crown Jewel per service type
+      type: Unknown
+    - contextPath: Illusive.AttackSurfaceInsightsCrownJewel.hostname
+      description: The crown jewel hostname
+      type: String
+    - contextPath: Illusive.AttackSurfaceInsightsCrownJewel.machineTagAndSubTags.tag
+      description: The List of a crown jewel category and subcategory couplings
+      type: String
+    - contextPath: Illusive.AttackSurfaceInsightsCrownJewel.MachineTagAndSubTags.subTag
+      description: The List of a crown jewel category and subcategory couplings
+      type: String
+    - contextPath: Illusive.AttackSurfaceInsightsCrownJewel.targetExposureRank
+      description: The crown jewel target exposure
+      type: Number
+  - arguments:
+    - auto: PREDEFINED
+      defaultValue: ALL
+      description: The status of the desired deceptive users (APPROVED, SUGGESTED,
+        ALL)
+      name: type
+      predefined:
+      - ALL
+      - SUGGESTED
+      - APPROVED
+    description: Retrieve a list of all deceptive users
+    name: illusive-get-deceptive-users
+    outputs:
+    - contextPath: Illusive.DeceptiveUser.userName
+      description: The deceptive user name
+      type: String
+    - contextPath: Illusive.DeceptiveUser.domainName
+      description: The deceptive user domain
+      type: String
+    - contextPath: Illusive.DeceptiveUser.policyNames
+      description: The deception policies the deceptive user is assigned to
+      type: Unknown
+    - contextPath: Illusive.DeceptiveUser.password
+      description: The deceptive user password
+      type: String
+    - contextPath: Illusive.DeceptiveUser.deceptiveState
+      description: The deceptive user state (APPROVED, SUGGESTED, ALL)
+      type: String
+    - contextPath: Illusive.DeceptiveUser.adUser
+      description: Whether the deceptive user is a genuine user in Active Directory
+      type: Boolean
+    - contextPath: Illusive.DeceptiveUser.activeUser
+      description: In case the deceptive user is a real AD user, indicates whether
+        he is active
+      type: Boolean
+  - arguments:
+    - auto: PREDEFINED
+      defaultValue: ALL
+      description: The status of the desired deceptive servers (APPROVED, SUGGESTED,
+        ALL)
+      name: type
+      predefined:
+      - ALL
+      - SUGGESTED
+      - APPROVED
+    description: Retrieve a list of all deceptive servers
+    name: illusive-get-deceptive-servers
+    outputs:
+    - contextPath: Illusive.DeceptiveServer.host
+      description: The deceptive server hostname
+      type: String
+    - contextPath: Illusive.DeceptiveServer.policyNames
+      description: The deception policies the deceptive server is assigned to
+      type: String
+    - contextPath: Illusive.DeceptiveServer.adHost
+      description: Whether the deceptive server is a genuine machine in Active Directory
+      type: Boolean
+    - contextPath: Illusive.DeceptiveServer.deceptiveState
+      description: The deceptive server state (APPROVED, SUGGESTED, ALL)
+      type: String
+    - contextPath: Illusive.DeceptiveServer.serviceTypes
+      description: The deception services the deceptive server is assigned to
+      type: String
+  - arguments:
+    - description: The username to be verified
+      name: username
+      required: true
+    description: Retrieve whether a specified user is deceptive
+    name: illusive-is-deceptive-user
+    outputs:
+    - contextPath: Illusive.IsDeceptive.Username
+      description: The checked username
+      type: String
+    - contextPath: Illusive.IsDeceptive.IsDeceptiveUser
+      description: Is the specified user conducted as a deceptive user
+      type: Boolean
+  - arguments:
+    - description: The server hostname to be verified
+      name: hostname
+      required: true
+    description: Retrieve whether a specified server is deceptive
+    name: illusive-is-deceptive-server
+    outputs:
+    - contextPath: Illusive.IsDeceptive.IsDeceptiveServer
+      description: Is the specified server conducted as a deceptive server
+      type: Boolean
+    - contextPath: Illusive.IsDeceptive.Hostname
+      description: The checked server hostname
+      type: String
+  - arguments:
+    - description: The deceptive user domain
+      name: domain_name
+      required: true
+    - description: The deceptive user password
+      name: password
+      required: true
+    - description: The deception policies to be assigned to the new deceptive user
+      isArray: true
+      name: policy_names
+    - description: The deceptive user name
+      name: username
+      required: true
+    description: Add or approve deceptive users
+    name: illusive-add-deceptive-users
+  - arguments:
+    - description: The deceptive server hostname
+      name: host
+      required: true
+    - description: The deception policies to be assigned to the new deceptive server
+      isArray: true
+      name: policy_names
+    - description: The deception services to be assigned to the new deceptive server
+      isArray: true
+      name: service_types
+      required: true
+    description: Add or approve deceptive servers
+    name: illusive-add-deceptive-servers
+  - arguments:
+    - description: The list of deceptive users to delete
+      isArray: true
+      name: deceptive_users
+      required: true
+    description: Delete deceptive users
+    name: illusive-delete-deceptive-users
+  - arguments:
+    - description: The list of deceptive servers to delete
+      isArray: true
+      name: deceptive_hosts
+      required: true
+    description: Delete deceptive servers
+    name: illusive-delete-deceptive-servers
+  - arguments:
+    - description: Policy name to assign
+      name: policy_name
+      required: true
+    - description: |-
+        List of hosts to assign, in the following format: machine@domain.
+        Maximum number of hosts is 1000.
+      name: hosts
+      required: true
+    description: Assign a deception policy to domain hosts
+    name: illusive-assign-host-to-policy
+  - arguments:
+    - description: |-
+        List of hosts to remove policy assignment from, in the following format: machine@domain.
+        Maximum number of hosts is 1000
+      name: hosts
+      required: true
+    description: Remove deception policy assignment from domain hosts
+    name: illusive-remove-host-from-policy
+  - arguments:
+    - description: The host fqdn or IP address on which to collect forensics
+      name: fqdn_or_ip
+      required: true
+    description: Collect forensics on a specified host and retrieve the forensics
+      timeline
+    name: illusive-run-forensics-on-demand
+    outputs:
+    - contextPath: Illusive.Event.eventId
+      description: 'The created event ID of the operation '
+      type: String
+  - arguments:
+    - description: |
+        The desired incident ID to retrieve.
+        If specified - other arguments are ignored and only a single incident can be retrieved
+      name: incident_id
+    - description: The list of hostnames to retrieve incidents
+      isArray: true
+      name: hostnames
+    - auto: PREDEFINED
+      description: Whether to retrieve incidents with forensics only
+      name: has_forensics
+      predefined:
+      - "True"
+      - "False"
+    - description: |-
+        Use offset and limit for pagination.
+        The maximum limit is 100.
+      name: limit
+    - description: Use offset and limit for pagination.
+      name: offset
+    - description: start date
+      name: start_date
+    description: Retrieve incidents
+    name: illusive-get-incidents
+    outputs:
+    - contextPath: Illusive.Incident.closed
+      description: Whether the incident has been closed
+      type: Boolean
+    - contextPath: Illusive.Incident.deceptionFamilies
+      description: |-
+        The deception families of the
+        deceptions used to trigger
+        the incident
+      type: String
+    - contextPath: Illusive.Incident.flagged
+      description: Whether the incident has been flagged
+      type: Boolean
+    - contextPath: Illusive.Incident.hasForensics
+      description: Whether incident has forensics
+      type: Boolean
+    - contextPath: Illusive.Incident.incidentId
+      description: The Incident ID
+      type: Number
+    - contextPath: Illusive.Incident.incidentTimeUTC
+      description: Date and time of the incident
+      type: Date
+    - contextPath: Illusive.Incident.incidentTypes
+      description: Type of events detected
+      type: Unknown
+    - contextPath: Illusive.Incident.lastSeenUser
+      description: The user who last reviewed the incident
+      type: String
+    - contextPath: Illusive.Incident.policyName
+      description: The compromised host's policy
+      type: String
+    - contextPath: Illusive.Incident.riskInsights.stepsToCrownJewel
+      description: The compromised host?s lateral distance from Crown Jewels
+      type: Number
+    - contextPath: Illusive.Incident.riskInsights.stepsToDomainAdmin
+      description: The compromised host?s lateral distance from domain admin accounts
+      type: Number
+    - contextPath: Illusive.Incident.sourceHostname
+      description: The compromised host's name
+      type: String
+    - contextPath: Illusive.Incident.sourceIp
+      description: The compromised host?s IP address
+      type: String
+    - contextPath: Illusive.Incident.sourceOperatingSystem
+      description: The compromised host?s operating system
+      type: String
+    - contextPath: Illusive.Incident.unread
+      description: Whether the incident has been read
+      type: Boolean
+    - contextPath: Illusive.Incident.userNotes
+      description: The analyst?s comments
+      type: String
+  - arguments:
+    - description: The Event id
+      isArray: true
+      name: event_id
+      required: true
+    description: Retrieve the incident ID of an event
+    name: illusive-get-event-incident-id
+    outputs:
+    - contextPath: Illusive.Event.incidentId
+      description: The Incident ID
+      type: String
+    - contextPath: Illusive.Event.eventId
+      description: The given event ID
+      type: String
+    - contextPath: Illusive.Event.status
+      description: The status command ( Done, InProgress)
+      type: String
+  dockerimage: demisto/python3:3.8.2.6981
+  isfetch: true
+  runonce: false
+  script: |2
+
+      # noqa: E402 lgtm [py/polluting-import]
+      # noqa: E402 lgtm [py/polluting-import]
+    # IMPORTS
+
+    from typing import Tuple, Dict, Any
+    import json
+    import requests
+    import dateparser
+
+    # Disable insecure warnings
+    requests.packages.urllib3.disable_warnings()
+
+    # CONSTANTS
+    DATE_FORMAT = '%Y-%m-%dT%H:%M:%S.000Z'
+    DEFAULT_HEADERS_POST_REQUEST = {'accept': 'application/json;charset=UTF-8',
+                                    'Content-Type': 'application/json;charset=UTF-8'}
+
+
+    class Client(BaseClient):
+        """
+        Client will implement the service API, and should not contain any Demisto logic.
+        Should only do requests and return data.
+        """
+
+        def get_deceptive_users(self, user_type):
+            url_suffix = '/api/v1/deceptive-entities/users?deceptive_user_type={}'.format(user_type)
+            return self._http_request("GET", url_suffix=url_suffix)
+
+        def get_deceptive_serves(self, server_type):
+            url_suffix = '/api/v1/deceptive-entities/servers?deceptive_server_type={}'.format(server_type)
+            return self._http_request("GET", url_suffix=url_suffix)
+
+        def add_deceptive_users(self, body):
+            url_suffix = '/api/v1/deceptive-entities/users'
+            return self._http_request('POST', url_suffix=url_suffix, data=json.dumps(body), ok_codes=(200,))
+
+        def add_deceptive_servers(self, body):
+            url_suffix = '/api/v1/deceptive-entities/servers'
+            return self._http_request('POST', url_suffix=url_suffix, data=json.dumps(body), ok_codes=(200,))
+
+        def assign_host_to_policy(self, policy_name, body):
+            url_suffix = '/api/v1/policy/domain_hosts/assign?policy_name={}'.format(policy_name)
+            return self._http_request('POST', url_suffix=url_suffix, data=json.dumps(body), ok_codes=(200,))
+
+        def remove_host_from_policy(self, body):
+            url_suffix = '/api/v1/policy/domain_hosts/remove_assignment'
+            return self._http_request('POST', url_suffix=url_suffix, data=json.dumps(body), ok_codes=(200,))
+
+        def get_forensics_timeline(self, incident_id, start_date, end_date):
+            url_suffix = '/api/v1/forensics/timeline?incident_id={}'.format(incident_id)
+            if end_date:
+                url_suffix += "&end_date={}".format(end_date)
+            if start_date:
+                url_suffix += "&start_date={}".format(start_date)
+            return self._http_request("GET", url_suffix=url_suffix, ok_codes=(200,))
+
+        def get_asm_host_insight(self, hostname_or_ip):
+            url_suffix = '/api/v1/attack-surface/machine-insights?hostNameOrIp={}'.format(hostname_or_ip)
+            return self._http_request("GET", url_suffix=url_suffix)
+
+        def get_asm_cj_insight(self):
+            url_suffix = '/api/v1/crownjewels/insights'
+            return self._http_request("GET", url_suffix=url_suffix)
+
+        def run_forensics_on_demand(self, hostname_or_ip):
+            url_suffix = '/api/v1/event/create-external-event?hostNameOrIp={}'.format(hostname_or_ip)
+            return self._http_request("POST", url_suffix=url_suffix)
+
+        def is_deceptive_user(self, username):
+            url_suffix = '/api/v1/deceptive-entities/user?userName={}'.format(username)
+            return self._http_request("GET", url_suffix=url_suffix, resp_type='text')
+
+        def is_deceptive_server(self, hostname):
+            url_suffix = '/api/v1/deceptive-entities/server?hostName={}'.format(hostname)
+            return self._http_request("GET", url_suffix=url_suffix, resp_type='text')
+
+        def delete_deceptive_users(self, deceptive_users):
+            url_suffix = '/api/v1/deceptive-entities/users'
+            url_suffix += "?deceptive_users=" + '&deceptive_users='.join(deceptive_users)
+            return self._http_request("DELETE", url_suffix=url_suffix, resp_type='text')
+
+        def delete_deceptive_servers(self, deceptive_servers):
+            url_suffix = '/api/v1/deceptive-entities/servers'
+            url_suffix += "?deceptive_hosts=" + '&deceptive_hosts='.join(deceptive_servers)
+            return self._http_request("DELETE", url_suffix=url_suffix, resp_type='text')
+
+        def get_incident(self, incident_id):
+            url_suffix = '/api/v2/incidents/incident?incident_id={}'.format(incident_id)
+            return self._http_request("GET", url_suffix=url_suffix)
+
+        def get_event_incident_id(self, event_id):
+            url_suffix = '/api/v1/incidents/id?event_id={}'.format(event_id)
+            return self._http_request("GET", url_suffix=url_suffix, ok_codes=(200,))
+
+        def list_all_incidents(self, has_forensics, host_names, limit, offset, start_date):
+            url_suffix = '/api/v1/incidents?limit={}&offset={}'.format(limit, offset)
+            if has_forensics is not None:
+                url_suffix += "&has_forensics={}".format(has_forensics)
+            if start_date:
+                url_suffix += "&start_date={}".format(start_date)
+            if host_names:
+                url_suffix += "&host_names=" + '&host_names='.join(host_names)
+            return self._http_request("GET", url_suffix=url_suffix)
+
+        def test_configuration(self):
+            url_suffix = '/api/v1/incidents?limit=10&offset=0'
+            return self._http_request("GET", url_suffix=url_suffix, ok_codes=(200,))
+
+
+    def test_module(client):
+        """
+        Returning 'ok' indicates that the integration works like it is supposed to. Connection to the service is successful.
+
+        Args:
+            client: Illusive Networks client
+
+        Returns:
+            'ok' if test passed, anything else will fail the test.
+        """
+        try:
+            client.test_configuration()
+            return 'ok'
+        except DemistoException as e:
+            if "401" in e.args[0]:
+                return "Test failed, potential reasons might be that the API KEY parameter is incorrect: {}".format(e.args[0])
+            else:
+                return "Test failed: {}".format(e.args[0])
+
+
+    def fetch_incidents(client, last_run, first_fetch_time, has_forensics):
+        """
+        This function will execute each interval (default is 1 minute).
+        """
+        # Get the last fetch time, if exists
+        last_fetch = last_run.get('last_run')
+
+        # Handle first time fetch
+        if last_fetch is None:
+            last_fetch, _ = parse_date_range(first_fetch_time, date_format=DATE_FORMAT, utc=True)
+
+        latest_created_time = last_fetch
+        incidents = []
+        items = client.list_all_incidents(has_forensics, None, limit=10, offset=0, start_date=latest_created_time)
+        for item in items:
+            incident_created_time = item['incidentTimeUTC']
+            incident_type = 'None'
+            if len(item['incidentTypes']) > 0:
+                incident_type = str(item['incidentTypes'][0])
+            incident = {
+                'name': "Illusive Attack Management detected an incident of type " + incident_type,
+                'occurred': (dateparser.parse(incident_created_time)).strftime('%Y-%m-%dT%H:%M:%SZ'),
+                'rawJSON': json.dumps(item)
+            }
+            incidents.append(incident)
+
+            # Update last run and add incident if the incident is newer than last fetch
+            if incident_created_time > latest_created_time:
+                latest_created_time = incident_created_time
+
+        next_run = {'last_run': latest_created_time}
+        return next_run, incidents
+
+
+    def get_deceptive_users_command(client: Client, args: dict) -> Tuple:
+        user_type = args.get("type", "ALL")
+        try:
+            result = client.get_deceptive_users(user_type)
+        except DemistoException as e:
+            if "429" in e.args[0]:
+                raise DemistoException(
+                    "The allowed amount of API calls per minute in Illusive Attack Management has exceeded. In case this"
+                    " message repeats, please contact Illusive Networks support")
+            else:
+                raise DemistoException("{}".format(e.args[0]))
+
+        readable_output = tableToMarkdown('Illusive Deceptive Users', result)
+        outputs = {
+            'Illusive.DeceptiveUser(val.userName == obj.userName)': result
+        }
+        return (
+            readable_output,
+            outputs,
+            result  # raw response - the original response
+        )
+
+
+    def get_deceptive_servers_command(client: Client, args: dict) -> Tuple:
+        server_type = args.get("type", "ALL")
+        try:
+            result = client.get_deceptive_serves(server_type)
+        except DemistoException as e:
+            if "429" in e.args[0]:
+                raise DemistoException(
+                    "The allowed amount of API calls per minute in Illusive Attack Management has exceeded. In case this"
+                    " message repeats, please contact Illusive Networks support")
+            else:
+                raise DemistoException("{}".format(e.args[0]))
+        readable_output = tableToMarkdown('Illusive Deceptive Servers', result)
+        outputs = {
+            'Illusive.DeceptiveServer(val.host == obj.host)': result
+        }
+        return (
+            readable_output,
+            outputs,
+            result  # raw response - the original response
+        )
+
+
+    def add_deceptive_users_command(client: Client, args: dict) -> Tuple:
+        user_name = args.get("username", None)
+        domain_name = args.get("domain_name", None)
+        password = args.get("password", None)
+        policy_names = argToList(args.get('policy_names'))
+
+        request_body = [
+            {'domainName': domain_name, 'password': password, 'policyNames': policy_names, 'username': user_name}]
+        try:
+            client.add_deceptive_users(request_body)
+        except DemistoException as e:
+            if "429" in e.args[0]:
+                raise DemistoException(
+                    "The allowed amount of API calls per minute in Illusive Attack Management has exceeded. In case this"
+                    " message repeats, please contact Illusive Networks support")
+            else:
+                raise DemistoException("{}".format(e.args[0]))
+
+        result = {
+            'userName': user_name,
+            'domainName': domain_name,
+            'policyNames': "All Policies" if policy_names == [] else policy_names,
+            'password': password
+        }
+        readable_output = tableToMarkdown('Illusive Add Deceptive User Succeeded', result)
+        outputs = {
+            'Illusive.DeceptiveUser(val.userName == obj.userName)': result
+        }
+        return (
+            readable_output,
+            outputs,
+            result  # raw response - the original response
+        )
+
+
+    def add_deceptive_servers_command(client: Client, args: dict) -> Tuple:
+        host_name = args.get("host", "")  # must be <host>.<domain>
+        service_types = argToList(args.get("service_types"))
+        policy_names = argToList(args.get('policy_names'), "All Policies")
+
+        if len(host_name.split('.')) < 2:
+            raise DemistoException("host name must have the following pattern: <host>.<domain>")
+
+        request_body = [{'host': host_name, 'serviceTypes': service_types, 'policyNames': policy_names}]
+        try:
+            client.add_deceptive_servers(request_body)
+        except DemistoException as e:
+            if "429" in e.args[0]:
+                raise DemistoException(
+                    "The allowed amount of API calls per minute in Illusive Attack Management has exceeded. In case this"
+                    " message repeats, please contact Illusive Networks support")
+            else:
+                raise DemistoException("{}".format(e.args[0]))
+
+        result = {
+            'host': host_name,
+            'serviceTypes': service_types,
+            'policyNames': "All Policies" if policy_names == [] else policy_names
+        }
+        readable_output = tableToMarkdown('Illusive Add Deceptive Server Succeeded', result)
+        outputs = {
+            'Illusive.DeceptiveServer(val.host == obj.host)': result
+        }
+        return (
+            readable_output,
+            outputs,
+            result  # raw response - the original response
+        )
+
+
+    def assign_host_to_policy_command(client: Client, args: dict) -> Tuple:
+        policy_name = args.get("policy_name", None)
+        host_names = argToList(args.get("hosts"))
+        host_names = host_names[:1000]
+        request_body = []
+        for host_name in host_names:
+            host_name_split = host_name.split('@')
+            if len(host_name_split) != 2:
+                raise Exception('bad hostname format: {}. Should be  <machineName>@<domainName> '.format(host_name))
+            request_body.append({"machineName": host_name_split[0], "domainName": host_name_split[1]})
+        try:
+            client.assign_host_to_policy(policy_name, request_body)
+        except DemistoException as e:
+            if "429" in e.args[0]:
+                raise DemistoException(
+                    "The allowed amount of API calls per minute in Illusive Attack Management has exceeded. In case this"
+                    " message repeats, please contact Illusive Networks support")
+            else:
+                raise DemistoException("{}".format(e.args[0]))
+        result = []
+        for host in host_names:
+            result.append({
+                'isAssigned': True,
+                'hosts': host,
+                'policy_name': policy_name
+            })
+
+        readable_output = tableToMarkdown('Illusive Assign Machines to Policy Succeeded', result)
+        outputs = {
+            'Illusive.DeceptionPolicy.isAssigned(val.hosts == obj.hosts)': result
+        }
+        return (
+            readable_output,
+            outputs,
+            result  # raw response - the original response
+        )
+
+
+    def remove_host_from_policy_command(client: Client, args: dict) -> Tuple:
+        host_names = argToList(args.get("hosts"))
+        host_names = host_names[:1000]
+        request_body = []
+        for host_name in host_names:
+            host_name_split = host_name.split('@')
+            if len(host_name_split) != 2:
+                raise Exception('bad hostname format: {}. Should be  <machineName>@<domainName> '.format(host_name))
+            request_body.append({"machineName": host_name_split[0], "domainName": host_name_split[1]})
+        try:
+            client.remove_host_from_policy(request_body)
+        except DemistoException as e:
+            if "429" in e.args[0]:
+                raise DemistoException(
+                    "The allowed amount of API calls per minute in Illusive Attack Management has exceeded. In case this"
+                    " message repeats, please contact Illusive Networks support")
+            else:
+                raise DemistoException("{}".format(e.args[0]))
+
+        result = []
+        for host in host_names:
+            result.append({
+                'isAssigned': False,
+                'hosts': host,
+                'policy_name': ""})
+
+        readable_output = tableToMarkdown('Illusive Remove Machines from All Policies Succeeded', result)
+        outputs = {
+            'Illusive.DeceptionPolicy.isAssigned(val.hosts == obj.hosts)': result
+        }
+        return (
+            readable_output,
+            outputs,
+            result  # raw response - the original response
+        )
+
+
+    def get_forensics_timeline_command(client: Client, args: dict) -> Tuple:
+        incident_id = args.get("incident_id")
+        start_date = args.get("start_date", None)
+        end_date = args.get("end_date", None)
+        if start_date:
+            start_date, _ = parse_date_range(start_date, date_format=DATE_FORMAT, utc=True)
+        if end_date:
+            end_date, _ = parse_date_range(end_date, date_format=DATE_FORMAT, utc=True)
+
+        try:
+            result = client.get_forensics_timeline(incident_id, start_date, end_date)
+            readable_output = tableToMarkdown('Illusive Forensics Timeline', result)
+            outputs = {
+                'Illusive.Forensics(val.IncidentId == obj.IncidentId)': {
+                    'IncidentId': incident_id,
+                    'Status': 'Done',
+                    'Evidence': result
+                }
+            }
+        except DemistoException as e:
+            if "404" in e.args[0]:
+                raise DemistoException("Incident id {} doesn't not exist".format(incident_id))
+            elif "429" in e.args[0]:
+                raise DemistoException(
+                    "The allowed amount of API calls per minute in Illusive Attack Management has exceeded. In case this"
+                    " message repeats, please contact Illusive Networks support")
+            elif "202" in e.args[0]:
+                readable_output = "Incident id {} hasn't been closed yet".format(incident_id)
+                outputs = {
+                    'Illusive.Forensics(val.IncidentId == obj.IncidentId)': {
+                        'IncidentId': incident_id,
+                        'Status': 'InProgress',
+                        'Evidence': []
+                    }
+                }
+                result = []
+            else:
+                raise DemistoException("{}".format(e.args[0]))
+
+        return (
+            readable_output,
+            outputs,
+            result  # raw response - the original response
+        )
+
+
+    def get_asm_host_insight_command(client: Client, args: dict) -> Tuple:
+        hostname_or_ip = args.get("hostnameOrIp", None)
+        try:
+            result = client.get_asm_host_insight(hostname_or_ip)
+        except DemistoException as e:
+            if "404" in e.args[0]:
+                result = []
+            elif "429" in e.args[0]:
+                raise DemistoException(
+                    "The allowed amount of API calls per minute in Illusive Attack Management has exceeded. In case this"
+                    " message repeats, please contact Illusive Networks support")
+            else:
+                raise DemistoException("{}".format(e.args[0]))
+        readable_output = tableToMarkdown('Illusive ASM Host Insights', result)
+        outputs = {
+            'Illusive.AttackSurfaceInsightsHost(val.ipAddresses == obj.ipAddresses)': result
+        }
+
+        return (
+            readable_output,
+            outputs,
+            result  # raw response - the original response
+        )
+
+
+    def get_asm_cj_insight_command(client: Client, args: dict) -> Tuple:
+        try:
+            result = client.get_asm_cj_insight()
+        except DemistoException as e:
+            if "429" in e.args[0]:
+                raise DemistoException(
+                    "The allowed amount of API calls per minute in Illusive Attack Management has exceeded. In case this"
+                    " message repeats, please contact Illusive Networks support")
+            else:
+                raise DemistoException("{}".format(e.args[0]))
+        readable_output = tableToMarkdown('Illusive ASM Crown Jewels Insights', result)
+        outputs = {
+            'Illusive.AttackSurfaceInsightsCrownJewel(val.hostname == obj.hostname)': result
+        }
+
+        return (
+            readable_output,
+            outputs,
+            result  # raw response - the original response
+        )
+
+
+    def run_forensics_on_demand_command(client: Client, args: dict) -> Tuple:
+        fqdn_or_ip = args.get("fqdn_or_ip", None)
+        try:
+            result = client.run_forensics_on_demand(fqdn_or_ip)
+        except DemistoException as e:
+            if "429" in e.args[0]:
+                raise DemistoException(
+                    "The allowed amount of API calls per minute in Illusive Attack Management has exceeded. In case this"
+                    " message repeats, please contact Illusive Networks support")
+            else:
+                raise DemistoException("{}".format(e.args[0]))
+        readable_output = tableToMarkdown('Illusive Run Forensics On Demand', result)
+        outputs = {
+            'Illusive.Event(val.eventId == obj.eventId)': result
+        }
+        return (
+            readable_output,
+            outputs,
+            result  # raw response - the original response
+        )
+
+
+    def is_deceptive_user_command(client: Client, args: dict) -> Tuple:
+        username = args.get("username", None)
+        is_deceptive_user = False
+        is_deceptive_user = True if client.is_deceptive_user(username) else is_deceptive_user
+        result = {
+            'Username': username,
+            'IsDeceptiveUser': is_deceptive_user
+        }
+        readable_output = tableToMarkdown('Illusive Is Deceptive', result)
+        outputs = {
+            'Illusive.IsDeceptive(val.Username == obj.Username)': result
+        }
+        return (
+            readable_output,
+            outputs,
+            result  # raw response - the original response
+        )
+
+
+    def is_deceptive_server_command(client: Client, args: dict) -> Tuple:
+        hostname = args.get("hostname", None)
+        is_deceptive_server = False
+        is_deceptive_server = True if client.is_deceptive_server(hostname) else is_deceptive_server
+        result = {
+            'Hostname': hostname,
+            'IsDeceptiveServer': is_deceptive_server
+        }
+        readable_output = tableToMarkdown('Illusive Is Deceptive', result)
+        outputs = {
+            'Illusive.IsDeceptive(val.Hostname == obj.Hostname)': result
+        }
+        return (
+            readable_output,
+            outputs,
+            result  # raw response - the original response
+        )
+
+
+    def delete_deceptive_users_command(client: Client, args: dict) -> Tuple:
+        deceptive_users = argToList(args.get('deceptive_users'))
+        try:
+            client.delete_deceptive_users(deceptive_users)
+        except DemistoException as e:
+            if "429" in e.args[0]:
+                raise DemistoException(
+                    "The allowed amount of API calls per minute in Illusive Attack Management has exceeded. In case this"
+                    " message repeats, please contact Illusive Networks support")
+            else:
+                raise DemistoException("{}".format(e.args[0]))
+        if len(deceptive_users) > 1:
+            a, b = "s", "were"
+        else:
+            a, b = "", "was"
+        result = f' {"Deceptive User{} {} {} successfully Deleted".format(a, deceptive_users, b)}'
+        readable_output = f'## {result}'
+
+        outputs: Dict[str, Any] = {
+        }
+        return (
+            readable_output,
+            outputs,
+            result  # raw response - the original response
+        )
+
+
+    def delete_deceptive_servers_command(client: Client, args: dict) -> Tuple:
+        deceptive_servers = argToList(args.get('deceptive_hosts'))
+        try:
+            client.delete_deceptive_servers(deceptive_servers)
+        except DemistoException as e:
+            if "429" in e.args[0]:
+                raise DemistoException(
+                    "The allowed amount of API calls per minute in Illusive Attack Management has exceeded. In case this"
+                    " message repeats, please contact Illusive Networks support")
+            else:
+                raise DemistoException("{}".format(e.args[0]))
+
+        if len(deceptive_servers) > 1:
+            a, b = "s", "were"
+        else:
+            a, b = "", "was"
+        result = f' {"Deceptive Server{} {} {} successfully Deleted".format(a, deceptive_servers, b)}'
+        readable_output = f'## {result}'
+
+        outputs: Dict[str, Any] = {
+        }
+        return (
+            readable_output,
+            outputs,
+            result  # raw response - the original response
+        )
+
+
+    def get_incidents_command(client: Client, args: dict) -> Tuple:
+        incident_id = args.get("incident_id")
+        has_forensics = args.get("has_forensics", None)
+        host_names = argToList(args.get('host_names'))
+        limit = args.get("limit", 10)
+        offset = args.get("offset", 0)
+        start_date = args.get("start_date", None)
+        if start_date:
+            start_date, _ = parse_date_range(start_date, date_format=DATE_FORMAT, utc=True)
+        try:
+            if incident_id:
+                incident = client.get_incident(incident_id)
+            else:
+                limit = "100" if int(limit) > 100 else limit
+                incident = client.list_all_incidents(has_forensics, host_names, limit, offset, start_date)
+        except DemistoException as e:
+            if "429" in e.args[0]:
+                raise DemistoException(
+                    "The allowed amount of API calls per minute in Illusive Attack Management has exceeded. In case this"
+                    " message repeats, please contact Illusive Networks support")
+            else:
+                raise DemistoException("{}".format(e.args[0]))
+
+        readable_output = tableToMarkdown('Illusive Incidents', incident)
+        outputs = {
+            'Illusive.Incident(val.incidentId == obj.incidentId)': incident
+        }
+        return (
+            readable_output,
+            outputs,
+            incident  # raw response - the original response
+        )
+
+
+    def get_event_incident_id_command(client: Client, args: dict) -> Tuple:
+        event_id = argToList(args.get("event_id"))
+        status = "Done"
+        try:
+            incident = client.get_event_incident_id(event_id[0])
+        except DemistoException as e:
+            if "404" in e.args[0]:
+                raise DemistoException("Event id {} doesn't not exist".format(event_id[0]))
+            elif "202" in e.args[0]:
+                incident = "-"
+                status = "InProgress"
+            elif "429" in e.args[0]:
+                raise DemistoException(
+                    "The allowed amount of API calls per minute in Illusive Attack Management has exceeded. In case this"
+                    " message repeats, please contact Illusive Networks support")
+            else:
+                raise DemistoException("{}".format(e.args[0]))
+        result = [{
+            'eventId': event_id[0],
+            'incidentId': incident,
+            'status': status
+        }]
+        outputs = {
+            'Illusive.Event(val.eventId == obj.eventId)': result
+        }
+        readable_output = tableToMarkdown('Illusive Get Incident', result)
+
+        return (
+            readable_output,
+            outputs,
+            incident  # raw response - the original response
+        )
+
+
+    def main():
+        """
+            PARSE AND VALIDATE INTEGRATION PARAMS
+        """
+        # get the service API token
+        api_token = demisto.params().get('api_token')
+        has_forensics = demisto.params().get('has_forensics')
+        has_forensics = None if has_forensics == "ALL" else has_forensics
+
+        # get the service API url
+        base_url = demisto.params()['url']
+
+        verify_certificate = not demisto.params().get('insecure', False)
+
+        # How much time before the first fetch to retrieve incidents
+        first_fetch_time = demisto.params().get('fetch_time', '7 days').strip().lower()
+
+        proxy = demisto.params().get('proxy', False)
+
+        LOG(f'Command being called is {demisto.command()}')
+        try:
+            headers = DEFAULT_HEADERS_POST_REQUEST
+            headers["Authorization"] = api_token
+            client = Client(
+                base_url=base_url,
+                verify=verify_certificate,
+                headers=headers,
+                proxy=proxy)
+
+            if demisto.command() == 'test-module':
+                # This is the call made when pressing the integration Test button.
+                result = test_module(client)
+                demisto.results(result)
+            elif demisto.command() == 'fetch-incidents':
+                # Set and define the fetch incidents command to run after activated via integration settings.
+                next_run, incidents = fetch_incidents(
+                    client=client,
+                    last_run=demisto.getLastRun(),
+                    first_fetch_time=first_fetch_time,
+                    has_forensics=has_forensics)
+
+                demisto.setLastRun(next_run)
+                demisto.incidents(incidents)
+
+            elif demisto.command() == 'illusive-get-forensics-timeline':
+                return_outputs(*get_forensics_timeline_command(client, demisto.args()))
+
+            elif demisto.command() == 'illusive-get-asm-host-insight':
+                return_outputs(*get_asm_host_insight_command(client, demisto.args()))
+
+            elif demisto.command() == 'illusive-get-asm-cj-insight':
+                return_outputs(*get_asm_cj_insight_command(client, demisto.args()))
+
+            elif demisto.command() == 'illusive-get-deceptive-users':
+                return_outputs(*get_deceptive_users_command(client, demisto.args()))
+
+            elif demisto.command() == 'illusive-get-deceptive-servers':
+                return_outputs(*get_deceptive_servers_command(client, demisto.args()))
+
+            elif demisto.command() == 'illusive-is-deceptive-user':
+                return_outputs(*is_deceptive_user_command(client, demisto.args()))
+
+            elif demisto.command() == 'illusive-is-deceptive-server':
+                return_outputs(*is_deceptive_server_command(client, demisto.args()))
+
+            elif demisto.command() == 'illusive-get-incidents':
+                return_outputs(*get_incidents_command(client, demisto.args()))
+
+            elif demisto.command() == 'illusive-get-event-incident-id':
+                return_outputs(*get_event_incident_id_command(client, demisto.args()))
+
+            elif demisto.command() == 'illusive-add-deceptive-users':
+                return_outputs(*add_deceptive_users_command(client, demisto.args()))
+
+            elif demisto.command() == 'illusive-add-deceptive-servers':
+                return_outputs(*add_deceptive_servers_command(client, demisto.args()))
+
+            elif demisto.command() == 'illusive-delete-deceptive-users':
+                return_outputs(*delete_deceptive_users_command(client, demisto.args()))
+
+            elif demisto.command() == 'illusive-delete-deceptive-servers':
+                return_outputs(*delete_deceptive_servers_command(client, demisto.args()))
+
+            elif demisto.command() == 'illusive-assign-host-to-policy':
+                return_outputs(*assign_host_to_policy_command(client, demisto.args()))
+
+            elif demisto.command() == 'illusive-remove-host-from-policy':
+                return_outputs(*remove_host_from_policy_command(client, demisto.args()))
+
+            elif demisto.command() == 'illusive-run-forensics-on-demand':
+                return_outputs(*run_forensics_on_demand_command(client, demisto.args()))
+
+        # Log exceptions
+        except Exception as e:
+            return_error(f'Failed to execute {demisto.command()} command. Error: {str(e)}')
+
+
+    if __name__ in ('__main__', '__builtin__', 'builtins'):
+        main()
+  subtype: python3
+  type: python
+system: true

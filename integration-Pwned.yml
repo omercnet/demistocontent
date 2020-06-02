@@ -3,7 +3,7 @@ commonfields:
   id: Pwned
   version: -1
 configuration:
-- defaultvalue: "true"
+- defaultvalue: ""
   display: Use system proxy settings
   name: proxy
   required: false
