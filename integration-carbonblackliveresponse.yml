@@ -133,9 +133,8 @@ script:
       name: file-id
       required: true
     deprecated: true
-    description: Download a file from Cb server in a given session. Use cb-command-create
-      with name=get-file to push the file from a path on the endpint to Cb server
-      before executing cb-file-get.
+    description: Download a file from Cb server in a given session. Use cb-get-file-from-endpoint
+      instead.
     name: cb-file-get
   - arguments:
     - default: true
@@ -152,7 +151,7 @@ script:
     - contextPath: CbLiveResponse.Files.Size
       description: The File size
     - contextPath: CbLiveResponse.Files.CbFileID
-      description: ID of the file within the Cb Session Storage - use with cb-file-get.
+      description: ID of the file within the Cb Session Storage - use with cb-get-file-from-endpoint.
     - contextPath: CbLiveResponse.Files.Status
       description: File status (0 if no error, another number otherwise)
     - contextPath: CbLiveResponse.Files.Delete
@@ -165,8 +164,7 @@ script:
       name: file-id
       required: true
     deprecated: true
-    description: Uploads the file to the Cb server. Use cb-command-create with name=put-file
-      to push the file from Cb server to a path on the endpoint.
+    description: Uploads the file to the Cb server. Use cb-push-file-to-endpoint instead.
     name: cb-file-upload
     outputs:
     - contextPath: CbLiveResponse.Files.Filename
@@ -174,7 +172,7 @@ script:
     - contextPath: CbLiveResponse.Files.Size
       description: The File size
     - contextPath: CbLiveResponse.Files.CbFileID
-      description: ID of the file within the Cb Session Storage - use with cb-file-get.
+      description: ID of the file within the Cb Session Storage - use with cb-get-file-from-endpoint.
     - contextPath: CbLiveResponse.Files.Status
       description: File status (0 if no error, another number otherwise)
     - contextPath: CbLiveResponse.Files.Delete
@@ -206,7 +204,7 @@ script:
     - contextPath: CbLiveResponse.Files.Size
       description: The File size
     - contextPath: CbLiveResponse.Files.CbFileID
-      description: ID of the file within the Cb Session Storage - use with cb-file-get.
+      description: ID of the file within the Cb Session Storage - use with cb-get-file-from-endpoint.
     - contextPath: CbLiveResponse.Files.Status
       description: File status (0 if no error, another number otherwise)
     - contextPath: CbLiveResponse.Files.Delete
@@ -557,7 +555,7 @@ script:
       name: session
       required: true
     deprecated: true
-    description: Create a live response command
+    description: Create a live response command. Use cb-session-create instead.
     name: cb-command-create
     outputs:
     - contextPath: CbLiveResponse.Commands.Status

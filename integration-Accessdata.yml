@@ -186,7 +186,7 @@ script:
       type: string
   dockerimage: demisto/python3:3.7.4.977
   runonce: false
-  script: |2-
+  script: |2
 
 
 

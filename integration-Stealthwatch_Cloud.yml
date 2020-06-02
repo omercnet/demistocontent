@@ -333,7 +333,7 @@ script:
       type: boolean
   isfetch: true
   runonce: false
-  script: |2-
+  script: |2
 
 
     ''' IMPORTS '''
@@ -419,7 +419,8 @@ script:
 
         return latest_id
 
-        ''' COMMANDS FUNCTIONS '''
+
+    ''' COMMANDS FUNCTIONS '''
 
 
     def show_alert(alert_id):

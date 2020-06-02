@@ -1,0 +1,3114 @@
+category: Endpoint
+commonfields:
+  id: Fidelis EDR
+  version: -1
+configuration:
+- defaultvalue: ""
+  display: Server URL (e.g. https://abcde.fideliscloud.com/)
+  name: url
+  required: true
+  type: 0
+- defaultvalue: ""
+  display: Username
+  name: credentials
+  required: true
+  type: 9
+- defaultvalue: ""
+  display: Incident type
+  name: incidentType
+  required: false
+  type: 13
+- defaultvalue: ""
+  display: Fetch incidents
+  name: isFetch
+  required: false
+  type: 8
+- defaultvalue: 3 days
+  display: First fetch timestamp (<number> <time unit>, e.g., 12 hours, 7 days, 3
+    months, 1 year)
+  name: fetch_time
+  required: false
+  type: 0
+- defaultvalue: "50"
+  display: Fetch limit (minimum 5)
+  name: fetch_limit
+  required: false
+  type: 0
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
+  name: insecure
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Use system proxy settings
+  name: proxy
+  required: false
+  type: 8
+contentitemexportablefields:
+  contentitemfields:
+    propagationLabels:
+    - all
+description: Use the Fidelis Endpoint integration for advanced endpoint detection
+  and response (EDR) across Windows, Mac and Linux OSes for faster threat remediation.
+detaileddescription: |
+  ## Fidelis Elvate Networks (EDR)
+  Fidelis Endpoint provides advanced endpoint detection and response (EDR) across Windows, Mac and Linux OSes for faster threat remediation.
+
+  Supported version - 9.2
+
+  ### Creating an instance
+  To create an instance enter your Fidleis username and password.
+display: Fidelis EDR
+image: data:image/png;base64,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
+name: Fidelis EDR
+script:
+  commands:
+  - arguments:
+    - defaultValue: "50"
+      description: The maximum number of alerts to return.
+      name: limit
+    - description: |-
+        Sorts the result before applying take and skip.
+        Can be any property name of the alert object.
+        For example: "insertionDate Descending"
+      name: sort
+    - description: 'The start of the time range of returned values in UTC format.
+        For example: 0001-01-01T00:00:00Z'
+      name: start_date
+    - description: 'The end of the time range of returned values in UTC format. For
+        example: 0001-01-01T00:00:00Z'
+      name: end_date
+    description: Returns all alerts in the system.
+    name: fidelis-endpoint-list-alerts
+    outputs:
+    - contextPath: FidelisEndpoint.Alert.EndpointName
+      description: Endpoint name.
+      type: String
+    - contextPath: FidelisEndpoint.Alert.IntelName
+      description: Intel name.
+      type: String
+    - contextPath: FidelisEndpoint.Alert.HasJob
+      description: Whether the alert has an open job.
+      type: Boolean
+    - contextPath: FidelisEndpoint.Alert.EventTime
+      description: Alert event time.
+      type: Date
+    - contextPath: FidelisEndpoint.Alert.ActionsTaken
+      description: The actions taken for this alert.
+      type: String
+    - contextPath: FidelisEndpoint.Alert.CreateDate
+      description: Alert creation date.
+      type: Date
+    - contextPath: FidelisEndpoint.Alert.ParentEventID
+      description: Parent event ID.
+      type: String
+    - contextPath: FidelisEndpoint.Alert.Name
+      description: Alert name.
+      type: String
+    - contextPath: FidelisEndpoint.Alert.ReportID
+      description: Report ID.
+      type: String
+    - contextPath: FidelisEndpoint.Alert.EndpointID
+      description: Endpoint ID.
+      type: String
+    - contextPath: FidelisEndpoint.Alert.IntelID
+      description: Intel ID.
+      type: String
+    - contextPath: FidelisEndpoint.Alert.Name
+      description: Alert Name.
+      type: String
+    - contextPath: FidelisEndpoint.Alert.EventType
+      description: Event Type.
+      type: Number
+    - contextPath: FidelisEndpoint.Alert.EventID
+      description: Event ID.
+      type: String
+    - contextPath: FidelisEndpoint.Alert.SourceType
+      description: Source type.
+      type: Number
+    - contextPath: FidelisEndpoint.Alert.AgentTag
+      description: Agent tag.
+      type: String
+    - contextPath: FidelisEndpoint.Alert.EventIndex
+      description: Event index.
+      type: Number
+    - contextPath: FidelisEndpoint.Alert.Telemetry
+      description: Telemetry data.
+      type: String
+    - contextPath: FidelisEndpoint.Alert.Source
+      description: Alert source.
+      type: String
+    - contextPath: FidelisEndpoint.Alert.ID
+      description: Alert ID.
+      type: Number
+    - contextPath: FidelisEndpoint.Alert.ValidatedDate
+      description: Validation date.
+      type: Date
+    - contextPath: FidelisEndpoint.Alert.Description
+      description: Alert description.
+      type: String
+    - contextPath: FidelisEndpoint.Alert.InsertionDate
+      description: Alert insertion date.
+      type: Date
+    - contextPath: FidelisEndpoint.Alert.Severity
+      description: Alert severity.
+      type: Number
+    - contextPath: FidelisEndpoint.Alert.ArtifactName
+      description: Artifact name.
+      type: String
+  - arguments:
+    - description: The IP address to search for.
+      name: ip_address
+    - description: The host name to search for.
+      name: host
+    description: Searches for endpoints based on an IP address or hostname.
+    name: fidelis-endpoint-host-info
+    outputs:
+    - contextPath: FidelisEndpoint.Host.AgentVersion
+      description: The agent version.
+      type: String
+    - contextPath: FidelisEndpoint.Host.MacAddress
+      description: Host MAC address.
+      type: String
+    - contextPath: FidelisEndpoint.Host.OS
+      description: Endpoint OS.
+      type: String
+    - contextPath: FidelisEndpoint.Host.IPAddress
+      description: Endpoint IP address.
+      type: String
+    - contextPath: FidelisEndpoint.Host.Isolated
+      description: Whether the endpoint is isolated.
+      type: Boolean
+    - contextPath: FidelisEndpoint.Host.AV_Enabled
+      description: Whether AV is enabled.
+      type: Boolean
+    - contextPath: FidelisEndpoint.Host.Hostname
+      description: Host name.
+      type: String
+    - contextPath: FidelisEndpoint.Host.AgentInstalled
+      description: Whether an agent was installed.
+      type: Boolean
+    - contextPath: FidelisEndpoint.Host.Groups
+      description: Endpoint groups.
+      type: String
+    - contextPath: FidelisEndpoint.Host.LastContactDate
+      description: Host last contact date.
+      type: Date
+    - contextPath: FidelisEndpoint.Host.ID
+      description: Host ID.
+      type: String
+    - contextPath: FidelisEndpoint.Host.ProcessorName
+      description: Processor name.
+      type: String
+    - contextPath: FidelisEndpoint.Host.OnNetwork
+      description: Whether the host is on the network.
+      type: Boolean
+  - arguments:
+    - description: A comma-separated list of hosts in which to search for the specified
+        file.
+      isArray: true
+      name: host
+    - description: A comma-separated list MD5 hashes to search for. Get the hashes
+        from the queries commands.
+      isArray: true
+      name: md5
+      required: true
+    - description: The file extension.
+      name: file_extension
+    - description: The file path (recommended to lower the search time).
+      name: file_path
+    - defaultValue: "100"
+      description: The file size greater than. The default is 100.
+      name: file_size
+    description: Searches for files on multiple hosts, using file hash, file extension,
+      file size, and other search criteria.
+    name: fidelis-endpoint-file-search
+    outputs:
+    - contextPath: FidelisEndpoint.FileSearch.JobID
+      description: The job ID.
+      type: String
+    - contextPath: FidelisEndpoint.FileSearch.JobResultID
+      description: The job result ID.
+      type: String
+  - arguments:
+    - description: The job ID. Get the ID from the file-search command.
+      name: job_id
+      required: true
+    - description: The job result ID. Get the ID from the file-search command.
+      name: job_result_id
+      required: true
+    description: Gets the file search job status.
+    name: fidelis-endpoint-file-search-status
+    outputs:
+    - contextPath: FidelisEndpoint.FileSearch.JobID
+      description: The file search job ID.
+      type: String
+    - contextPath: FidelisEndpoint.FileSearch.JobResultID
+      description: Job result ID.
+      type: String
+    - contextPath: FidelisEndpoint.FileSearch.Status
+      description: Job status.
+      type: String
+  - arguments:
+    - description: The job ID. Get the job ID from the file-search command.
+      name: job_id
+      required: true
+    - description: The job result ID. Get the job result ID from the file-search command.
+      name: job_result_id
+      required: true
+    description: Gets the job results metadata. The maximum is 50 results.
+    name: fidelis-endpoint-file-search-result-metadata
+    outputs:
+    - contextPath: FidelisEndpoint.File.AgentID
+      description: Agent ID.
+      type: String
+    - contextPath: FidelisEndpoint.File.FileName
+      description: File name.
+      type: String
+    - contextPath: FidelisEndpoint.File.FilePath
+      description: File path.
+      type: String
+    - contextPath: FidelisEndpoint.File.FileSize
+      description: File size.
+      type: Number
+    - contextPath: FidelisEndpoint.File.HostIP
+      description: Host IP address.
+      type: String
+    - contextPath: FidelisEndpoint.File.HostName
+      description: Host name.
+      type: String
+    - contextPath: FidelisEndpoint.File.ID
+      description: File ID.
+      type: String
+    - contextPath: FidelisEndpoint.File.MD5Hash
+      description: File MD5 hash.
+      type: String
+    - contextPath: File.Path
+      description: The file path.
+      type: String
+    - contextPath: File.Hostname
+      description: The name of the host where the file was found.
+      type: String
+    - contextPath: File.MD5
+      description: The MD5 hash of the file.
+      type: String
+    - contextPath: File.Name
+      description: The full file name (including file extension).
+      type: String
+    - contextPath: File.Size
+      description: The size of the file in bytes.
+      type: Number
+  - arguments:
+    - description: The file ID. Get the ID from the file-search-result-metadata command.
+      name: file_id
+      required: true
+    - description: The file name to download (including extension). Get the file name
+        from the file-search-result-metadata command. command).
+      name: file_name
+      required: true
+    description: Gets the file stream and download the file.
+    name: fidelis-endpoint-get-file
+    outputs:
+    - contextPath: File.Size
+      description: The size of the file in bytes.
+      type: Number
+    - contextPath: File.SHA1
+      description: The SHA1 hash of the file.
+      type: String
+    - contextPath: File.SHA256
+      description: The SHA256 hash of the file.
+      type: String
+    - contextPath: File.Name
+      description: The full file name (including file extension).
+      type: String
+    - contextPath: File.SSDeep
+      description: The ssdeep hash of the file (same as displayed in file entries).
+      type: String
+    - contextPath: File.EntryID
+      description: The ID for locating the file in the War Room.
+      type: String
+    - contextPath: File.Info
+      description: The file information.
+      type: String
+    - contextPath: File.Type
+      description: The file type, as determined by libmagic (same as displayed in
+        file entries).
+      type: String
+    - contextPath: File.MD5
+      description: The MD5 hash of the file.
+      type: String
+  - arguments:
+    - description: The job ID. Get the job ID from the file-search command.
+      name: job_id
+      required: true
+    description: Removes the job to free up space on the server.
+    name: fidelis-endpoint-delete-file-search-job
+  - arguments: []
+    description: Gets a list of all script packages.
+    name: fidelis-endpoint-list-scripts
+    outputs:
+    - contextPath: FidelisEndpoint.Script.Description
+      description: The script description.
+      type: String
+    - contextPath: FidelisEndpoint.Script.ID
+      description: Script ID.
+      type: String
+    - contextPath: FidelisEndpoint.Script.Name
+      description: Script name.
+      type: String
+  - arguments:
+    - description: The script ID. Get the script ID from the list-scripts command.
+      name: script_id
+      required: true
+    description: Gets the script manifest.
+    name: fidelis-endpoint-get-script-manifest
+    outputs:
+    - contextPath: FidelisEndpoint.Script.ResultColumns
+      description: The script results columns.
+      type: String
+    - contextPath: FidelisEndpoint.Script.Priority
+      description: Script priority.
+      type: String
+    - contextPath: FidelisEndpoint.Script.ImpersonationUser
+      description: Impersonation user.
+      type: String
+    - contextPath: FidelisEndpoint.Script.Name
+      description: Script name.
+      type: String
+    - contextPath: FidelisEndpoint.Script.Command
+      description: The script commands.
+      type: String
+    - contextPath: FidelisEndpoint.Script.Questions
+      description: Script questions.
+      type: String
+    - contextPath: FidelisEndpoint.Script.WizardOverridePassword
+      description: Wizard override password.
+      type: Boolean
+    - contextPath: FidelisEndpoint.Script.Platform
+      description: Scripts platforms (only true).
+      type: String
+    - contextPath: FidelisEndpoint.Script.ImpersonationPassword
+      description: Impersonation password.
+      type: String
+    - contextPath: FidelisEndpoint.Script.ID
+      description: Script ID.
+      type: String
+    - contextPath: FidelisEndpoint.Script.Description
+      description: The script description.
+      type: String
+    - contextPath: FidelisEndpoint.Script.TimeoutSeconds
+      description: Script timeout in seconds.
+      type: Number
+  - arguments:
+    - description: The endpoint IP. Get the endpoint IP from the host-info command.
+      isArray: true
+      name: endpoint_ip
+    - auto: PREDEFINED
+      description: Ths system OS. Can be "Windows", "Linux", or "macOS".
+      name: operating_system
+      predefined:
+      - Windows
+      - Linux
+      - macOS
+      required: true
+    - defaultValue: "300"
+      description: Script time out in seconds. The default is 300.
+      name: time_out
+    - description: The endpoint name.
+      name: endpoint_name
+    description: Gets a list all processes according to the OS system.
+    name: fidelis-endpoint-list-processes
+    outputs:
+    - contextPath: FidelisEndpoint.Process.JobID
+      description: Job ID.
+      type: String
+    - contextPath: FidelisEndpoint.Process.ID
+      description: Script ID.
+      type: String
+  - arguments:
+    - description: 'The script execution job ID. Get the ID the following commands:
+        script-execution, file-search, list-processes, kill-process-by-pid, delete-file,
+        network-isolation, remove-network-isolation.'
+      name: job_id
+      required: true
+    description: Gets script job results.
+    name: fidelis-endpoint-get-script-result
+    outputs:
+    - contextPath: FidelisEndpoint.ScriptResult.EndpointName
+      description: Endpoint name.
+      type: String
+    - contextPath: FidelisEndpoint.ScriptResult.ParentPID
+      description: Parent process ID.
+      type: String
+    - contextPath: FidelisEndpoint.ScriptResult.Path
+      description: File path.
+      type: String
+    - contextPath: FidelisEndpoint.ScriptResult.SHA1
+      description: File SHA1 hash.
+      type: String
+    - contextPath: FidelisEndpoint.ScriptResult.PID
+      description: Process ID.
+      type: String
+    - contextPath: FidelisEndpoint.ScriptResult.Name
+      description: Process name.
+      type: String
+    - contextPath: FidelisEndpoint.ScriptResult.User
+      description: Script user.
+      type: String
+    - contextPath: FidelisEndpoint.ScriptResult.StartTime
+      description: Script start time.
+      type: Date
+    - contextPath: FidelisEndpoint.ScriptResult.EndpointID
+      description: Endpoint ID.
+      type: String
+    - contextPath: FidelisEndpoint.ScriptResult.Matches
+      description: Script matches.
+      type: Number
+    - contextPath: FidelisEndpoint.ScriptResult.IsHidden
+      description: Whether the endpoint is hidden.
+      type: String
+    - contextPath: FidelisEndpoint.ScriptResult.GroupID
+      description: Group ID.
+      type: String
+    - contextPath: FidelisEndpoint.ScriptResult.Tags
+      description: Script tags.
+      type: String
+    - contextPath: FidelisEndpoint.ScriptResult.ID
+      description: Script result ID.
+      type: String
+    - contextPath: FidelisEndpoint.ScriptResult.WorkingDirectory
+      description: Working directory.
+      type: String
+    - contextPath: FidelisEndpoint.ScriptResult.MD5
+      description: File MD5 hash.
+      type: String
+    - contextPath: FidelisEndpoint.ScriptResult.CommandLine
+      description: Command line.
+      type: String
+  - arguments:
+    - description: The endpoint IP address.
+      name: endpoint_ip
+    - defaultValue: "300"
+      description: Script time out (in seconds). The default is 300.
+      name: time_out
+    - auto: PREDEFINED
+      description: System OS. Can be "Windows", "Linux", or "macOS".
+      name: operating_system
+      predefined:
+      - Windows
+      - Linux
+      - macOS
+      required: true
+    - description: Process ID. Get the PID from the script-manifest command.
+      name: pid
+      required: true
+    - description: The name of the endpoint.
+      name: endpoint_name
+    description: Terminates the process that matches the required parameter's process
+      ID.
+    name: fidelis-endpoint-kill-process
+    outputs:
+    - contextPath: FidelisEndpoint.Process.JobID
+      description: Script job ID.
+      type: String
+    - contextPath: FidelisEndpoint.Process.ID
+      description: Script ID.
+      type: String
+  - arguments:
+    - description: Endpoint IP address.
+      name: endpoint_ip
+    - defaultValue: "300"
+      description: Script time out (in seconds). The default is 300.
+      name: time_out
+    - auto: PREDEFINED
+      description: System OS. Can be "Windows", "Linux", or "macOS".
+      name: operating_system
+      predefined:
+      - Windows
+      - Linux
+      - macOS
+      required: true
+    - description: The path of the file to delete.
+      name: file_path
+      required: true
+    - description: The name of the endpoint.
+      name: endpoint_name
+    description: Deletes a file at the specified path.
+    name: fidelis-endpoint-delete-file
+    outputs:
+    - contextPath: FidelisEndpoint.Script.ID
+      description: Script ID.
+      type: String
+    - contextPath: FidelisEndpoint.Script.JobID
+      description: Script job ID.
+      type: String
+  - arguments:
+    - description: The endpoint IP address to isolate.
+      name: endpoint_ip
+    - defaultValue: "300"
+      description: Script timeout (in seconds). The default is 300.
+      name: time_out
+    - auto: PREDEFINED
+      description: The system OS. Can be "Windows", "Linux", or "macOS".
+      name: operating_system
+      predefined:
+      - Windows
+      - Linux
+      - macOS
+      required: true
+    - description: 'The server IP address that can communicate with the isolated endpoint.
+        For example: 2.2.2.2.'
+      name: allowed_server
+      required: true
+    - description: The name of the endpoint.
+      name: endpoint_name
+    description: Quarantines an endpoint. While isolated, the endpoint's network communication
+      is restricted to only the allowed servers.
+    name: fidelis-endpoint-isolate-network
+    outputs:
+    - contextPath: FidelisEndpoint.Isolation.ID
+      description: Script ID.
+      type: String
+    - contextPath: FidelisEndpoint.Isolation.JobID
+      description: Script job ID.
+      type: String
+  - arguments:
+    - description: The isolated endpoint IP address.
+      name: endpoint_ip
+    - defaultValue: "300"
+      description: Script timeout (in seconds). The default is 300.
+      name: time_out
+    - auto: PREDEFINED
+      description: System OS. Can be "Windows", "Linux", or "macOS".
+      name: operating_system
+      predefined:
+      - Windows
+      - Linux
+      - macOS
+      required: true
+    - description: The name of the endpoint.
+      name: endpoint_name
+    description: Removes the endpoint from isolation.
+    name: fidelis-endpoint-remove-network-isolation
+    outputs:
+    - contextPath: FidelisEndpoint.Isolation.ID
+      description: Script ID.
+      type: String
+    - contextPath: FidelisEndpoint.Isolation.JobID
+      description: Script job ID.
+      type: String
+  - arguments:
+    - description: 'The script execution job result ID. Get the ID from the following
+        commands: script-execution, file-search, list-processes, kill-process-by-pid,
+        delete-file, network-isolation, remove-network-isolation.'
+      name: job_result_id
+      required: true
+    description: Gets the script execution status.
+    name: fidelis-endpoint-script-job-status
+    outputs:
+    - contextPath: FidelisEndpoint.ScriptResult.JobName
+      description: The job name.
+      type: String
+    - contextPath: FidelisEndpoint.ScriptResult.JobResultID
+      description: Job result ID.
+      type: String
+    - contextPath: FidelisEndpoint.ScriptResult.Name
+      description: Target name.
+      type: String
+    - contextPath: FidelisEndpoint.ScriptResult.Status
+      description: Script execution status.
+      type: String
+  - arguments:
+    - description: Script ID. Get the script ID from the list-scripts command.
+      name: script_id
+      required: true
+    - defaultValue: "300"
+      description: Script time out (in seconds). The default is 300.
+      name: time_out
+    - description: Endpoint IP address on which to run the script.
+      name: endpoint_ip
+    - description: The script to run. Get the answer from the script-manifest command.
+      name: answer
+      required: true
+    - description: The name of the endpoint.
+      name: endpoint_name
+    description: Executes a script package from Fidelis endpoint packages.
+    name: fidelis-endpoint-execute-script
+    outputs:
+    - contextPath: FidelisEndpoint.Script.ID
+      description: Script ID.
+      type: String
+    - contextPath: FidelisEndpoint.Script.JobID
+      description: Script job ID.
+      type: String
+  - arguments:
+    - description: |-
+        The start time of the event in the system in UTC format.
+        Supported values: "2019-10-21T23:45:00" (date).
+      name: start_time
+    - description: |-
+        The end time of the event in the system in UTC format.
+        Supported values:"2019-10-21T23:45:00" (date).
+      name: end_time
+    - auto: PREDEFINED
+      description: The logic of the query. Can be "and" or "or".
+      name: logic
+      predefined:
+      - and
+      - or
+      required: true
+    - description: The MD5 file hash to search for.
+      name: file_hash
+      required: true
+    - defaultValue: "50"
+      description: The maximum number of results to return. The default is 50.
+      name: limit
+    description: Queries a file by file hash.
+    name: fidelis-endpoint-query-file
+    outputs:
+    - contextPath: FidelisEndpoint.Query.ProcessStartTime
+      description: The process start time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.EndpointName
+      description: Endpoint name.
+      type: String
+    - contextPath: FidelisEndpoint.Query.CertificateSubjectName
+      description: Certificate subject name.
+      type: String
+    - contextPath: FidelisEndpoint.Query.Size
+      description: File size.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.FileExtension
+      description: File extension.
+      type: String
+    - contextPath: FidelisEndpoint.Query.Path
+      description: File path.
+      type: String
+    - contextPath: FidelisEndpoint.Query.CertificatePublisher
+      description: Certificate publisher.
+      type: String
+    - contextPath: FidelisEndpoint.Query.ParentID
+      description: Process parent ID.
+      type: String
+    - contextPath: FidelisEndpoint.Query.EventTime
+      description: Event time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.SignedTime
+      description: Signed time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.Name
+      description: File name.
+      type: String
+    - contextPath: FidelisEndpoint.Query.TargetID
+      description: Target ID.
+      type: String
+    - contextPath: FidelisEndpoint.Query.Hash
+      description: File hash.
+      type: String
+    - contextPath: FidelisEndpoint.Query.StartTime
+      description: Event start time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.HashSHA1
+      description: File SHA1 hash.
+      type: String
+    - contextPath: FidelisEndpoint.Query.EventType
+      description: Event type.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.HashSHA256
+      description: File SHA256 hash.
+      type: String
+    - contextPath: FidelisEndpoint.Query.ParentName
+      description: Process parent name.
+      type: String
+    - contextPath: FidelisEndpoint.Query.FileType
+      description: File type.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.Signature
+      description: File signature.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.EventIndex
+      description: Event index.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.FileCategory
+      description: File category.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.CertificateIssuerName
+      description: Certificate issuer name.
+      type: String
+    - contextPath: FidelisEndpoint.Query.FileVersion
+      description: File version.
+      type: String
+    - contextPath: FidelisEndpoint.Query.IndexingTime
+      description: Indexing time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.EntityType
+      description: Entity type.
+      type: Number
+    - contextPath: File.Name
+      description: The full file name (including file extension).
+      type: String
+    - contextPath: File.Size
+      description: The size of the file in bytes.
+      type: Number
+    - contextPath: File.MD5
+      description: The MD5 hash of the file.
+      type: String
+    - contextPath: File.Extension
+      description: 'The file extension, for example: "txt".'
+      type: String
+    - contextPath: File.Type
+      description: The file type, as determined by libmagic (same as displayed in
+        file entries).
+      type: Number
+    - contextPath: File.Path
+      description: The path where the file is located.
+      type: String
+    - contextPath: File.Hostname
+      description: The name of the host where the file was found.
+      type: String
+    - contextPath: File.SHA1
+      description: The SHA1 hash of the file.
+      type: String
+    - contextPath: File.SHA256
+      description: The SHA256 hash of the file.
+      type: String
+    - contextPath: File.FileVersion
+      description: The file version.
+      type: String
+  - arguments:
+    - description: |-
+        The start time of the event in the system in UTC format.
+        Supported values: "2019-10-21T23:45:00" (date).
+      name: start_time
+    - description: |-
+        The end time of the event in the system in UTC format.
+        Supported values:"2019-10-21T23:45:00" (date).
+      name: end_time
+    - auto: PREDEFINED
+      description: The logic of the query. Can be "and" or "or".
+      name: logic
+      predefined:
+      - and
+      - or
+      required: true
+    - description: The process name to query.
+      name: process_name
+      required: true
+    - defaultValue: "50"
+      description: The maximum number of results to return. The default is 50.
+      name: limit
+    description: Query process.
+    name: fidelis-endpoint-query-process
+    outputs:
+    - contextPath: FidelisEndpoint.Query.ProcessStartTime
+      description: Process start time.
+      type: String
+    - contextPath: FidelisEndpoint.Query.EndpointName
+      description: Endpoint name.
+      type: String
+    - contextPath: FidelisEndpoint.Query.Path
+      description: The path of the process.
+      type: String
+    - contextPath: FidelisEndpoint.Query.ParentID
+      description: Process parent ID.
+      type: String
+    - contextPath: FidelisEndpoint.Query.EventTime
+      description: Event time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.PID
+      description: Process ID.
+      type: String
+    - contextPath: FidelisEndpoint.Query.Name
+      description: Process name.
+      type: String
+    - contextPath: FidelisEndpoint.Query.User
+      description: The user of the system.
+      type: String
+    - contextPath: FidelisEndpoint.Query.TargetID
+      description: Process target ID.
+      type: String
+    - contextPath: FidelisEndpoint.Query.Hash
+      description: File hash.
+      type: String
+    - contextPath: FidelisEndpoint.Query.StartTime
+      description: Process start time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.EventType
+      description: Event type.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.ParentName
+      description: Process parent name.
+      type: String
+    - contextPath: FidelisEndpoint.Query.IndexingTime
+      description: Indexing time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.EntityType
+      description: Entity type.
+      type: Number
+  - arguments:
+    - description: |-
+        The start time of the event in the system in UTC format.
+        Supported values: "2019-10-21T23:45:00" (date).
+      name: start_time
+    - description: |-
+        The end time of the event in the system in UTC format.
+        Supported values:"2019-10-21T23:45:00" (date).
+      name: end_time
+    - auto: PREDEFINED
+      description: The logic of the query. Can be "and" or "or".
+      name: logic
+      predefined:
+      - and
+      - or
+      required: true
+    - description: The remote IP address on which to query.
+      name: remote_ip
+      required: true
+    - defaultValue: "50"
+      description: The maximum number of results to return. The default is 50.
+      name: limit
+    description: Queries a connection by remote IP address.
+    name: fidelis-endpoint-query-connection-by-remote-ip
+    outputs:
+    - contextPath: FidelisEndpoint.Query.ProcessStartTime
+      description: Process start time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.EndpointName
+      description: Endpoint name.
+      type: String
+    - contextPath: FidelisEndpoint.Query.ParentID
+      description: Process parent ID.
+      type: String
+    - contextPath: FidelisEndpoint.Query.EventTime
+      description: Event time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.RemotePort
+      description: Remote port.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.LocalPort
+      description: Local port.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.TargetID
+      description: Target ID.
+      type: String
+    - contextPath: FidelisEndpoint.Query.RemoteIP
+      description: Remote IP address.
+      type: String
+    - contextPath: FidelisEndpoint.Query.StartTime
+      description: Event start time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.EndpointID
+      description: Endpoint ID.
+      type: String
+    - contextPath: FidelisEndpoint.Query.NetworkDirection
+      description: Network direction.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.LastEventTime
+      description: Last event time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.LocalIP
+      description: Local IP address.
+      type: String
+    - contextPath: FidelisEndpoint.Query.EventType
+      description: Event type.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.ParentName
+      description: Parent name.
+      type: String
+    - contextPath: FidelisEndpoint.Query.FirstEventTime
+      description: First event time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.EventIndex
+      description: Event Index.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.Protocol
+      description: Protocol.
+      type: String
+    - contextPath: FidelisEndpoint.Query.PPID
+      description: Process parent ID.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.EntityType
+      description: Entity type.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.ParentHashSHA1
+      description: Parent SHA1 hash.
+      type: String
+  - arguments:
+    - description: |-
+        The start time of the event in the system in UTC format.
+        Supported values: "2019-10-21T23:45:00" (date).
+      name: start_time
+    - description: |-
+        The end time of the event in the system in UTC format.
+        Supported values:"2019-10-21T23:45:00" (date).
+      name: end_time
+    - auto: PREDEFINED
+      description: The logic of the query. Can be "and" or "or".
+      name: logic
+      predefined:
+      - and
+      - or
+      required: true
+    - description: URL or domain on which to query.
+      name: url
+      required: true
+    - defaultValue: "50"
+      description: The maximum number of results to return. The default is 50.
+      name: limit
+    description: Queries by DNS request.
+    name: fidelis-endpoint-query-by-dns
+    outputs:
+    - contextPath: FidelisEndpoint.Query.ProcessStartTime
+      description: Process start time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.EndpointName
+      description: Endpoint name.
+      type: String
+    - contextPath: FidelisEndpoint.Query.ParentID
+      description: Parent ID.
+      type: String
+    - contextPath: FidelisEndpoint.Query.EventTime
+      description: Event time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.RemotePort
+      description: Remote port.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.DnsAnswer
+      description: The DNS answer.
+      type: String
+    - contextPath: FidelisEndpoint.Query.LocalPort
+      description: Local port.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.TargetID
+      description: The target ID.
+      type: String
+    - contextPath: FidelisEndpoint.Query.RemoteIP
+      description: Remote IP address.
+      type: String
+    - contextPath: FidelisEndpoint.Query.DnsQuestion
+      description: The DNS question.
+      type: String
+    - contextPath: FidelisEndpoint.Query.StartTime
+      description: Event start time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.NetworkDirection
+      description: Network direction.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.LocalIP
+      description: Local IP address.
+      type: String
+    - contextPath: FidelisEndpoint.Query.EventType
+      description: Event type.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.EventIndex
+      description: Event index.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.IndexingTime
+      description: Indexing time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.EntityType
+      description: Entity type.
+      type: Number
+  - arguments:
+    - description: |-
+        The start time of the event in the system in UTC format.
+        Supported values: "2019-10-21T23:45:00" (date).
+      name: start_time
+    - description: |-
+        The end time of the event in the system in UTC format.
+        Supported values:"2019-10-21T23:45:00" (date).
+      name: end_time
+    - auto: PREDEFINED
+      description: The logic of the query. Can be "and" or "or".
+      name: logic
+      predefined:
+      - and
+      - or
+      required: true
+    - description: The remote IP on which to query.
+      name: remote_ip
+      required: true
+    - defaultValue: "50"
+      description: The maximum number of results to return. The default is 50.
+      name: limit
+    description: Queries DNS by server IP address.
+    name: fidelis-endpoint-query-dns-by-server-ip
+    outputs:
+    - contextPath: FidelisEndpoint.Query.ProcessStartTime
+      description: Process start time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.EndpointName
+      description: Endpoint name.
+      type: String
+    - contextPath: FidelisEndpoint.Query.ParentID
+      description: Parent ID.
+      type: String
+    - contextPath: FidelisEndpoint.Query.EventTime
+      description: Event time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.RemotePort
+      description: Remote port.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.DnsAnswer
+      description: The DNS answer.
+      type: String
+    - contextPath: FidelisEndpoint.Query.LocalPort
+      description: Local port.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.TargetID
+      description: The target ID.
+      type: String
+    - contextPath: FidelisEndpoint.Query.RemoteIP
+      description: Remote IP address.
+      type: String
+    - contextPath: FidelisEndpoint.Query.DnsQuestion
+      description: The DNS question.
+      type: String
+    - contextPath: FidelisEndpoint.Query.StartTime
+      description: Event start time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.NetworkDirection
+      description: Network direction.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.LocalIP
+      description: Local IP address.
+      type: String
+    - contextPath: FidelisEndpoint.Query.EventType
+      description: Event type.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.EventIndex
+      description: Event index.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.IndexingTime
+      description: Indexing time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.EntityType
+      description: Entity type.
+      type: Number
+  - arguments:
+    - description: |-
+        The start time of the event in the system in UTC format.
+        Supported values: "2019-10-21T23:45:00" (date).
+      name: start_time
+    - description: |-
+        The end time of the event in the system in UTC format.
+        Supported values:"2019-10-21T23:45:00" (date).
+      name: end_time
+    - auto: PREDEFINED
+      description: The logic of the query. Can be "and" or "or".
+      name: logic
+      predefined:
+      - and
+      - or
+      required: true
+    - description: The source IP address to query.
+      name: source_ip
+      required: true
+    - description: The domain to query.
+      name: domain
+    - defaultValue: "50"
+      description: The maximum number of results to return. The default is 50.
+      name: limit
+    description: Queries DNS by source IP address.
+    name: fidelis-endpoint-query-dns-by-source-ip
+    outputs:
+    - contextPath: FidelisEndpoint.Query.ProcessStartTime
+      description: Process start time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.EndpointName
+      description: Endpoint name.
+      type: String
+    - contextPath: FidelisEndpoint.Query.ParentID
+      description: Parent ID.
+      type: String
+    - contextPath: FidelisEndpoint.Query.EventTime
+      description: Event time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.RemotePort
+      description: Remote port.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.DnsAnswer
+      description: The DNS answer.
+      type: String
+    - contextPath: FidelisEndpoint.Query.LocalPort
+      description: Local port.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.TargetID
+      description: The target ID.
+      type: String
+    - contextPath: FidelisEndpoint.Query.RemoteIP
+      description: Remote IP address.
+      type: String
+    - contextPath: FidelisEndpoint.Query.DnsQuestion
+      description: The DNS question.
+      type: String
+    - contextPath: FidelisEndpoint.Query.StartTime
+      description: Event start time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.NetworkDirection
+      description: Network direction.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.LocalIP
+      description: Local IP address.
+      type: String
+    - contextPath: FidelisEndpoint.Query.EventType
+      description: Event type.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.EventIndex
+      description: Event index.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.IndexingTime
+      description: Indexing time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.EntityType
+      description: Entity type.
+      type: Number
+  - arguments:
+    - description: |-
+        The start time of the event in the system in UTC format.
+        Supported values: "2019-10-21T23:45:00" (date).
+      name: start_time
+    - description: |-
+        The end time of the event in the system in UTC format.
+        Supported values:"2019-10-21T23:45:00" (date).
+      name: end_time
+    - auto: PREDEFINED
+      description: The logic of the query. Can be "and" or "or".
+      name: logic
+      predefined:
+      - and
+      - or
+      required: true
+    - auto: PREDEFINED
+      description: Query entity type. Can be "antiMalware", "dns", "file", "network",
+        "process", "registry", "remoteThread", "script", "usb", or "windowsevent".
+      name: entity_type
+      predefined:
+      - antiMalware
+      - dns
+      - file
+      - network
+      - process
+      - registry
+      - remoteThread
+      - script
+      - usb
+      - windowsevent
+      required: true
+    - description: 'Column to query. For example: hash, name, remoteIP, dnsQuestion,
+        localIP.'
+      name: column
+      required: true
+    - description: The value to query. Can be an IP address, file hash, file path,
+        and so on.
+      name: value
+      required: true
+    - description: 'The operator, which describes how the "value" relates to the "field"
+        (for example: "=", "!=", ">", "<").'
+      name: operator
+      required: true
+    - defaultValue: "50"
+      description: The maximum number of results to return. The default is 50.
+      name: limit
+    - description: 'An additional filter to use in the query. For example: pid = 1234,
+        pid > 1233.'
+      name: additional_filter
+    description: Queries events.
+    name: fidelis-endpoint-query-events
+    outputs:
+    - contextPath: FidelisEndpoint.Query.ProcessStartTime
+      description: Process start time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.EndpointName
+      description: Endpoint name.
+      type: String
+    - contextPath: FidelisEndpoint.Query.Path
+      description: File path.
+      type: String
+    - contextPath: FidelisEndpoint.Query.ParentID
+      description: Parent ID.
+      type: String
+    - contextPath: FidelisEndpoint.Query.EventTime
+      description: Event time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query..RemotePort
+      description: Remote port.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.DnsAnswer
+      description: DNS answer.
+      type: String
+    - contextPath: FidelisEndpoint.Query.PID
+      description: Process ID.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.Name
+      description: Process name.
+      type: String
+    - contextPath: FidelisEndpoint.Query.User
+      description: Endpoint user.
+      type: String
+    - contextPath: FidelisEndpoint.Query.LocalPort
+      description: Local port.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.TargetID
+      description: Target ID.
+      type: String
+    - contextPath: FidelisEndpoint.Query.RemoteIP
+      description: Remote IP address.
+      type: String
+    - contextPath: FidelisEndpoint.Query.Hash
+      description: File hash.
+      type: String
+    - contextPath: FidelisEndpoint.Query.DnsQuestion
+      description: DNS question.
+      type: String
+    - contextPath: FidelisEndpoint.Query.StartTime
+      description: Start time of the event.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.Entropy
+      description: Entropy.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.LocalIP
+      description: Local IP address.
+      type: String
+    - contextPath: FidelisEndpoint.Query.EventType
+      description: Event type.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.ParentName
+      description: Parent name.
+      type: String
+    - contextPath: FidelisEndpoint.Query.EventIndex
+      description: Event index.
+      type: Number
+    - contextPath: FidelisEndpoint.Query.IndexingTime
+      description: Indexing time.
+      type: Date
+    - contextPath: FidelisEndpoint.Query.EntityType
+      description: Entity type.
+      type: Number
+  dockerimage: demisto/python3:3.7.4.2245
+  isfetch: true
+  runonce: false
+  script: |2
+
+      # noqa: E402 lgtm [py/polluting-import]
+      # noqa: E402 lgtm [py/polluting-import]
+
+    import requests
+    from typing import Dict, Tuple, List, Union
+
+    # Disable insecure warnings
+    requests.packages.urllib3.disable_warnings()
+
+    # List processes
+    LIST_PROCESSES_WINDOWS = '2d32a530-0716-4542-afdc-8da3bd47d8bf'  # disable-secrets-detection
+    LIST_PROCESSES_LINUX = '5e58a0e9-450d-4394-8360-159d5e38c280'  # disable-secrets-detection
+    LIST_PROCESSES_MACOS = '020114c2-d000-4876-91b0-97f41a83b067'  # disable-secrets-detection
+
+    # Kill processes
+    KILL_PROCESS_WINDOWS = '8d379688-dde1-451d-8fa2-4f29c84baf97'  # disable-secrets-detection
+    KILL_PROCESS_MAC_LINUX = '76577d3a-c1d7-4d10-af9e-5825c3f9d016'  # disable-secrets-detection
+
+    # Delete file
+    DELETE_FILE_WINDOWS = '11cb4fae-5516-4391-8a3c-eb09793cd5dd'  # disable-secrets-detection
+    DELETE_FILE_MAC_LINUX = 'bead9799-401d-4b9e-adca-cf41b20c9118'  # disable-secrets-detection
+
+    # Network isolation
+    NETWORK_ISOLATION_WINDOWS = '1d01cc84-753d-4060-89a7-463567552a62'  # disable-secrets-detection
+    NETWORK_ISOLATION_MAC_LINUX = 'fd09996a-ef56-49fb-b811-0e5da4bd07ca'  # disable-secrets-detection
+
+    # Remove network isolation
+    REMOVE_NETWORK_ISOLATION_WINDOWS = '99bbaea5-df18-40cc-8759-b5fb61527d5a'  # disable-secrets-detection
+    REMOVE_NETWORK_ISOLATION_MAC_LINUX = '5e252298-4c50-4cdd-94c0-d6997b79157c'  # disable-secrets-detection
+
+
+    class Client(BaseClient):
+        """
+        Client to use in the Fidelis Endpoint integration. Overrides BaseClient
+        """
+        def __init__(self, server_url: str, username: str, password: str, verify: bool, proxy: bool):
+            super().__init__(base_url=server_url, verify=verify, proxy=proxy)
+            token = self._generate_token(username, password)
+            self._headers = {'Authorization': f'Bearer {token}'}
+
+        def _generate_token(self, username: str, password: str) -> str:
+            """Generate a token
+            Arguments:
+                username {str} -- Fidelis username to retrieve token with
+                password {str} -- Fidelis password to retrieve token with
+            Returns:
+                token valid for 10 minutes
+            """
+            params = {
+                'username': username,
+                'password': password
+            }
+            response = self._http_request('GET', '/authenticate', params=params)
+            if response.get('error'):
+                raise Exception(response.get('error'))
+            token = response.get('data', {}).get('token', '')
+
+            return token
+
+        def test_module_request(self):
+            """Performs basic GET request to check if the API is reachable and authentication is successful.
+
+            Returns:
+                Response content
+            """
+            suffix = '/alerts/getalertsV2'
+            self._http_request('GET', suffix, params={'take': 1})
+
+        def list_alerts(self, limit: str = None, sort: str = None, start_date=None, end_date=None) -> Dict:
+
+            url_suffix = '/alerts/getalertsV2'
+            params = assign_params(
+                take=limit,
+                sort=sort,
+                startDate=start_date,
+                endDate=end_date
+            )
+
+            return self._http_request('GET', url_suffix, params=params)
+
+        def get_host_info(self, host_name: str, ip_address: str) -> Dict:
+            url_suffix = '/endpoints/v2/0/100/hostname Ascending'
+            if host_name:
+                field_name = 'HostName'
+                value = host_name
+
+            elif ip_address:
+                field_name = 'IpAddress'
+                value = ip_address
+
+            params = {
+                'accessType': '3',
+                'search': json.dumps({
+                    'searchFields': [{
+                        'fieldName': field_name,
+                        'values': [{
+                            'value': value
+                        }]
+                    }]
+                })
+            }
+
+            return self._http_request('GET', url_suffix, params=params)
+
+        def search_file(self, host=None, md5=None, file_extension=None, file_path=None, file_size=None) -> Dict:
+
+            url_suffix = '/files/search'
+            body = assign_params(
+                hosts=host,
+                md5Hashes=md5,
+                fileExtensions=file_extension,
+                filePathHints=file_path,
+                fileSize=file_size
+            )
+
+            return self._http_request('POST', url_suffix, json_data=body)
+
+        def file_search_status(self, job_id: str = None, job_result_id: str = None) -> Dict:
+
+            url_suffix = f'/jobs/getjobstatus/{job_id}/{job_result_id}'
+
+            return self._http_request('GET', url_suffix)
+
+        def file_search_results_metadata(self, job_id: str = None, job_result_id: str = None) -> Dict:
+
+            url_suffix = f'/jobs/{job_id}/jobresults/{job_result_id}'
+
+            return self._http_request('GET', url_suffix)
+
+        def get_file(self, file_id: str = None) -> Union[str, bytes]:
+
+            url_suffix = f'/files/{file_id}'
+
+            return self._http_request('GET', url_suffix, resp_type='content')
+
+        def delete_job(self, job_id: str = None) -> Dict:
+
+            url_suffix = f'/jobs/{job_id}'
+
+            return self._http_request('DELETE', url_suffix)
+
+        def list_scripts(self) -> Dict:
+
+            url_suffix = '/packages'
+
+            return self._http_request('GET', url_suffix)
+
+        def script_manifest(self, script_id: str = None) -> Dict:
+
+            url_suffix = f'/packages/{script_id}?type=Manifest'
+
+            return self._http_request('GET', url_suffix)
+
+        def execute_script(self, script_id: str = None, endpoint_ip: str = None, answer: Union[str, int] = None,
+                           time_out: int = None, additional_answer: Union[None, str] = None) -> Dict:
+
+            url_suffix = '/jobs/createTask'
+            body = {
+                'queueExpirationInhours': None,
+                'wizardOverridePassword': False,
+                'impersonationUser': None,
+                'impersonationPassword': None,
+                'priority': None,
+                'timeoutInSeconds': time_out,
+                'packageId': script_id,
+                'endpoints': endpoint_ip,
+                'isPlaybook': False,
+                'taskOptions': [
+                    {
+                        'integrationOutputFormat': None,
+                        'scriptId': script_id,
+                        'questions': [
+                            {
+                                'paramNumber': 1,
+                                'answer': answer
+                            },
+                            {
+                                'paramNumber': 2,
+                                'answer': additional_answer,
+                            }
+                        ]
+                    }
+                ]
+            }
+
+            return self._http_request('POST', url_suffix, json_data=body)
+
+        def convert_ip_to_endpoint_id(self, ip: list = None) -> Dict:
+
+            url_suffix = '/endpoints/endpointidsbyip'
+
+            body = ip
+
+            return self._http_request('POST', url_suffix, json_data=body)
+
+        def convert_name_to_endpoint_id(self, endpoint_name: list = None) -> Dict:
+
+            url_suffix = '/endpoints/endpointidsbyname'
+
+            body = endpoint_name
+
+            return self._http_request('POST', url_suffix, json_data=body)
+
+        def list_process(self, script_id: str = None, time_out: int = None, endpoint_id: str = None) -> Dict:
+
+            url_suffix = '/jobs/createTask'
+            body = {
+                'queueExpirationInhours': None,
+                'wizardOverridePassword': False,
+                'impersonationUser': None,
+                'impersonationPassword': None,
+                'priority': None,
+                'timeoutInSeconds': time_out,
+                'packageId': script_id,
+                'endpoints': endpoint_id,
+                'isPlaybook': False,
+                'taskOptions': [
+                    {
+                        'integrationOutputFormat': None,
+                        'scriptId': script_id,
+                        'questions': [
+                            {
+                                'paramNumber': 1,
+                                'answer': True,
+                            },
+                            {
+                                'paramNumber': 2,
+                                'answer': True,
+                            },
+                            {
+                                'paramNumber': 3,
+                                'answer': True
+                            }
+                        ]
+                    }
+                ]
+            }
+
+            return self._http_request('POST', url_suffix, json_data=body)
+
+        def script_job_results(self, job_id: str = None) -> Dict:
+
+            url_suffix = f'/jobresults/{job_id}'
+
+            return self._http_request('POST', url_suffix)
+
+        def kill_process(self, script_id: str = None, pid: int = None, time_out: int = None,
+                         endpoint_ip=None) -> Dict:
+
+            url_suffix = '/jobs/createTask'
+            body = {
+                'queueExpirationInhours': None,
+                'wizardOverridePassword': False,
+                'impersonationUser': None,
+                'impersonationPassword': None,
+                'priority': None,
+                'timeoutInSeconds': time_out,
+                'packageId': script_id,
+                'endpoints': endpoint_ip,
+                'isPlaybook': False,
+                'taskOptions': [
+                    {
+                        'integrationOutputFormat': None,
+                        'scriptId': script_id,
+                        'questions': [
+                            {
+                                'paramNumber': 1,
+                                'answer': pid
+                            }
+                        ]
+                    }
+                ]
+            }
+
+            return self._http_request('POST', url_suffix, json_data=body)
+
+        def delete_file(self, script_id: str = None, file_path: str = None, time_out: int = None, endpoint_ip=None) -> Dict:
+
+            url_suffix = '/jobs/createTask'
+            body = {
+                'queueExpirationInhours': None,
+                'wizardOverridePassword': False,
+                'impersonationUser': None,
+                'impersonationPassword': None,
+                'priority': None,
+                'timeoutInSeconds': time_out,
+                'packageId': script_id,
+                'endpoints': endpoint_ip,
+                'isPlaybook': False,
+                'taskOptions': [
+                    {
+                        'integrationOutputFormat': None,
+                        'scriptId': script_id,
+                        'questions': [
+                            {
+                                'paramNumber': 1,
+                                'answer': file_path
+                            }
+                        ]
+                    }
+                ]
+            }
+
+            return self._http_request('POST', url_suffix, json_data=body)
+
+        def network_isolation(self, script_id: str = None, allowed_server: str = None, time_out: int = None,
+                              endpoint_ip=None) -> Dict:
+
+            url_suffix = '/jobs/createTask'
+            body = {
+                'queueExpirationInhours': None,
+                'wizardOverridePassword': False,
+                'impersonationUser': None,
+                'impersonationPassword': None,
+                'priority': None,
+                'timeoutInSeconds': time_out,
+                'packageId': script_id,
+                'endpoints': endpoint_ip,
+                'isPlaybook': False,
+                'taskOptions': [
+                    {
+                        'integrationOutputFormat': None,
+                        'scriptId': script_id,
+                        'questions': [
+                            {
+                                'paramNumber': 1,
+                                'answer': allowed_server
+                            }
+                        ]
+                    }
+                ]
+            }
+
+            return self._http_request('POST', url_suffix, json_data=body)
+
+        def remove_network_isolation(self, script_id: str = None, time_out: int = None, endpoint_ip: list = None) -> Dict:
+
+            url_suffix = '/jobs/createTask'
+            body: dict = {
+                'queueExpirationInhours': None,
+                'wizardOverridePassword': False,
+                'impersonationUser': None,
+                'impersonationPassword': None,
+                'priority': None,
+                'timeoutInSeconds': time_out,
+                'packageId': script_id,
+                'endpoints': endpoint_ip,
+                'isPlaybook': False,
+                'taskOptions': [
+                    {
+                        'integrationOutputFormat': None,
+                        'scriptId': script_id,
+                        'questions': [
+                            {}
+                        ]
+                    }
+                ]
+            }
+
+            return self._http_request('POST', url_suffix, json_data=body)
+
+        def get_script_job_status(self, job_result_id: str = None) -> Dict:
+
+            url_suffix = f'/jobs/getjobtargets/{job_result_id}'
+
+            return self._http_request('GET', url_suffix)
+
+        def query_file_by_hash(self, limit: str = None, start_time: str = None, end_time: str = None, logic: str = None,
+                               file_hash: str = None) -> Dict:
+
+            url_suffix = '/v2/events'
+            params = assign_params(pageSize=limit)
+            body = {
+                'dateRange': {
+                    'start': start_time,
+                    'end': end_time
+                },
+                'resultFields':
+                    ['endpointName', 'eventType', 'processStartTime', 'parentName', 'pid', 'name', 'path', 'user', 'hash',
+                     'parameters'],
+
+                'criteriaV3': {
+                    'relationshipFilter': None,
+                    'entityType': 'file',
+                    'filter': {
+                        'filterType': 'composite',
+                        'logic': logic,
+                        'filters': [
+                            {
+                                'filterType': 'criteria',
+                                'column': 'hash',
+                                'operator': '=',
+                                'value': file_hash
+                            }
+                        ]
+                    }
+                }
+            }
+            response = self._http_request('POST', url_suffix, params=params, json_data=body)
+            if response.get('error'):
+                raise Exception(response.get('error'))
+            return response
+
+        def query_by_process_name(self, limit: str = None, start_time: str = None,
+                                  end_time: str = None, logic: str = None,
+                                  process_name: str = None) -> Dict:
+
+            url_suffix = '/v2/events'
+            params = assign_params(pageSize=limit)
+            body = {
+                'dateRange': {
+                    'start': start_time,
+                    'end': end_time
+                },
+                'resultFields':
+                    ['endpointName', 'eventType', 'processStartTime', 'parentName', 'pid', 'name', 'path', 'user', 'hash',
+                     'parameters'],
+
+                'criteriaV3': {
+                    'relationshipFilter': None,
+                    'entityType': 'process',
+                    'filter': {
+                        'filterType': 'composite',
+                        'logic': logic,
+                        'filters': [
+                            {
+                                'filterType': 'criteria',
+                                'column': 'name',
+                                'operator': '=',
+                                'value': process_name
+                            }
+                        ]
+                    }
+                }
+            }
+            response = self._http_request('POST', url_suffix, params=params, json_data=body)
+            if response.get('error'):
+                raise Exception(response.get('error'))
+            return response
+
+        def query_by_remote_ip(self, limit: str = None, start_time: str = None,
+                               end_time: str = None, logic: str = None, remote_ip: str = None) -> Dict:
+
+            url_suffix = '/v2/events'
+            params = assign_params(pageSize=limit)
+            body = {
+                'dateRange': {
+                    'start': start_time,
+                    'end': end_time
+                },
+                'resultFields':
+                    ['endpointName', 'eventType', 'endpointId', 'parentName', 'ppid', 'user', 'localIP', 'localPort',
+                     'remoteIP', 'remotePort', 'processStartTime', 'firstEventTime', 'lastEventTime',
+                     'protocol', 'parentHashSHA1'],
+
+                'criteriaV3': {
+                    'relationshipFilter': None,
+                    'entityType': 'network',
+                    'filter': {
+                        'filterType': "composite",
+                        'logic': logic,
+                        'filters': [
+                            {
+                                'filterType': 'criteria',
+                                'column': 'remoteIP',
+                                'operator': '=',
+                                'value': remote_ip
+                            }
+                        ]
+                    }
+                }
+            }
+            response = self._http_request('POST', url_suffix, params=params, json_data=body)
+            if response.get('error'):
+                raise Exception(response.get('error'))
+
+            return response
+
+        def query_by_dns_request(self, limit: str = None, start_time: str = None,
+                                 end_time: str = None, logic: str = None, url: str = None) -> Dict:
+
+            url_suffix = '/v2/events'
+            params = assign_params(pageSize=limit)
+            body = {
+                'dateRange': {
+                    'start': start_time,
+                    'end': end_time
+                },
+                'resultFields':
+                    ['endpointName'],
+
+                'criteriaV3': {
+                    'relationshipFilter': None,
+                    'entityType': 'dns',
+                    'filter': {
+                        'filterType': 'composite',
+                        'logic': logic,
+                        'filters': [
+                            {
+                                'filterType': 'criteria',
+                                'column': 'dnsQuestion',
+                                'operator': '=~',
+                                'value': url
+                            }
+                        ]
+                    }
+                }
+            }
+            response = self._http_request('POST', url_suffix, params=params, json_data=body)
+            if response.get('error'):
+                raise Exception(response.get('error'))
+
+            return response
+
+        def query_by_dns_server_ip(self, limit: str = None, start_time: str = None,
+                                   end_time: str = None, logic: str = None,
+                                   remote_ip: str = None) -> Dict:
+
+            url_suffix = '/v2/events'
+            params = assign_params(pageSize=limit)
+            body = {
+                'dateRange': {
+                    'start': start_time,
+                    'end': end_time
+                },
+                'resultFields':
+                    ['endpointName'],
+
+                'criteriaV3': {
+                    'relationshipFilter': None,
+                    'entityType': 'dns',
+                    'filter': {
+                        'filterType': 'composite',
+                        'logic': logic,
+                        'filters': [
+                            {
+                                'filterType': 'criteria',
+                                'column': 'remoteIP',
+                                'operator': '=',
+                                'value': remote_ip
+                            }
+                        ]
+                    }
+                }
+            }
+            response = self._http_request('POST', url_suffix, params=params, json_data=body)
+            if response.get('error'):
+                raise Exception(response.get('error'))
+
+            return response
+
+        def query_by_dns_source_ip(self, limit: str = None, start_time: str = None,
+                                   end_time: str = None, logic: str = None, source_ip: str = None,
+                                   domain: str = None) -> Dict:
+
+            url_suffix = '/v2/events'
+            params = assign_params(pageSize=limit)
+            body = {
+                'dateRange': {
+                    'start': start_time,
+                    'end': end_time
+                },
+                'resultFields':
+                    ['endpointName'],
+
+                'criteriaV3': {
+                    'relationshipFilter': None,
+                    'entityType': 'dns',
+                    'filter': {
+                        'filterType': 'composite',
+                        'logic': logic,
+                        'filters': [
+                            {
+                                'filterType': 'criteria',
+                                'column': 'dnsQuestion',
+                                'operator': '=~',
+                                'value': domain
+                            },
+                            {
+                                'filterType': 'criteria',
+                                'column': 'localIP',
+                                'operator': '=',
+                                'value': source_ip
+                            }
+                        ]
+                    }
+                }
+            }
+            response = self._http_request('POST', url_suffix, params=params, json_data=body)
+            if response.get('error'):
+                raise Exception(response.get('error'))
+
+            return response
+
+        def query_events(self, limit: str = None, start_time: str = None,
+                         end_time: str = None, logic: str = None, column: str = None,
+                         value: str = None, entity_type: str = None, operator: str = None,
+                         additional_filter: Dict = None) -> Dict:
+
+            url_suffix = '/v2/events'
+            params = assign_params(pageSize=limit)
+
+            body = {
+                'dateRange': {
+                    'start': start_time,
+                    'end': end_time
+                },
+                'resultFields':
+                    ['endpointName', 'eventType', 'processStartTime', 'parentName', 'pid', 'name', 'path', 'user', 'hash',
+                     'parameters'],
+
+                'criteriaV3': {
+                    'relationshipFilter': None,
+                    'entityType': entity_type,
+                    'filter': {
+                        'filterType': 'composite',
+                        'logic': logic,
+                        'filters': [
+                            {
+                                'filterType': 'criteria',
+                                'column': column,
+                                'operator': operator,
+                                'value': value
+                            }
+                        ]
+                    }
+                }
+            }
+
+            if additional_filter:
+                body['criteriaV3']['filter']['filters'].append(additional_filter)  # type: ignore
+
+            response = self._http_request('POST', url_suffix, params=params, json_data=body)
+            if response.get('error'):
+                raise Exception(response.get('error'))
+
+            return response
+
+
+    def get_endpoint_id(client: Client, endpoint_ip: list = None, endpoint_name: list = None):
+        if endpoint_name and endpoint_ip:
+            raise Exception('You must provide only one of the arguments endpoint_ip or endpoint_name')
+
+        if not endpoint_ip and not endpoint_name:
+            raise Exception('You must provide either endpoint_ip or endpoint_name')
+
+        if endpoint_ip:
+            endpoints = client.convert_ip_to_endpoint_id(endpoint_ip)
+            endpoint_id = endpoints.get('data')
+
+        elif endpoint_name:
+            endpoints = client.convert_name_to_endpoint_id(endpoint_name)
+            endpoint_id = endpoints.get('data')
+
+        return endpoint_id
+
+
+    def test_module(client: Client, fetch_limit: str, *_) -> Tuple[str, Dict, Dict]:
+        """
+        Returning 'ok' indicates that the integration works like it is supposed to. Connection to the service is successful.
+        """
+        client.test_module_request()
+        if demisto.params().get('isFetch'):
+            if int(fetch_limit) < 5:
+                return 'Fetch limit must be at lest 5', {}, {}
+        return 'ok', {}, {}
+
+
+    def list_alerts_command(client: Client, args: dict) -> Tuple[str, Dict, Dict]:
+        limit = args.get('limit', '50')
+        sort = args.get('sort')
+        start_date = args.get('start_date')
+        end_date = args.get('end_date')
+        headers = ['ID', 'Name', 'EndpointName', 'EndpointID', 'Source', 'ArtifactName', 'IntelName', 'Severity',
+                   'CreateDate', 'AlertDate']
+
+        contents = []
+        context = []
+        response = client.list_alerts(limit, sort, start_date, end_date)
+        if not response.get('success'):
+            raise Exception(response.get('error'))
+
+        alerts = response.get('data', {}).get('entities', [])
+        if not alerts:
+            return f'No alerts were found.', {}, {}
+
+        for alert in alerts:
+            contents.append({
+                'Name': alert.get('name'),
+                'ID': alert.get('id'),
+                'EndpointName': alert.get('endpointName'),
+                'EndpointID': alert.get('endpointId'),
+                'Source': alert.get('source'),
+                'ArtifactName': alert.get('artifactName'),
+                'IntelName': alert.get('intelName'),
+                'Severity': alert.get('severity'),
+                'CreateDate': alert.get('createDate')
+            })
+
+            context.append({
+                'Name': alert.get('name'),
+                'ID': alert.get('id'),
+                'EndpointName': alert.get('endpointName'),
+                'EndpointID': alert.get('endpointId'),
+                'Source': alert.get('source'),
+                'ArtifactName': alert.get('artifactName'),
+                'IntelName': alert.get('intelName'),
+                'Severity': alert.get('severity'),
+                'CreateDate': alert.get('createDate'),
+                'HasJob': alert.get('hasJob'),
+                'Description': alert.get('description'),
+                'IntelID': alert.get('intelId'),
+                'SourceType': alert.get('sourceType'),
+                'ValidatedDate': alert.get('validatedDate'),
+                'EventID': alert.get('eventId'),
+                'ActionsTaken': alert.get('actionsTaken'),
+                'EventTime': alert.get('eventTime'),
+                'ParentEventID': alert.get('parentEventId'),
+                'EventType': alert.get('eventType'),
+                'EventIndex': alert.get('eventIndex'),
+                'Telemetry': alert.get('telemetry'),
+                'ReportID': alert.get('reportId'),
+                'InsertionDate': alert.get('insertionDate'),
+                'AgentTag': alert.get('agentTag')
+
+            })
+        entry_context = {'FidelisEndpoint.Alert(val.AlertID && val.AlertID === obj.AlertID)': context}
+        human_readable = tableToMarkdown('Fidelis Endpoint Alerts', contents, headers, removeNull=True)
+
+        return human_readable, entry_context, response
+
+
+    def host_info_command(client: Client, args: dict) -> Tuple[str, Dict, Dict]:
+
+        ip_address = args.get('ip_address', '')
+        host = args.get('host', '')
+
+        if not host and not ip_address:
+            raise Exception(f'You must provide either ip_address or host')
+
+        contents = []
+        context_standards = []
+        headers = ['ID', 'HostName', 'IpAddress', 'OS', 'MacAddress', 'Isolated', 'LastContactDate', 'AgentInstalled',
+                   'AgentVersion', 'OnNetwork', 'AV_Enabled', 'Groups', 'ProcessorName']
+        response = client.get_host_info(host, ip_address)
+        if not response.get('success'):
+            raise Exception(response.get('error'))
+        hosts = response.get('data', {})
+        if not hosts:
+            return f'No hosts was found', {}, {}
+
+        host_info = hosts.get('entities', [])
+        if not host_info:
+            return f'No entities were found for the host', {}, {}
+        for host in host_info:
+            contents.append({
+                'Hostname': host.get('hostName'),
+                'ID': host.get('id'),
+                'IPAddress': host.get('ipAddress'),
+                'OS': host.get('os'),
+                'MacAddress': host.get('macAddress'),
+                'LastContactDate': host.get('lastContactDate'),
+                'AgentInstalled': host.get('agentInstalled'),
+                'AgentVersion': host.get('agentVersion'),
+                'AV_Enabled': host.get('aV_Enabled'),
+                'Isolated': host.get('isolated'),
+                'OnNetwork': host.get('onNetwork'),
+                'Groups': host.get('groups'),
+                'ProcessorName': host.get('processorName')
+            })
+
+            context_standards.append({
+                'Hostname': host.get('hostName'),
+                'ID': host.get('id'),
+                'IPAddress': host.get('ipAddress'),
+                'OS': host.get('os'),
+                'MACAddress': host.get('macAddress'),
+                'Processor': host.get('processorName')
+            })
+
+        entry_context = {
+            'FidelisEndpoint.Host(val.ID && val.ID === obj.ID)': contents,
+            'Endpoint(val.ID && val.ID === obj.ID)': context_standards
+        }
+        human_readable = tableToMarkdown('Fidelis Endpoint Host Info', contents, headers=headers, removeNull=True)
+
+        return human_readable, entry_context, response
+
+
+    def file_search(client: Client, args: dict) -> Tuple[str, Dict, Dict]:
+        """ Search for files on multiple hosts, using file hash, extension, file size, and other search criteria."""
+
+        host = argToList(args.get('host', ['']))
+        md5 = argToList(args.get('md5'))
+        file_extension = argToList(args.get('file_extension'))
+        file_path = argToList(args.get('file_path'))
+        try:
+            file_size = {
+                'value': int(args.get('file_size')),  # type: ignore
+                'quantifier': 'greaterThan'
+            }
+        except Exception as e:
+            raise Exception(e)
+
+        response = client.search_file(host, md5, file_extension, file_path, file_size)
+        if not response.get('success'):
+            raise Exception(response.get('error'))
+        data = response.get('data', {})
+        contents = {
+            'JobID': data.get('jobId'),
+            'JobResultID': data.get('jobResultId')
+        }
+
+        entry_context = {'FidelisEndpoint.FileSearch(val.JobID && val.JobID === obj.JobID)': contents}
+        human_readable = tableToMarkdown('Fidelis Endpoint file search', contents)
+
+        return human_readable, entry_context, response
+
+
+    def file_search_status(client: Client, args: dict) -> Tuple[str, Dict, Dict]:
+        """Get the file search job status"""
+
+        job_id = args.get('job_id')
+        job_result_id = args.get('job_result_id')
+
+        response = client.file_search_status(job_id, job_result_id)
+        if not response.get('success'):
+            raise Exception(response.get('error'))
+        data = response.get('data', {})
+        if not data:
+            return 'Could not find any data for this Job ID', {}, {}
+        contents = {
+            'JobID': job_id,
+            'JobResultID': job_result_id,
+            'Status': data.get('status', 'Unclassified')
+        }
+        status = data.get('status')
+
+        entry_context = {'FidelisEndpoint.FileSearch(val.JobID && val.JobID === obj.JobID)': contents}
+
+        human_readable = f'Fidelis Endpoint file search status is: {status}'
+
+        return human_readable, entry_context, response
+
+
+    def file_search_reasult_metadata(client: Client, args: dict) -> Tuple[str, Dict, Dict]:
+        """Get the job results metadata"""
+
+        job_id = args.get('job_id')
+        job_result_id = args.get('job_result_id')
+        headers = ['ID', 'FileName', 'FilePath', 'MD5Hash', 'FileSize', 'HostName', 'HostIP', 'AgentID']
+
+        response = client.file_search_results_metadata(job_id, job_result_id)
+        if not response.get('success'):
+            return f'Could not find results for this job ID.', {}, {}
+        data = response.get('data', {}).get('jobResultInfos', [])
+        if not data:
+            return 'No results found.\nCheck the job status, it might be still running.', {}, {}
+        contents = {}
+        file_standards = {}
+        for item in data:
+            if item.get('collectedFiles'):
+                collected_files = item.get('collectedFiles', [])
+                for obj in collected_files:
+                    contents = {
+                        'FileName': obj.get('name'),
+                        'ID': obj.get('id'),
+                        'MD5Hash': obj.get('mD5Hash'),
+                        'FilePath': obj.get('filePath'),
+                        'FileSize': obj.get('fileSize'),
+                        'HostName': item.get('hostName'),
+                        'HostIP': item.get('hostIP'),
+                        'AgentID': item.get('agentId')
+                    }
+
+                    file_standards = {
+                        'Name': obj.get('name'),
+                        'MD5': obj.get('mD5Hash'),
+                        'Path': obj.get('filePath'),
+                        'Size': obj.get('fileSize'),
+                        'Hostname': item.get('hostName')
+                    }
+
+        entry_context = {
+            'FidelisEndpoint.File(val.ID && val.ID === obj.ID)': contents,
+            outputPaths['file']: file_standards
+        }
+        human_readable = tableToMarkdown('Fidelis Endpoint file results metadata', contents, headers=headers, removeNull=True)
+
+        return human_readable, entry_context, response
+
+
+    def get_file_command(client: Client, args: dict):
+        file_id: str = args.get('file_id', '')
+        file_name: str = args.get('file_name', '')
+        response = client.get_file(file_id)
+        attachment_file = fileResult(file_name, response)
+
+        return attachment_file
+
+
+    def delete_file_search_job_command(client: Client, args: dict) -> Tuple[str, Dict, Dict]:
+        job_id = args.get('job_id')
+        response = client.delete_job(job_id)
+        if not response.get('success'):
+            raise Exception(response.get('error'))
+
+        return 'The job was successfully deleted', {}, response
+
+
+    def list_scripts_command(client: Client, *_) -> Tuple[str, Dict, Dict]:
+        headers = ['ID', 'Name', 'Description']
+        response = client.list_scripts()
+        if not response.get('success'):
+            raise Exception(response.get('error'))
+        res = response.get('data', {})
+        scripts = res.get('scripts', [])
+        if not scripts:
+            return 'No scripts were found.', {}, {}
+        contents = []
+        for script in scripts:
+            contents.append({
+                'ID': script.get('id'),
+                'Name': script.get('name'),
+                'Description': script.get('description')
+            })
+
+        entry_context = {'FidelisEndpoint.Script(val.ID && val.ID === obj.ID)': contents}
+        human_readable = tableToMarkdown('Fidelis Endpoint scripts', contents, headers)
+
+        return human_readable, entry_context, response
+
+
+    def script_manifest_command(client: Client, args: dict) -> Tuple[str, Dict, Dict]:
+        script_id = args.get('script_id')
+        headers = ['ID', 'Name', 'Description', 'Platform', 'Command', 'Questions', 'Priority', 'TimeoutSeconds',
+                   'ResultColumns', 'ImpersonationUser', 'ImpersonationPassword', 'WizardOverridePassword']
+        response = client.script_manifest(script_id)
+        if not response.get('success'):
+            raise Exception(response.get('error'))
+        data = response.get('data', {})
+
+        platforms = [k for k, v in data.get('platforms', {}).items() if v]
+
+        contents = {
+            'ID': data.get('id'),
+            'Name': data.get('name'),
+            'Platform': platforms,
+            'Description': data.get('description'),
+            'Priority': data.get('priority'),
+            'ResultColumns': data.get('resultColumns'),
+            'TimeoutSeconds': data.get('timeoutSeconds'),
+            'ImpersonationUser': data.get('impersonationUser'),
+            'ImpersonationPassword': data.get('impersonationPassword'),
+            'Command': data.get('command'),
+            'WizardOverridePassword': data.get('wizardOverridePassword'),
+            'Questions': data.get('questions')
+        }
+
+        entry_context = {'FidelisEndpoint.Script(val.ID && val.ID === obj.ID)': contents}
+        human_readable = tableToMarkdown('Fidelis Endpoint script manifest', contents, headers, removeNull=True)
+
+        return human_readable, entry_context, response
+
+
+    def execute_script_command(client: Client, args: dict) -> Tuple[str, Dict, Dict]:
+        script_id = args.get('script_id')
+        time_out = args.get('time_out')
+        endpoint_ip = argToList(args.get('endpoint_ip'))
+        endpoint_name = argToList(args.get('endpoint_name'))
+        answer = args.get('answer')
+        additional_answer = args.get('additional_answer', '')
+        endpoint_id = get_endpoint_id(client, endpoint_ip, endpoint_name)
+
+        response = client.execute_script(script_id, endpoint_id, answer, time_out, additional_answer)
+        if not response.get('success'):
+            raise Exception(response.get('error'))
+        job_id = response.get('data')
+        context = {
+            'ID': script_id,
+            'JobID': job_id
+        }
+        entry_context = {'FidelisEndpoint.Script(val.ID && val.ID === obj.ID)': context}
+
+        return f'The job has been executed successfully. \n Job ID: {job_id}', entry_context, response
+
+
+    def list_process_command(client: Client, args: dict) -> Tuple[str, Dict, Dict]:
+        endpoint_ip = argToList(args.get('endpoint_ip'))
+        endpoint_name = argToList(args.get('endpoint_name'))
+        endpoint_id = get_endpoint_id(client, endpoint_ip, endpoint_name)
+        time_out = args.get('time_out')
+        operating_system = args.get('operating_system')
+        script_id = ''
+
+        if operating_system == 'Windows':
+            script_id = LIST_PROCESSES_WINDOWS
+
+        elif operating_system == 'Linux':
+            script_id = LIST_PROCESSES_LINUX
+
+        elif operating_system == 'macOS':
+            script_id = LIST_PROCESSES_MACOS
+
+        response = client.list_process(script_id, time_out, endpoint_id)
+        if not response.get('success'):
+            raise Exception(response.get('error'))
+        job_id = response.get('data')
+        context = {
+            'ID': script_id,
+            'JobID': job_id
+        }
+        entry_context = {'FidelisEndpoint.Process(val.ID && val.ID === obj.ID)': context}
+
+        return f'The job has been executed successfully. \n Job ID: {job_id}', entry_context, response
+
+
+    def get_script_result(client: Client, args: dict):
+        job_id = args.get('job_id')
+        headers = ['ID', 'Name', 'EndpointID', 'EndpointName', 'PID', 'User', 'SHA1', 'MD5', 'Path', 'WorkingDirectory',
+                   'StartTime']
+
+        response = client.script_job_results(job_id)
+        if not response.get('success'):
+            raise Exception(response.get('error'))
+        hits = response.get('data', {}).get('hits', {}).get('hits', [])
+        if not hits:
+            return 'No results were found', {}, {}
+        contents = []
+        context = []
+        for hit in hits:
+            source_ = hit.get('_source', {})
+            contents.append({
+                'Path': source_.get('Path'),
+                'User': source_.get('User'),
+                'SHA1': source_.get('SHA1'),
+                'WorkingDirectory': source_.get('Working Directory'),
+                'EndpointID': source_.get('_EndpointId'),
+                'PID': source_.get('PID'),
+                'StartTime': source_.get('Start Time'),
+                'EndpointName': source_.get('_EndpointName'),
+                'Name': source_.get('Name'),
+                'MD5': source_.get('MD5'),
+                'ID': hit.get('_id'),
+            })
+
+            context.append({
+                'Path': source_.get('Path'),
+                'User': source_.get('User'),
+                'SHA1': source_.get('SHA1'),
+                'IsHidden': source_.get('Is Hidden'),
+                'WorkingDirectory': source_.get('Working Directory'),
+                'EndpointID': source_.get('_EndpointId'),
+                'PID': source_.get('PID'),
+                'StartTime': source_.get('Start Time'),
+                'EndpointName': source_.get('_EndpointName'),
+                'Name': source_.get('Name'),
+                'ParentPID': source_.get('Parent PID'),
+                'CommandLine': source_.get('Command Line'),
+                'GroupID': source_.get('_GroupID'),
+                'MD5': source_.get('MD5'),
+                'Matches': source_.get('Matches'),
+                'ID': hit.get('_id'),
+                'Tags': hit.get('tags')
+            })
+
+        entry_context = {'FidelisEndpoint.ScriptResult(val.ID && val.ID === obj.ID)': context}
+        human_readable = tableToMarkdown('Fidelis Endpoint script job results', contents, headers, removeNull=True)
+
+        return human_readable, entry_context, response
+
+
+    def kill_process_by_pid(client: Client, args: dict) -> Tuple[str, Dict, Dict]:
+        endpoint_ip = argToList(args.get('endpoint_ip'))
+        endpoint_name = argToList(args.get('endpoint_name'))
+        endpoint_id = get_endpoint_id(client, endpoint_ip, endpoint_name)
+        time_out = args.get('time_out')
+        operating_system = args.get('operating_system')
+        pid = args.get('pid')
+        script_id = ''
+
+        if operating_system == 'Windows':
+            script_id = KILL_PROCESS_WINDOWS
+
+        elif operating_system == 'Linux' or operating_system == 'macOS':
+            script_id = KILL_PROCESS_MAC_LINUX
+
+        response = client.kill_process(script_id, pid, time_out, endpoint_id)
+        if not response.get('success'):
+            raise Exception(response.get('error'))
+        job_id = response.get('data')
+        context = {
+            'ID': script_id,
+            'JobID': job_id
+        }
+        entry_context = {'FidelisEndpoint.Process(val.ID && val.ID === obj.ID)': context}
+
+        return f'The job has been executed successfully. \n Job ID: {job_id}', entry_context, response
+
+
+    def delete_file_command(client: Client, args: dict) -> Tuple[str, Dict, Dict]:
+        endpoint_ip = argToList(args.get('endpoint_ip'))
+        endpoint_name = argToList(args.get('endpoint_name'))
+        endpoint_id = get_endpoint_id(client, endpoint_ip, endpoint_name)
+        time_out = args.get('time_out')
+        operating_system = args.get('operating_system')
+        file_path = args.get('file_path')
+        script_id = ''
+
+        if operating_system == 'Windows':
+            script_id = DELETE_FILE_WINDOWS
+
+        elif operating_system == 'Linux' or operating_system == 'macOS':
+            script_id = DELETE_FILE_MAC_LINUX
+
+        response = client.delete_file(script_id, file_path, time_out, endpoint_id)
+        if not response.get('success'):
+            raise Exception(response.get('error'))
+        job_id = response.get('data')
+        context = {
+            'ID': script_id,
+            'JobID': job_id
+        }
+        entry_context = {'FidelisEndpoint.Script(val.ID && val.ID === obj.ID)': context}
+
+        return f'The job has been executed successfully. \n Job ID: {job_id}', entry_context, response
+
+
+    def network_isolation_command(client: Client, args: dict) -> Tuple[str, Dict, Dict]:
+        endpoint_ip = argToList(args.get('endpoint_ip'))
+        endpoint_name = argToList(args.get('endpoint_name'))
+        endpoint_id = get_endpoint_id(client, endpoint_ip, endpoint_name)
+        time_out = args.get('time_out')
+        operating_system = args.get('operating_system')
+        allowed_server = args.get('allowed_server')
+        script_id = ''
+
+        if operating_system == 'Windows':
+            script_id = NETWORK_ISOLATION_WINDOWS
+
+        elif operating_system == 'Linux' or operating_system == 'macOS':
+            script_id = NETWORK_ISOLATION_MAC_LINUX
+
+        response = client.network_isolation(script_id, allowed_server, time_out, endpoint_id)
+        if not response.get('success'):
+            raise Exception(response.get('error'))
+        job_id = response.get('data')
+        context = {
+            'ID': script_id,
+            'JobID': job_id
+        }
+        entry_context = {'FidelisEndpoint.Isolation(val.ID && val.ID === obj.ID)': context}
+
+        return f'The job has been executed successfully. \n Job ID: {job_id}', entry_context, response
+
+
+    def remove_network_isolation_command(client: Client, args: dict) -> Tuple[str, Dict, Dict]:
+        endpoint_ip = argToList(args.get('endpoint_ip'))
+        endpoint_name = argToList(args.get('endpoint_name'))
+        endpoint_id = get_endpoint_id(client, endpoint_ip, endpoint_name)
+        time_out = args.get('time_out')
+        operating_system = args.get('operating_system')
+        script_id = ''
+
+        if operating_system == 'Windows':
+            script_id = REMOVE_NETWORK_ISOLATION_WINDOWS
+
+        elif operating_system in {'Linux', 'macOS'}:
+            script_id = REMOVE_NETWORK_ISOLATION_MAC_LINUX
+
+        response = client.remove_network_isolation(script_id, time_out, endpoint_id)
+        if not response.get('success'):
+            raise Exception(response.get('error'))
+        job_id = response.get('data')
+        context = {
+            'ID': script_id,
+            'JobID': job_id
+        }
+        entry_context = {'FidelisEndpoint.Isolation(val.ID && val.ID === obj.ID)': context}
+
+        return f'The job has been executed successfully. \n Job ID: {job_id}', entry_context, response
+
+
+    def script_job_status(client: Client, args: dict) -> Tuple[str, Dict, Dict]:
+        job_result_id = args.get('job_result_id')
+        contents = []
+        response = client.get_script_job_status(job_result_id)
+        if not response.get('success'):
+            raise Exception(response.get('error'))
+
+        results = response.get('data', {}).get('targets', [])
+
+        for result in results:
+            contents.append({
+                'JobResultID': result.get('jobResultId'),
+                'Name': result.get('name'),
+                'Status': result.get('status'),
+                'JobName': response.get('data', {}).get('jobName')  # type: ignore
+            })
+        entry_context = {'FidelisEndpoint.ScriptResult(val.JobResultID && val.JobResultID === obj.JobResultID)': contents}
+        human_readable = tableToMarkdown('Fidelis Endpoint script job status', contents, removeNull=True)
+
+        return human_readable, entry_context, response
+
+
+    def query_file_by_hash_command(client: Client, args: dict) -> Tuple[str, Dict, Dict]:
+        start_time = args.get('start_time')
+        end_time = args.get('end_time')
+        logic = args.get('logic')
+        file_hash = args.get('file_hash')
+        limit = args.get('limit')
+        if get_hash_type(file_hash) == 'Unknown':
+            raise Exception('Enter a valid hash format.')
+        contents = []
+        context = []
+        file_standards = []
+        headers = ['PID', 'EndpointName', 'Name', 'Path', 'User', 'Hash', 'ProcessStartTime', 'Parameters', 'ParentName',
+                   'EventType']
+        response = client.query_file_by_hash(limit, start_time, end_time, logic, file_hash)
+        if not response.get('success'):
+            raise Exception(response.get('error'))
+        res = response.get('data', {})
+        events = res.get('events', [])
+        if not events:
+            return f'No events were found for file_hash {file_hash}', {}, {}
+
+        for event in events:
+            contents.append({
+                'EndpointName': event.get('endpointName'),
+                'EventType': event.get('eventType'),
+                'ProcessStartTime': event.get('processStartTime'),
+                'ParentName': event.get('parentName'),
+                'PID': event.get('pid'),
+                'Name': event.get('name'),
+                'Path': event.get('path'),
+                'User': event.get('user'),
+                'Hash': event.get('hash'),
+                'Parameters': event.get('parameters')
+            })
+
+            context.append({
+                'EventTime': event.get('eventTime'),
+                'EndpointName': event.get('endpointName'),
+                'EventType': event.get('eventType'),
+                'ParentID': event.get('parentId'),
+                'TargetID': event.get('targetId'),
+                'ParentName': event.get('parentName'),
+                'Name': event.get('name'),
+                'Path': event.get('path'),
+                'Hash': event.get('hash'),
+                'Size': event.get('size'),
+                'FileVersion': event.get('fileVersion'),
+                'Signature': event.get('signature'),
+                'SignedTime': event.get('signedTime'),
+                'CertificateSubjectName': event.get('certificateSubjectName'),
+                'CertificateIssuerName': event.get('certificateIssuerName'),
+                'CertificatePublisher': event.get('certificatePublisher'),
+                'HashSHA1': event.get('hashSHA1'),
+                'HashSHA256': event.get('hashSHA256'),
+                'ProcessStartTime': event.get('processStartTime'),
+                'EventIndex': event.get('eventIndex'),
+                'IndexingTime': event.get('indexingTime'),
+                'FileExtension': event.get('fileExtension'),
+                'FileType': event.get('fileType'),
+                'FileCategory': event.get('fileCategory'),
+                'EntityType': event.get('entityType'),
+                'StartTime': event.get('startTime')
+            })
+
+            file_standards.append({
+                'Name': event.get('name'),
+                'Size': event.get('size'),
+                'MD5': event.get('hash'),
+                'Extension': event.get('fileExtension'),
+                'Type': event.get('fileType'),
+                'Path': event.get('path'),
+                'Hostname': event.get('endpointName'),
+                'SHA1': event.get('hashSHA1'),
+                'SHA256': event.get('hashSHA256'),
+                'FileVersion': event.get('fileVersion')
+            })
+
+        entry_context = {
+            'FidelisEndpoint.Query(val.Hash && val.Hash === obj.Hash)': context,
+            outputPaths['file']: file_standards
+        }
+        human_readable = tableToMarkdown('Fidelis Endpoint file hash query results', contents, headers=headers,
+                                         removeNull=True)
+        return human_readable, entry_context, response
+
+
+    def query_process_name_command(client: Client, args: dict) -> Tuple[str, Dict, Dict]:
+        start_time = args.get('start_time')
+        end_time = args.get('end_time')
+        logic = args.get('logic')
+        process_name = args.get('process_name')
+        limit = args.get('limit')
+        headers = ['PID', 'EndpointName', 'Name', 'Path', 'User', 'Hash', 'ProcessStartTime', 'Parameters', 'ParentName',
+                   'EventType']
+        contents = []
+        context = []
+
+        response = client.query_by_process_name(limit, start_time, end_time, logic, process_name)
+        if not response.get('success'):
+            raise Exception(response.get('error'))
+        res = response.get('data', {})
+        events = res.get('events', [])
+        if not events:
+            return f'No events were found for the process {process_name}', {}, {}
+
+        for event in events:
+            contents.append({
+                'EndpointName': event.get('endpointName'),
+                'EventType': event.get('eventType'),
+                'ProcessStartTime': event.get('processStartTime'),
+                'ParentName': event.get('parentName'),
+                'PID': event.get('pid'),
+                'Name': event.get('name'),
+                'Path': event.get('path'),
+                'User': event.get('user'),
+                'Hash': event.get('hash'),
+                'Parameters': event.get('parameters')
+            })
+
+            context.append({
+                'EsIndex': event.get('esIndex'),
+                'EsDocumentType': event.get('esDocumentType'),
+                'EventTime': event.get('eventTime'),
+                'EndpointName': event.get('endpointName'),
+                'EventType': event.get('eventType'),
+                'ParentID': event.get('parentId'),
+                'TargetID': event.get('targetId'),
+                'PID': event.get('pid'),
+                'ParentName': event.get('parentName'),
+                'Name': event.get('name'),
+                'Path': event.get('path'),
+                'Hash': event.get('hash'),
+                'User': event.get('user'),
+                'ProcessStartTime': event.get('processStartTime'),
+                'IndexingTime': event.get('indexingTime'),
+                'EntityType': event.get('entityType'),
+                'StartTime': event.get('startTime')
+            })
+
+        entry_context = {'FidelisEndpoint.Query(val.PID && val.PID === obj.PID)': context}
+        human_readable = tableToMarkdown('Fidelis Endpoint process results', contents, headers=headers, removeNull=True)
+        return human_readable, entry_context, response
+
+
+    def query_connection_by_remote_ip_command(client: Client, args: dict) -> Tuple[str, Dict, Dict]:
+        start_time = args.get('start_time')
+        end_time = args.get('end_time')
+        logic = args.get('logic')
+        remote_ip = args.get('remote_ip')
+        limit = args.get('limit')
+        contents = []
+        context = []
+        headers = ['EndpointID', 'EndpointName', 'PPID', 'LocalIP', 'LocalPort', 'RemoteIP', 'RemotePort',
+                   'ProcessStartTime', 'FirstEventTime', 'LastEventTime', 'Protocol', 'ParentHashSHA1', 'ParentName',
+                   'EventType']
+
+        response = client.query_by_remote_ip(limit, start_time, end_time, logic, remote_ip)
+        if not response.get('success'):
+            raise Exception(response.get('error'))
+        res = response.get('data', {})
+        events = res.get('events', [])
+        if not events:
+            return f'No events were found for the IP address {remote_ip}', {}, {}
+
+        for event in events:
+            contents.append({
+                'EndpointName': event.get('endpointName'),
+                'EventType': event.get('eventType'),
+                'EndpointID': event.get('endpointId'),
+                'ProcessStartTime': event.get('processStartTime'),
+                'ParentName': event.get('parentName'),
+                'PPID': event.get('ppid'),
+                'LocalIP': event.get('localIP'),
+                'LocalPort': event.get('localPort'),
+                'RemoteIP': event.get('remoteIP'),
+                'RemotePort': event.get('remotePort'),
+                'FirstEventTime': event.get('firstEventTime'),
+                'LastEventTime': event.get('lastEventTime'),
+                'Protocol': event.get('protocol'),
+                'ParentHashSHA1': event.get('parentHashSHA1')
+            })
+
+            context.append({
+                'EventTime': event.get('eventTime'),
+                'EndpointName': event.get('endpointName'),
+                'EventType': event.get('eventType'),
+                'EndpointID': event.get('endpointId'),
+                'ParentID': event.get('parentId'),
+                'TargetID': event.get('targetId'),
+                'PPID': event.get('ppid'),
+                'ParentName': event.get('parentName'),
+                'LocalIP': event.get('localIP'),
+                'LocalPort': event.get('localPort'),
+                'RemoteIP': event.get('remoteIP'),
+                'RemotePort': event.get('remotePort'),
+                'ProcessStartTime': event.get('processStartTime'),
+                'FirstEventTime': event.get('firstEventTime'),
+                'LastEventTime': event.get('lastEventTime'),
+                'Protocol': event.get('protocol'),
+                'EventIndex': event.get('eventIndex'),
+                'NetworkDirection': event.get('networkDirection'),
+                'EntityType': event.get('entityType'),
+                'StartTime': event.get('startTime'),
+                'parentHashSHA1': event.get('parentHashSHA1')
+            })
+
+        entry_context = {'FidelisEndpoint.Query(val.PPID && val.PPID === obj.PPID)': context}
+        human_readable = tableToMarkdown('Fidelis Endpoint query results for connection by remote IP', contents,
+                                         headers=headers, removeNull=True)
+        return human_readable, entry_context, response
+
+
+    def query_dns_request_command(client: Client, args: dict) -> Tuple[str, Dict, Dict]:
+        start_time = args.get('start_time')
+        end_time = args.get('end_time')
+        logic = args.get('logic')
+        url = args.get('url')
+        limit = args.get('limit')
+        contents = []
+        context = []
+        headers = ['EndpointName', 'LocalIP', 'LocalPort', 'RemoteIP', 'RemotePort', 'ProcessStartTime', 'DnsAnswer',
+                   'EventType']
+
+        response = client.query_by_dns_request(limit, start_time, end_time, logic, url)
+        if not response.get('success'):
+            raise Exception(response.get('error'))
+        res = response.get('data', {})
+        events = res.get('events', [])
+        if not events:
+            return f'No events were found for the URL {url}', {}, {}
+
+        for event in events:
+            contents.append({
+                'EndpointName': event.get('endpointName'),
+                'EventType': event.get('eventType'),
+                'DnsAnswer': event.get('dnsAnswer'),
+                'ProcessStartTime': event.get('processStartTime'),
+                'LocalIP': event.get('localIP'),
+                'LocalPort': event.get('localPort'),
+                'RemoteIP': event.get('remoteIP'),
+                'RemotePort': event.get('remotePort')
+            })
+
+            context.append({
+                'EventTime': event.get('eventTime'),
+                'EndpointName': event.get('endpointName'),
+                'EventType': event.get('eventType'),
+                'ParentID': event.get('parentId'),
+                'TargetID': event.get('targetId'),
+                'LocalIP': event.get('localIP'),
+                'LocalPort': event.get('localPort'),
+                'RemoteIP': event.get('remoteIP'),
+                'RemotePort': event.get('remotePort'),
+                'DnsQuestion': event.get('dnsQuestion'),
+                'DnsAnswer': event.get('dnsAnswer'),
+                'ProcessStartTime': event.get('processStartTime'),
+                'EventIndex': event.get('eventIndex'),
+                'IndexingTime': event.get('indexingTime'),
+                'NetworkDirection': event.get('networkDirection'),
+                'EntityType': event.get('entityType'),
+                'StartTime': event.get('startTime')
+            })
+
+        entry_context = {'FidelisEndpoint.Query(val.ParentID && val.ParentID === obj.ParentID)': context}
+        human_readable = tableToMarkdown('Fidelis Endpoint query results for the DNS request', contents, headers=headers,
+                                         removeNull=True)
+        return human_readable, entry_context, response
+
+
+    def query_by_server_ip_command(client: Client, args: dict) -> Tuple[str, Dict, Dict]:
+        start_time = args.get('start_time')
+        end_time = args.get('end_time')
+        logic = args.get('logic')
+        remote_ip = args.get('remote_ip')
+        limit = args.get('limit')
+        contents = []
+        context = []
+        headers = ['EndpointName', 'LocalIP', 'LocalPort', 'RemoteIP', 'RemotePort', 'ProcessStartTime', 'DnsAnswer',
+                   'EventType']
+
+        response = client.query_by_dns_server_ip(limit, start_time, end_time, logic, remote_ip)
+        if not response.get('success'):
+            raise Exception(response.get('error'))
+        res = response.get('data', {})
+        events = res.get('events', [])
+        if not events:
+            return f'No events were found for the IP address {remote_ip}', {}, {}
+
+        for event in events:
+            contents.append({
+                'EndpointName': event.get('endpointName'),
+                'EventType': event.get('eventType'),
+                'DnsAnswer': event.get('dnsAnswer'),
+                'ProcessStartTime': event.get('processStartTime'),
+                'LocalIP': event.get('localIP'),
+                'LocalPort': event.get('localPort'),
+                'RemoteIP': event.get('remoteIP'),
+                'RemotePort': event.get('remotePort')
+            })
+
+            context.append({
+                'EventTime': event.get('eventTime'),
+                'EndpointName': event.get('endpointName'),
+                'EventType': event.get('eventType'),
+                'ParentID': event.get('parentId'),
+                'TargetID': event.get('targetId'),
+                'LocalIP': event.get('localIP'),
+                'LocalPort': event.get('localPort'),
+                'RemoteIP': event.get('remoteIP'),
+                'RemotePort': event.get('remotePort'),
+                'DnsQuestion': event.get('dnsQuestion'),
+                'DnsAnswer': event.get('dnsAnswer'),
+                'ProcessStartTime': event.get('processStartTime'),
+                'EventIndex': event.get('eventIndex'),
+                'IndexingTime': event.get('indexingTime'),
+                'NetworkDirection': event.get('networkDirection'),
+                'EntityType': event.get('entityType'),
+                'StartTime': event.get('startTime')
+            })
+
+        entry_context = {'FidelisEndpoint.Query(val.TargetID && val.TargetID === obj.TargetID)': context}
+        human_readable = tableToMarkdown('Fidelis Endpoint query results for the DNS request by server IP', contents,
+                                         headers=headers, removeNull=True)
+        return human_readable, entry_context, response
+
+
+    def query_by_source_ip(client: Client, args: dict) -> Tuple[str, Dict, Dict]:
+        start_time = args.get('start_time')
+        end_time = args.get('end_time')
+        logic = args.get('logic')
+        source_ip = args.get('source_ip')
+        domain = args.get('domain', '')
+        limit = args.get('limit')
+        contents = []
+        context = []
+        headers = ['EndpointName', 'LocalIP', 'LocalPort', 'RemoteIP', 'RemotePort', 'ProcessStartTime', 'DnsQuestion',
+                   'DnsAnswer']
+        response = client.query_by_dns_source_ip(limit, start_time, end_time, logic, source_ip, domain)
+        if not response.get('success'):
+            raise Exception(response.get('error'))
+        res = response.get('data', {})
+        events = res.get('events', [])
+        if not events:
+            return f'No events were found', {}, {}
+
+        for event in events:
+            contents.append({
+                'EndpointName': event.get('endpointName'),
+                'ProcessStartTime': event.get('processStartTime'),
+                'LocalIP': event.get('localIP'),
+                'LocalPort': event.get('localPort'),
+                'RemoteIP': event.get('remoteIP'),
+                'RemotePort': event.get('remotePort'),
+                'DnsQuestion': event.get('dnsQuestion'),
+                'DnsAnswer': event.get('dnsAnswer')
+            })
+
+            context.append({
+                'EventTime': event.get('eventTime'),
+                'EndpointName': event.get('endpointName'),
+                'EventType': event.get('eventType'),
+                'ParentID': event.get('parentId'),
+                'TargetID': event.get('targetId'),
+                'LocalIP': event.get('localIP'),
+                'LocalPort': event.get('localPort'),
+                'RemoteIP': event.get('remoteIP'),
+                'RemotePort': event.get('remotePort'),
+                'DnsQuestion': event.get('dnsQuestion'),
+                'DnsAnswer': event.get('dnsAnswer'),
+                'ProcessStartTime': event.get('processStartTime'),
+                'EventIndex': event.get('eventIndex'),
+                'IndexingTime': event.get('indexingTime'),
+                'NetworkDirection': event.get('networkDirection'),
+                'EntityType': event.get('entityType'),
+                'StartTime': event.get('startTime')
+            })
+
+        entry_context = {'FidelisEndpoint.Query(val.TargetID && val.TargetID === obj.TargetID)': context}
+        human_readable = tableToMarkdown('Fidelis Endpoint query results for the DNS request by source IP', contents,
+                                         headers=headers, removeNull=True)
+        return human_readable, entry_context, response
+
+
+    def query_events_command(client: Client, args: dict) -> Tuple[str, Dict, Dict]:
+        start_time = args.get('start_time')
+        end_time = args.get('end_time')
+        logic = args.get('logic')
+        entity_type = args.get('entity_type')
+        column = args.get('column')
+        value = args.get('value')
+        operator = args.get('operator')
+        limit = args.get('limit')
+        additional_filter_string = args.get('additional_filter')
+        additional_filter = None
+        if additional_filter_string:
+            additional_filter_split = additional_filter_string.split()
+            if len(additional_filter_split) == 3:
+                additional_filter = {
+                    'filterType': 'criteria',
+                    'column': additional_filter_split[0],
+                    'operator': additional_filter_split[1],
+                    'value': additional_filter_split[2]
+                }
+            else:
+                raise Exception('Make sure that the additional_filter argument is in valid format.\n '
+                                'For Example: pid = 1234')
+
+        contents = []
+        context = []
+        headers = ['PID', 'EndpointName', 'User', 'ProcessStartTime', 'LocalIP', 'LocalPort', 'RemoteIP', 'RemotePort',
+                   'ParentID', 'EventType']
+        response = client.query_events(limit, start_time, end_time, logic, column, value, entity_type, operator,
+                                       additional_filter)
+        if not response.get('success'):
+            raise Exception(response.get('error'))
+        res = response.get('data', {})
+        events = res.get('events', [])
+        if not events:
+            return f'No events were found', {}, {}
+
+        for event in events:
+            contents.append({
+                'EndpointName': event.get('endpointName'),
+                'EventType': event.get('eventType'),
+                'ParentID': event.get('parentId'),
+                'PID': event.get('pid'),
+                'User': event.get('user'),
+                'ProcessStartTime': event.get('processStartTime'),
+                'LocalIP': event.get('localIP'),
+                'LocalPort': event.get('localPort'),
+                'RemoteIP': event.get('remoteIP'),
+                'RemotePort': event.get('remotePort')
+            })
+
+            context.append({
+                'EventTime': event.get('eventTime'),
+                'EndpointName': event.get('endpointName'),
+                'EventType': event.get('eventType'),
+                'ParentID': event.get('parentId'),
+                'TargetID': event.get('targetId'),
+                'PID': event.get('pid'),
+                'ParentName': event.get('parentName'),
+                'Name': event.get('name'),
+                'Path': event.get('path'),
+                'Hash': event.get('hash'),
+                'User': event.get('user'),
+                'LocalIP': event.get('localIP'),
+                'LocalPort': event.get('localPort'),
+                'RemoteIP': event.get('remoteIP'),
+                'RemotePort': event.get('remotePort'),
+                'DnsQuestion': event.get('dnsQuestion'),
+                'DnsAnswer': event.get('dnsAnswer'),
+                'ProcessStartTime': event.get('processStartTime'),
+                'EventIndex': event.get('eventIndex'),
+                'IndexingTime': event.get('indexingTime'),
+                'EntityType': event.get('entityType'),
+                'StartTime': event.get('startTime')
+            })
+
+        entry_context = {'FidelisEndpoint.Query(val.PID && val.PID === obj.PID)': context}
+        human_readable = tableToMarkdown('Fidelis Endpoint query events result', contents, headers=headers,
+                                         removeNull=True)
+        return human_readable, entry_context, response
+
+
+    def fetch_incidents(client: Client, fetch_time: str, fetch_limit: str, last_run: Dict) -> Tuple[List, Dict]:
+        last_fetched_alert_create_time = last_run.get('last_fetched_alert_create_time')
+        last_fetched_alert_id = last_run.get('last_fetched_alert_id', '')
+        if not last_fetched_alert_create_time:
+            last_fetched_alert_create_time, _ = parse_date_range(fetch_time, date_format='%Y-%m-%dT%H:%M:%S.000Z')
+            last_fetched_alert_id = '0'
+        latest_alert_create_date = last_fetched_alert_create_time
+        latest_alert_id = last_fetched_alert_id
+
+        incidents = []
+
+        response = client.list_alerts(
+            limit=fetch_limit,
+            sort='createDate Ascending',
+            start_date=last_fetched_alert_create_time
+        )
+        alerts = response.get('data', {}).get('entities', [])
+
+        for alert in alerts:
+            alert_id = alert.get('id')
+            if alert_id <= int(last_fetched_alert_id):
+                # got an alert we already fetched, skipping it
+                continue
+            alert_id = str(alert_id)
+            alert_create_date = alert.get('createDate')
+            incident = {
+                'name': f'Fidelis Endpoint alert {alert_id}',
+                'occurred': alert_create_date,
+                'rawJSON': json.dumps(alert)
+            }
+            incidents.append(incident)
+            latest_alert_create_date = alert_create_date
+            latest_alert_id = alert_id
+
+        return incidents, \
+            {'last_fetched_alert_create_time': latest_alert_create_date, 'last_fetched_alert_id': latest_alert_id}
+
+
+    def main():
+        """
+        PARSE AND VALIDATE INTEGRATION PARAMS
+        """
+        username = demisto.params().get('credentials').get('identifier')
+        password = demisto.params().get('credentials').get('password')
+
+        # get the service API url
+        base_url = urljoin(demisto.params().get('url'), '/Endpoint/api')
+
+        verify_certificate = not demisto.params().get('insecure', False)
+
+        proxy = demisto.params().get('proxy', False)
+
+        LOG(f'Command being called is {demisto.command()}')
+        try:
+            client = Client(base_url, username=username, password=password, verify=verify_certificate, proxy=proxy)
+
+            if demisto.command() == 'test-module':
+                # This is the call made when pressing the integration Test button.
+                fetch_limit = demisto.params().get('fetch_limit')
+                return_outputs(*test_module(client, fetch_limit))
+            elif demisto.command() == 'fetch-incidents':
+                fetch_time = demisto.params().get('fetch_time', '3 days')
+                fetch_limit = demisto.params().get('fetch_limit', '50')
+                incidents, last_run = fetch_incidents(client, fetch_time, fetch_limit, last_run=demisto.getLastRun())  # type: ignore
+                demisto.incidents(incidents)
+                demisto.setLastRun(last_run)
+
+            elif demisto.command() == 'fidelis-endpoint-list-alerts':
+                return_outputs(*list_alerts_command(client, demisto.args()))
+
+            elif demisto.command() == 'fidelis-endpoint-host-info':
+                return_outputs(*host_info_command(client, demisto.args()))
+
+            elif demisto.command() == 'fidelis-endpoint-file-search':
+                return_outputs(*file_search(client, demisto.args()))
+
+            elif demisto.command() == 'fidelis-endpoint-file-search-status':
+                return_outputs(*file_search_status(client, demisto.args()))
+
+            elif demisto.command() == 'fidelis-endpoint-file-search-result-metadata':
+                return_outputs(*file_search_reasult_metadata(client, demisto.args()))
+
+            elif demisto.command() == 'fidelis-endpoint-get-file':
+                demisto.results(get_file_command(client, demisto.args()))
+
+            elif demisto.command() == 'fidelis-endpoint-delete-file-search-job':
+                return_outputs(*delete_file_search_job_command(client, demisto.args()))
+
+            elif demisto.command() == 'fidelis-endpoint-list-scripts':
+                return_outputs(*list_scripts_command(client, demisto.args()))
+
+            elif demisto.command() == 'fidelis-endpoint-get-script-manifest':
+                return_outputs(*script_manifest_command(client, demisto.args()))
+
+            elif demisto.command() == 'fidelis-endpoint-list-processes':
+                return_outputs(*list_process_command(client, demisto.args()))
+
+            elif demisto.command() == 'fidelis-endpoint-get-script-result':
+                return_outputs(*get_script_result(client, demisto.args()))
+
+            elif demisto.command() == 'fidelis-endpoint-kill-process':
+                return_outputs(*kill_process_by_pid(client, demisto.args()))
+
+            elif demisto.command() == 'fidelis-endpoint-delete-file':
+                return_outputs(*delete_file_command(client, demisto.args()))
+
+            elif demisto.command() == 'fidelis-endpoint-isolate-network':
+                return_outputs(*network_isolation_command(client, demisto.args()))
+
+            elif demisto.command() == 'fidelis-endpoint-remove-network-isolation':
+                return_outputs(*remove_network_isolation_command(client, demisto.args()))
+
+            elif demisto.command() == 'fidelis-endpoint-script-job-status':
+                return_outputs(*script_job_status(client, demisto.args()))
+
+            elif demisto.command() == 'fidelis-endpoint-execute-script':
+                return_outputs(*execute_script_command(client, demisto.args()))
+
+            elif demisto.command() == 'fidelis-endpoint-query-file':
+                return_outputs(*query_file_by_hash_command(client, demisto.args()))
+
+            elif demisto.command() == 'fidelis-endpoint-query-process':
+                return_outputs(*query_process_name_command(client, demisto.args()))
+
+            elif demisto.command() == 'fidelis-endpoint-query-connection-by-remote-ip':
+                return_outputs(*query_connection_by_remote_ip_command(client, demisto.args()))
+
+            elif demisto.command() == 'fidelis-endpoint-query-by-dns':
+                return_outputs(*query_dns_request_command(client, demisto.args()))
+
+            elif demisto.command() == 'fidelis-endpoint-query-dns-by-server-ip':
+                return_outputs(*query_by_server_ip_command(client, demisto.args()))
+
+            elif demisto.command() == 'fidelis-endpoint-query-dns-by-source-ip':
+                return_outputs(*query_by_source_ip(client, demisto.args()))
+
+            elif demisto.command() == 'fidelis-endpoint-query-events':
+                return_outputs(*query_events_command(client, demisto.args()))
+
+        # Log exceptions
+        except Exception as e:
+            err_msg = str(e)
+            if 'password=' in err_msg:
+                err_msg = re.sub(r'password=([^\s]*)\s', 'password=**** ', err_msg)
+            return_error(f'Failed to execute {demisto.command()} command. Error: {err_msg}')
+
+
+    if __name__ in ('__main__', '__builtin__', 'builtins'):
+        main()
+  subtype: python3
+  type: python
+system: true

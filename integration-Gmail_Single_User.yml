@@ -178,6 +178,9 @@ script:
     - contextPath: Gmail.SentMail.MailBox
       description: The mailbox from which the mail was sent.
       type: String
+    - contextPath: Gmail.SentMail.BodyHTML
+      description: The HTML version of the email.
+      type: String
   - arguments: []
     description: Starts the OAuth2 process. Get a link to use to authenticate to Gmail.
     name: gmail-auth-link
@@ -188,7 +191,7 @@ script:
   dockerimage: demisto/google-api-py3:1.0.0.4554
   isfetch: true
   runonce: false
-  script: |2-
+  script: |2
 
 
     ''' IMPORTS '''
@@ -620,7 +623,8 @@ script:
                     'Bcc': bcc,
                     'Subject': subject,
                     'Body': body,
-                    'Mailbox': to
+                    'Mailbox': to,
+                    'BodyHTML': bodyHtml
                 })
 
             headers = ['Type', 'ID', 'To', 'From', 'Cc', 'Bcc', 'Subject', 'Body', 'Labels',

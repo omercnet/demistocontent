@@ -260,7 +260,7 @@ script:
       type: String
   dockerimage: demisto/akamai:1.0.0.5063
   runonce: false
-  script: |-
+  script: |
     """ IMPORTS """
     # Std imports
 

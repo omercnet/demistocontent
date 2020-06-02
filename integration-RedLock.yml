@@ -491,7 +491,7 @@ script:
     name: redlock-list-alert-filters
   isfetch: true
   runonce: false
-  script: |-
+  script: |
     from datetime import datetime
 
     import requests

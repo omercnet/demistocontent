@@ -252,7 +252,7 @@ script:
   dockerimage: demisto/python3:3.7.2.200
   isfetch: true
   runonce: false
-  script: |2-
+  script: |2
 
 
     '''IMPORTS'''

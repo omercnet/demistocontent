@@ -338,7 +338,7 @@ script:
       description: The status of the scan specified.
       type: string
   runonce: false
-  script: |-
+  script: |
     import os
     import requests
     import sys

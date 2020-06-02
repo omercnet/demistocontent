@@ -34,7 +34,7 @@ contentitemexportablefields:
     - all
 description: 'Integrated advanced threat detection: Enhancing protection from network
   edge to endpoint'
-detaileddescription: |
+detaileddescription: |-
   Users must to have the "Allow Multiple Logins" capability.
   Go to Manage -> ATD Configuration -> ATD Users -> User Configuration
   Enable the "Allow Multiple Logins" checkbox for the relevant user.
@@ -567,7 +567,7 @@ script:
       description: Submission time of the sample
       type: string
   runonce: false
-  script: |2-
+  script: |2
 
 
 

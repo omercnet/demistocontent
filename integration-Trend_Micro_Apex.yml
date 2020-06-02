@@ -1,0 +1,417 @@
+beta: true
+category: Endpoint
+commonfields:
+  id: Trend Micro Apex
+  version: -1
+configuration:
+- defaultvalue: ""
+  display: Server URL (e.g. https://vxsuz5.manage.trendmicro.com)
+  name: url
+  required: true
+  type: 0
+- defaultvalue: ""
+  display: Application ID
+  name: application_id
+  required: true
+  type: 0
+- defaultvalue: ""
+  display: API Key
+  name: token
+  required: true
+  type: 4
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
+  name: insecure
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Use system proxy settings
+  name: proxy
+  required: false
+  type: 8
+contentitemexportablefields:
+  contentitemfields:
+    propagationLabels:
+    - all
+description: Trend Micro Apex central automation to manage agents and User-Defined
+  Suspicious Objects
+detaileddescription: It is required to add an application in order to use the integration,
+  follow the instructions [here](https://docs.trendmicro.com/en-us/enterprise/trend-micro-apex-central-2019-automation-api-guide/automation-api-guide/adding-an-applicatio.aspx)
+  to do so.
+display: Trend Micro Apex
+image: data:image/png;base64,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
+name: Trend Micro Apex
+script:
+  commands:
+  - arguments:
+    - auto: PREDEFINED
+      description: The suspicious object type to query
+      name: type
+      predefined:
+      - ip
+      - url
+      - file_sha1
+      - domain
+      - file
+    - description: Filters the list to suspicious objects that match the specified
+        string
+      name: content_filter
+    description: Retrieve a list of User-Defined Suspicious Objects from the Apex
+      Central server.
+    name: trendmicro-apex-usdo-list
+    outputs:
+    - contextPath: TrendMicroApex.USDO.type
+      description: 'Indicator type of the USDO object, for example: ip, file, file_sha1,
+        url, domain.'
+      type: String
+    - contextPath: TrendMicroApex.USDO.content
+      description: Indicator content of the USDO object.
+      type: String
+    - contextPath: TrendMicroApex.USDO.notes
+      description: Indicator notes of the USDO object.
+      type: String
+    - contextPath: TrendMicroApex.USDO.scan_action
+      description: 'Scan action of the USDO object, for example: log, block, quarantine.'
+      type: String
+    - contextPath: TrendMicroApex.USDO.expiration_utc_date
+      description: Expiration date of the USDO object in UTC.
+      type: Date
+  - arguments:
+    - auto: PREDEFINED
+      description: The suspicious object type
+      name: type
+      predefined:
+      - ip
+      - url
+      - file_sha1
+      - domain
+      - file
+      required: true
+    - description: The suspicious object content for the specified type, for example
+        8.8.8.8 (for type "file", provide the binary content of the suspicious file
+        as a base64 string)
+      name: content
+      required: true
+    - auto: PREDEFINED
+      description: The scan action to perform on the suspicious object (The "quarantine"
+        scan action is only available for file type objects)
+      name: scan_action
+      predefined:
+      - log
+      - block
+      - quarantine
+      required: true
+    - description: Description of the object.
+      name: notes
+    - description: 'The UTC expiration date and time of the suspicious object, for
+        example: 2020-01-25T09:00:00Z'
+      name: expiration
+    description: Add suspicious file, file SHA-1, IP address, domain, or URL objects
+      to the User-Defined Suspicious Object list.
+    name: trendmicro-apex-usdo-add
+  - arguments:
+    - auto: PREDEFINED
+      description: The suspicious object type
+      name: type
+      predefined:
+      - ip
+      - url
+      - file_sha1
+      - domain
+      required: true
+    - description: The suspicious object content for the specified type
+      name: content
+      required: true
+    description: Delete suspicious file SHA-1, IP address, domain, or URL objects
+      from the User-Defined Suspicious Object list.
+    name: trendmicro-apex-usdo-delete
+  - arguments:
+    - auto: PREDEFINED
+      defaultValue: "true"
+      description: Whether to allow multiple matches or not. If this parameter is
+        set to "false", and the provided parameters match multiple agents, the action
+        will be unsuccessful.
+      name: multi_match
+      predefined:
+      - "true"
+      - "false"
+    - description: The GUID of the managed product agent
+      name: entity_id
+    - description: The IP address of the managed product agent
+      name: ip_address
+    - description: The MAC address of the managed product agent
+      name: mac_address
+    - description: The endpoint name of the managed product agent
+      name: host_name
+    - description: The Trend Micro product on the server instance
+      name: product
+    description: Isolate an agent from the network
+    name: trendmicro-apex-isolate
+  - arguments:
+    - auto: PREDEFINED
+      defaultValue: "true"
+      description: Whether to allow multiple matches or not. If this argument is set
+        to "false", and the provided parameters match multiple agents, the action
+        will be unsuccessful.
+      name: multi_match
+      predefined:
+      - "true"
+      - "false"
+    - description: The GUID of the managed product agent
+      name: entity_id
+    - description: The IP address of the managed product agent
+      name: ip_address
+    - description: The MAC address of the managed product agent
+      name: mac_address
+    - description: The endpoint name of the managed product agent
+      name: host_name
+    - description: The Trend Micro product on the server instance
+      name: product
+    description: Restore an isolated agent connection to the network.
+    name: trendmicro-apex-restore
+  dockerimage: demisto/pyjwt3:1.0.0.4946
+  runonce: false
+  script: |2
+
+
+
+
+    ''' IMPORTS '''
+    import urllib3
+    import jwt
+    import base64
+    import hashlib
+    import time
+    import json
+
+    # Disable insecure warnings
+    urllib3.disable_warnings()
+    ''' CLIENT CLASS'''
+
+    USDOAPIPATH = '/WebApp/api/SuspiciousObjects/UserDefinedSO'
+    PRODAGENTAPIPATH = '/WebApp/API/AgentResource/ProductAgents'
+
+
+    class Client(BaseClient):
+        def __init__(self, base_url, api_key, app_id, verify, proxy):
+            super().__init__(base_url=base_url, verify=verify, proxy=proxy)
+            self.base_url = base_url
+            self.api_key = api_key
+            self.application_id = app_id
+
+        @staticmethod
+        def __create_checksum(http_method, api_path, headers, request_body):
+            string_to_hash = http_method.upper() + '|' + api_path.lower() + '|' + headers + '|' + request_body
+            base64_string = base64.b64encode(hashlib.sha256(str.encode(string_to_hash)).digest()).decode('utf-8')
+            return base64_string
+
+        def __create_jwt_token(self, http_method, api_path, headers, request_body, iat=time.time(), algorithm='HS256',
+                               version='V1', ):
+            checksum = self.__create_checksum(http_method, api_path, headers, request_body)
+
+            payload = {'appid': self.application_id,
+                       'iat': iat,
+                       'version': version,
+                       'checksum': checksum}
+            token = jwt.encode(payload, self.api_key, algorithm=algorithm).decode('utf-8')
+            return token
+
+        def usdo_list(self, list_type="", contentfilter=""):
+            querystring = "?type=" + list_type + "&contentFilter=" + contentfilter
+            headers = {
+                'Authorization': 'Bearer ' + self.__create_jwt_token(http_method='GET', api_path=USDOAPIPATH + querystring,
+                                                                     headers='', request_body='')}
+            response = (
+                self._http_request("GET", USDOAPIPATH, full_url=self.base_url + USDOAPIPATH + querystring, headers=headers))
+            return response
+
+        def usdo_delete(self, list_type="", content=""):
+            querystring = "?type=" + list_type + "&content=" + content
+            headers = {'Authorization': 'Bearer ' + self.__create_jwt_token(http_method='DELETE',
+                                                                            api_path=USDOAPIPATH + querystring, headers='',
+                                                                            request_body='')}
+            response = (self._http_request("DELETE", USDOAPIPATH, full_url=self.base_url + USDOAPIPATH + querystring,
+                                           headers=headers))
+            return response
+
+        def usdo_add(self, add_type=None, content=None, scan_action=None, notes='', expiration=''):
+            if add_type and content and scan_action:
+                req_body = {
+                    "param": {
+                        "type": add_type,
+                        "content": content,
+                        "notes": notes,
+                        "scan_action": scan_action,
+                        "expiration_utc_date": expiration
+                    }
+                }
+
+                headers = {
+                    'Content-Type': 'application/json;charset=utf-8',
+                    'Authorization': 'Bearer ' + self.__create_jwt_token(http_method='PUT', api_path=USDOAPIPATH + '/',
+                                                                         headers='', request_body=json.dumps(req_body))}
+                response = (self._http_request("PUT", USDOAPIPATH + '/', full_url=self.base_url + USDOAPIPATH + '/',
+                                               headers=headers, data=json.dumps(req_body)))
+
+                return response
+
+        def _prodagent_command(self, action, multi_match=False, entity_id="", ip_add="", mac_add="", host="", prod=""):
+            act = action
+
+            req_body = {
+                "act": act,
+                "allow_multiple_match": multi_match,
+                "entity_id": entity_id,
+                "ip_address": ip_add,
+                "mac_address": mac_add,
+                "host_name": host,
+                "product": prod
+            }
+
+            headers = {
+                'Content-Type': 'application/json;charset=utf-8',
+                'Authorization': 'Bearer ' + self.__create_jwt_token(http_method='POST', api_path=PRODAGENTAPIPATH + '/',
+                                                                     headers='', request_body=json.dumps(req_body))}
+            response = (
+                self._http_request("POST", PRODAGENTAPIPATH + '/', full_url=self.base_url + PRODAGENTAPIPATH + '/',
+                                   headers=headers,
+                                   data=json.dumps(req_body)))
+            if response.get('result_code') != 1:
+                err_msg = f'Operation failed - {response.get("result_description", "")}'
+                raise ValueError(err_msg)
+            return response
+
+        def prodagent_isolate(self, multi_match=False, entity_id="", ip_add="", mac_add="", host="", prod=""):
+            action = "cmd_isolate_agent"
+            return self._prodagent_command(action, multi_match, entity_id, ip_add, mac_add, host, prod)
+
+        def prodagent_restore(self, multi_match=False, entity_id="", ip_add="", mac_add="", host="", prod=""):
+            action = "cmd_restore_isolated_agent"
+            return self._prodagent_command(action, multi_match, entity_id, ip_add, mac_add, host, prod)
+
+
+    ''' COMMANDS + REQUESTS FUNCTIONS '''
+
+
+    def test_module(client: Client, *_):
+        """
+        Performs basic get request to get item samples
+        """
+        client.usdo_list()
+        return 'ok', None, None
+
+
+    def usdo_list_command(client: Client, args):
+        list_type = args.get('type', '')
+        content_filter = args.get('content_filter', '')
+
+        response = client.usdo_list(list_type, content_filter)
+
+        data = response.get('Data')
+
+        return (tableToMarkdown("Apex USDO List", data),
+                {"TrendMicroApex.USDO": data}, response)
+
+
+    def usdo_delete_command(client: Client, args):
+        list_type = args.get('type', '')
+        content = args.get('content', '')
+
+        response = client.usdo_delete(list_type, content)
+
+        return f'USDO {content} of type {list_type} was deleted successfully', None, response
+
+
+    def usdo_add_command(client: Client, args):
+        add_type = args.get('type')
+        content = args.get('content')
+        scan_action = args.get('scan_action')
+
+        response = client.usdo_add(add_type=add_type, content=content, scan_action=scan_action)
+
+        return f'USDO {content} of type {add_type} was added successfully with scan action {scan_action}', None, response
+
+
+    def prodagent_isolate_command(client: Client, args):
+        multi_match = args.get('multi_match', 'true') == 'true'
+        entity_id = args.get('entity_id')
+        ip = args.get('ip_address')
+        mac = args.get('mac_address')
+        host = args.get('host_name')
+        product = args.get('product')
+
+        if not any([entity_id, ip, mac, host, product]):
+            raise ValueError('At least one of the following arguments must be provided: '
+                             'entity_id, ip_address, mac_address, host_name, product')
+
+        response = client.prodagent_isolate(multi_match=multi_match, entity_id=entity_id, ip_add=ip, mac_add=mac, host=host,
+                                            prod=product)
+        result_content = response.get('result_content', [])
+        if result_content:
+            return (tableToMarkdown("Apex ProductAgent Isolate", result_content),
+                    {"TrendMicroApex.ProductAgent": result_content}, response)
+        else:
+            return 'No agents were affected.', None, None
+
+
+    def prodagent_restore_command(client: Client, args):
+        multi_match = args.get('multi_match', 'true') == 'true'
+        entity_id = args.get('entity_id')
+        ip = args.get('ip_address')
+        mac = args.get('mac_address')
+        host = args.get('host_name')
+        product = args.get('product')
+
+        if not any([entity_id, ip, mac, host, product]):
+            raise ValueError('At least one of the following arguments must be provided: '
+                             'entity_id, ip_address, mac_address, host_name, product')
+
+        response = client.prodagent_restore(multi_match=multi_match, entity_id=entity_id, ip_add=ip, mac_add=mac, host=host,
+                                            prod=product)
+        result_content = response.get('result_content', [])
+        if result_content:
+            return (tableToMarkdown("Apex ProductAgent Restore", result_content),
+                    {"TrendMicroApex.ProductAgent": result_content}, response)
+        else:
+            return 'No agents were affected.', None, None
+
+
+    ''' COMMANDS MANAGER / SWITCH PANEL '''
+
+
+    def main():
+        """ GLOBALS/PARAMS """
+
+        params = demisto.params()
+
+        api_key = params.get('token')
+        app_id = params.get('application_id')
+
+        base_url = urljoin(params['url'], '')
+        verify = not params.get('insecure', False)
+        proxy = params.get('proxy', False)
+
+        client = Client(base_url, api_key, app_id, verify=verify, proxy=proxy)
+        command = demisto.command()
+        LOG(f'Command being called is {command}')
+
+        commands = {
+            'test-module': test_module,
+            'trendmicro-apex-usdo-list': usdo_list_command,
+            'trendmicro-apex-usdo-add': usdo_add_command,
+            'trendmicro-apex-usdo-delete': usdo_delete_command,
+            'trendmicro-apex-isolate': prodagent_isolate_command,
+            'trendmicro-apex-restore': prodagent_restore_command
+        }
+        try:
+            if command in commands:
+                return_outputs(*commands[command](client, demisto.args()))  # type: ignore
+        except ValueError as e:
+            return_error(f'Error from TrendMicro Apex integration: {str(e)}', e)
+
+
+    if __name__ in ['__main__', 'builtin', 'builtins']:
+        main()
+  subtype: python3
+  type: python
+system: true

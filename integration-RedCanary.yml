@@ -417,7 +417,7 @@ script:
       type: string
   isfetch: true
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -582,7 +582,7 @@ script:
                                'per_page': per_page,
             })
 
-            if len(res['data']) == 0 or True:
+            if len(res['data']) == 0:
                 done = True
 
             activities.extend(res['data'])

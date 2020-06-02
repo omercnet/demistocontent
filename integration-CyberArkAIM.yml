@@ -19,13 +19,18 @@ configuration:
   required: true
   type: 0
 - defaultvalue: ""
-  display: Trust any certificate (unsecure)
-  name: insecure
+  display: API Username
+  name: username
   required: false
-  type: 8
+  type: 0
 - defaultvalue: ""
-  display: Use system proxy settings
-  name: proxy
+  display: API Password
+  name: password
+  required: false
+  type: 4
+- defaultvalue: "true"
+  display: Fetches credentials
+  name: isFetchCredentials
   required: false
   type: 8
 - defaultvalue: ""
@@ -38,26 +43,21 @@ configuration:
   name: safe
   required: true
   type: 0
-- defaultvalue: "true"
-  display: ""
-  name: isFetchCredentials
-  required: false
-  type: 8
-- defaultvalue: ""
-  display: API Username
-  name: username
-  required: false
-  type: 0
-- defaultvalue: ""
-  display: API Password
-  name: password
-  required: false
-  type: 4
 - defaultvalue: ""
   display: Credential names - comma-seperated list of credentials names in vault
   name: credentialNames
   required: false
   type: 12
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
+  name: insecure
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Use system proxy settings
+  name: proxy
+  required: false
+  type: 8
 contentitemexportablefields:
   contentitemfields:
     propagationLabels:

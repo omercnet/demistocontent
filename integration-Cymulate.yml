@@ -1,0 +1,564 @@
+category: Vulnerability Management
+commonfields:
+  id: Cymulate
+  version: -1
+configuration:
+- defaultvalue: ""
+  display: x-token
+  name: x-token
+  required: true
+  type: 4
+- defaultvalue: ""
+  display: Fetch incidents
+  name: isFetch
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Incident type
+  name: incidentType
+  required: false
+  type: 13
+- defaultvalue: "true"
+  display: Show only 'penatrated' incidents
+  name: onlyPenatrated
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Use server proxy
+  name: useProxy
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
+  name: insecure
+  required: false
+  type: 8
+- defaultvalue: 1 hour
+  display: First fetch time range (<number> <time unit>, e.g., 1 hour, 30 minutes)
+    - Proofpoint supports maximum 1 hour fetch back
+  name: fetch_time
+  required: false
+  type: 0
+contentitemexportablefields:
+  contentitemfields:
+    propagationLabels:
+    - all
+description: Multi-Vector Cyber Attack, Breach and Attack Simulation
+detaileddescription: |-
+  How to configure the integration
+  In Cymulate's UI, click on your username in the right pane and then "Integration & API's"
+  Click on "Edit" in Cymulate API and then "Generate API key" copy your key into Demisto's "x-token" field in the integration panel.
+display: Cymulate
+image: data:image/png;base64,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
+name: Cymulate
+script:
+  commands:
+  - arguments:
+    - description: The attack unique identifier
+      name: attack_id
+      required: true
+    - description: The Cymulate module_type
+      name: module_type
+      required: true
+    - description: The incident unique identifier
+      name: incident_id
+    description: This commands return full cymulate's incidents information
+    name: cymulate-get-incident-info
+    outputs:
+    - contextPath: Cymulate.Incident.Payload
+      description: The Cymulate payload that generated this incident
+      type: String
+    - contextPath: Cymulate.Incident.Name
+      description: The name of the incident
+      type: String
+    - contextPath: Cymulate.Incident.Status
+      description: The attack status (Enum Values- Penetrated, Blocked, Dead)
+      type: String
+    - contextPath: Cymulate.Incident.ID
+      description: The incident ID
+      type: String
+    - contextPath: Cymulate.Incident.Md5
+      description: The Md5
+      type: String
+    - contextPath: Cymulate.Incident.Attack_Vector
+      description: The Attack Vector
+      type: String
+    - contextPath: Cymulate.Incident.Sha256
+      description: 'The Sha256 '
+      type: String
+    - contextPath: Cymulate.Incident.Sha1
+      description: The Sha1
+      type: String
+    - contextPath: Cymulate.Incident.Cymulate_ID
+      description: The cymulate's ID of the incident
+      type: String
+    - contextPath: Cymulate.Incident.Attack_ID
+      description: The cymulate's Attack ID of the incident
+      type: String
+  dockerimage: demisto/python3:3.7.5.3471
+  isfetch: true
+  runonce: false
+  script: |2
+
+
+    ''' IMPORTS '''
+    import requests
+    import dateparser
+    from datetime import datetime, timedelta
+    import enum
+
+    # disable insecure warnings
+    requests.packages.urllib3.disable_warnings()
+
+    ''' CONSTANTS '''
+    DATE_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
+    BASE_URL = 'https://api.cymulate.com/v1/'
+    DEFAULT_LIMIT = 20
+
+    """ Helper functions """
+
+
+    def get_now():
+        """ A wrapper function of datetime.now
+        helps handle tests
+
+        Returns:
+            datetime: time right now
+        """
+        return datetime.now()
+
+
+    def ts_add_minutes(ts, minutes):
+        return (datetime.strptime(ts, DATE_FORMAT) + timedelta(minutes=minutes)).strftime(DATE_FORMAT)
+
+
+    class CymulateModuleTypeEnum(enum.Enum):
+        """
+           Enum class of module types of cymulate attacks
+        """
+
+        APT = '1',
+        IMMEDIATE_THREATS = '2',
+        HOPPER = '3',
+        PHISHING = '4',
+        WAF = '5',
+        DLP = '6',
+        BROWSING = '7',
+        EDR = '8',
+        MITRE = '9',
+        MAIL = '10'
+
+        def __str__(self):
+            return self.name
+
+
+    class Client(BaseClient):
+        """
+        Client will implement the service API, and should not contain any Demisto logic.
+        Should only do requests and return data.
+        """
+
+        def general_api_query(self, route):
+            """
+            initiates a general cymulate api http request
+            """
+            data = self._http_request(
+                method='GET',
+                verify=False,
+                url_suffix=route
+            )
+
+            return data.get('result')
+
+        def test_api(self):
+            """
+            send a test call to api
+            """
+
+            results = self._http_request(
+                method='GET',
+                url_suffix='user/modules'
+            )
+
+            return results
+
+        def get_attack_info(self, module_type, from_date):
+            """ Get Threats Results ID's by Module Type.
+            Args:
+                module_type (CymulateModuleTypeEnum): module_type enum
+                from_date (dateparser.time): the time which retrieve incidents greater than, if it's None - return all
+
+            Returns:
+                JSON - https results struct of { 'success' : true/false, 'data' : [{'Id' : '', 'Name' : '',
+                'Timestamp : '', 'InProgress: ''}...] }
+            """
+
+            get_ids_route = ''
+
+            if module_type == CymulateModuleTypeEnum.APT:
+                get_ids_route = 'apt/ids'
+            elif module_type == CymulateModuleTypeEnum.IMMEDIATE_THREATS:
+                get_ids_route = 'immediate-threats/ids'
+            elif module_type == CymulateModuleTypeEnum.HOPPER:
+                get_ids_route = 'hopper/ids'
+            elif module_type == CymulateModuleTypeEnum.PHISHING:
+                get_ids_route = 'phishing/ids'
+            elif module_type == CymulateModuleTypeEnum.WAF:
+                get_ids_route = 'waf/ids'
+            elif module_type == CymulateModuleTypeEnum.DLP:
+                get_ids_route = 'dlp/ids'
+            elif module_type == CymulateModuleTypeEnum.BROWSING:
+                get_ids_route = 'browsing/ids'
+            elif module_type == CymulateModuleTypeEnum.EDR:
+                get_ids_route = 'edr/ids'
+            elif module_type == CymulateModuleTypeEnum.MITRE:
+                get_ids_route = 'mitre/ids'
+            elif module_type == CymulateModuleTypeEnum.MAIL:
+                get_ids_route = 'mail/ids'
+
+            demisto.debug("url of get ids: {0}?from={1}".format(get_ids_route, from_date))
+
+            results = self._http_request(
+                method='GET',
+                url_suffix=get_ids_route,
+                params={'from': from_date}
+            )
+
+            return results['data']
+
+        def get_attack_technical_info(self, module_type, incident_id):
+            """ Get technical Data about incident.
+            Args:
+                module_type (CymulateModuleTypeEnum): module_type enum
+                incident_id (string): The incident id
+
+            Returns:
+                JSON - https results struct of { 'success' : true/false, 'data' : [{'Id' : '', 'Name' : '',
+                'Timestamp : '', 'InProgress: ''}...] }
+            """
+
+            technical_route = ''
+
+            if module_type == CymulateModuleTypeEnum.APT:
+                technical_route = 'apt/attack/technical'
+            elif module_type == CymulateModuleTypeEnum.IMMEDIATE_THREATS:
+                technical_route = 'immediate-threats/attack/technical'
+            elif module_type == CymulateModuleTypeEnum.HOPPER:
+                technical_route = 'hopper/attack/technical'
+            elif module_type == CymulateModuleTypeEnum.PHISHING:
+                technical_route = 'phishing/attack/technical'
+            elif module_type == CymulateModuleTypeEnum.WAF:
+                technical_route = 'waf/attack/technical'
+            elif module_type == CymulateModuleTypeEnum.DLP:
+                technical_route = 'dlp/attack/technical'
+            elif module_type == CymulateModuleTypeEnum.BROWSING:
+                technical_route = 'browsing/attack/technical'
+            elif module_type == CymulateModuleTypeEnum.EDR:
+                technical_route = 'edr/attack/technical'
+            elif module_type == CymulateModuleTypeEnum.MITRE:
+                technical_route = 'mitre/attack/technical'
+            elif module_type == CymulateModuleTypeEnum.MAIL:
+                technical_route = 'mail/attack/technical'
+
+            results = self._http_request(
+                method='GET',
+                url_suffix=technical_route + "/" + incident_id,
+            )
+
+            return results['data']
+
+
+    def cymulate_test(client, is_fetch):
+        """
+        Returning 'ok' indicates that the integration works like it is supposed to. Connection to the service is successful.
+
+        Args:
+            client: cymulate client
+            is_fetch (bool): indicate if test also 'fetch' function
+        Returns:
+            'ok' if test passed, anything else will fail the test.
+        """
+
+        results = client.test_api()
+        fetch_test = True
+
+        # If 'is_fetch' selected - check also 'fetch_incidents'
+        if is_fetch:
+            next_run, incidents, remain_incidents = fetch_incidents(
+                client=client,
+                module_type=CymulateModuleTypeEnum.IMMEDIATE_THREATS,
+                last_run={'last_fetch': '2020-12-02T16:32:37'},
+                first_fetch_time={},
+                only_penatrated=False,
+                limit=20,
+                integration_context=None)
+
+            fetch_test = (next_run == {'last_fetch': '2020-12-02T16:32:37'})
+
+        if results['success'] and fetch_test:
+            return demisto.results('ok')
+        else:
+            return None
+
+
+    def fetch_incidents(client, module_type, last_run, first_fetch_time, only_penatrated,
+                        limit=DEFAULT_LIMIT, integration_context=None):
+        """
+        This function will execute each interval (default is 1 minute).
+
+        Args:
+            client (Client): Cymulate client
+            module_type (CymulateModuleTypeEnum): module_type enum
+            last_run (dateparser.time): The greatest incident created_time we fetched from last fetch
+            first_fetch_time (dateparser.time): If last_run is None then fetch all incidents since first_fetch_time
+            only_penatrated (boolean): Indicate if fetch only 'penatrated' incidents or all incidents
+            limit: (integer): The limit of the incidents to retrieve
+            integration_context: The integration's context that store on demisto side
+
+        Returns:
+            next_run: This will be last_run in the next fetch-incidents
+            incidents: Incidents that will be created in Demisto
+        """
+
+        # Check if there are remained incidents saved in context
+        if integration_context:
+            remained_incidents = integration_context.get("incidents")
+            # return incidents if exists in context.
+            if remained_incidents and len(remained_incidents) > 0:
+                demisto.debug("there is remaines incidents and return them")
+                return last_run, remained_incidents[:limit], remained_incidents[limit:]
+
+        # Get the last fetch time, if exists
+        start_query_time = last_run.get("last_fetch")
+
+        # Handle first time fetch
+        if not start_query_time:
+            start_query_time, _ = parse_date_range(first_fetch_time, date_format=DATE_FORMAT, utc=True)
+            start_query_time = ts_add_minutes(start_query_time, 2)
+
+        incidents = []
+        # Get the incident from server
+        items = client.get_attack_info(module_type, start_query_time)
+
+        for item in items:
+            if not item['InProgress']:
+                technical_data = client.get_attack_technical_info(module_type, item['Id'])
+                incident_created_time = dateparser.parse(item['Timestamp'])
+
+                for incident in technical_data:
+                    # Manual add attack_id for mapping issue
+                    incident['Attack_ID'] = item['Id']
+
+                    if not only_penatrated or incident['Status'] == 'Penetrated':
+                        incident_data = {
+                            'name': item['Name'],
+                            'occurred': incident_created_time.strftime(DATE_FORMAT),
+                            'rawJSON': json.dumps(incident)
+                        }
+
+                        incidents.append(incident_data)
+
+        if len(items) > 0 and len(incidents) > 0:
+            demisto.debug("length of items is big than 0")
+            last_incident_ts = incidents[len(incidents) - 1]['occurred']
+            next_run_ts = (datetime.strptime(last_incident_ts, DATE_FORMAT) + timedelta(seconds=1)).strftime(DATE_FORMAT)
+        else:
+            demisto.debug("length of items is 0")
+            next_run_ts = start_query_time
+
+        next_run = {"last_fetch": next_run_ts}
+
+        demisto.debug("start_query_time:{0}".format(start_query_time))
+        demisto.debug("len(items):{0}".format(len(items)))
+        demisto.debug("len(incidents):{0}".format(len(incidents)))
+        demisto.debug("next_run:{0}".format(next_run))
+
+        return next_run, incidents[:limit], incidents[limit:]
+
+
+    def cymulate_get_incident_info(client, attack_id):
+        """
+        This function return technical info about incident
+
+        Args:
+            client (Client): Cymulate client
+            attack_id (String): The attack id
+
+        Returns:
+            Incident contained details technical data
+        """
+
+        # Get module_type
+        module_type = CymulateModuleTypeEnum[demisto.args().get('module_type')]
+
+        # Execute command on API
+        technical_data = client.get_attack_technical_info(module_type, attack_id)
+
+        return technical_data
+
+
+    def main():
+        """
+            PARSE AND VALIDATE INTEGRATION PARAMS
+        """
+        session_token = demisto.params()['x-token']
+        header = {"x-token": session_token}
+
+        # How many time before the first fetch to retrieve incidents
+        fetch_time = demisto.params().get('fetch_time', '3 days').strip()
+
+        # Get the module type
+        module_type = demisto.params().get('module_type', CymulateModuleTypeEnum.IMMEDIATE_THREATS)
+
+        # Fetch only 'penatrated'
+        only_penatrated = demisto.params().get('onlyPenatrated', True)
+
+        # Flag if use server proxy
+        use_proxy = demisto.params().get('useProxy', False)
+
+        # Flag if use server 'verification'
+        insecure = demisto.params().get('insecure', False)
+
+        # Flag if 'is_fetch'
+        is_fetch = demisto.params().get('isFetch', False)
+
+        # Amount limit of returned incidents
+        fetch_limit = 25
+
+        LOG(f'Command being called is: {demisto.command()}')
+        demisto.debug("MAIN CALL , PARAMS session_token:{0} module_type:{1} only_penatrated:{2} use_proxy:{3} insecure:{4}"
+                      " is_fetch:{5}".format(session_token, module_type, only_penatrated, use_proxy, insecure, is_fetch))
+
+        try:
+            client = Client(
+                base_url=BASE_URL,
+                headers=header,
+                verify=insecure,
+                proxy=use_proxy)
+
+            if demisto.command() == 'test-module':
+                demisto.debug("******###CYMULATE-LOGS-START-TEST_MODULE!!!*******")
+
+                # This is the call made when pressing the integration Test button.
+                cymulate_test(client=client, is_fetch=is_fetch)
+
+                demisto.debug("******###CYMULATE-LOGS-END-TEST_MODULE!!!*******")
+
+            elif demisto.command() == 'fetch-incidents':
+                demisto.debug("******###CYMULATE-LOGS-START-FETCH_INCIDENTS!!!*******")
+
+                # Get the context
+                integration_context = demisto.getIntegrationContext()
+                demisto.debug("initial integration_context:{0}".format(integration_context))
+                demisto.debug("initial last_run:{0}".format(demisto.getLastRun()))
+
+                # Set and define the fetch incidents command to run after activated via integration settings.
+                next_run, incidents, remained_incidents = fetch_incidents(
+                    client=client,
+                    module_type=module_type,
+                    last_run=demisto.getLastRun(),
+                    first_fetch_time=fetch_time,
+                    only_penatrated=only_penatrated,
+                    limit=fetch_limit,
+                    integration_context=integration_context)
+
+                demisto.debug("updated next_run:{0}".format(next_run))
+                demisto.debug("return incidents:{0}".format(incidents))
+                demisto.debug("return remained_incidents:{0}".format(remained_incidents))
+
+                # Store next_run, incidents, remained incidents into integration
+                demisto.setLastRun(next_run)
+                demisto.incidents(incidents)
+
+                # Store integration context
+                integration_context['incidents'] = remained_incidents
+                demisto.setIntegrationContext(integration_context)
+                demisto.debug("updated integration_context:{0}".format(integration_context))
+
+                demisto.debug("******###CYMULATE-LOGS-END-FETCH_INCIDENTS!!!*******")
+
+            elif demisto.command() == 'cymulate-get-incident-info':
+                demisto.debug("******###CYMULATE-LOGS-START-GET_INCIDENT_INFO!!!*******")
+
+                # Get incident's parent id
+                attack_id = demisto.args().get('attack_id')
+
+                # Get incident_id
+                incident_id = demisto.args().get('incident_id', None)
+
+                demisto.debug("PARAMS attack_id:{0} incident_id:{1}".format(attack_id, incident_id))
+
+                # Get technical data from server
+                technical_data = cymulate_get_incident_info(
+                    client=client,
+                    attack_id=attack_id
+                )
+
+                demisto.debug("API RESULT technical_data_length:{0} technical_data:{1}".
+                              format(len(technical_data), technical_data))
+
+                if technical_data and len(technical_data) > 0:
+
+                    parsed_technical_data = []
+
+                    for incident in technical_data:
+                        if incident_id is None or incident_id == incident['ID']:
+                            parsed_technical_data.append({
+                                'ID': incident['ID'],
+                                'Attack_ID': attack_id,
+                                'Name': incident['Name'],
+                                'Status': incident['Status'],
+                                'Attack_Type': incident['Attack_Type'],
+                                'Attack_Vector': incident['Attack_Vector'],
+                                'Timestamp': incident['Timestamp'],
+                                'Attack_Payload': incident['Attack_Payload'],
+                                'Md5': incident['Md5'],
+                                'Mitigation': incident['Mitigation'],
+                                'Module': incident['Module'],
+                                'Penetration_Vector': incident['Penetration_Vector'],
+                                'Sha1': incident['Sha1'],
+                                'Sha256': incident['Sha256']
+                            })
+
+                    # Convert to human reading format
+                    cymulate_output = tableToMarkdown('Cymulate Results', parsed_technical_data, ['ID', 'Attack_ID',
+                                                                                                  'Name',
+                                                                                                  'Status', 'Attack_Type',
+                                                                                                  'Attack_Vector',
+                                                                                                  'Timestamp',
+                                                                                                  'Attack_Payload',
+                                                                                                  'Md5',
+                                                                                                  'Mitigation',
+                                                                                                  'Module',
+                                                                                                  'Penetration_Vector',
+                                                                                                  'Sha1',
+                                                                                                  'Sha256'])
+                    outputs = {
+                        "Cymulate.Incident(val.ID == obj.ID)": parsed_technical_data
+                    }
+
+                    demisto.debug("outputs results: {0}".format(outputs))
+
+                    # Return output to client
+                    return_outputs(
+                        cymulate_output,
+                        outputs,
+                        technical_data  # raw response - the original response
+                    )
+                else:
+                    # No Results format
+                    demisto.debug("NO Results")
+                    demisto.results('No results found.')
+
+            demisto.debug("******###CYMULATE-LOGS-END-GET_INCIDENT_INFO!!!*******")
+
+        # Log exceptions
+        except Exception as e:
+            return_error(f'Failed to execute {demisto.command()} command. Error: {str(e)}')
+
+
+    if __name__ == "__builtin__" or __name__ == "builtins":
+        main()
+  subtype: python3
+  type: python
+system: true

@@ -182,7 +182,7 @@ script:
     name: irondefense-report-observed-bad-activity
   dockerimage: demisto/python3:3.7.5.4002
   runonce: false
-  script: |2-
+  script: |2
 
 
 

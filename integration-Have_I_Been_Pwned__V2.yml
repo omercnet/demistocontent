@@ -39,16 +39,16 @@ contentitemexportablefields:
   contentitemfields:
     propagationLabels:
     - all
-description: Uses the Have I Been Pwned? service to check whether email addresses
-  or domains were compromised in previous breaches.
-display: Have I Been Pwned? V2
+description: Uses the Have I Been Pwned? service to check whether email addresses,
+  domains, or usernames were compromised in previous breaches.
+display: Have I Been Pwned? v2
 image: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAABg1BMVEU6m8U7m8U6nMY7m8U7m8U7nMY6m8U6m8U6msQ2mMM5msQwlcH/+/n///0ylsL//fr//PpJocg5mcQ4mcQ7msQ0l8I1l8MxlsIvlcE0l8MvlMH///v//vsxlcLr8fTU5u7///zM4us3mcM3mMNytdNeq80ulMHx9vYzl8I4mcPJ4OpJosjX5+7a6vAtlMFFn8dKosg9m8WPxNr9+vjF3elRpcrc6vD09vZ0ttOy1eRdq82q0eKy1OT5+Pfv8/X6+fiDvthLoslTpsu62ea82+culMB1t9Sayt+y1uVBncZ5udWTxdtosNCt0eL///9HoMdKocjN4uzW5+6Ow9tAncZZqcxhrM7C3emkzuDQ4+zx9PXt8/Tk7fFLoshPpMnm7vLt8vSey9/p8PMtlMDG3+r29vdXqMu62edcqs2Wyd6Xyd41mMMzlsLQ5O3Q5Oy21+VGn8fn7/L8+vj//PmJwdn//fu52OY5msPn7/NIochzttP9+/l1ttNTpsp8u9dlr8/U5u3+U0u0AAAACHRSTlPp6dXu6tXu6tr1+I4AAAFsSURBVHhe7dZFjyMxEAXgTiazKdvNGGamYWZmZmZeZIafPp1or9uT2uMqT5b8Lt/Bckk25/ZyqHibuWeATBPHYYnrvyQNEmY+omMITbRP9o2bGKLmu2OxXoYhlMT5jkULRXKd8lA6hyHAJqSrawNFfIOh/S4TgPhYvk6SWVruUQiQsfnUplYfMftnRnWqwV4wNhCuj+j+KQZAlOER/jehiIFJzJ0HhUsRqFoLwJ/dgYA5fTOb9gPRqknaS60W4kRADAQM3VooR6PRUnxldW3dLuUN66lJpmJBkGVZCm1tB2U7wg57igDbzUYikYPDo+OTU7tkz5yIblQuDF1tKyqK0tqiqi2tdim2UQdi3t7dpx9AI9UkAZK1ojocnz4vCELcwNwLJS94/iVBESPOS68YIAh5/ebtu5SFIZX30oePIkUQ7VMp9PmLAQjCvsa+fc8AhpAfP3/5AUV0EhAbj8Vf0yD/8rlye1yoeJofAa0ZbOr9kpaFAAAAAElFTkSuQmCC
 name: Have I Been Pwned? V2
 script:
   commands:
   - arguments:
     - default: true
-      description: The email address to check (CSV supported).
+      description: Comma-separated list of email addresses to check.
       isArray: true
       name: email
       required: true
@@ -86,7 +86,7 @@ script:
       type: Number
   - arguments:
     - default: true
-      description: The domain to check (CSV supported).
+      description: Comma-separated list of domains to check.
       isArray: true
       name: domain
       required: true
@@ -123,7 +123,7 @@ script:
       type: Number
   - arguments:
     - default: true
-      description: The email address to check (CSV supported).
+      description: Comma-separated list of email addresses to check.
       isArray: true
       name: email
       required: true
@@ -154,14 +154,14 @@ script:
       description: The indicator type.
       type: String
     - contextPath: DBotScore.Vendor
-      description: Vendor used to calculate the score
+      description: The vendor used to calculate the score.
       type: String
     - contextPath: DBotScore.Score
       description: The actual score.
       type: Number
   - arguments:
     - default: true
-      description: The domain to check (CSV supported).
+      description: Comma-separated list of domains to check.
       isArray: true
       name: domain
       required: true
@@ -191,13 +191,38 @@ script:
       description: The indicator type.
       type: String
     - contextPath: DBotScore.Vendor
-      description: Vendor used to calculate the score
+      description: Vendor used to calculate the score.
       type: String
     - contextPath: DBotScore.Score
       description: The actual score.
       type: Number
+  - arguments:
+    - default: true
+      description: Comma-separated list of usernames to check.
+      isArray: true
+      name: username
+      required: true
+    description: Checks if a username was compromised.
+    name: pwned-username
+    outputs:
+    - contextPath: Username.Pwned-V2.Compromised.Vendor
+      description: For compromised usernames, the vendor that made the decision.
+      type: String
+    - contextPath: Username.Pwned-V2.Compromised.Reporters
+      description: For compromised usernames, the reporters for the vendor to make
+        the compromised decision.
+      type: String
+    - contextPath: Username.Name
+      description: The username name.
+      type: String
+    - contextPath: Username.Malicious.Vendor
+      description: For malicious usernames, the vendor that made the decision.
+      type: String
+    - contextPath: Username.Malicious.Description
+      description: For malicious usernames, the reason that the vendor made the decision.
+      type: String
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -228,12 +253,17 @@ script:
     DEFAULT_DBOT_SCORE_EMAIL = 2 if demisto.params().get('default_dbot_score_email') == 'SUSPICIOUS' else 3
     DEFAULT_DBOT_SCORE_DOMAIN = 2 if demisto.params().get('default_dbot_score_domain') == 'SUSPICIOUS' else 3
 
-    SAMPLE_TEST_SUFFIX = '/breaches?domain=demisto.com'
-    PWNED_EMAIL_SUFFIX = '/breachedaccount/'
-    PWNED_DOMAIN_SUFFIX = '/breaches?domain='
-    PWNED_PASTE_SUFFIX = '/pasteaccount/'
-    EMAIL_TRUNCATE_VERIFIED_SUFFIX = '?truncateResponse=false&includeUnverified=true'
-    DOMAIN_TRUNCATE_VERIFIED_SUFFIX = '&truncateResponse=false&includeUnverified=true'
+    SUFFIXES = {
+        "test": '/breaches?domain=demisto.com',
+        "email": '/breachedaccount/',
+        "domain": '/breaches?domain=',
+        "username": '/breachedaccount/',
+        "paste": '/pasteaccount/',
+        "email_truncate_verified": '?truncateResponse=false&includeUnverified=true',
+        "domain_truncate_verified": '&truncateResponse=false&includeUnverified=true',
+        "username_truncate_verified": '?truncateResponse=false&includeUnverified=true'
+    }
+
 
     RETRIES_END_TIME = datetime.min
 
@@ -278,13 +308,10 @@ script:
 
     def html_description_to_human_readable(breach_description):
         """
-
-        Args:
-            breach_description: Description of breach from API response
-
-        Returns: Description string that altered HTML urls to clickable urls
+        Converting from html description to hr
+        :param breach_description: Description of breach from API response
+        :return: Description string that altered HTML urls to clickable urls
         for better readability in war-room
-
         """
         html_link_pattern = re.compile('<a href="(.+?)"(.+?)>(.+?)</a>')
         patterns_found = html_link_pattern.findall(breach_description)
@@ -417,55 +444,134 @@ script:
     ''' COMMANDS + REQUESTS FUNCTIONS '''
 
 
-    def test_module():
-        http_request('GET', SAMPLE_TEST_SUFFIX)
-        demisto.results('ok')
+    def test_module(args_dict):
+        """
+        If the http request was successful the test will return OK
+        :param args_dict: needed in order to keep the commands convention.
+        :return: 3 arrays of outputs
+        """
+        http_request('GET', SUFFIXES.get("test"))
+        return ['ok'], [None], [None]
 
 
-    def pwned_email_command():
-        email_list = argToList(demisto.args().get('email', ''))
+    def pwned_email_command(args_dict):
+        """
+        Executing the pwned request for emails list, in order to support list input, the function returns 3 lists of outputs
+       :param args_dict: the demisto argument - in this case the email list is needed
+       :return: 3 arrays of outputs
+       """
+        email_list = argToList(args_dict.get('email', ''))
+        api_email_res_list, api_paste_res_list = pwned_email(email_list)
+
+        md_list = []
+        ec_list = []
+
+        for email, api_email_res, api_paste_res in zip(email_list, api_email_res_list, api_paste_res_list):
+            md_list.append(data_to_markdown('Email', email, api_email_res, api_paste_res))
+            ec_list.append(email_to_entry_context(email, api_email_res or [], api_paste_res or []))
+        return md_list, ec_list, api_email_res_list
+
+
+    def pwned_email(email_list):
+        """
+        Executing the http requests
+        :param email_list: the email list that needed for the http requests
+        :return: 2 arrays of http requests outputs
+        """
+        api_email_res_list = []
+        api_paste_res_list = []
+
         for email in email_list:
-            email_suffix = PWNED_EMAIL_SUFFIX + email + EMAIL_TRUNCATE_VERIFIED_SUFFIX
-            paste_suffix = PWNED_PASTE_SUFFIX + email
-            pwned_email(email, email_suffix, paste_suffix)
+            email_suffix = SUFFIXES.get("email") + email + SUFFIXES.get("email_truncate_verified")
+            paste_suffix = SUFFIXES.get("paste") + email
+            api_email_res_list.append(http_request('GET', url_suffix=email_suffix))
+            api_paste_res_list.append(http_request('GET', url_suffix=paste_suffix))
+
+        return api_email_res_list, api_paste_res_list
 
 
-    def pwned_email(email, email_suffix, paste_suffix):
-        api_email_res = http_request('GET', url_suffix=email_suffix)
-        api_paste_res = http_request('GET', url_suffix=paste_suffix)
+    def pwned_domain_command(args_dict):
+        """
+        Executing the pwned request for domains list, in order to support list input, the function returns 3 lists of
+        outputs
+       :param args_dict: the demisto argument - in this case the domain list is needed
+       :return: 3 arrays of outputs
+       """
+        domain_list = argToList(args_dict.get('domain', ''))
+        api_res_list = pwned_domain(domain_list)
 
-        md = data_to_markdown('Email', email, api_email_res, api_paste_res)
-        ec = email_to_entry_context(email, api_email_res or [], api_paste_res or [])
-        return_outputs(md, ec, api_email_res)
+        md_list = []
+        ec_list = []
+
+        for domain, api_res in zip(domain_list, api_res_list):
+            md_list.append(data_to_markdown('Domain', domain, api_res))
+            ec_list.append(domain_to_entry_context(domain, api_res or []))
+        return md_list, ec_list, api_res_list
 
 
-    def pwned_domain_command():
-        domain_list = argToList(demisto.args().get('domain', ''))
+    def pwned_domain(domain_list):
+        """
+        Executing the http request
+        :param domain_list: the domains list that needed for the http requests
+        :return: an array of http requests outputs
+        """
+        api_res_list = []
         for domain in domain_list:
-            suffix = PWNED_DOMAIN_SUFFIX + domain + DOMAIN_TRUNCATE_VERIFIED_SUFFIX
-            pwned_domain(domain, suffix)
+            suffix = SUFFIXES.get("domain") + domain + SUFFIXES.get("domain_truncate_verified")
+            api_res_list.append(http_request('GET', url_suffix=suffix))
+        return api_res_list
 
 
-    def pwned_domain(domain, suffix):
-        api_res = http_request('GET', url_suffix=suffix)
-        md = data_to_markdown('Domain', domain, api_res)
-        ec = domain_to_entry_context(domain, api_res or [])
-        return_outputs(md, ec, api_res)
+    def pwned_username_command(args_dict):
+        """
+        Executing the pwned request for usernames list, in order to support list input, the function returns 3 lists of
+        outputs
+        :param args_dict: the demisto argument - in this case the username list is needed
+        :return: 3 arrays of outputs
+        """
+        username_list = argToList(args_dict.get('username', ''))
+        api_res_list = pwned_username(username_list)
+
+        md_list = []
+        ec_list = []
+
+        for username, api_res in zip(username_list, api_res_list):
+            md_list.append(data_to_markdown('Username', username, api_res))
+            ec_list.append(domain_to_entry_context(username, api_res or []))
+        return md_list, ec_list, api_res_list
 
 
-    ''' COMMANDS MANAGER / SWITCH PANEL '''
+    def pwned_username(username_list):
+        """
+        Executing the http request
+        :param username_list: the username list that needed for the http requests
+        :return: an array of http requests outputs
+        """
+        api_res_list = []
+        for username in username_list:
+            suffix = SUFFIXES.get("username") + username + SUFFIXES.get("username_truncate_verified")
+            api_res_list.append(http_request('GET', url_suffix=suffix))
+        return api_res_list
 
-    LOG('Command being called is %s' % (demisto.command()))
 
+    command = demisto.command()
+    LOG('Command being called is: {}'.format(command))
     try:
         handle_proxy()
         set_retry_end_time()
-        if demisto.command() == 'test-module':
-            test_module()
-        elif demisto.command() in ['pwned-email', 'email']:
-            pwned_email_command()
-        elif demisto.command() in ['pwned-domain', 'domain']:
-            pwned_domain_command()
+        commands = {
+            'test-module': test_module,
+            'email': pwned_email_command,
+            'pwned-email': pwned_email_command,
+            'domain': pwned_domain_command,
+            'pwned-domain': pwned_domain_command,
+            'pwned-username': pwned_username_command
+        }
+
+        if command in commands:
+            md_list, ec_list, api_email_res_list = commands[command](demisto.args())
+            for md, ec, api_paste_res in zip(md_list, ec_list, api_email_res_list):
+                return_outputs(md, ec, api_paste_res)
 
     # Log exceptions
     except Exception as e:

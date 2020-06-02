@@ -1,0 +1,390 @@
+category: Database
+commonfields:
+  id: MongoDB Key Value Store
+  version: -1
+configuration:
+- defaultvalue: ""
+  display: MongoDB username
+  name: credentials
+  required: true
+  type: 9
+- defaultvalue: ""
+  display: URI (mongodb://<IP/FQDN>:<Port Number>)
+  name: uri
+  required: true
+  type: 0
+- defaultvalue: ""
+  display: MongoDB database name
+  name: database
+  required: true
+  type: 0
+- defaultvalue: generic
+  display: MongoDB collection name
+  name: collection
+  required: true
+  type: 0
+- defaultvalue: ""
+  display: Use an SSL/TLS secured connection
+  name: use_ssl
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
+  name: insecure
+  required: false
+  type: 8
+contentitemexportablefields:
+  contentitemfields:
+    propagationLabels:
+    - all
+description: Manipulates key/value pairs according to an incident utilizing the MongoDB
+  collection.
+detaileddescription: MongoDB KeyValueStore integration Manipulates key/value pairs
+  by incident.
+display: MongoDB Key Value Store
+image: data:image/png;base64,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
+name: MongoDB Key Value Store
+script:
+  commands:
+  - arguments:
+    - description: The Demisto incident number.
+      name: id
+    - description: Name/Key.
+      name: key
+      required: true
+    - description: Assigns a value to the name/key.
+      name: value
+      required: true
+    description: Adds a key/value record for the incident. If the key exists, the
+      existing value is overwritten.
+    name: mongodb-write-key-value
+    outputs:
+    - contextPath: MongoDB.Entry.ID
+      description: Entry ID.
+      type: String
+    - contextPath: MongoDB.Entry.Incident
+      description: Incident ID.
+      type: String
+    - contextPath: MongoDB.Entry.Key
+      description: Incident key.
+      type: String
+    - contextPath: MongoDB.Entry.Value
+      description: Incident value.
+      type: String
+    - contextPath: MongoDB.Entry.Modified
+      description: Incident modified date.
+      type: Date
+  - arguments:
+    - description: The Demisto incident number.
+      name: id
+    - description: Name/Key.
+      name: key
+      required: true
+    description: Returns the value of the specified name/key of an incident.
+    name: mongodb-get-key-value
+    outputs:
+    - contextPath: MongoDB.Entry.Incident
+      description: Incident ID.
+      type: String
+    - contextPath: MongoDB.Entry.Key
+      description: Incident key.
+      type: String
+    - contextPath: MongoDB.Entry.Value
+      description: The value of the key.
+      type: String
+  - arguments:
+    - description: The Demisto incident number.
+      name: id
+    description: Lists the keys and their values for the specified incident.
+    name: mongodb-list-key-values
+    outputs:
+    - contextPath: MongoDB.Incident.Incident
+      description: Incident ID.
+      type: String
+    - contextPath: MongoDB.Incident.Key
+      description: Incident key.
+      type: String
+    - contextPath: MongoDB.Incident.Value
+      description: The value of the key.
+      type: String
+  - arguments:
+    - description: The Demisto incident number.
+      name: id
+    - description: Name/Key.
+      name: key
+      required: true
+    description: Deletes the key/value record for an incident.
+    name: mongodb-delete-key
+  - arguments:
+    - description: The Demisto incident number.
+      name: id
+    description: Purges all keys/values for an incident. A common use case for this
+      command is when closing an incident. This command clears the entries for the
+      closed incident from the database.
+    name: mongodb-purge-entries
+  - arguments:
+    - description: The Demisto incident number.
+      name: id
+    description: Returns the number of key/value pairs for an incident.
+    name: mongodb-get-keys-number
+  - arguments: []
+    description: Lists all incidents in the collection.
+    name: mongodb-list-incidents
+  dockerimage: demisto/pymongo:1.0.0.5425
+  runonce: false
+  script: |2
+
+
+
+    """ IMPORTS """
+    from datetime import datetime
+    from pymongo import MongoClient
+
+
+    """ GLOBALS/PARAMS """
+
+    # Get Credentials
+    USERNAME = demisto.params().get('credentials').get('identifier')
+    PASSWORD = demisto.params().get('credentials').get('password')
+    # Get Server
+    URI = demisto.params().get('uri')
+    # Get Database
+    DATABASE = demisto.params().get('database')
+    USE_SSL = demisto.params().get('use_ssl', False)
+    INSECURE = demisto.params().get('insecure', False)
+    TIMEOUT = 5000
+    if INSECURE and not USE_SSL:
+        raise DemistoException(f'"Trust any certificate (not secure)" must be ticked with "Use TLS/SSL secured connection"')
+    if not INSECURE and not USE_SSL:
+        # Connect to MongoDB - Need to add credentials and lock down MongoDB (add auth)
+        CLIENT = MongoClient(URI, username=USERNAME, password=PASSWORD, authSource=DATABASE, authMechanism='SCRAM-SHA-1',
+                             ssl=USE_SSL, socketTimeoutMS=TIMEOUT)
+    else:
+        CLIENT = MongoClient(URI, username=USERNAME, password=PASSWORD, authSource=DATABASE, authMechanism='SCRAM-SHA-1',
+                             ssl=USE_SSL, tlsAllowInvalidCertificates=INSECURE, socketTimeoutMS=TIMEOUT)
+
+    DB = CLIENT[DATABASE]
+    # Set Collection
+    COLLECTION_NAME = demisto.params().get('collection')
+    COLLECTION = DB[COLLECTION_NAME]
+
+
+    def get_investigation_id():
+        investigation = demisto.investigation()
+        investigation_id = investigation.get('id')
+
+        return investigation_id
+
+
+    def test_module():
+        """ Check DB Status """
+        if CLIENT.server_info().get('ok') == 1.0:
+            return 'ok', {}, {}
+        return 'MongoDB Server Error', {}, {}
+
+
+    def write_key_value_command():
+        """ Write key/value document to MondoDB """
+        # Get Args needed for the command
+        timestamp = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S+00:00")
+        incident = demisto.args().get('id', get_investigation_id())
+        key = demisto.args().get('key')
+        value = demisto.args().get('value')
+        logjson = {
+            incident: {
+                'modified': timestamp,
+                'key': key,
+                'value': value
+            }
+        }
+        # Check for previous record/document
+        search = incident + '.key'
+        cursor = COLLECTION.find_one({search: key})
+        # If no record
+        if not cursor:
+            # Add to MongoDB
+            result = COLLECTION.insert_one(logjson)
+            entry_id = result.inserted_id
+            context = {
+                'ID': str(entry_id),
+                'Incident': incident,
+                'Modified': timestamp,
+                'Key': key,
+                'Value': value
+            }
+            ec = {
+                'MongoDB.Entry(val.ID === obj.ID)': context
+            }
+            return f'Incident "{incident}" - key/value collection - 1 document added', ec, {}
+
+        # Modify Existing Record
+        object_id = cursor.get('_id')
+        COLLECTION.update_one(
+            {'_id': object_id},
+            {'$set': {
+                incident: {
+                    'key': key,
+                    'value': value,
+                    'modified': timestamp
+                }
+            }}
+        )
+        context = {
+            'ID': str(object_id),
+            'Incident': incident,
+            'Modified': timestamp,
+            'Key': key,
+            'Value': value
+        }
+        ec = {
+            'MongoDB.Entry(val.ID === obj.ID)': context
+        }
+        return f'Incident "{incident}" - key/value collection - 1 document updated', ec, {}
+
+
+    def get_key_value_command():
+        """ Return value for key stored for the incident """
+        # Get Args needed for the command
+        incident = demisto.args().get('id', get_investigation_id())
+        key = demisto.args().get('key')
+        # Search Collection for incident_id and key
+        search = incident + '.key'
+        result = COLLECTION.find_one({search: key}, {'_id': False})
+        value = result[incident].get('value')
+        contents = {
+            'Incident': incident,
+            'Key': key,
+            'Value': value,
+            'Modified': result.get(incident).get('modified')
+        }
+        human_readable = tableToMarkdown(f'The key and value that is stored for the incident', contents)
+        ec = {'MongoDB.Entry(val.Key === obj.Key)': contents}
+        return human_readable, ec, {}
+
+
+    def delete_key_command():
+        """ Removes the key/value pair specified by key and incident_id """
+        incident = demisto.args().get('id', get_investigation_id())
+        key = demisto.args().get('key')
+        # Search Collection for incident_id and key
+        search = incident + '.key'
+        cursor = COLLECTION.find_one({search: key})
+        if cursor is not None:
+            object_id = cursor.get('_id')
+            COLLECTION.delete_one({'_id': object_id})
+            return f'Incident "{incident}" - key/value collection - 1 document deleted', {}, {}
+        return f'Key "{key}" for incident_id "{incident}" does not exist', {}, {}
+
+
+    def num_keys_command():
+        """ Returns the count of the key/value pairs for the incident """
+        # Get Args needed for the command
+        incident = demisto.args().get('id', get_investigation_id())
+        # Search Collection counting matching incident_id
+        cursor = COLLECTION.find({})
+        count = 0
+        for i in cursor:
+            if incident in i:
+                count += 1
+        return f'The count of the key/value pairs for the incident - {str(count)}', {}, {}
+
+
+    def list_key_values_command():
+        """ Returns all the key/value pairs stored for the incident """
+        # Get Args needed for the command
+        incident = demisto.args().get('id', get_investigation_id())
+        # Search Collection for matching incident_id
+        return_json = []  # type: ignore
+        context = []
+        found = False
+        cursor = COLLECTION.find({}, {'_id': False})
+        if cursor is None:
+            # Collection doesn't exist - thus no records
+            return_json = None  # type: ignore
+        else:
+            # Iterate, collecting any name/value pairs associated with the incident
+            for i in cursor:
+                if incident in i:
+                    found = True
+                    return_json.append({
+                        'Key': i[incident]['key'],
+                        'Value': i[incident]['value']
+                    })
+                    context.append({
+                        'Incident': incident,
+                        'Key': i[incident]['key'],
+                        'Value': i[incident]['value']
+                    })
+
+        if not found:
+            # Means no records were found with that incident_id
+            # Discard empty return_json
+            return_json = None  # type: ignore
+
+        human_readable = tableToMarkdown(f'The key/value paires stored in incident {incident}', return_json)
+        ec = {'MongoDB.Incident(val.Key === obj.Key)': context}
+        # Return a useful status
+        return human_readable, ec, {}
+
+
+    def purge_entries_command():
+        """ Purges all the key/value pairs stored for the incident """
+        incident = demisto.args().get('id', get_investigation_id())
+        cursor = COLLECTION.find({})
+        deleted = 0
+        # Iterate, collecting any name/value pairs associated with the incident
+        for i in cursor:
+            if incident in i:
+                object_id = i.get('_id')
+                COLLECTION.delete_one({'_id': object_id})
+                deleted += 1
+        if deleted == 1:
+            return f'Incident "{incident}" key/value pairs purged - {str(deleted)} document/record deleted', {}, {}
+        return f'Incident "{incident}" key/value pairs purged - {str(deleted)} documents/records deleted', {}, {}
+
+
+    def list_incidents_command():
+        """ List all incidents in the collection """
+        cursor = COLLECTION.find({}, {'_id': False})
+        incidents = []
+        results: list = []
+        for incident in cursor:
+            for name in incident:
+                incidents.append(name)
+            for i in incidents:
+                if i not in results:
+                    results.append(i)
+        human_readable = tableToMarkdown(f'List of incidents in collecion {COLLECTION_NAME}', results,
+                                         headers=['Incidents'])
+        return human_readable, {}, {}
+
+
+    def main():
+        LOG(f'Command being called is {demisto.command()}')
+        try:
+            if demisto.command() == "test-module":
+                # This is the call made when pressing the integration test button.
+                return_outputs(*test_module())
+            elif demisto.command() == 'mongodb-write-key-value':
+                return_outputs(*write_key_value_command())
+            elif demisto.command() == 'mongodb-get-key-value':
+                return_outputs(*get_key_value_command())
+            elif demisto.command() == 'mongodb-list-key-values':
+                return_outputs(*list_key_values_command())
+            elif demisto.command() == 'mongodb-delete-key':
+                return_outputs(*delete_key_command())
+            elif demisto.command() == 'mongodb-purge-entries':
+                return_outputs(*purge_entries_command())
+            elif demisto.command() == 'mongodb-get-keys-number':
+                return_outputs(*num_keys_command())
+            elif demisto.command() == 'mongodb-list-incidents':
+                return_outputs(*list_incidents_command())
+        except Exception as e:
+            return_error(f'MongoDB: {str(e)}', error=e)
+
+
+    if __name__ in ('__main__', '__builtin__', 'builtins'):
+        main()
+  subtype: python3
+  type: python
+system: true

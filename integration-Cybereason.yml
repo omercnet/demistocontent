@@ -593,7 +593,7 @@ script:
       type: string
   isfetch: true
   runonce: false
-  script: |2-
+  script: |2
 
 
     ''' IMPORTS '''

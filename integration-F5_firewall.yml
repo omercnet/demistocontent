@@ -24,11 +24,11 @@ configuration:
   required: false
   type: 8
 - defaultvalue: ""
-  display: Trust any certificate (unsecure)
+  display: Trust any certificate (not secure)
   name: insecure
   required: false
   type: 8
-- defaultvalue: "true"
+- defaultvalue: ""
   display: Use system proxy settings
   name: proxy
   required: false
@@ -44,11 +44,11 @@ name: F5 firewall
 script:
   commands:
   - arguments: []
-    description: Creates an F5 firewall policy
+    description: Creates an F5 firewall policy.
     name: f5-create-policy
   - arguments:
     - default: true
-      description: The policy name the rule will be associated with
+      description: The policy name the rule will be associated with.
       name: policy-name
       required: true
     description: Creates a rule in a specific policy
@@ -58,50 +58,50 @@ script:
       description: The policy name that the rules displayed are associated with
       name: policy-name
       required: true
-    description: List all the rules of a specific policy
+    description: Lists all the rules of a specific policy.
     name: f5-list-rules
   - arguments:
     - default: true
-      description: policy-name
-      name: The policy name the rule is associated with
+      description: The policy name the rule is associated with.
+      name: policy-name
       required: true
-    - description: The rule name to modify
+    - description: The rule name to modify.
       name: rule-name
       required: true
     description: Modifies an F5 rule in a specific policy
     name: f5-modify-rule
   - arguments:
     - default: true
-      description: The policy name the rule is associated with
+      description: The policy name the rule is associated with.
       name: policy-name
       required: true
-    - description: The rule name to delete
+    - description: The name of the rule to delete.
       name: rule-name
       required: true
-    description: Delete an F5 rule
+    description: Delete an F5 firewall rule.
     name: f5-del-rule
   - arguments:
     - default: true
-      description: The new enforced policy to add to global policy
+      description: The new enforced policy to add to the global policy.
       name: enforcedPolicy
       required: true
-    description: Add specific policy to global policy
+    description: Adds the specific policy to a global policy.
     name: f5-modify-global-policy
   - arguments: []
-    description: Display global policy
+    description: Display global policy.
     name: f5-show-global-policy
   - arguments:
     - default: true
-      description: The policy name to delete
+      description: The name of the policy to delete.
       name: policy-name
       required: true
-    description: Delete a policy
+    description: Delete a policy.
     name: f5-del-policy
   - arguments:
-    - description: Client IP address
+    - description: Client IP address.
       name: resource-ip
       required: true
-    description: Lists all the sessions with client ip for the given username
+    description: Lists all the sessions with client IP for the given username.
     name: f5-list-all-user-sessions
   runonce: false
   script: |-

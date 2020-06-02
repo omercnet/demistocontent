@@ -1,0 +1,353 @@
+category: Data Enrichment & Threat Intelligence
+commonfields:
+  id: Sixgill_Darkfeed
+  version: -1
+configuration:
+- defaultvalue: ""
+  display: Sixgill API client ID
+  name: client_id
+  required: true
+  type: 0
+- defaultvalue: ""
+  display: Sixgill API client secret
+  name: client_secret
+  required: true
+  type: 4
+- defaultvalue: "true"
+  display: Fetch indicators
+  name: feed
+  required: false
+  type: 8
+- additionalinfo: Indicators from this integration instance will be marked with this
+    reputation
+  defaultvalue: feedInstanceReputationNotSet
+  display: Indicator Reputation
+  name: feedReputation
+  options:
+  - None
+  - Good
+  - Suspicious
+  - Bad
+  required: false
+  type: 18
+- additionalinfo: Reliability of the source providing the intelligence data
+  defaultvalue: B - Usually reliable
+  display: Source Reliability
+  name: feedReliability
+  options:
+  - A - Completely reliable
+  - B - Usually reliable
+  - C - Fairly reliable
+  - D - Not usually reliable
+  - E - Unreliable
+  - F - Reliability cannot be judged
+  required: true
+  type: 15
+- defaultvalue: indicatorType
+  display: ""
+  name: feedExpirationPolicy
+  options:
+  - never
+  - interval
+  - indicatorType
+  - suddenDeath
+  required: false
+  type: 17
+- defaultvalue: "20160"
+  display: ""
+  name: feedExpirationInterval
+  required: false
+  type: 1
+- defaultvalue: "2"
+  display: Feed Fetch Interval
+  name: feedFetchInterval
+  required: false
+  type: 19
+- defaultvalue: "1000"
+  display: The maximum number of indicators to fetch.
+  name: maxIndicators
+  required: false
+  type: 0
+- additionalinfo: When selected, the exclusion list is ignored for indicators from
+    this feed. This means that if an indicator from this feed is on the exclusion
+    list, the indicator might still be added to the system.
+  defaultvalue: ""
+  display: Bypass exclusion list
+  name: feedBypassExclusionList
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Use system proxy settings
+  name: proxy
+  required: false
+  type: 8
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
+  name: insecure
+  required: false
+  type: 8
+contentitemexportablefields:
+  contentitemfields:
+    propagationLabels:
+    - all
+description: Leverage the power of Sixgill to supercharge Cortex XSOAR with real-time
+  Threat Intelligence indicators. Get IOCs such as domains, URLs, hashes, and IP addresses
+  straight into the Demisto platform.
+detaileddescription: |2
+   ## Configure an API account
+  To configure an instance of Sixgill's integration in Demisto, you need to supply your API key and client Secret. Please contact support@cybersixgill.com to receive these.
+display: Sixgill DarkFeed™ Threat Intelligence
+image: data:image/png;base64,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
+name: Sixgill_Darkfeed
+script:
+  commands:
+  - arguments:
+    - default: true
+      defaultValue: "50"
+      description: The maximum number of results to return.
+      name: limit
+    description: Fetching Sixgill DarkFeed indicators
+    execution: true
+    name: sixgill-get-indicators
+  dockerimage: demisto/sixgill:1.0.0.7092
+  feed: true
+  runonce: false
+  script: |2
+
+
+
+    ''' IMPORTS '''
+
+    from typing import Dict, List, Any, Callable
+    from collections import OrderedDict
+    import traceback
+    import requests
+
+    from sixgill.sixgill_request_classes.sixgill_auth_request import SixgillAuthRequest
+    from sixgill.sixgill_feed_client import SixgillFeedClient
+    from sixgill.sixgill_constants import FeedStream
+    from sixgill.sixgill_utils import is_indicator
+
+    # Disable insecure warnings
+    requests.packages.urllib3.disable_warnings()
+
+    ''' GLOBALS/PARAMS '''
+
+    CHANNEL_CODE = '7698e8287dfde53dcd13082be750a85a'
+    MAX_INDICATORS = 1000
+    SUSPICIOUS_FEED_IDS = ["darkfeed_003"]
+    DEMISTO_DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%fZ'
+    VERIFY = not demisto.params().get("insecure", True)
+    SESSION = requests.Session()
+    DESCRIPTION_FIELD_ORDER = OrderedDict([('Description', 'description'),
+                                           ('Created On', 'created'),
+                                           ('Post Title', 'sixgill_posttitle'),
+                                           ('Threat Actor Name', 'sixgill_actor'),
+                                           ('Source', 'sixgill_source'),
+                                           ('Sixgill Feed ID', 'sixgill_feedid'),
+                                           ('Sixgill Feed Name', 'sixgill_feedname'),
+                                           ('Sixgill Post ID', 'sixgill_postid'),
+                                           ('Language', 'lang'),
+                                           ('Indicator ID', 'id'),
+                                           ('External references (e.g. MITRE ATT&CK)', 'external_reference')])
+
+    HASH_MAPPING = {"hashes.md5": "md5", "hashes.\'sha-1\'": "sha1", "hashes.\'sha-256\'": "sha256",
+                    "hashes.\'sha-512\'": "sha512", "hashes.ssdeep": "ssdeep"}
+
+    ''' HELPER FUNCTIONS '''
+
+    stix_regex_parser = re.compile(r"([\w-]+?):(\w.+?) (?:[!><]?=|IN|MATCHES|LIKE) '(.*?)' *[OR|AND|FOLLOWEDBY]?")
+
+
+    def strip_http(url):
+        return url.split('://')[-1]
+
+
+    def url_to_rfc3986(url):
+        if url.startswith('http://') or url.startswith('https://') or url.startswith('ftp://') or url.startswith('sftp://'):
+            return url
+        else:
+            return f'https://{url}'
+
+
+    def clean_url(value):
+        return value.replace("[.]", ".")
+
+
+    def run_pipeline(value, pipeline, log):
+        for func in pipeline:
+            log.debug(f"run {func.__name__} function on value: {value}")
+            value = func(value)
+            log.debug(f"post {func.__name__} run value: {value}")
+
+        log.debug(f"returned value: {value}")
+        return value
+
+
+    def to_demisto_score(feed_id: str, revoked: bool):
+        if revoked:
+            return 0
+        if feed_id in SUSPICIOUS_FEED_IDS:
+            return 2
+        return 3
+
+
+    def get_description(stix_obj):
+        description_string = ""
+        for name, sixgill_name in DESCRIPTION_FIELD_ORDER.items():
+            description_string += f"{name}: {stix_obj.get(sixgill_name)}\n"
+
+        return description_string
+
+
+    def to_demisto_indicator(value, indicators_name, stix2obj):
+        return {
+            "value": value,
+            "type": indicators_name,
+            "rawJSON": stix2obj,
+            "fields": {
+                "name": stix2obj.get("sixgill_feedname"),
+                "actor": stix2obj.get("sixgill_actor"),
+                "tags": stix2obj.get("labels"),
+                "firstseenbysource": stix2obj.get("created"),
+                "description": get_description(stix2obj)},
+            "score": to_demisto_score(stix2obj.get("sixgill_feedid"), stix2obj.get("revoked", False))}
+
+
+    def get_limit(str_limit, default_limit):
+        try:
+            return int(str_limit)
+        except Exception:
+            return default_limit
+
+
+    def stix2_to_demisto_indicator(stix2obj: Dict[str, Any], log):
+        indicators = []
+        pattern = stix2obj.get("pattern", "")
+        sixgill_feedid = stix2obj.get("sixgill_feedid", "")
+        hashes: Dict[str, Any] = {"md5": None, "sha1": None, "sha256": None, "sha512": None, "ssdeep": None}
+
+        for match in stix_regex_parser.findall(pattern):
+            try:
+                _, sub_type, value = match
+                demisto_indicator_map = demisto_mapping.get(sixgill_feedid)
+                if demisto_indicator_map:
+                    indicators_name = demisto_indicator_map.get('name')
+                    value = run_pipeline(value, demisto_indicator_map.get('pipeline', []), log)
+                    demisto_indicator = to_demisto_indicator(value, indicators_name, stix2obj)
+
+                    if demisto_indicator.get("type") == FeedIndicatorType.File and \
+                            HASH_MAPPING.get(sub_type.lower()) in hashes.keys():
+                        if HASH_MAPPING.get(sub_type.lower()):
+                            hashes[HASH_MAPPING[sub_type.lower()]] = value
+                    indicators.append(demisto_indicator)
+
+            except Exception as e:
+                log.error(f"failed converting STIX object to Demisto indicator: {e}, STIX object: {stix2obj}")
+                continue
+
+        if all(ioc.get("type") == FeedIndicatorType.File for ioc in indicators):
+            temp_indicator = indicators[0].copy()
+            temp_indicator["fields"].update({hash_k: hash_v for hash_k, hash_v in hashes.items() if hash_v is not None})
+            indicators = [temp_indicator]
+
+        return indicators
+
+
+    demisto_mapping: Dict[str, Dict[str, Any]] = {
+        'darkfeed_001': {'name': FeedIndicatorType.Domain, 'pipeline': [strip_http, clean_url]},
+        'darkfeed_002': {'name': FeedIndicatorType.File, 'pipeline': []},
+        'darkfeed_003': {'name': FeedIndicatorType.Domain, 'pipeline': [strip_http, clean_url]},
+        'darkfeed_004': {'name': FeedIndicatorType.IP, 'pipeline': []},
+        'darkfeed_005': {'name': FeedIndicatorType.IP, 'pipeline': []},
+        'darkfeed_006': {'name': FeedIndicatorType.IP, 'pipeline': []},
+        'darkfeed_007': {'name': FeedIndicatorType.IP, 'pipeline': []},
+        'darkfeed_008': {'name': FeedIndicatorType.IP, 'pipeline': []},
+        'darkfeed_009': {'name': FeedIndicatorType.IP, 'pipeline': []},
+        'darkfeed_010': {'name': FeedIndicatorType.URL, 'pipeline': [url_to_rfc3986, clean_url]},
+        'darkfeed_012': {'name': FeedIndicatorType.File, 'pipeline': []},
+
+    }
+
+
+    ''' COMMANDS + REQUESTS FUNCTIONS '''
+
+
+    def test_module_command(*args):
+        """
+        Performs basic Auth request
+        """
+        response = SESSION.send(request=SixgillAuthRequest(demisto.params()['client_id'],
+                                                           demisto.params()['client_secret']).prepare(), verify=VERIFY)
+        if not response.ok:
+            raise Exception("Auth request failed - please verify client_id, and client_secret.")
+        return 'ok', None, 'ok'
+
+
+    def get_indicators_command(client: SixgillFeedClient, args):
+        limit = int(args.get('limit'))
+        indicators = fetch_indicators_command(client, limit, True)
+
+        human_readable = tableToMarkdown('Indicators from Sixgill Dark Feed:', indicators,
+                                         headers=['value', 'type', 'rawJSON', 'score'])
+        return human_readable, {}, indicators
+
+
+    def fetch_indicators_command(client: SixgillFeedClient, limit: int = 0, get_indicators_mode: bool = False):
+        bundle = client.get_bundle()
+        indicators_to_create: List = []
+
+        for stix_indicator in bundle.get("objects"):
+            if is_indicator(stix_indicator):
+                demisto_indicators = stix2_to_demisto_indicator(stix_indicator, demisto)
+                indicators_to_create.extend(demisto_indicators)
+
+            if get_indicators_mode and len(indicators_to_create) == limit:
+                break
+
+        if not get_indicators_mode:
+            client.commit_indicators()
+
+        return indicators_to_create
+
+
+    ''' COMMANDS MANAGER / SWITCH PANEL '''
+
+
+    def main():
+        max_indicators = get_limit(demisto.params().get('maxIndicators', MAX_INDICATORS), MAX_INDICATORS)
+
+        SESSION.proxies = handle_proxy()
+
+        client = SixgillFeedClient(demisto.params()['client_id'],
+                                   demisto.params()['client_secret'],
+                                   CHANNEL_CODE,
+                                   FeedStream.DARKFEED,
+                                   demisto, max_indicators, SESSION, VERIFY)
+
+        command = demisto.command()
+        demisto.info(f'Command being called is {command}')
+
+        commands: Dict[str, Callable] = {
+            'test-module': test_module_command,
+            'sixgill-get-indicators': get_indicators_command
+        }
+        try:
+            if demisto.command() == 'fetch-indicators':
+                indicators = fetch_indicators_command(client)
+                for b in batch(indicators, batch_size=2000):
+                    demisto.createIndicators(b)
+            else:
+                readable_output, outputs, raw_response = commands[command](client, demisto.args())
+
+                return_outputs(readable_output, outputs, raw_response)
+        except Exception as e:
+            demisto.error(traceback.format_exc())
+            return_error(f'Error failed to execute {demisto.command()}, error: [{e}]')
+
+
+    if __name__ == '__builtin__' or __name__ == 'builtins':
+        main()
+  subtype: python3
+  type: python
+system: true

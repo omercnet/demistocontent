@@ -68,7 +68,7 @@ script:
       description: Hardware Sub Type as extracted from UA string
       type: string
   runonce: false
-  script: |2-
+  script: |2
 
 
     ''' IMPORTS '''

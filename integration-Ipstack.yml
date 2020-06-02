@@ -8,7 +8,7 @@ configuration:
   name: apikey
   required: true
   type: 4
-- defaultvalue: "true"
+- defaultvalue: ""
   display: Use system proxy settings
   name: proxy
   required: false
@@ -64,7 +64,7 @@ script:
       description: Longitude of the IP address.
       type: string
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -169,5 +169,6 @@ script:
             do_ip_command()
     except Exception, e:
         return_error('Unable to perform command : {}, Reason: {}'.format(demisto.command, e))
+  subtype: python2
   type: python
 system: true

@@ -9,7 +9,7 @@ configuration:
   required: true
   type: 0
 - defaultvalue: ""
-  display: API Key
+  display: SlashNext API Key
   name: apikey
   required: true
   type: 4
@@ -27,8 +27,8 @@ contentitemexportablefields:
   contentitemfields:
     propagationLabels:
     - all
-description: SlashNext Phishing Incident Response integration allows Demisto users
-  to fully automate analysis of suspicious URLs. For example, IR teams responsible
+description: SlashNext Phishing Incident Response integration allows Cortex XSOAR
+  users to fully automate analysis of suspicious URLs. For example, IR teams responsible
   for abuse inbox management can extract links or domains out of suspicious emails
   and automatically analyze them with the SlashNext SEER threat detection cloud to
   get definitive, binary verdicts (malicious or benign) along with IOCs, screen shots,
@@ -36,23 +36,23 @@ description: SlashNext Phishing Incident Response integration allows Demisto use
   triaging these emails or checking URLs and domains against less accurate phishing
   databases and domain reputation services.
 detaileddescription: "The **SlashNext Phishing Incident Response** integration app
-  enables **Demisto** users to fully automate the analysis of suspicious URLs in phishing
-  emails, network logs, and more. Playbooks that require URL or Domain analysis can
-  automatically analyze them with the SlashNext SEER threat detection cloud to get
-  definitive, binary verdicts (malicious or benign) along with IOCs, screenshots,
-  and more.\n\nSlashNext threat detection uses browsers in a purpose-built cloud to
-  dynamically inspect page contents and site behavior in real-time. This method enables
-  SlashNext to follow URL re-directs and multi-stage attacks to more thoroughly analyze
-  the final page(s) and made a much more accurate, binary determination with near-zero
-  false positives. It also detects all six major categories of phishing and social
-  engineering sites. These include credential stealing, rogue software / malware sites,
-  scareware, phishing exploits (sites hosting weaponized documents, etc.), and social
-  engineering scams (fake deals, giveaways, etc.).\n\nUse cases include abuse inbox
-  management where SOC teams can automate URL analysis in phishing emails to save
-  hundreds of hours versus more manual methods. Playbooks that mine and analyze network
-  logs can also leverage SlashNext URL analysis on demand.\n\nSlashNext not only provides
-  accurate, binary verdicts (rather than threat scores), it provides IOC metadata
-  and screen shots of detected phishing pages. These enables easier classification
+  enables **Cortex XSOAR** users to fully automate the analysis of suspicious URLs
+  in phishing emails, network logs, and more. Playbooks that require URL or Domain
+  analysis can automatically analyze them with the SlashNext SEER threat detection
+  cloud to get definitive, binary verdicts (malicious or benign) along with IOCs,
+  screenshots, and more.\n\nSlashNext threat detection uses browsers in a purpose-built
+  cloud to dynamically inspect page contents and site behavior in real-time. This
+  method enables SlashNext to follow URL re-directs and multi-stage attacks to more
+  thoroughly analyze the final page(s) and made a much more accurate, binary determination
+  with near-zero false positives. It also detects all six major categories of phishing
+  and social engineering sites. These include credential stealing, rogue software
+  / malware sites, scareware, phishing exploits (sites hosting weaponized documents,
+  etc.), and social engineering scams (fake deals, giveaways, etc.).\n\nUse cases
+  include abuse inbox management where SOC teams can automate URL analysis in phishing
+  emails to save hundreds of hours versus more manual methods. Playbooks that mine
+  and analyze network logs can also leverage SlashNext URL analysis on demand.\n\nSlashNext
+  not only provides accurate, binary verdicts (rather than threat scores), it provides
+  IOC metadata and screen shots of detected phishing pages. These enables easier classification
   and reporting. Screen shots can be used as an aid in on-going employee phishing
   awareness training and testing.\n\nThe SlashNext Phishing Incident Response integration
   app uses an API key to authenticate with SlashNext cloud. If you don't have a valid
@@ -457,12 +457,12 @@ script:
         rendered text. If "true", forensics data will be returned. If "false" (or
         empty) forensics data will not be returned. Default is "false".
       name: extended_info
-    description: Performs a real-time URL reputation scan with SlashNext cloud-based
-      SEER Engine. If the specified URL already exists in the cloud database, scan
-      results will be returned immediately. If not, this command will submit a URL
-      scan request and return with the message "check back later" and include a unique
-      Scan ID. You can check the results of this scan using the "slashnext-scan-report"
-      command anytime after 60 seconds using the returned Scan ID.
+    description: Performs a real-time URL scan with SlashNext cloud-based SEER Engine.
+      If the specified URL already exists in the cloud database, scan results will
+      be returned immediately. If not, this command will submit a URL scan request
+      and return with the message "check back later" and include a unique Scan ID.
+      You can check the results of this scan using the "slashnext-scan-report" command
+      anytime after 60 seconds using the returned Scan ID.
     name: slashnext-url-scan
     outputs:
     - contextPath: DBotScore.Indicator
@@ -789,9 +789,14 @@ script:
       required: true
     description: Downloads the text of a web page against a previous URL scan request.
     name: slashnext-download-text
+  - arguments: []
+    description: Queries the SlashNext cloud database and retrieves the details of
+      API quota.
+    name: slashnext-api-quota
   dockerimage: demisto/python3:3.7.3.260
   runonce: false
-  script: |2-
+  script: |2
+
 
 
 
@@ -804,6 +809,7 @@ script:
 
     """
     Created on August 1, 2019
+    Updated on April 2, 2020
 
     @author: Saadat Abid
     """
@@ -823,6 +829,7 @@ script:
     DL_SC_API = '/oti/v1/download/screenshot'
     DL_HTML_API = '/oti/v1/download/html'
     DL_TEXT_API = '/oti/v1/download/text'
+    API_QUOTA = '/oti/v1/quota/status'
 
 
     ''' HELPERS FUNCTIONS '''
@@ -1120,10 +1127,8 @@ script:
         Validate the provided SlashNext cloud API key and test connection, in case of any error exit the program
         @:return: None
         """
-        api_data = {
-            'host': 'www.google.com'
-        }
-        response = http_request(endpoint=HOST_REPUTE_API, data=api_data)
+        api_data = {}   # type: Dict[str, str]
+        response = http_request(endpoint=API_QUOTA, data=api_data)
 
         if response.get('errorNo') != 0:
             return_error('API Returned, {}:{}'.format(response.get('errorNo'), response.get('errorMsg')))
@@ -1401,9 +1406,6 @@ script:
         title = 'SlashNext Phishing Incident Response - Latest Scanned URL\n' \
                 '##### host = {}'.format(enc_host.decode())
 
-        if response.get('normalizeData').get('normalizeStatus') == 1:
-            title += ' *\n*' + response.get('normalizeData').get('normalizeMessage')
-
         md = tableToMarkdown(
             title,
             snx_ioc_cont,
@@ -1491,9 +1493,6 @@ script:
 
         title = 'SlashNext Phishing Incident Response - Host URLs\n' \
                 '##### host = {}'.format(host.decode())
-
-        if response.get('normalizeData').get('normalizeStatus') == 1:
-            title += ' *\n*' + response.get('normalizeData').get('normalizeMessage')
 
         md = tableToMarkdown(
             title,
@@ -1950,6 +1949,60 @@ script:
         })
 
 
+    def api_quota():
+        """
+        Execute SlashNext's quota/status to get the quota status information
+        :return: Response of the SlashNext quota/status API
+        """
+        # Create the required data dictionary for Quota/Status
+        api_data = {}   # type: Dict[str, str]
+        response = http_request(endpoint=API_QUOTA, data=api_data)
+
+        if response.get('errorNo') != 0:
+            return_error('API Returned, {}:{}'.format(response.get('errorNo'), response.get('errorMsg')))
+
+        return response
+
+
+    def api_quota_command():
+        """
+        Execute SlashNext's quota/status to get the quota status information
+        @:return: None
+        """
+        # 1. There is no parameter input required from Demisto
+        # 2. Get the quota status info from SlashNext API
+        response = api_quota()
+        if response.get('errorNo') != 0:
+            return
+        # 3. Parse and format the response
+        quota_data = response.get('quotaDetails')
+
+        title = 'SlashNext Phishing Incident Response - API Quota\n'\
+                '##### Note: {}'.format(quota_data.get('note'))
+
+        snx_ioc_cont = {
+            'Licensed Quota': quota_data.get('licensedQuota'),
+            'Remaining Quota': quota_data.get('remainingQuota'),
+            'Expiration Date': quota_data.get('expiryDate')
+        }
+
+        md = tableToMarkdown(
+            title,
+            snx_ioc_cont,
+            ['Licensed Quota',
+             'Remaining Quota',
+             'Expiration Date']
+        )
+
+        demisto.results({
+            'Type': entryTypes['note'],
+            'ContentsFormat': formats['json'],
+            'Contents': snx_ioc_cont,
+            'ReadableContentsFormat': formats['markdown'],
+            'HumanReadable': md
+        })
+
+
     ''' EXECUTION '''
 
 
@@ -1982,6 +2035,8 @@ script:
                 download_html_command()
             elif demisto.command() == 'slashnext-download-text':
                 download_text_command()
+            elif demisto.command() == 'slashnext-api-quota':
+                api_quota_command()
 
         except Exception as e:
             return_error(str(e))

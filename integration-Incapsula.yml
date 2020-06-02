@@ -13,8 +13,8 @@ configuration:
   name: apikey
   required: true
   type: 4
-- defaultvalue: "true"
-  display: User system proxy settings
+- defaultvalue: ""
+  display: Use system proxy settings
   name: proxy
   required: false
   type: 8
@@ -1068,8 +1068,14 @@ script:
       description: Rule ID.
       name: rule_id
       required: true
-    - description: When true, the rule will be enabled. Set to false to disable.
+    - description: Rule name.
       name: name
+    - auto: PREDEFINED
+      description: When true, the rule will be enabled. Set to false to disable.
+      name: enable
+      predefined:
+      - "true"
+      - "false"
     description: Use this operation to delete a rule (Delivery Rules or IncapRules).
     name: incap-delete-site-rule
   - arguments:

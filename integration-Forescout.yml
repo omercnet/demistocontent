@@ -463,7 +463,7 @@ script:
     name: forescout-update-lists
   dockerimage: demisto/python3:3.7.3.221
   runonce: false
-  script: |2-
+  script: |2
 
 
 

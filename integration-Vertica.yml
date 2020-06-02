@@ -52,7 +52,7 @@ script:
       type: string
   dockerimage: demisto/vertica:1.0.0.150
   runonce: false
-  script: |2-
+  script: |2
 
 
     from datetime import datetime

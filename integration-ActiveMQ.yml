@@ -119,7 +119,7 @@ script:
   dockerimage: demisto/stomp:latest
   isfetch: true
   runonce: false
-  script: |2-
+  script: |2
 
 
 

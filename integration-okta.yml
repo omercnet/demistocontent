@@ -14,7 +14,7 @@ configuration:
   required: true
   type: 4
 - defaultvalue: ""
-  display: Trust any certificate (unsecure)
+  display: Trust any certificate (not secure)
   name: insecure
   required: false
   type: 8
@@ -211,7 +211,7 @@ script:
     - contextPath: Account.Email
       description: Okta account emails returned by search.
       type: string
-    - contextPath: Accout.DisplayName
+    - contextPath: Account.DisplayName
       description: Okta account display names returned by search.
       type: string
     - contextPath: Account.Type

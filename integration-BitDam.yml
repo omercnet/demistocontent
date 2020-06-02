@@ -92,7 +92,7 @@ script:
       description: For malicious files, the reason that the vendor made the decision.
       type: string
   runonce: false
-  script: |2-
+  script: |2
 
 
     '''IMPORTS'''

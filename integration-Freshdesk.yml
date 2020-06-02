@@ -49,7 +49,7 @@ contentitemexportablefields:
     - all
 description: The Freshdesk integration allows you to create, update, and delete tickets;
   reply to and create notes for tickets as well as view Groups, Agents and Contacts.
-detaileddescription: |
+detaileddescription: |-
   Follow these instructions to successfully instantiate an instance of the Freshdesk integration.
   Enter an API token or Freshdesk user credentials
   To use an API token:
@@ -1113,7 +1113,7 @@ script:
       type: String
   isfetch: true
   runonce: false
-  script: |2-
+  script: |2
 
 
 

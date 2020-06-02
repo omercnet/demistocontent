@@ -1,0 +1,223 @@
+category: Database
+commonfields:
+  id: MongoDB Log
+  version: -1
+configuration:
+- defaultvalue: ""
+  display: MongoDB Username
+  name: credentials
+  required: true
+  type: 9
+- defaultvalue: ""
+  display: URI (mongodb://<IP/FQDN>:<Port Number>)
+  name: uri
+  required: true
+  type: 0
+- defaultvalue: ""
+  display: Database Name
+  name: database
+  required: true
+  type: 0
+- defaultvalue: log
+  display: Collection Name
+  name: collection
+  required: true
+  type: 0
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
+  name: insecure
+  required: false
+  type: 8
+- defaultvalue: "false"
+  display: Use SSL/TLS secured connection
+  name: use_ssl
+  required: false
+  type: 8
+contentitemexportablefields:
+  contentitemfields:
+    propagationLabels:
+    - all
+description: Writes log data to a MongoDB collection.
+detaileddescription: MongoDB Log writes Log data out to MongoDB collection.
+display: MongoDB Log
+image: data:image/png;base64,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
+name: MongoDB Log
+script:
+  commands:
+  - arguments:
+    - defaultValue: "50"
+      description: The maximum number of logs to return.
+      name: limit
+    description: Returns all log entries.
+    name: mongodb-read-log
+  - arguments:
+    - description: The playbook that was used.
+      name: playbook
+    - description: The assigned user.
+      name: user
+    - description: Entity to write to the log.
+      name: id
+    - description: The actions that were performed.
+      name: action
+    - description: Message for the entry.
+      name: message
+    description: Adds a log entry.
+    name: mongodb-write-log
+    outputs:
+    - contextPath: MongoDB.Entry.Action
+      description: The actions that were performed.
+      type: String
+    - contextPath: MongoDB.Entry.User
+      description: Assigned analyst.
+      type: String
+    - contextPath: MongoDB.Entry.ID
+      description: Entity to write to the log.
+      type: String
+    - contextPath: MongoDB.Entry.EntryID
+      description: Entry ID.
+      type: String
+    - contextPath: MongoDB.Entry.Playbook
+      description: The playbook that was used.
+      type: String
+    - contextPath: MongoDB.Entry.Timestamp
+      description: Entry timestamp.
+      type: Date
+    - contextPath: MongoDB.Entry.Message
+      description: The message of the entry.
+      type: String
+  - arguments: []
+    description: Returns the number of log entries.
+    name: mongodb-logs-number
+  dockerimage: demisto/pymongo:1.0.0.5425
+  runonce: true
+  script: |2
+
+
+
+    """ IMPORTS """
+    from datetime import datetime
+    from pymongo import MongoClient
+
+
+    """ GLOBALS/PARAMS """
+
+    # Get Credentials
+    USERNAME = demisto.params().get('credentials').get('identifier')
+    PASSWORD = demisto.params().get('credentials').get('password')
+    # Get Server
+    URI = demisto.params().get('uri')
+    # Get Database
+    DATABASE = demisto.params().get('database')
+    USE_SSL = demisto.params().get('use_ssl', False)
+    INSECURE = demisto.params().get('insecure', False)
+    TIMEOUT = 5000
+    if INSECURE and not USE_SSL:
+        raise DemistoException(f'"Trust any certificate (not secure)" must be ticked with "Use TLS/SSL secured connection"')
+    if not INSECURE and not USE_SSL:
+        # Connect to MongoDB - Need to add credentials and lock down MongoDB (add auth)
+        CLIENT = MongoClient(URI, username=USERNAME, password=PASSWORD, authSource=DATABASE, authMechanism='SCRAM-SHA-1',
+                             ssl=USE_SSL, socketTimeoutMS=TIMEOUT)
+    else:
+        CLIENT = MongoClient(URI, username=USERNAME, password=PASSWORD, authSource=DATABASE, authMechanism='SCRAM-SHA-1',
+                             ssl=USE_SSL, tlsAllowInvalidCertificates=INSECURE, socketTimeoutMS=TIMEOUT)
+    DB = CLIENT[DATABASE]
+    # Set Collection
+    COLLECTION_NAME = demisto.params().get('collection')
+    COLLECTION = DB[COLLECTION_NAME]
+
+
+    def test_module():
+        """ Check DB Status """
+        if CLIENT.server_info().get('ok') == 1.0:
+            return 'ok', {}, {}
+        return 'MongoDB Server Error', {}, {}
+
+
+    def write_log_json():
+        """ Gather Args, form json document, write document to MondoDB """
+        investigation = demisto.investigation()
+        investigation_id = investigation.get('id')
+        investigation_user = investigation.get('user')
+        timestamp = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S+00:00")
+        id_ = demisto.args().get('id', investigation_id)
+        playbook = demisto.args().get('playbook')
+        action = demisto.args().get('action')
+        user = demisto.args().get('user', investigation_user)
+        message = demisto.args().get('message')
+        logjson = {
+            'timestamp': timestamp,
+            'id': id_,
+            'playbook': playbook,
+            'action': action,
+            'user': user,
+            'message': message
+        }
+        # Add json to the document collection in MondoDB
+        result = COLLECTION.insert_one(logjson)
+        entry_id = result.inserted_id
+
+        context = {
+            'EntryID': str(entry_id),
+            'Timestamp': timestamp,
+            'ID': id_,
+            'Playbook': playbook,
+            'Action': action,
+            'User': user,
+            'Message': message
+        }
+        ec = {
+            'MongoDB.Entry(val.EntryID === obj.EntryID)': context
+        }
+        return 'MongoDB Log - 1 document/record added', ec, {}
+
+
+    def read_log_json():
+        """ Get all log documents/records from MondoDB """
+        limit = int(demisto.args().get('limit'))
+        # Point to all the documents
+        cursor = COLLECTION.find({}, {'_id': False}).limit(limit)
+        # Create an empty log list
+        entries = []
+        # Iterate through those documents
+        if cursor is not None:
+            for i in cursor:
+                # Append log entry to list
+                entries.append(i)
+            return_json = {COLLECTION_NAME: entries}
+            human_readable = tableToMarkdown(f'The log documents/records for collection "{COLLECTION_NAME}"', return_json)
+            return human_readable, {}, {}
+        return 'MongoDB - no documents/records - Log collection is empty', {}, {}
+
+
+    def num_log_json():
+        """ Get a count of all log documents/records from MondoDB """
+        # Point to the documents
+        cursor = COLLECTION.find({}, {'_id': False})
+        # Get count of those documents
+        log_number = cursor.count()
+        human_readable = f'The count of log documents/records is {str(log_number)}'
+        return human_readable, {}, {}
+
+
+    def main():
+        LOG(f'Command being called is {demisto.command()}')
+        try:
+            if demisto.command() == 'test-module':
+                # This is the call made when pressing the integration test button.
+                test_module()
+                return_outputs(*test_module())
+            elif demisto.command() == 'mongodb-write-log':
+                return_outputs(*write_log_json())
+            elif demisto.command() == 'mongodb-read-log':
+                return_outputs(*read_log_json())
+            elif demisto.command() == 'mongodb-logs-number':
+                return_outputs(*num_log_json())
+        except Exception as e:
+            return_error(f'MongoDB: {str(e)}', error=e)
+
+
+    if __name__ in ['__main__', '__builtin__', 'builtins']:
+        main()
+  subtype: python3
+  type: python
+system: true

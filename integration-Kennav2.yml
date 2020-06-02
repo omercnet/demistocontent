@@ -405,7 +405,7 @@ script:
     name: kenna-delete-tag
   dockerimage: demisto/python3:3.7.5.4002
   runonce: false
-  script: |-
+  script: |
     from typing import List, Tuple, Dict, Any, Optional, Callable
 
     import urllib3

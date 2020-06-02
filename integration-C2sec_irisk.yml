@@ -198,7 +198,7 @@ script:
       description: State of the network application ("open" or "closed").
       type: string
   runonce: false
-  script: |2-
+  script: |2
 
 
 
@@ -289,7 +289,7 @@ script:
         call = requests.get(ENDPOINTURL + '/iRiskQueryIssues', headers=HEADERS, verify=USE_SSL, params=params)
         if call.status_code == requests.codes.ok:
             contexts = []
-            for issue in call.json()['issueList']:
+            for issue in call.json().get('issueList', []):
                 if severity and severity != issue['severity']:
                     continue
 
@@ -382,7 +382,8 @@ script:
         if demisto.command() == 'test-module':
             # This is the call made when pressing the integration test button.
             test = add_domain(demisto.params()['domainName'], newscan='false')
-            if isinstance(test, dict) and "HTTPSConnectionPool" not in test:
+            if isinstance(test, dict) and "HTTPSConnectionPool" not in test and \
+                    'error' not in test.get('Contents', {}).get('result', ''):
                 demisto.results("ok")
             else:
                 demisto.results(test)
@@ -406,5 +407,6 @@ script:
     # Log exceptions
     except Exception as e:
         return_error(str(e))
+  subtype: python3
   type: python
 system: true

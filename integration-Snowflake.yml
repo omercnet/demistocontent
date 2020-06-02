@@ -98,7 +98,7 @@ contentitemexportablefields:
     propagationLabels:
     - all
 description: Analytic data warehouse provided as Software-as-a-Service.
-detaileddescription: |
+detaileddescription: |-
   ## Integration Parameters
 
   ### Account
@@ -181,7 +181,7 @@ script:
   dockerimage: demisto/snowflake:1.0.0.211
   isfetch: true
   runonce: false
-  script: |2-
+  script: |2
 
 
 

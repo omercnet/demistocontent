@@ -18,12 +18,12 @@ configuration:
   name: key
   required: true
   type: 4
-- defaultvalue: "false"
-  display: Trust any certificate (unsecure)
+- defaultvalue: ""
+  display: Trust any certificate (not secure)
   name: insecure
   required: false
   type: 8
-- defaultvalue: "true"
+- defaultvalue: ""
   display: Use system proxy settings
   name: proxy
   required: false
@@ -51,11 +51,13 @@ script:
     - default: true
       description: URL to search for
       name: url
-      required: true
     description: Look up the categorization of the given set of URLs, e.g., abc.com,xyz.com.
       Up to 100 URLs can be looked up per request, and a URL cannot exceed 1024 characters.
     name: url
     outputs:
+    - contextPath: URL.Data
+      description: The URL that was searched
+      type: string
     - contextPath: URL.Address
       description: The URL that was searched
       type: string
@@ -72,22 +74,21 @@ script:
       description: For malicious URLs, the reason for the vendor to make the decision
       type: string
     - contextPath: DBotScore.Indicator
-      description: The tested indicator
+      description: The indicator that was tested.
       type: string
     - contextPath: DBotScore.Type
-      description: The type of the indicator
+      description: The indicator type.
       type: string
     - contextPath: DBotScore.Vendor
-      description: Vendor used to calculate the score
+      description: The vendor used to calculate the score.
       type: string
     - contextPath: DBotScore.Score
-      description: The actual score
+      description: The actual score.
       type: number
   - arguments:
     - default: true
       description: IP address to search for
       name: ip
-      required: true
     description: Look up the categorization of the given set of IP addresses, e.g.,
       8.8.8.8,1.2.3.4. Up to 100 URLs can be looked up per request, and a IP cannot
       exceed 1024 characters.
@@ -110,16 +111,16 @@ script:
         decision
       type: string
     - contextPath: DBotScore.Indicator
-      description: The tested indicator
+      description: The indicator that was tested.
       type: string
     - contextPath: DBotScore.Type
-      description: The type of the indicator
+      description: The indicator type.
       type: string
     - contextPath: DBotScore.Vendor
-      description: Vendor used to calculate the score
+      description: The vendor used to calculate the score.
       type: string
     - contextPath: DBotScore.Score
-      description: The actual score
+      description: The actual score.
       type: number
   - arguments:
     - default: true
@@ -357,7 +358,10 @@ script:
       description: The actual score
       type: number
   runonce: false
-  script: |
+  script: |2
+
+
+
     ''' IMPORTS '''
     import requests
     import time
@@ -383,9 +387,13 @@ script:
     ERROR_CODES_DICT = {
         400: 'Invalid or bad request',
         401: 'Session is not authenticated or timed out',
-        403: 'One of the following permission errors occurred:\n-The API key was disabled by your service provider\n-User role has no access permissions or functional scope\n-A required SKU subscription is missing\nContact support or your account team for assistance.',
+        403: 'One of the following permission errors occurred:\n-The API key was disabled by your service provider\n'
+             '-User role has no access permissions or functional scope\n-A required SKU subscription is missing\n'
+             'Contact support or your account team for assistance.',
         404: 'Resource does not exist',
-        409: 'Request could not be processed because of possible edit conflict occurred. Another admin might be saving a configuration change at the same time. In this scenario, the client is expected to retry after a short time period.',
+        409: 'Request could not be processed because of possible edit conflict occurred. Another admin might be saving a '
+             'configuration change at the same time. In this scenario, the client is expected to retry after a short '
+             'time period.',
         415: 'Unsupported media type.',
         429: 'Exceeded the rate limit or quota.',
         500: 'Unexpected error',
@@ -406,10 +414,10 @@ script:
         if headers is None:
             headers = DEFAULT_HEADERS
         data = {} if data is None else data
-        LOG('running request with url=%s\theaders=%s' % (BASE_URL + url_suffix, headers))
+        url = BASE_URL + url_suffix
         try:
             res = requests.request(method,
-                                   BASE_URL + url_suffix,
+                                   url,
                                    verify=USE_SSL,
                                    data=data,
                                    headers=headers
@@ -423,8 +431,9 @@ script:
                 else:
                     raise Exception('Your request failed with the following error: ' + ERROR_CODES_DICT[res.status_code])
         except Exception as e:
+            LOG('Zscaler request failed with url={url}\tdata={data}'.format(url=url, data=data))
             LOG(e)
-            raise
+            raise e
         return res
 
 
@@ -432,7 +441,8 @@ script:
         for url in urls:
             if url.startswith('http://') or url.startswith('https://'):
                 return_error(
-                    'Enter a valid URL address without an http:// or https:// prefix. URL should have at least host.domain pattern to qualify.')
+                    'Enter a valid URL address without an http:// or https:// prefix. URL should have at least host.'
+                    'domain pattern to qualify.')
 
 
     ''' FUNCTIONS '''
@@ -464,198 +474,169 @@ script:
         return result.headers['Set-Cookie']
 
 
+    def activate_changes():
+        cmd_url = '/status/activate'
+        http_request('POST', cmd_url, None, DEFAULT_HEADERS)
+
+
     def logout():
         cmd_url = '/authenticatedSession'
         http_request('DELETE', cmd_url, None, DEFAULT_HEADERS)
 
 
-    def update_blacklist(url, action, ioc_type):
-        blacklist_urls = url.split(',')
-        if action == 'add':
-            cmd_url = '/security/advanced/blacklistUrls?action=ADD_TO_LIST'
-        else:  # Action is 'remove' from blacklist
-            cmd_url = '/security/advanced/blacklistUrls?action=REMOVE_FROM_LIST'
-            # Check if given IOC is blacklisted
-            blacklist_urls = get_blacklist()['blacklistUrls']
-            if len(blacklist_urls) == 1:  # Given only one IOC to blacklist
-                if blacklist_urls[0] not in blacklist_urls:
-                    raise Exception('Given host address is not blacklisted')
-            elif blacklist_urls not in blacklist_urls:  # Given more than one IOC to blacklist
-                raise Exception('Given host address is not blacklisted')
-        data = {
-            'blacklistUrls': blacklist_urls
-        }
-        json_data = json.dumps(data)
-        http_request('POST', cmd_url, json_data, DEFAULT_HEADERS)
-        list_of_urls = ''
-        for url in blacklist_urls:
-            list_of_urls += '- ' + url + '\n'
-        if action == 'add':
-            if ioc_type == 'url':
-                return 'Added the following URLs to the blacklist successfully:\n' + list_of_urls
-            else:  # IOC type is IP address
-                return 'Added the following IP addresses to the blacklist successfully:\n' + list_of_urls
-        else:  # Action is 'remove' from blacklist
-            if ioc_type == 'url':
-                return 'Removed the following URLs from the blacklist successfully:\n' + list_of_urls
-            else:  # IOC type is IP address
-                return 'Removed the following IP addresses from the blacklist successfully:\n' + list_of_urls
-
-
     def blacklist_url(url):
-        blacklist_urls = url.split(',')
-        validate_urls(blacklist_urls)
+        urls_to_blacklist = argToList(url)
+        validate_urls(urls_to_blacklist)
         cmd_url = '/security/advanced/blacklistUrls?action=ADD_TO_LIST'
         data = {
-            'blacklistUrls': blacklist_urls
+            'blacklistUrls': urls_to_blacklist
         }
         json_data = json.dumps(data)
         http_request('POST', cmd_url, json_data, DEFAULT_HEADERS)
         list_of_urls = ''
-        for url in blacklist_urls:
+        for url in urls_to_blacklist:
             list_of_urls += '- ' + url + '\n'
         return 'Added the following URLs to the blacklist successfully:\n' + list_of_urls
 
 
     def unblacklist_url(url):
-        blacklist_urls = url.split(',')
-        cmd_url = '/security/advanced/blacklist_urls?action=REMOVE_FROM_LIST'
+        urls_to_unblacklist = argToList(url)
+        cmd_url = '/security/advanced/blacklistUrls?action=REMOVE_FROM_LIST'
+
         # Check if given URLs is blacklisted
-        blacklist_urls = get_blacklist()['blacklistUrls']
-        if len(blacklist_urls) == 1:  # Given only one URL to blacklist
-            if blacklist_urls[0] not in blacklist_urls:
-                raise Exception('Given URL is not blacklisted')
-        elif blacklist_urls not in blacklist_urls:  # Given more than one URL to blacklist
-            raise Exception('Given URL is not blacklisted')
+        blacklisted_urls = get_blacklist()['blacklistUrls']
+        if len(urls_to_unblacklist) == 1:  # Given only one URL to unblacklist
+            if urls_to_unblacklist[0] not in blacklisted_urls:
+                raise Exception('Given URL is not blacklisted.')
+        elif not any(url in urls_to_unblacklist for url in blacklisted_urls):  # Given more than one URL to blacklist
+            raise Exception('Given URLs are not blacklisted.')
+
         data = {
-            'blacklist_urls': blacklist_urls
+            'blacklistUrls': urls_to_unblacklist
         }
         json_data = json.dumps(data)
         http_request('POST', cmd_url, json_data, DEFAULT_HEADERS)
         list_of_urls = ''
-        for url in blacklist_urls:
+        for url in urls_to_unblacklist:
             list_of_urls += '- ' + url + '\n'
         return 'Removed the following URLs from the blacklist successfully:\n' + list_of_urls
 
 
     def blacklist_ip(ip):
-        blacklist_ips = ip.split(',')
+        ips_to_blacklist = argToList(ip)
         cmd_url = '/security/advanced/blacklistUrls?action=ADD_TO_LIST'
         data = {
-            'blacklistUrls': blacklist_ips
+            'blacklistUrls': ips_to_blacklist
         }
         json_data = json.dumps(data)
         http_request('POST', cmd_url, json_data, DEFAULT_HEADERS)
         list_of_ips = ''
-        for ip in blacklist_ips:
+        for ip in ips_to_blacklist:
             list_of_ips += '- ' + ip + '\n'
         return 'Added the following IP addresses to the blacklist successfully:\n' + list_of_ips
 
 
     def unblacklist_ip(ip):
-        blacklist_ips = ip.split(',')
+        ips_to_unblacklist = argToList(ip)
         cmd_url = '/security/advanced/blacklistUrls?action=REMOVE_FROM_LIST'
         # Check if given IPs is blacklisted
-        blacklist_ips = get_blacklist()['blacklistUrls']
-        if len(blacklist_ips) == 1:  # Given only one IP address to blacklist
-            if blacklist_ips[0] not in blacklist_ips:
-                raise Exception('Given IP address is not blacklisted')
-        elif blacklist_ips not in blacklist_ips:  # Given more than one IP address to blacklist
-            raise Exception('Given IP address is not blacklisted')
+        blacklisted_ips = get_blacklist()['blacklistUrls']
+        if len(ips_to_unblacklist) == 1:  # Given only one IP address to blacklist
+            if ips_to_unblacklist[0] not in blacklisted_ips:
+                raise Exception('Given IP address is not blacklisted.')
+        elif not set(ips_to_unblacklist).issubset(set(blacklisted_ips)):  # Given more than one IP address to blacklist
+            raise Exception('Given IP addresses are not blacklisted.')
         data = {
-            'blacklistUrls': blacklist_ips
+            'blacklistUrls': ips_to_unblacklist
         }
         json_data = json.dumps(data)
         http_request('POST', cmd_url, json_data, DEFAULT_HEADERS)
         list_of_ips = ''
-        for ip in blacklist_ips:
+        for ip in ips_to_unblacklist:
             list_of_ips += '- ' + ip + '\n'
         return 'Removed the following IP addresses from the blacklist successfully:\n' + list_of_ips
 
 
     def whitelist_url(url):
         cmd_url = '/security'
-        whitelist_urls = url.split(',')
+        urls_to_whitelist = argToList(url)
         # Get the current whitelist
         whitelist_urls = get_whitelist()
         if not whitelist_urls:
             whitelist_urls['whitelistUrls'] = []
 
-        whitelist_urls['whitelistUrls'] += whitelist_urls
+        whitelist_urls['whitelistUrls'] += urls_to_whitelist
         json_data = json.dumps(whitelist_urls)
         http_request('PUT', cmd_url, json_data, DEFAULT_HEADERS)
         list_of_urls = ''
-        for url in whitelist_urls:
+        for url in urls_to_whitelist:
             list_of_urls += '- ' + url + '\n'
         return 'Added the following URLs to the whitelist successfully:\n' + list_of_urls
 
 
     def unwhitelist_url(url):
         cmd_url = '/security'
-        whitelist_urls = url.split(',')
+        urls_to_unwhitelist = argToList(url)
         # Get the current whitelist
         whitelist_urls = get_whitelist()
         if not whitelist_urls:
             whitelist_urls['whitelistUrls'] = []
 
         # Check if given URL is whitelisted
-        if len(whitelist_urls) == 1:  # Given only one URL to whitelist
-            if whitelist_urls[0] not in whitelist_urls['whitelistUrls']:
-                raise Exception('Given host address is not whitelisted')
-        elif whitelist_urls not in whitelist_urls['whitelistUrls']:  # Given more than one URL to whitelist
-            raise Exception('Given host address is not whitelisted')
+        if len(urls_to_unwhitelist) == 1:  # Given only one URL to whitelist
+            if urls_to_unwhitelist[0] not in whitelist_urls['whitelistUrls']:
+                raise Exception('Given host address is not whitelisted.')
+        elif not set(urls_to_unwhitelist).issubset(set(whitelist_urls['whitelistUrls'])):  # Given more than one URL to whitelist
+            raise Exception('Given host addresses are not whitelisted.')
         # List comprehension to remove requested URLs from the whitelist
-        whitelist_urls['whitelistUrls'] = [x for x in whitelist_urls['whitelistUrls'] if x not in whitelist_urls]
+        whitelist_urls['whitelistUrls'] = [x for x in whitelist_urls['whitelistUrls'] if x not in urls_to_unwhitelist]
         json_data = json.dumps(whitelist_urls)
         http_request('PUT', cmd_url, json_data, DEFAULT_HEADERS)
-        listOfUrls = ''
+        list_of_urls = ''
         for url in whitelist_urls:
-            listOfUrls += '- ' + url + '\n'
-        return 'Removed the following URLs from the whitelist successfully:\n' + listOfUrls
+            list_of_urls += '- ' + url + '\n'
+        return 'Removed the following URLs from the whitelist successfully:\n' + list_of_urls
 
 
     def whitelist_ip(ip):
         cmd_url = '/security'
-        whitelist_ips = ip.split(',')
+        ips_to_whitelist = argToList(ip)
         # Get the current whitelist
         whitelist_ips = get_whitelist()
         if not whitelist_ips:
             whitelist_ips['whitelistUrls'] = []
 
-        whitelist_ips['whitelistUrls'] += whitelist_ips
+        whitelist_ips['whitelistUrls'] += ips_to_whitelist
         json_data = json.dumps(whitelist_ips)
         http_request('PUT', cmd_url, json_data, DEFAULT_HEADERS)
-        listOfIps = ''
-        for ip in whitelist_ips:
-            listOfIps += '- ' + ip + '\n'
-        return 'Added the following URLs to the whitelist successfully:\n' + listOfIps
+        list_of_ips = ''
+        for ip in ips_to_whitelist:
+            list_of_ips += '- ' + ip + '\n'
+        return 'Added the following URLs to the whitelist successfully:\n' + list_of_ips
 
 
     def unwhitelist_ip(ip):
         cmd_url = '/security'
-        whitelistIps = ip.split(',')
-        data = {
-            'whitelistUrls': whitelistIps
-        }
+        ips_to_unwhitelist = argToList(ip)
         # Get the current whitelist
         whitelist_ips = get_whitelist()
         if not whitelist_ips:
             whitelist_ips['whitelistUrls'] = []
 
         # Check if given IP is whitelisted
-        if len(whitelistIps) == 1:  # Given only one IP to whitelist
-            if whitelistIps[0] not in whitelist_ips['whitelistUrls']:
-                raise Exception('Given IP address is not whitelisted')
-        elif whitelistIps not in whitelist_ips['whitelistUrls']:  # Given more than one IP to whitelist
-            raise Exception('Given IP address is not whitelisted')
+        if len(ips_to_unwhitelist) == 1:  # Given only one IP to whitelist
+            if ips_to_unwhitelist[0] not in whitelist_ips['whitelistUrls']:
+                raise Exception('Given IP address is not whitelisted.')
+        elif not set(ips_to_unwhitelist).issubset(set(whitelist_ips['whitelistUrls'])):  # Given more than one IP to whitelist
+            raise Exception('Given IP address is not whitelisted.')
         # List comprehension to remove requested IPs from the whitelist
-        whitelist_ips['whitelistUrls'] = [x for x in whitelist_ips['whitelistUrls'] if x not in whitelistIps]
+        whitelist_ips['whitelistUrls'] = [x for x in whitelist_ips['whitelistUrls'] if x not in ips_to_unwhitelist]
         json_data = json.dumps(whitelist_ips)
         http_request('PUT', cmd_url, json_data, DEFAULT_HEADERS)
-        listOfIps = ''
-        for ip in whitelistIps:
-            listOfIps += '- ' + ip + '\n'
-        return 'Removed the following IP addresses from the whitelist successfully:\n' + listOfIps
+        list_of_ips = ''
+        for ip in ips_to_unwhitelist:
+            list_of_ips += '- ' + ip + '\n'
+        return 'Removed the following IP addresses from the whitelist successfully:\n' + list_of_ips
 
 
     def get_blacklist_command():
@@ -718,55 +699,53 @@ script:
         response = lookup_request(url)
         hr = json.loads(response.content)
         if hr:
-            ioc_context = [None] * len(hr)
+            data = hr[0]
             suspicious_categories = ['SUSPICIOUS_DESTINATION', 'SPYWARE_OR_ADWARE']
-            dbot_score_array = [None] * len(hr)
-            for i in range(len(hr)):
-                ioc_context[i] = {}
-                dbot_score_array[i] = {}
-                ioc_context[i]['Address'] = hr[i]['url']
-                dbot_score_array[i]['Indicator'] = hr[i]['url']
-                score = 1
-                if len(hr[i]['urlClassifications']) == 0:
-                    hr[i]['urlClassifications'] = ''
+            ioc_context = {'Address': data['url'], 'Data': data['url']}
+            score = 1
+            if len(data['urlClassifications']) == 0:
+                data['urlClassifications'] = ''
+            else:
+                data['urlClassifications'] = ''.join(data['urlClassifications'])
+                ioc_context['urlClassifications'] = data['urlClassifications']
+                if data['urlClassifications'] == 'MISCELLANEOUS_OR_UNKNOWN':
+                    score = 0
+            if len(data['urlClassificationsWithSecurityAlert']) == 0:
+                data['urlClassificationsWithSecurityAlert'] = ''
+            else:
+                data['urlClassificationsWithSecurityAlert'] = ''.join(data['urlClassificationsWithSecurityAlert'])
+                if data['urlClassificationsWithSecurityAlert'] in suspicious_categories:
+                    score = 2
                 else:
-                    hr[i]['urlClassifications'] = ''.join(hr[i]['urlClassifications'])
-                    ioc_context[i]['urlClassifications'] = hr[i]['urlClassifications']
-                    if hr[i]['urlClassifications'] == 'MISCELLANEOUS_OR_UNKNOWN':
-                        score = 0
-                if len(hr[i]['urlClassificationsWithSecurityAlert']) == 0:
-                    hr[i]['urlClassificationsWithSecurityAlert'] = ''
-                else:
-                    hr[i]['urlClassificationsWithSecurityAlert'] = ''.join(hr[i]['urlClassificationsWithSecurityAlert'])
-                    if hr[i]['urlClassificationsWithSecurityAlert'] in suspicious_categories:
-                        score = 2
-                    else:
-                        score = 3
-                    ioc_context[i]['Malicious'] = {
-                        'Vendor': 'Zscaler',
-                        'Description': hr[i]['urlClassificationsWithSecurityAlert']
-                    }
-                    hr[i]['ip'] = hr[i].pop('url')
-                dbot_score_array[i]['Score'] = score
-                dbot_score_array[i]['Type'] = 'url'
-                dbot_score_array[i]['Vendor'] = 'Zscaler'
-
+                    score = 3
+                ioc_context['Malicious'] = {
+                    'Vendor': 'Zscaler',
+                    'Description': data['urlClassificationsWithSecurityAlert']
+                }
+                data['ip'] = data.pop('url')
             ioc_context = createContext(data=ioc_context, removeNull=True)
             ec = {
-                'URL': ioc_context
+                outputPaths['url']: ioc_context,
+                'DBotScore': [
+                    {
+                        "Indicator": url,
+                        "Score": score,
+                        "Type": "url",
+                        "Vendor": "Zscaler"
+                    }
+                ]
             }
             title = 'Zscaler URL Lookup'
-            ec['DBotScore'] = dbot_score_array
             entry = {
                 'Type': entryTypes['note'],
                 'Contents': hr,
                 'ContentsFormat': formats['json'],
                 'ReadableContentsFormat': formats['markdown'],
-                'HumanReadable': tableToMarkdown(title, hr, removeNull=True),
+                'HumanReadable': tableToMarkdown(title, data, removeNull=True),
                 'EntryContext': ec
             }
         else:
-            entry = 'No results found.'
+            entry = 'No results found.'  # type: ignore
         return entry
 
 
@@ -774,9 +753,9 @@ script:
         response = lookup_request(ip)
         hr = json.loads(response.content)
         if hr:
-            ioc_context = [None] * len(hr)
+            ioc_context = [None] * len(hr)  # type: List[Any]
             suspicious_categories = ['SUSPICIOUS_DESTINATION', 'SPYWARE_OR_ADWARE']
-            dbot_score_array = [None] * len(hr)
+            dbot_score_array = [None] * len(hr)  # type: List[Any]
             for i in range(len(hr)):
                 ioc_context[i] = {}
                 dbot_score_array[i] = {}
@@ -809,10 +788,10 @@ script:
 
             ioc_context = createContext(data=ioc_context, removeNull=True)
             ec = {
-                'IP': ioc_context
+                outputPaths['ip']: ioc_context,
+                'DBotScore': dbot_score_array
             }
             title = 'Zscaler IP Lookup'
-            ec['DBotScore'] = dbot_score_array
             entry = {
                 'Type': entryTypes['note'],
                 'Contents': hr,
@@ -822,7 +801,7 @@ script:
                 'EntryContext': ec
             }
         else:
-            entry = 'No results found.'
+            entry = 'No results found.'  # type: ignore
         return entry
 
 
@@ -843,9 +822,9 @@ script:
                 found_category = True
                 break
         if found_category:
-            url_list = url.split(',')
+            url_list = argToList(url)
             all_urls = url_list[:]
-            all_urls.extend(category_data['urls'])
+            all_urls.extend(list(map(lambda x: x.strip(), category_data['urls'])))
             category_data['urls'] = all_urls
             category_ioc_update(category_data)
             context = {
@@ -853,8 +832,7 @@ script:
                 'CustomCategory': category_data['customCategory'],
                 'URL': category_data['urls']
             }
-            if 'description' in category_data and category_data[
-                'description']:  # Custom categories might not have description
+            if 'description' in category_data and category_data['description']:  # Custom might not have description
                 context['Description'] = category_data['description']
             ec = {
                 'Zscaler.Category(val.ID && val.ID === obj.ID)': context
@@ -895,8 +873,7 @@ script:
                 'CustomCategory': category_data['customCategory'],
                 'URL': category_data['urls']
             }
-            if 'description' in category_data and category_data[
-                'description']:  # Custom categories might not have description
+            if 'description' in category_data and category_data['description']:  # Custom might not have description
                 context['Description'] = category_data['description']
             ec = {
                 'Zscaler.Category(val.ID && val.ID === obj.ID)': context
@@ -927,8 +904,8 @@ script:
                 found_category = True
                 break
         if found_category:
-            url_list = url.split(',')
-            updated_urls = [url for url in category_data['urls'] if url not in url_list]
+            url_list = argToList(url)
+            updated_urls = [url for url in category_data['urls'] if url not in url_list]  # noqa
             if updated_urls == category_data['urls']:
                 return return_error('Could not find given URL in the category.')
             category_data['urls'] = updated_urls
@@ -938,8 +915,7 @@ script:
                 'CustomCategory': category_data['customCategory'],
                 'URL': category_data['urls']
             }
-            if 'description' in category_data and category_data[
-                'description']:  # Custom categories might not have description
+            if 'description' in category_data and category_data['description']:  # Custom might not have description
                 context['Description'] = category_data['description']
             ec = {
                 'Zscaler.Category(val.ID && val.ID === obj.ID)': context
@@ -971,7 +947,7 @@ script:
                 break
         if found_category:
             ip_list = ip.split(',')
-            updated_ips = [ip for ip in category_data['urls'] if ip not in ip_list]
+            updated_ips = [ip for ip in category_data['urls'] if ip not in ip_list]  # noqa
             if updated_ips == category_data['urls']:
                 return return_error('Could not find given IP in the category.')
             category_data['urls'] = updated_ips
@@ -981,8 +957,7 @@ script:
                 'CustomCategory': category_data['customCategory'],
                 'URL': category_data['urls']
             }
-            if 'description' in category_data and category_data[
-                'description']:  # Custom categories might not have description
+            if 'description' in category_data and category_data['description']:  # Custom might not have description
                 context['Description'] = category_data['description']
             ec = {
                 'Zscaler.Category(val.ID && val.ID === obj.ID)': context
@@ -1020,8 +995,8 @@ script:
         return response
 
 
-    def get_categories_command():
-        display_urls = True if demisto.args()['displayURL'] == 'true' else False
+    def get_categories_command(display_url):
+        display_urls = True if display_url == 'true' else False
         raw_categories = get_categories()
         categories = []
         for raw_category in raw_categories:
@@ -1078,7 +1053,8 @@ script:
         }}
 
         human_readable_report = ec['DBotScore'].copy()
-        human_readable_report["Detected Malware"] = str(demisto.get(res, '{}.Classification.DetectedMalware'.format(report)))
+        human_readable_report["Detected Malware"] = str(
+            demisto.get(res, '{}.Classification.DetectedMalware'.format(report)))
         human_readable_report["Zscaler Score"] = demisto.get(res, '{}.Classification.Score'.format(report))
         human_readable_report["Category"] = demisto.get(res, '{}.Classification.Category'.format(report))
         ec[outputPaths['file']] = {
@@ -1111,57 +1087,70 @@ script:
 
 
     ''' EXECUTION CODE '''
-    auth = login()
-    jsession_id = auth[:auth.index(';')]
-    DEFAULT_HEADERS['cookie'] = jsession_id
 
-    LOG('command is %s' % (demisto.command(),))
-    try:
-        if demisto.command() == 'test-module':
-            # Checks if there is an authenticated session
-            result = http_request('GET', '/authenticatedSession', None, DEFAULT_HEADERS)
-            demisto.results('ok')
-        elif demisto.command() == 'url':
-            demisto.results(url_lookup(demisto.args()['url']))
-        elif demisto.command() == 'ip':
-            demisto.results(ip_lookup(demisto.args()['ip']))
-        elif demisto.command() == 'zscaler-blacklist-url':
-            demisto.results(blacklist_url(demisto.args()['url']))
-        elif demisto.command() == 'zscaler-undo-blacklist-url':
-            demisto.results(unblacklist_url(demisto.args()['url']))
-        elif demisto.command() == 'zscaler-whitelist-url':
-            demisto.results(whitelist_url(demisto.args()['url']))
-        elif demisto.command() == 'zscaler-undo-whitelist-url':
-            demisto.results(unwhitelist_url(demisto.args()['url']))
-        elif demisto.command() == 'zscaler-blacklist-ip':
-            demisto.results(blacklist_ip(demisto.args()['ip']))
-        elif demisto.command() == 'zscaler-undo-blacklist-ip':
-            demisto.results(unblacklist_ip(demisto.args()['ip']))
-        elif demisto.command() == 'zscaler-whitelist-ip':
-            demisto.results(whitelist_ip(demisto.args()['ip']))
-        elif demisto.command() == 'zscaler-undo-whitelist-ip':
-            demisto.results(unwhitelist_ip(demisto.args()['ip']))
-        elif demisto.command() == 'zscaler-category-add-url':
-            demisto.results(category_add_url(demisto.args()['category-id'], demisto.args()['url']))
-        elif demisto.command() == 'zscaler-category-add-ip':
-            demisto.results(category_add_ip(demisto.args()['category-id'], demisto.args()['ip']))
-        elif demisto.command() == 'zscaler-category-remove-url':
-            demisto.results(category_remove_url(demisto.args()['category-id'], demisto.args()['url']))
-        elif demisto.command() == 'zscaler-category-remove-ip':
-            demisto.results(category_remove_ip(demisto.args()['category-id'], demisto.args()['ip']))
-        elif demisto.command() == 'zscaler-get-categories':
-            demisto.results(get_categories_command())
-        elif demisto.command() == 'zscaler-get-blacklist':
-            demisto.results(get_blacklist_command())
-        elif demisto.command() == 'zscaler-get-whitelist':
-            demisto.results(get_whitelist_command())
-        elif demisto.command() == 'zscaler-sandbox-report':
-            demisto.results(sandbox_report_command())
-    except Exception as e:
-        LOG(str(e))
-        LOG.print_log()
-        raise
-    finally:
-        logout()
+
+    def main():
+        auth = login()
+        jsession_id = auth[:auth.index(';')]
+        DEFAULT_HEADERS['cookie'] = jsession_id
+
+        LOG('command is %s' % (demisto.command(),))
+        try:
+            if demisto.command() == 'test-module':
+                # Checks if there is an authenticated session
+                http_request('GET', '/authenticatedSession', None, DEFAULT_HEADERS)
+                demisto.results('ok')
+            elif demisto.command() == 'url':
+                demisto.results(url_lookup(demisto.args()['url']))
+            elif demisto.command() == 'ip':
+                demisto.results(ip_lookup(demisto.args()['ip']))
+            elif demisto.command() == 'zscaler-blacklist-url':
+                demisto.results(blacklist_url(demisto.args()['url']))
+            elif demisto.command() == 'zscaler-undo-blacklist-url':
+                demisto.results(unblacklist_url(demisto.args()['url']))
+            elif demisto.command() == 'zscaler-whitelist-url':
+                demisto.results(whitelist_url(demisto.args()['url']))
+            elif demisto.command() == 'zscaler-undo-whitelist-url':
+                demisto.results(unwhitelist_url(demisto.args()['url']))
+            elif demisto.command() == 'zscaler-blacklist-ip':
+                demisto.results(blacklist_ip(demisto.args()['ip']))
+            elif demisto.command() == 'zscaler-undo-blacklist-ip':
+                demisto.results(unblacklist_ip(demisto.args()['ip']))
+            elif demisto.command() == 'zscaler-whitelist-ip':
+                demisto.results(whitelist_ip(demisto.args()['ip']))
+            elif demisto.command() == 'zscaler-undo-whitelist-ip':
+                demisto.results(unwhitelist_ip(demisto.args()['ip']))
+            elif demisto.command() == 'zscaler-category-add-url':
+                demisto.results(category_add_url(demisto.args()['category-id'], demisto.args()['url']))
+            elif demisto.command() == 'zscaler-category-add-ip':
+                demisto.results(category_add_ip(demisto.args()['category-id'], demisto.args()['ip']))
+            elif demisto.command() == 'zscaler-category-remove-url':
+                demisto.results(category_remove_url(demisto.args()['category-id'], demisto.args()['url']))
+            elif demisto.command() == 'zscaler-category-remove-ip':
+                demisto.results(category_remove_ip(demisto.args()['category-id'], demisto.args()['ip']))
+            elif demisto.command() == 'zscaler-get-categories':
+                demisto.results(get_categories_command(demisto.args()['displayURL']))
+            elif demisto.command() == 'zscaler-get-blacklist':
+                demisto.results(get_blacklist_command())
+            elif demisto.command() == 'zscaler-get-whitelist':
+                demisto.results(get_whitelist_command())
+            elif demisto.command() == 'zscaler-sandbox-report':
+                demisto.results(sandbox_report_command())
+        except Exception as e:
+            LOG(str(e))
+            LOG.print_log()
+            raise
+        finally:
+            try:
+                activate_changes()
+                logout()
+            except Exception as err:
+                demisto.info("Zscaler error: " + str(err))
+
+
+    # python2 uses __builtin__ python3 uses builtins
+    if __name__ == "__builtin__" or __name__ == "builtins":
+        main()
+  subtype: python2
   type: python
 system: true

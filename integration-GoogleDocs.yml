@@ -116,7 +116,7 @@ script:
       type: Unknown
   dockerimage: demisto/googleapi-python3:1.0.0.2205
   runonce: false
-  script: |2-
+  script: |2
 
 
     ''' IMPORTS '''
