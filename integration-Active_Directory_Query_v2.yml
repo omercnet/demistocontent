@@ -3,28 +3,23 @@ commonfields:
   id: Active Directory Query v2
   version: -1
 configuration:
-- defaultvalue: ""
-  display: Server IP address (e.g., 192.168.0.1)
+- display: Server IP address (e.g., 192.168.0.1)
   name: server_ip
   required: true
   type: 0
-- defaultvalue: ""
-  display: Port. If not specified, default the port is 389, or 636 for LDAPS.
+- display: Port. If not specified, default the port is 389, or 636 for LDAPS.
   name: port
   required: false
   type: 0
-- defaultvalue: ""
-  display: Credentials
+- display: Credentials
   name: credentials
   required: true
   type: 9
-- defaultvalue: ""
-  display: NTLM authentication
+- display: NTLM authentication
   name: ntlm
   required: false
   type: 8
-- defaultvalue: ""
-  display: Base DN (for example "dc=company,dc=com")
+- display: Base DN (for example "dc=company,dc=com")
   name: base_dn
   required: true
   type: 0
@@ -41,15 +36,19 @@ configuration:
   - SSL
   required: true
   type: 15
-- defaultvalue: ""
-  display: Trust any certificate (not secure)
+- display: Trust any certificate (not secure)
   name: unsecure
   required: false
   type: 8
 contentitemexportablefields:
   contentitemfields:
-    propagationLabels:
+    fromServerVersion: ""
+    itemVersion: 1.0.4
+    packID: Active_Directory_Query
+    packPropagationLabels:
     - all
+    propagationLabels: []
+    toServerVersion: ""
 description: Active Directory Query integration enables you to  access and manage
   Active Directory objects (users, contacts, and computers).
 detaileddescription: |+
@@ -281,7 +280,8 @@ script:
       name: custom-field-data
     - description: Queries users by the samAccountName attribute.
       name: username
-    - description: The maximum number of objects to return (default is 20).
+    - defaultValue: "20"
+      description: The maximum number of objects to return. Default is 20.
       name: limit
     - description: Queries by the user's email address.
       name: email
@@ -385,6 +385,16 @@ script:
     - description: CSV list of attributes to include in the results, in addition to
         the default attributes.
       name: attributes
+    - defaultValue: "180"
+      description: Time limit (in seconds) for the search to run.
+      name: time_limit
+    - auto: PREDEFINED
+      defaultValue: "false"
+      description: Disable recursive retrieval of group memberships of a user.
+      name: disable-nested-search
+      predefined:
+      - "false"
+      - "true"
     description: Retrieves the list of users or computers that are members of the
       specified group.
     name: ad-get-group-members
@@ -427,7 +437,7 @@ script:
     description: Deletes an existing Active Directory security or distribution group.
     execution: true
     name: ad-delete-group
-  dockerimage: demisto/ldap:1.0.0.75
+  dockerimage: demisto/ldap:1.0.0.8854
   runonce: false
   script: |2
 
@@ -530,8 +540,20 @@ script:
             'Groups': person_object.get('memberOf')
         }
 
+        lower_cased_person_object_keys = {
+            person_object_key.lower(): person_object_key for person_object_key in person_object.keys()
+        }
+
         for attr in custome_attributes:
-            account[attr] = person_object[attr]
+            try:
+                account[attr] = person_object[attr]
+            except KeyError as e:
+                lower_cased_custom_attr = attr.lower()
+                if lower_cased_custom_attr in lower_cased_person_object_keys:
+                    cased_custom_attr = lower_cased_person_object_keys.get(lower_cased_custom_attr, '')
+                    account[cased_custom_attr] = person_object[cased_custom_attr]
+                else:
+                    demisto.error(f'Failed parsing custom attribute {attr}, error: {e}')
 
         return account
 
@@ -600,7 +622,7 @@ script:
 
         Args:
             search_base: the location in the DIT where the search will start
-            search_filte: LDAP query string
+            search_filter: LDAP query string
             attributes: the attributes to specify for each entrxy found in the DIT
 
         """
@@ -635,9 +657,9 @@ script:
             if (size_limit and size_limit <= total_entries) or (time_limit and time_diff >= time_limit) or (not cookie):
                 break
 
-        # keep the raw entry for raw content (backward compatability)
+        # keep the raw entry for raw content (backward compatibility)
         raw = []
-        # flaten the entries
+        # flatten the entries
         flat = []
 
         for entry in entries:
@@ -757,8 +779,10 @@ script:
         attributes: List[str] = []
         custom_attributes: List[str] = []
 
-        # zero is actually no limitation
-        limit = int(args.get('limit', '0'))
+        # zero is actually no limitation, default is 20
+        limit = int(args.get('limit', '20'))
+        if limit <= 0:
+            limit = 20
 
         # default query - list all users
         query = "(&(objectClass=User)(objectCategory=person))"
@@ -883,6 +907,8 @@ script:
         args = demisto.args()
         member_type = args.get('member-type')
         group_dn = args.get('group-dn')
+        nested_search = '' if args.get('disable-nested-search') == 'true' else ':1.2.840.113556.1.4.1941:'
+        time_limit = int(args.get('time_limit', 180))
 
         custome_attributes: List[str] = []
         default_attributes = DEFAULT_PERSON_ATTRIBUTES if member_type == 'person' else DEFAULT_COMPUTER_ATTRIBUTES
@@ -892,15 +918,14 @@ script:
 
         attributes = list(set(custome_attributes + default_attributes))
 
-        # neasted search
-        query = "(&(objectCategory={})(objectClass=user)(memberOf:1.2.840.113556.1.4.1941:={}))".format(member_type,
-                                                                                                        group_dn)
+        query = "(&(objectCategory={})(objectClass=user)(memberOf{}={}))".format(member_type, nested_search, group_dn)
 
         entries = search_with_paging(
             query,
             default_base_dn,
             attributes=attributes,
-            page_size=page_size
+            page_size=page_size,
+            time_limit=time_limit
         )
 
         members = [{'dn': entry['dn'], 'category': member_type} for entry in entries['flat']]
@@ -1535,7 +1560,7 @@ script:
 
 
     # python2 uses __builtin__ python3 uses builtins
-    if __name__ == "__builtin__" or __name__ == "builtins":
+    if __name__ == "__builtin__" or __name__ == "builtins" or __name__ == "__main__":
         main()
   subtype: python3
   type: python
