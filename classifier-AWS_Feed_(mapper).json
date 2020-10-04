@@ -1,0 +1,48 @@
+{
+	"brands": [
+		"AWS Feed"
+	],
+	"defaultIncidentType": "",
+	"description": "",
+	"feed": true,
+	"fromServerVersion": "",
+	"id": "AWS Feed-mapper",
+	"incidentSamples": null,
+	"indicatorSamples": null,
+	"instanceIds": null,
+	"itemVersion": "",
+	"keyTypeMap": {
+		"CIDR": "CIDR"
+	},
+	"locked": false,
+	"logicalVersion": 0,
+	"mapping": {
+		"CIDR": {
+			"dontMapEventToLabels": false,
+			"internalMapping": {
+				"Region": {
+					"complex": null,
+					"simple": "region"
+				},
+				"Tags": {
+					"complex": null,
+					"simple": "service"
+				}
+			}
+		}
+	},
+	"name": "AWS Feed (mapper)",
+	"nameRaw": "AWS Feed (mapper)",
+	"packID": "",
+	"sortValues": null,
+	"sourceClassifierId": "",
+	"system": true,
+	"toServerVersion": "",
+	"transformer": {
+		"complex": null,
+		"simple": "type"
+	},
+	"type": "mapping-incoming",
+	"unclassifiedCases": null,
+	"version": -1
+}
